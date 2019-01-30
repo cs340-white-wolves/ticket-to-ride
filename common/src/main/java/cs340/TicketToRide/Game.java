@@ -1,4 +1,4 @@
 package cs340.TicketToRide;
 
-public class MyClass {
+public class Game {
 }
