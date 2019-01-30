@@ -1,4 +1,4 @@
 package cs340.TicketToRide;
 
-public class Username {
+public class Handler {
 }

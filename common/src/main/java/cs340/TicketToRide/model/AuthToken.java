@@ -1,4 +1,4 @@
-package cs340.TicketToRide;
+package cs340.TicketToRide.model;
 
 /*
 
