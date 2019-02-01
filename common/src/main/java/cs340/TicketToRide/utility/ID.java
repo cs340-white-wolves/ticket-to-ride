@@ -18,6 +18,16 @@ public class ID {
         this.id = id;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+
+        ID newID = (ID)o;
+        return this.id.equals(newID.toString());
+    }
+
     public boolean isValid() {
         return this.id != null && !this.id.equals("");
     }
