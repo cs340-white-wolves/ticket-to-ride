@@ -16,9 +16,9 @@ public class User {
         userID = ID.generateID();
     }
 
-    // todo: update later
     public boolean isValid() {
-        return true;
+        return (userID != null && username != null && password != null
+        && userID.isValid() && username.isValid() && password.isValid());
     }
 
     public ID getUserID() {
