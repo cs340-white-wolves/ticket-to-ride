@@ -1,19 +1,21 @@
 package cs340.TicketToRide.model;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class GamesTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     void addGame() {
         assertTrue(true);
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void getGameByID() {
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     void clear() {
     }
 }
