@@ -8,7 +8,8 @@ import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
 public class LoginService {
-    public AuthToken login(Username username, Password password) {
+    public AuthToken login(Username username, Password password) throws Exception {
+
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -16,13 +17,11 @@ public class LoginService {
         IServerModel model = ServerModel.getInstance();
         User user = model.getUserByUsername(username);
         if (user == null) {
-            // todo: throw exception?
-            return null;
+            throw new Exception("No matching registered user");
         }
 
         if (!user.getPassword().equals(password)) {
-            // todo: throw exception?
-            return null;
+            throw new Exception("Incorrect password");
         }
 
         AuthToken token = AuthToken.generateToken();

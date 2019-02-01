@@ -9,7 +9,7 @@ import cs340.TicketToRide.model.User;
 
 public class CreateGameService {
 
-    public Game createGame(AuthToken token, int numPlayers) {
+    public Game createGame(AuthToken token, int numPlayers) throws Exception {
         if (token == null || !token.isValid() ||
                 numPlayers < Game.MIN_PLAYERS || numPlayers > Game.MAX_PLAYERS) {
             throw new IllegalArgumentException();
@@ -17,8 +17,9 @@ public class CreateGameService {
 
         IServerModel model = ServerModel.getInstance();
         User user = model.getUserByAuthToken(token);
+
         if (user == null) {
-            return null;
+            throw new Exception("The requesting user doesn't exist");
         }
 
         Game game = new Game(numPlayers);

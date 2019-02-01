@@ -3,8 +3,6 @@ package cs340.TicketToRide.model;
 
 import java.util.UUID;
 
-import cs340.TicketToRide.utility.ID;
-
 public class AuthToken {
     private static final int TOKEN_LENGTH = 8;
     private String token;
@@ -26,6 +24,16 @@ public class AuthToken {
 
     public String toString() {
         return this.token;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+
+        AuthToken t = (AuthToken)o;
+        return this.token.equals(t.token);
     }
 
     public static AuthToken generateToken() {

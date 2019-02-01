@@ -8,16 +8,16 @@ import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
 public class RegisterService {
-    public AuthToken register(Username username, Password password) {
+    public AuthToken register(Username username, Password password) throws Exception {
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }
 
         IServerModel model = ServerModel.getInstance();
         User user = model.getUserByUsername(username);
+
         if (user != null) {
-            return null;
-            // todo: exception already exists
+            throw new Exception("This username has already been registered");
         }
 
         user = new User(username, password);
