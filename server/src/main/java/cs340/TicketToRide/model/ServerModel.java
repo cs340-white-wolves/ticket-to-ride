@@ -82,4 +82,22 @@ public class ServerModel implements IServerModel {
         users.add(user);
         authManager.addTokenUser(token, user);
     }
+
+    public void loginUser(User user, AuthToken token) {
+        if (user == null || token == null || !user.isValid() || !token.isValid()) {
+            throw new IllegalArgumentException();
+        }
+
+        if (!users.contains(user)) {
+            // todo: throw exception?
+            return;
+        }
+
+        if (authManager.getUserByAuthToken(token) != null) {
+            // todo: throw exception?
+            return;
+        }
+
+        authManager.addTokenUser(token, user);
+    }
 }

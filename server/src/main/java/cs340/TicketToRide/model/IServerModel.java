@@ -9,4 +9,5 @@ public interface IServerModel {
     Game getGameByID(ID gameID);
     User getUserByUsername(Username username);
     void registerUser(User user, AuthToken token);
+    void loginUser(User user, AuthToken token);
 }

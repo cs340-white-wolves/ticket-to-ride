@@ -22,4 +22,14 @@ public class Password {
     public boolean isValid() {
         return this.password != null && !this.password.equals("");
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Password p = (Password) o;
+        return this.password.equals(p.password);
+    }
 }
