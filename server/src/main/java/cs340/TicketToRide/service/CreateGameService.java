@@ -25,7 +25,6 @@ public class CreateGameService {
         Player player = new Player(user.getUserID());
         game.addPlayer(player);
         model.addGame(game);
-
         return game;
     }
 }

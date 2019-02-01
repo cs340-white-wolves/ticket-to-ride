@@ -27,6 +27,7 @@ public class JoinGameService {
         }
 
         User user = model.getUserByAuthToken(token);
+
         if (user == null) {
             // todo: throw exception?
             return false;
