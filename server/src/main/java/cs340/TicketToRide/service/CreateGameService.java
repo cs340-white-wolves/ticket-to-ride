@@ -9,8 +9,9 @@ import cs340.TicketToRide.model.User;
 
 public class CreateGameService {
 
-    public Game createGame(AuthToken token) {
-        if (token == null || !token.isValid()) {
+    public Game createGame(AuthToken token, int numPlayers) {
+        if (token == null || !token.isValid() ||
+                numPlayers < Game.MIN_PLAYERS || numPlayers > Game.MAX_PLAYERS) {
             throw new IllegalArgumentException();
         }
 
@@ -20,7 +21,7 @@ public class CreateGameService {
             return null;
         }
 
-        Game game = new Game();
+        Game game = new Game(numPlayers);
         Player player = new Player(user.getUserID());
         game.addPlayer(player);
         model.addGame(game);
