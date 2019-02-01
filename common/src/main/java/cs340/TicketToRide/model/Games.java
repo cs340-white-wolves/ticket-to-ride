@@ -12,14 +12,13 @@ public class Games {
         games = new HashSet<>();
     }
 
-    public void addGame(Game game) {
+    public void addGame(Game game) throws Exception {
         if (game == null || !game.isValid()) {
             throw new IllegalArgumentException();
         }
 
         if (games.contains(game)) {
-            // todo: throw exception?
-            return;
+            throw new Exception("This game already exists");
         }
 
         games.add(game);
@@ -32,7 +31,6 @@ public class Games {
             }
         }
 
-        // todo: exception?
         return null;
     }
 

@@ -12,16 +12,16 @@ import cs340.TicketToRide.utility.Username;
 
 public class ServerFacade implements IServer {
 
-    public AuthToken login(Username username, Password password) {
+    public AuthToken login(Username username, Password password) throws Exception {
         return new LoginService().login(username, password);
     }
-    public AuthToken register(Username username, Password password) {
+    public AuthToken register(Username username, Password password) throws Exception {
         return new RegisterService().register(username, password);
     }
-    public Game createGame(AuthToken token, int numPlayers) {
+    public Game createGame(AuthToken token, int numPlayers) throws Exception {
         return new CreateGameService().createGame(token, numPlayers);
     }
-    public boolean joinGame(AuthToken token, ID gameId) {
+    public boolean joinGame(AuthToken token, ID gameId) throws Exception {
         return new JoinGameService().joinGame(token, gameId);
     }
 

@@ -9,7 +9,7 @@ public class AuthManager {
         tokenUserMap = new TreeMap<>();
     }
 
-    public void addTokenUser(AuthToken token, User user) {
+    public void addTokenUser(AuthToken token, User user) throws Exception {
         if (token == null || user == null || !token.isValid() || !user.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -18,9 +18,8 @@ public class AuthManager {
             return;
         }
 
-        // todo: token already exists. throw exception?
         if (tokenUserMap.get(token) != null) {
-            return;
+            throw new Exception("This auth token already belongs to a user");
         }
 
         tokenUserMap.put(token, user);

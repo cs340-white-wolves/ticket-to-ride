@@ -5,9 +5,9 @@ import cs340.TicketToRide.utility.Username;
 
 public interface IServerModel {
     User getUserByAuthToken(AuthToken token);
-    void addGame(Game game);
+    void addGame(Game game) throws Exception;
     Game getGameByID(ID gameID);
     User getUserByUsername(Username username);
-    void registerUser(User user, AuthToken token);
-    void loginUser(User user, AuthToken token);
+    void registerUser(User user, AuthToken token) throws Exception;
+    void loginUser(User user, AuthToken token) throws Exception;
 }
