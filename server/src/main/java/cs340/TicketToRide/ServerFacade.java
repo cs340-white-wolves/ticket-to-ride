@@ -12,6 +12,18 @@ import cs340.TicketToRide.utility.Username;
 
 public class ServerFacade implements IServer {
 
+    private static ServerFacade singleton;
+
+    private ServerFacade() {
+    }
+
+    public static ServerFacade getInstance() {
+        if (singleton == null) {
+            singleton = new ServerFacade();
+        }
+        return singleton;
+    }
+
     public AuthToken login(Username username, Password password) throws Exception {
         return new LoginService().login(username, password);
     }
