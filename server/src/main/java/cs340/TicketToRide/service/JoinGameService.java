@@ -6,6 +6,10 @@ import cs340.TicketToRide.utility.ID;
 
 public class JoinGameService {
     public Game joinGame(AuthToken token, ID gameId) {
+        if (token == null || gameId == null || !token.isValid() || !gameId.isValid()) {
+            throw new IllegalArgumentException();
+        }
+
         return null;
     }
 }
