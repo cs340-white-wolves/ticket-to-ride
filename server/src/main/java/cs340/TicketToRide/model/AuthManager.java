@@ -1,12 +1,12 @@
 package cs340.TicketToRide.model;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 public class AuthManager {
     private Map<AuthToken, User> tokenUserMap;
     public AuthManager() {
-        tokenUserMap = new TreeMap<>();
+        tokenUserMap = new HashMap<>();
     }
 
     public void addTokenUser(AuthToken token, User user) throws Exception {
