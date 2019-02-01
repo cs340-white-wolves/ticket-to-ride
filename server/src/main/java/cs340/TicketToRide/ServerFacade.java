@@ -21,7 +21,7 @@ public class ServerFacade implements IServer {
     public Game createGame(AuthToken token) {
         return new CreateGameService().createGame(token);
     }
-    public Game joinGame(AuthToken token, ID gameId) {
+    public boolean joinGame(AuthToken token, ID gameId) {
         return new JoinGameService().joinGame(token, gameId);
     }
 

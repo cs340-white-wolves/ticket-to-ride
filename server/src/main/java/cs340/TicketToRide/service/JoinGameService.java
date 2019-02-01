@@ -9,7 +9,7 @@ import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.utility.ID;
 
 public class JoinGameService {
-    public Game joinGame(AuthToken token, ID gameID) {
+    public boolean joinGame(AuthToken token, ID gameID) {
         if (token == null || gameID == null || !token.isValid() || !gameID.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -18,22 +18,22 @@ public class JoinGameService {
         Game game = model.getGameByID(gameID);
         if (game == null) {
             // todo: throw exception?
-            return null;
+            return false;
         }
 
         if (game.hasTargetNumPlayers()) {
             // todo: throw exception?
-            return null;
+            return false;
         }
 
         User user = model.getUserByAuthToken(token);
         if (user == null) {
             // todo: throw exception?
-            return null;
+            return false;
         }
 
         Player player = new Player(user.getUserID());
         game.addPlayer(player);
-        return game; // todo: do we want to return Game? or just a message?
+        return true; // todo: do we want to return Game? or just a message?
     }
 }
