@@ -1,6 +1,9 @@
 package cs340.TicketToRide.service;
 
 import cs340.TicketToRide.model.AuthToken;
+import cs340.TicketToRide.model.IServerModel;
+import cs340.TicketToRide.model.ServerModel;
+import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
@@ -10,6 +13,20 @@ public class LoginService {
             throw new IllegalArgumentException();
         }
 
-        return null;
+        IServerModel model = ServerModel.getInstance();
+        User user = model.getUserByUsername(username);
+        if (user == null) {
+            // todo: throw exception?
+            return null;
+        }
+
+        if (!user.getPassword().equals(password)) {
+            // todo: throw exception?
+            return null;
+        }
+
+        AuthToken token = AuthToken.generateToken();
+        model.loginUser(user, token);
+        return token;
     }
 }

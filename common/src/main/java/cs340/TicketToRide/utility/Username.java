@@ -22,4 +22,14 @@ public class Username {
     public boolean isValid() {
         return this.username != null && !this.username.equals("");
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Username u = (Username)o;
+        return this.username.equals(u.username);
+    }
 }

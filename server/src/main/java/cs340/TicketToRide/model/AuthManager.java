@@ -35,13 +35,6 @@ public class AuthManager {
             return null;
         }
 
-        User user = tokenUserMap.get(token);
-
-        // todo: Throw exception?
-        if (user == null) {
-            return null;
-        }
-
-        return user;
+        return tokenUserMap.get(token);
     }
 }
