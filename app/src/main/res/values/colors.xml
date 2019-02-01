@@ -8,6 +8,9 @@
     <color name="LightBrown">#F2BC5D</color>
     <color name="DarkBrown">#422C21</color>
     <color name="LighterLightBrown">#F3D298</color>
-    <color name="MediumBrown"> </color>
+    <color name="DestinationBrown">#C8B39A</color>
+    <color name="White">#90E3DFDC</color>
+    <color name="ErrorRedBackground">#FF9494</color>
+
 
 </resources>

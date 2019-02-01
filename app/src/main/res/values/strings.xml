@@ -7,4 +7,10 @@
     <string name="register_button">Register</string>
     <string name="create_game">Create Game</string>
     <string name="join_game">Join Game</string>
+    <string name="joinGameTitle">Join a Game</string>
+    <string name="game_name">Game Name</string>
+    <string name="game_lobby">Game Lobby</string>
+    <string name="available_games">Available Games</string>
+    <string name="players_number">Enter the number of players</string>
+    <string name="error_message_placeholder">Error message</string>
 </resources>
