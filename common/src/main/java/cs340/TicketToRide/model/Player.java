@@ -18,8 +18,7 @@ public class Player {
         this.userID = userID;
     }
 
-    // todo: return to later
     public boolean isValid() {
-        return true;
+        return userID != null && userID.isValid();
     }
 }
