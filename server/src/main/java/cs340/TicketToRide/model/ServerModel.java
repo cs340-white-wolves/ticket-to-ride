@@ -1,5 +1,7 @@
 package cs340.TicketToRide.model;
 
+import cs340.TicketToRide.utility.ID;
+
 public class ServerModel implements IServerModel {
     private static ServerModel singleton;
     private AuthManager authManager;
@@ -35,5 +37,9 @@ public class ServerModel implements IServerModel {
         }
 
         games.addGame(game);
+    }
+
+    public Game getGameByID(ID gameID) {
+        return games.getGameByID(gameID);
     }
 }

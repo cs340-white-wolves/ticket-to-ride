@@ -6,16 +6,8 @@ public class User {
 
     private ID userID;
 
-    public User(ID userID) {
-        setUserID(userID);
-    }
-
-    private void setUserID(ID userID) {
-        if (userID == null || !userID.isValid()) {
-            throw new IllegalArgumentException();
-        }
-
-        this.userID = userID;
+    public User() {
+        userID = ID.generateID();
     }
 
     // todo: update later
