@@ -103,4 +103,10 @@ public class ServerModel implements IServerModel {
 
         authManager.addTokenUser(token, user);
     }
+
+    public void clear() {
+        authManager.clear();
+        games.clear();
+        users.clear();
+    }
 }

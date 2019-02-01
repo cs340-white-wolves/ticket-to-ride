@@ -53,6 +53,10 @@ public class Game {
         return targetNumPlayers;
     }
 
+    public int getNumCurrentPlayers() {
+        return players.size();
+    }
+
     public void setTargetNumPlayers(int targetNumPlayers) {
         if (targetNumPlayers < MIN_PLAYERS || targetNumPlayers > MAX_PLAYERS) {
             // todo: throwException?

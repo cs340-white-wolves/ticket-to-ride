@@ -34,4 +34,8 @@ public class Games {
         return null;
     }
 
+    public void clear() {
+        games.clear();
+    }
+
 }

@@ -10,4 +10,5 @@ public interface IServerModel {
     User getUserByUsername(Username username);
     void registerUser(User user, AuthToken token) throws Exception;
     void loginUser(User user, AuthToken token) throws Exception;
+    void clear();
 }

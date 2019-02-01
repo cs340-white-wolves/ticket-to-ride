@@ -36,4 +36,8 @@ public class AuthManager {
 
         return tokenUserMap.get(token);
     }
+
+    public void clear() {
+        tokenUserMap.clear();
+    }
 }
