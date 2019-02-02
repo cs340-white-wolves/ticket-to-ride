@@ -5,6 +5,7 @@ dependencies {
     compile project(path: ':common')
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M4'
     implementation 'com.google.code.gson:gson:2.2.4'
+    implementation files('gson-2.8.5.jar')
 }
 
 repositories {
