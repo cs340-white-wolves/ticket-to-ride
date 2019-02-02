@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_backgroundartboard_1"
+    android:background="@drawable/background_artboard"
     android:backgroundTintMode="src_over"
-    tools:context=".MainActivity">
+    tools:context=".activity.LobbyActivity">
 
     <TextView
-        android:id="@+id/loginText"
+        android:id="@+id/lobbyTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
