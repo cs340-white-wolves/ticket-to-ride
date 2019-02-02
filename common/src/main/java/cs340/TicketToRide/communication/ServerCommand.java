@@ -13,6 +13,12 @@ public class ServerCommand implements IServerCommand {
     private String[] parameterTypeNames;
     private String[] parametersAsJsonStrings;
 
+    public ServerCommand(String methodName, Class<?>[] paramTypes, Object[] params) {
+        this.methodName = methodName;
+        this.parameterTypes = paramTypes;
+        this.parameters = params;
+    }
+
     public ServerCommand(String methodName, String[] parameterTypeNames, Object[] parameters) {
         this.methodName = methodName;
         this.parameterTypeNames = parameterTypeNames;
