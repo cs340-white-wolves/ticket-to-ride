@@ -4,35 +4,36 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.logging.*;
+
 
 public class ServerCommunicator {
 
-    public static void main(String[] args) {
-        int port = getPort(args);
-        run(port);
-    }
+    private static final int MAX_CONNECTIONS = 10;
+    private static final int PORT = 8080;
+    private static final String PATH_COMMAND = "/command";
 
-    private static int getPort(String[] args) {
-        int port = 8080;
-        if (args.length == 1) {
-            try {
-                port = Integer.parseInt(args[0]);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
-        return port;
-    }
+    private void run () {
+        HttpServer server;
 
-    private static void run(int port) {
         try {
-            System.out.println("server listening on port: " + port);
-            HttpServer httpServer = HttpServer.create(new InetSocketAddress(port), 0);
-            httpServer.createContext("/", new Handler());
-            // todo: Maybe create default handler for empty path?
-            httpServer.start();
-        } catch (IOException e) {
-            e.printStackTrace();
+            server = HttpServer.create(new InetSocketAddress(PORT), MAX_CONNECTIONS);
         }
+        catch (IOException e) {
+            Logger.logger.log(Level.SEVERE, e.getMessage(), e);
+            return;
+        }
+
+        server.setExecutor(null);
+
+        Logger.logger.info("Creating context");
+        server.createContext(PATH_COMMAND, new Handler());
+
+        Logger.logger.info("Starting HTTP server");
+        server.start();
+    }
+
+    public static void main(String[] args) {
+        new ServerCommunicator().run();
     }
 }

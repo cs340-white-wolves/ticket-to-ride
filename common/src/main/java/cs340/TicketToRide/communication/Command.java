@@ -156,5 +156,6 @@ public class Command {
                 result = Class.forName(className);
         }
         return result;
+
     }
 }
