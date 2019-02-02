@@ -3,6 +3,8 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M4'
+    implementation project(':server')
+    implementation files('gson-2.8.5.jar')
 }
 
 repositories {
