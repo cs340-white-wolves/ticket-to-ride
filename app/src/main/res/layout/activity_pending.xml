@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_backgroundartboard_1"
-    android:backgroundTintMode="src_over"
-    tools:context=".MainActivity">
+    android:background="@drawable/background_artboard"
+    tools:context=".activity.PendingActivity">
 
     <TextView
         android:id="@+id/pendingGameTitle"
@@ -34,25 +33,28 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/shangiri"
         android:text="@string/game_name"
+        android:textColor="@color/DarkBrown"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pendingGameTitle" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/playerList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/rectangle"
-        android:fontFamily="@font/shangiri"
+        android:fontFamily="@font/vacer"
         android:lines="5"
         android:maxLines="5"
-        android:text="TextView"
-        android:textSize="24sp"
+        android:text="@string/list_of_players"
+        android:textColor="@color/DarkBrown"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
@@ -66,7 +68,26 @@
         android:text="@string/join_game"
         android:textColor="@color/Gold"
         android:textSize="30sp"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        tools:layout_editor_absoluteX="96dp" />
+        app:layout_constraintEnd_toEndOf="@+id/playerList"
+        app:layout_constraintStart_toStartOf="@+id/playerList"
+        app:layout_constraintTop_toBottomOf="@+id/playerList" />
+
+    <TextView
+        android:id="@+id/startMessage"
+        android:layout_width="204dp"
+        android:layout_height="92dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/vacer"
+        android:scrollHorizontally="false"
+        android:text="@string/start_message"
+        android:textAlignment="center"
+        android:textColor="@color/DarkBrown"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerList" />
 
 </android.support.constraint.ConstraintLayout>
