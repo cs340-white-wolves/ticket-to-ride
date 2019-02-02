@@ -19,7 +19,7 @@ public class Game {
         gameID = ID.generateID();
     }
 
-    public void addPlayer(Player player) throws Exception {
+    public boolean addPlayer(Player player) throws Exception {
         if (player == null || !player.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -32,7 +32,7 @@ public class Game {
             throw new Exception("This game already reached its max number of players");
         }
 
-        players.add(player);
+        return players.add(player);
     }
 
     public boolean isValid() {

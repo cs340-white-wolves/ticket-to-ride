@@ -31,7 +31,6 @@ public class JoinGameService {
         }
 
         Player player = new Player(user.getUserID());
-        game.addPlayer(player);
-        return true; // todo: check if player was added?
+        return game.addPlayer(player);
     }
 }

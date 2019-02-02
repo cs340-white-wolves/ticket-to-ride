@@ -12,7 +12,7 @@ public class Games {
         games = new HashSet<>();
     }
 
-    public void addGame(Game game) throws Exception {
+    public boolean addGame(Game game) throws Exception {
         if (game == null || !game.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -21,7 +21,7 @@ public class Games {
             throw new Exception("This game already exists");
         }
 
-        games.add(game);
+        return games.add(game);
     }
 
     public Game getGameByID(ID gameID) {
