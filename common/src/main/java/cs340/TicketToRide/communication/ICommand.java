@@ -1,5 +1,5 @@
 package cs340.TicketToRide.communication;
 
 public interface ICommand {
-    public Object execute();
+    public Object execute(Object target);
 }

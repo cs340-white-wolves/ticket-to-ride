@@ -7,15 +7,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import cs340.TicketToRide.IServer;
-import cs340.TicketToRide.ServerFacade;
 
-
-public class Command {
+public class ServerCommand implements IServerCommand {
     private String methodName;
     private String[] parameterTypeNames;
     private String[] parametersAsJsonStrings;
 
-    public Command(String methodName, String[] parameterTypeNames, Object[] parameters) {
+    public ServerCommand(String methodName, String[] parameterTypeNames, Object[] parameters) {
         this.methodName = methodName;
         this.parameterTypeNames = parameterTypeNames;
         this.parametersAsJsonStrings = new String[parameters.length];
@@ -24,12 +22,12 @@ public class Command {
         }
     }
 
-    public Command(InputStreamReader inputStreamReader) {
-        Command tempCommand = gson.fromJson(inputStreamReader, Command.class);
+    public ServerCommand(InputStreamReader inputStreamReader) {
+        ServerCommand tempServerCommand = gson.fromJson(inputStreamReader, ServerCommand.class);
 
-        methodName = tempCommand.getMethodName();
-        parameterTypeNames = tempCommand.getParameterTypeNames();
-        parametersAsJsonStrings = tempCommand.getParametersAsJsonStrings();
+        methodName = tempServerCommand.getMethodName();
+        parameterTypeNames = tempServerCommand.getParameterTypeNames();
+        parametersAsJsonStrings = tempServerCommand.getParametersAsJsonStrings();
         parameterTypes = createParameterTypes();
         parameters = new Object[parametersAsJsonStrings.length];
         for(int i = 0; i < parametersAsJsonStrings.length; i++) {
@@ -89,12 +87,12 @@ public class Command {
     }
 
     //Commands
-    public Object execute() {
+    public Object execute(IServer target) {
         Object result = null;
 
         try {
             Method method = IServer.class.getMethod(methodName, parameterTypes);
-            result = method.invoke(ServerFacade.getInstance(), parameters);
+            result = method.invoke(target, parameters);
         } catch (NoSuchMethodException | SecurityException e) {
             System.out.println("ERROR: Could not find the method " + methodName + ", or, there was a security error");
             e.printStackTrace();
@@ -122,7 +120,7 @@ public class Command {
             try {
                 result[i] = getClassFor(parameterTypeNames[i]);
             } catch (ClassNotFoundException e) {
-                System.err.println("ERROR: IN Command.execute could not create a parameter type from the parameter type name " +
+                System.err.println("ERROR: IN ServerCommand.execute could not create a parameter type from the parameter type name " +
                         parameterTypeNames[i]);
                 e.printStackTrace();
             }
