@@ -1,21 +1,46 @@
 package cs340.TicketToRide;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Locale;
+import java.util.logging.Level;
+
+import cs340.TicketToRide.communication.Command;
 
 public class Handler implements HttpHandler{
+    private Gson gson = new Gson();
+
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
-        if (httpExchange.getRequestMethod() != "POST") {
+        if (! httpExchange.getRequestMethod().equalsIgnoreCase("POST")) {
             sendError(httpExchange, 405, "Method Not Supported");
             return;
         }
 
-        // TODO: stub
+        Command cmd = decode(httpExchange);
+
+        cmd.execute();
+    }
+
+    private Command decode (HttpExchange httpExchange) {
+        InputStream requestBody = httpExchange.getRequestBody();
+        InputStreamReader reqSR = new InputStreamReader(requestBody);
+
+        try {
+            return gson.fromJson(reqSR, Command.class);
+        }
+        catch (JsonParseException e) {
+            Logger.logger.log(Level.WARNING, e.getMessage(), e);
+        }
+
+        return null;
     }
 
     private void sendError(HttpExchange httpExchange, int err, String msg) throws IOException {

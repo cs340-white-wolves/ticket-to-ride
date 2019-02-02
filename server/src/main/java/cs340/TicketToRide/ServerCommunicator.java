@@ -13,18 +13,6 @@ public class ServerCommunicator {
     private static final int PORT = 8080;
     private static final String PATH_COMMAND = "/command";
 
-    private static Logger logger;
-
-    static {
-        try {
-            initLog();
-        }
-        catch (IOException e) {
-            System.out.println("Could not initialize log: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
     private void run () {
         HttpServer server;
 
@@ -32,38 +20,20 @@ public class ServerCommunicator {
             server = HttpServer.create(new InetSocketAddress(PORT), MAX_CONNECTIONS);
         }
         catch (IOException e) {
-            logger.log(Level.SEVERE, e.getMessage(), e);
+            Logger.logger.log(Level.SEVERE, e.getMessage(), e);
             return;
         }
 
         server.setExecutor(null);
 
-        logger.info("Creating context");
+        Logger.logger.info("Creating context");
         server.createContext(PATH_COMMAND, new Handler());
 
-        logger.info("Starting HTTP server");
+        Logger.logger.info("Starting HTTP server");
         server.start();
     }
 
     public static void main(String[] args) {
         new ServerCommunicator().run();
-    }
-
-    private static void initLog() throws IOException {
-        Level logLevel = Level.FINEST;
-
-        logger = Logger.getLogger("tickettoride");
-        logger.setLevel(logLevel);
-        logger.setUseParentHandlers(false);
-
-        java.util.logging.Handler consoleHandler = new ConsoleHandler();
-        consoleHandler.setLevel(logLevel);
-        consoleHandler.setFormatter(new SimpleFormatter());
-        logger.addHandler(consoleHandler);
-
-        FileHandler fileHandler = new FileHandler("log.txt", false);
-        fileHandler.setLevel(logLevel);
-        fileHandler.setFormatter(new SimpleFormatter());
-        logger.addHandler(fileHandler);
     }
 }
