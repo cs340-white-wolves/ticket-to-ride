@@ -6,11 +6,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.logging.*;
 
-import cs340.TicketToRide.communication.ServerCommand;
-import cs340.TicketToRide.utility.Password;
-import cs340.TicketToRide.utility.Username;
-
-
 public class ServerCommunicator {
 
     private static final int MAX_CONNECTIONS = 10;
@@ -38,10 +33,6 @@ public class ServerCommunicator {
     }
 
         public static void main(String[] args) {
-//        new ServerCommunicator().run();
-        Class<?>[] paramTypes = {Username.class, Password.class};
-        Object[] params = {new Username("nate"), new Password("1234")};
-        ServerCommand command = new ServerCommand("register", paramTypes, params);
-        Object result = command.execute(ServerFacade.getInstance());
+        new ServerCommunicator().run();
     }
 }
