@@ -8,6 +8,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -26,7 +27,26 @@ public class Handler implements HttpHandler{
 
         Command cmd = decode(httpExchange);
 
-        cmd.execute();
+        Object obj = cmd.execute();
+
+        encodeAndSend(httpExchange, obj);
+    }
+
+    private void encodeAndSend (HttpExchange httpExchange, Object obj) {
+        OutputStreamWriter osw = new OutputStreamWriter(httpExchange.getResponseBody());
+
+        try {
+            String jsonStr = gson.toJson(obj);
+
+            httpExchange.sendResponseHeaders(200, jsonStr.length());
+
+            osw.write(jsonStr);
+            osw.close();
+
+            httpExchange.close();
+        } catch (IOException e) {
+            Logger.logger.log(Level.WARNING, e.getMessage(), e);
+        }
     }
 
     private Command decode (HttpExchange httpExchange) {
