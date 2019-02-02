@@ -8,12 +8,11 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Locale;
 import java.util.logging.Level;
 
-import cs340.TicketToRide.communication.Command;
+import cs340.TicketToRide.communication.ServerCommand;
 
 public class Handler implements HttpHandler{
     private Gson gson = new Gson();
@@ -25,9 +24,9 @@ public class Handler implements HttpHandler{
             return;
         }
 
-        Command cmd = decode(httpExchange);
+        ServerCommand cmd = decode(httpExchange);
 
-        Object obj = cmd.execute();
+        Object obj = cmd.execute(ServerFacade.getInstance());
 
         encodeAndSend(httpExchange, obj);
     }
@@ -49,12 +48,12 @@ public class Handler implements HttpHandler{
         }
     }
 
-    private Command decode (HttpExchange httpExchange) {
+    private ServerCommand decode (HttpExchange httpExchange) {
         InputStream requestBody = httpExchange.getRequestBody();
         InputStreamReader reqSR = new InputStreamReader(requestBody);
 
         try {
-            return gson.fromJson(reqSR, Command.class);
+            return gson.fromJson(reqSR, ServerCommand.class);
         }
         catch (JsonParseException e) {
             Logger.logger.log(Level.WARNING, e.getMessage(), e);
