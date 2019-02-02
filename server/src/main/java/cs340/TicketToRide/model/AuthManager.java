@@ -38,6 +38,9 @@ public class AuthManager {
     }
 
     public void clear() {
+        if (tokenUserMap == null) {
+            return;
+        }
         tokenUserMap.clear();
     }
 }

@@ -25,6 +25,9 @@ public class Games {
     }
 
     public Game getGameByID(ID gameID) {
+        if (gameID == null || !gameID.isValid()) {
+            throw new IllegalArgumentException();
+        }
         for (Game game : games) {
             if (game.getGameID().equals(gameID)) {
                 return game;
@@ -35,6 +38,9 @@ public class Games {
     }
 
     public void clear() {
+        if (games == null) {
+            return;
+        }
         games.clear();
     }
 
