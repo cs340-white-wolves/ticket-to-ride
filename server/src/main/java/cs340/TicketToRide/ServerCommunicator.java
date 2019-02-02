@@ -37,12 +37,11 @@ public class ServerCommunicator {
         server.start();
     }
 
-    public static void main(String[] args) {
+        public static void main(String[] args) {
 //        new ServerCommunicator().run();
         Class<?>[] paramTypes = {Username.class, Password.class};
         Object[] params = {new Username("nate"), new Password("1234")};
         ServerCommand command = new ServerCommand("register", paramTypes, params);
         Object result = command.execute(ServerFacade.getInstance());
-        System.out.println("here");
     }
 }
