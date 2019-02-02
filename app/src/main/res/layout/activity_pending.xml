@@ -4,6 +4,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_artboard"
     tools:context=".activity.PendingActivity">
+
+    <TextView
+        android:id="@+id/pendingGameTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/chipfn"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/Red"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/game_lobby" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/shangiri"
+        android:text="@string/game_name"
+        android:textColor="@color/DarkBrown"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pendingGameTitle" />
+
+    <TextView
+        android:id="@+id/playerList"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/rectangle"
+        android:fontFamily="@font/vacer"
+        android:lines="5"
+        android:maxLines="5"
+        android:text="@string/list_of_players"
+        android:textColor="@color/DarkBrown"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="@color/Red"
+        android:fontFamily="@font/shangiri"
+        android:text="@string/join_game"
+        android:textColor="@color/Gold"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/playerList"
+        app:layout_constraintStart_toStartOf="@+id/playerList"
+        app:layout_constraintTop_toBottomOf="@+id/playerList" />
+
+    <TextView
+        android:id="@+id/startMessage"
+        android:layout_width="204dp"
+        android:layout_height="92dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/vacer"
+        android:scrollHorizontally="false"
+        android:text="@string/start_message"
+        android:textAlignment="center"
+        android:textColor="@color/DarkBrown"
+        android:textSize="24sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerList" />
 
 </android.support.constraint.ConstraintLayout>

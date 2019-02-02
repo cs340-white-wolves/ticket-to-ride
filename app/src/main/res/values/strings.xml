@@ -1,3 +1,25 @@
 <resources>
     <string name="app_name">TicketToRide</string>
+    <string name="login_title">Ticket to Ride</string>
+    <string name="username_hint">Username</string>
+    <string name="passwordHint">Password</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
+    <string name="create_game">Create Game</string>
+    <string name="join_game">Join Game</string>
+    <string name="joinGameTitle">Join a Game</string>
+    <string name="game_name">Game Name</string>
+    <string name="game_lobby">Game Lobby</string>
+    <string name="available_games">Available Games</string>
+    <string name="players_number">Enter the number of players</string>
+    <string name="error_message_placeholder">Error message</string>
+    <string name="list_of_players">List of Players</string>
+    <string name="start_message">The game will start once
+        all players have joined</string>
+    <string-array name="players">
+        <item>Two Players</item>
+        <item>Three Players</item>
+        <item>Four Players</item>
+        <item>Five Players</item>
+    </string-array>
 </resources>
