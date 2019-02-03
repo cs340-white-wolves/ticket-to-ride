@@ -31,11 +31,11 @@ public class ServerProxy implements IServer {
         ClientCommunicator communicator = ClientCommunicator.getInstance();
         Response response = communicator.sendCommand(command);
         Object object = response.getObject();
-        if (object instanceof Throwable) {
-
+        if (object instanceof Exception) {
+            throw (Exception)object;
         }
 
-        return null;
+        return (AuthToken)object;
     }
     public AuthToken register(Username username, Password password) throws Exception {
         return null;
