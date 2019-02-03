@@ -1,4 +1,4 @@
 package a340.tickettoride.presenter;
 
-public class MainPresenter {
+public class MainPresenter implements IMainPresenter {
 }
