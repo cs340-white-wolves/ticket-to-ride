@@ -12,36 +12,32 @@ public class MainPresenter implements IMainPresenter {
     private Password password;
 
 
-    public void login(String usr, String pass) {
-        try {
-            setUsernamePassword(usr, pass);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void login(String usernameStr, String passStr) throws Exception {
+        setUsernamePassword(usernameStr, passStr);
         ServiceFacade facade = ServiceFacade.getInstance();
         facade.login(username, password);
     }
 
-    public void register(String usr, String pass) {
-        try {
-            setUsernamePassword(usr, pass);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void register(String usernameStr, String passStr) throws Exception {
+        setUsernamePassword(usernameStr, passStr);
+
         ServiceFacade facade = ServiceFacade.getInstance();
         facade.register(username, password);
     }
 
-    private void setUsernamePassword(String usr, String pass) throws Exception {
-        if (usr == null || pass == null || usr.equals("") || pass.equals("")) {
+    private void setUsernamePassword(String usernameStr, String passStr) throws Exception {
+        if (usernameStr == null || passStr == null || usernameStr.equals("") || passStr.equals("")) {
             throw new IllegalArgumentException();
         }
 
-        Username username = new Username(usr);
-        Password password = new Password(pass);
+        username = new Username(usernameStr);
+        password = new Password(passStr);
 
-        if (!username.isValid() || !password.isValid()) {
-            throw new Exception();
+        if (!username.isValid()) {
+            throw new Exception("Invalid Username");
+        }
+        if (!password.isValid()) {
+            throw new Exception("Invalid Password");
         }
     }
 }
