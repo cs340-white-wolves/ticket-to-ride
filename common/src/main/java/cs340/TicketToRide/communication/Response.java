@@ -1,20 +1,37 @@
 package cs340.TicketToRide.communication;
 
+import com.google.gson.Gson;
+
 public class Response {
-    private Object object;
+    private String jsonString;
     private String className;
+    private Gson gson = new Gson();
 
     public Response(Object object, String className) {
-        setObject(object);
+        setJsonString(object);
         setClassName(className);
     }
 
-    public Object getObject() {
-        return object;
+    public Object getResult() {
+        Class<?> clazz = null;
+        try {
+            clazz = Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        if (clazz == null) {
+            return null;
+        }
+
+        return gson.fromJson(jsonString, clazz);
     }
 
-    public void setObject(Object object) {
-        this.object = object;
+    public void setJsonString(Object object) {
+        if (object == null) {
+            throw new IllegalArgumentException();
+        }
+        this.jsonString = gson.toJson(object);
     }
 
     public String getClassName() {
@@ -22,6 +39,9 @@ public class Response {
     }
 
     public void setClassName(String className) {
+        if (className == null || className.equals("")) {
+            throw new IllegalArgumentException();
+        }
         this.className = className;
     }
 }
