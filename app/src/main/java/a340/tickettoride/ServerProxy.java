@@ -26,16 +26,20 @@ public class ServerProxy implements IServer {
     }
 
     public AuthToken login(Username username, Password password) throws Exception {
+        if (username == null || password == null || !username.isValid() || !password.isValid()) {
+            throw new IllegalArgumentException();
+        }
         IServerCommand command = new ServerCommand("login",
-                new Class<?>[]{Username.class, Password.class}, new Object[] {username, password});
+                new Class<?>[]{Username.class, Password.class}, new Object[]{username, password});
+
         ClientCommunicator communicator = ClientCommunicator.getInstance();
         Response response = communicator.sendCommand(command);
         Object object = response.getObject();
-        if (object instanceof Throwable) {
-
+        if (object instanceof Exception) {
+            throw (Exception)object;
         }
 
-        return null;
+        return (AuthToken)object;
     }
     public AuthToken register(Username username, Password password) throws Exception {
         return null;
