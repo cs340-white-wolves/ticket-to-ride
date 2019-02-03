@@ -12,7 +12,7 @@ public class Response {
         setClassName(className);
     }
 
-    public Object getResult() {
+    public Object getResultObject() {
         Class<?> clazz = null;
         try {
             clazz = Class.forName(className);
