@@ -1,4 +1,4 @@
 package a340.tickettoride.presenter;
 
-public class LobbyPresenter {
+public class LobbyPresenter implements ILobbyPresenter {
 }
