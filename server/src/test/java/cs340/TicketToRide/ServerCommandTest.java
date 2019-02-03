@@ -23,7 +23,6 @@ public class ServerCommandTest {
             System.out.println(((Throwable)result).getMessage());
             return;
         }
-
         AuthToken token = (AuthToken)result;
         System.out.println(token.toString());
     }
