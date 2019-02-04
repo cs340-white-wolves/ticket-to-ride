@@ -37,16 +37,16 @@ public class ServerModel implements IServerModel {
         return authManager.getUserByAuthToken(token);
     }
 
-    public void addGame(Game game) throws Exception {
+    public boolean addGame(Game game) throws Exception {
         if (game == null || !game.isValid()) {
             throw new IllegalArgumentException();
         }
 
         if (games == null) {
-            return;
+            return false;
         }
 
-        games.addGame(game);
+        return games.addGame(game);
     }
 
     public Game getGameByID(ID gameID) {
