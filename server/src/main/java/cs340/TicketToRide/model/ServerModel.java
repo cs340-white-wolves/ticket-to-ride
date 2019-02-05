@@ -109,4 +109,28 @@ public class ServerModel implements IServerModel {
         games.clear();
         users.clear();
     }
+
+    public AuthManager getAuthManager() {
+        return authManager;
+    }
+
+    public void setAuthManager(AuthManager authManager) {
+        this.authManager = authManager;
+    }
+
+    public Games getGames() {
+        return games;
+    }
+
+    public void setGames(Games games) {
+        this.games = games;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
 }

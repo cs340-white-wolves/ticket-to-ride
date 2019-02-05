@@ -8,4 +8,6 @@ public class ClientProxy implements IClient {
     public void updatePlayerCount(ID gameID, int playerCount) {
 
     }
+
+    public void updateGameList();
 }
