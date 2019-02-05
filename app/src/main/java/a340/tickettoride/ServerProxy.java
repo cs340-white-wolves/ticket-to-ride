@@ -2,9 +2,9 @@ package a340.tickettoride;
 
 import a340.tickettoride.communication.ClientCommunicator;
 import cs340.TicketToRide.IServer;
-import cs340.TicketToRide.communication.IServerCommand;
+import cs340.TicketToRide.communication.ICommand;
 import cs340.TicketToRide.communication.Response;
-import cs340.TicketToRide.communication.ServerCommand;
+import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.utility.ID;
@@ -29,7 +29,7 @@ public class ServerProxy implements IServer {
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }
-        IServerCommand command = new ServerCommand("login",
+        ICommand command = new Command("login",
                 new Class<?>[]{Username.class, Password.class}, new Object[]{username, password});
 
         ClientCommunicator communicator = ClientCommunicator.getInstance();

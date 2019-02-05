@@ -12,7 +12,7 @@ import java.io.OutputStreamWriter;
 import java.util.Locale;
 import java.util.logging.Level;
 
-import cs340.TicketToRide.communication.ServerCommand;
+import cs340.TicketToRide.communication.Command;
 
 public class Handler implements HttpHandler{
     private Gson gson = new Gson();
@@ -26,7 +26,7 @@ public class Handler implements HttpHandler{
             return;
         }
 
-        ServerCommand cmd = decode(httpExchange);
+        Command cmd = decode(httpExchange);
 
         // todo: if cmd == null, would it be good to sendError()?
 
@@ -52,12 +52,12 @@ public class Handler implements HttpHandler{
         }
     }
 
-    private ServerCommand decode (HttpExchange httpExchange) {
+    private Command decode (HttpExchange httpExchange) {
         InputStream requestBody = httpExchange.getRequestBody();
         InputStreamReader reqSR = new InputStreamReader(requestBody);
 
         try {
-            return gson.fromJson(reqSR, ServerCommand.class);
+            return gson.fromJson(reqSR, Command.class);
         }
         catch (JsonParseException e) {
             Logger.logger.log(Level.WARNING, e.getMessage(), e);

@@ -2,7 +2,7 @@ package a340.tickettoride.communication;
 
 import com.google.gson.Gson;
 
-import cs340.TicketToRide.communication.IServerCommand;
+import cs340.TicketToRide.communication.ICommand;
 import cs340.TicketToRide.communication.Response;
 
 public class ClientCommunicator {
@@ -19,11 +19,11 @@ public class ClientCommunicator {
         return singleton;
     }
 
-    public Response sendCommand(IServerCommand command) {
+    public Response sendCommand(ICommand command) {
         return null;
     }
 
-    private String encodeCommand(IServerCommand command) {
+    private String encodeCommand(ICommand command) {
         return null;
     }
 
