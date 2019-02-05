@@ -1,4 +1,4 @@
 package a340.tickettoride.presenter;
 
-public class CreateGamePresenter {
+public class CreateGamePresenter implements ICreateGamePresenter {
 }

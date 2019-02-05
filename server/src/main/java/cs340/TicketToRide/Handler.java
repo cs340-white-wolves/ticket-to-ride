@@ -17,6 +17,8 @@ import cs340.TicketToRide.communication.ServerCommand;
 public class Handler implements HttpHandler{
     private Gson gson = new Gson();
 
+    // todo: It may be good to add some more param checking here to throw IllegalArgExc. if needed
+
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
         if (! httpExchange.getRequestMethod().equalsIgnoreCase("POST")) {
@@ -25,6 +27,8 @@ public class Handler implements HttpHandler{
         }
 
         ServerCommand cmd = decode(httpExchange);
+
+        // todo: if cmd == null, would it be good to sendError()?
 
         Object obj = cmd.execute(ServerFacade.getInstance());
 
