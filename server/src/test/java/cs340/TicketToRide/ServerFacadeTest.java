@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
+import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.IServerModel;
@@ -31,7 +32,8 @@ class ServerFacadeTest {
         Password password = new Password("1234");
         boolean success = true;
         try {
-            AuthToken token = server.register(username, password);
+            LoginRegisterResponse response = server.register(username, password);
+            AuthToken token = response.getToken();
             assertNotNull(token);
             assertTrue(token.isValid());
             User user = model.getUserByAuthToken(token);
@@ -39,7 +41,7 @@ class ServerFacadeTest {
             assertEquals(user.getUsername(), username);
             assertEquals(user.getPassword(), password);
 
-            token = server.login(username, password);
+            token = server.login(username, password).getToken();
             assertNotNull(token);
             assertTrue(token.isValid());
             user = model.getUserByAuthToken(token);
@@ -62,7 +64,7 @@ class ServerFacadeTest {
         AuthToken token;
         try {
             // Attempt to login with non registered user
-            token = server.login(username, password);
+            token = server.login(username, password).getToken();
         } catch (Exception e) {
             success = false;
             System.out.println(e.getMessage());
@@ -72,9 +74,9 @@ class ServerFacadeTest {
         success = true;
         try {
             // This time, register user, but use wrong password in attempt to login
-            token = server.register(username, password);
+            token = server.register(username, password).getToken();
             assertNotNull(token);
-            token = server.login(username, new Password("abcd"));
+            token = server.login(username, new Password("abcd")).getToken();
         } catch (Exception e) {
             success = false;
         }
@@ -96,7 +98,7 @@ class ServerFacadeTest {
         int numPlayers = 3;
         Game game;
         try {
-            AuthToken token = server.register(new Username("nate"), new Password("1234"));
+            AuthToken token = server.register(new Username("nate"), new Password("1234")).getToken();
             assertNotNull(token);
             game = server.createGame(token, numPlayers);
             assertNotNull(game);
@@ -120,7 +122,7 @@ class ServerFacadeTest {
         int numPlayers = 3;
         Game game;
         try {
-            AuthToken token = server.register(new Username("nate"), new Password("1234"));
+            AuthToken token = server.register(new Username("nate"), new Password("1234")).getToken();
             assertNotNull(token);
             game = server.createGame(token, numPlayers);
             assertNotNull(game);
@@ -128,14 +130,14 @@ class ServerFacadeTest {
             assertFalse(game.hasTargetNumPlayers());
             assertEquals(game.getNumCurrentPlayers(), 1);
 
-            token = server.register(new Username("jake"), new Password("abcd"));
+            token = server.register(new Username("jake"), new Password("abcd")).getToken();
             assertNotNull(token);
             boolean joined = server.joinGame(token, game.getGameID());
             assertTrue(joined);
             assertFalse(game.hasTargetNumPlayers());
             assertEquals(game.getNumCurrentPlayers(), 2);
 
-            token = server.register(new Username("sam"), new Password("pass"));
+            token = server.register(new Username("sam"), new Password("pass")).getToken();
             assertNotNull(token);
             joined = server.joinGame(token, game.getGameID());
             assertTrue(joined);

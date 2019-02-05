@@ -5,23 +5,23 @@ import java.lang.reflect.Method;
 
 import cs340.TicketToRide.IServer;
 
-public class ServerCommand implements IServerCommand {
+public class Command implements ICommand {
     private String methodName;
     private Object[] parameters;
     private Class<?>[] parameterTypes;
 
 
-    public ServerCommand(String methodName, Class<?>[] paramTypes, Object[] params) {
+    public Command(String methodName, Class<?>[] paramTypes, Object[] params) {
         this.methodName = methodName;
         this.parameterTypes = paramTypes;
         this.parameters = params;
     }
 
-    public Object execute(IServer target) {
+    public Object execute(Object target) {
         Object result = null;
 
         try {
-            Method method = IServer.class.getMethod(methodName, parameterTypes);
+            Method method = Object.class.getMethod(methodName, parameterTypes);
             result = method.invoke(target, parameters);
         } catch (NoSuchMethodException | SecurityException e) {
             System.out.println("ERROR: Could not find the method " + methodName + ", or, there was a security error");

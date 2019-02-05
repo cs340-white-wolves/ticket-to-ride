@@ -54,4 +54,7 @@ public class Games {
         games.clear();
     }
 
+    public Set<Game> getGameSet() {
+        return games;
+    }
 }
