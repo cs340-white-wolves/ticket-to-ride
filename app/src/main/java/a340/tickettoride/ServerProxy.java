@@ -34,7 +34,7 @@ public class ServerProxy implements IServer {
 
         ClientCommunicator communicator = ClientCommunicator.getInstance();
         Response response = communicator.sendCommand(command);
-        Object object = response.getObject();
+        Object object = response.getResultObject();
         if (object instanceof Exception) {
             throw (Exception)object;
         }
