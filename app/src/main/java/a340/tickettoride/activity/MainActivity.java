@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import a340.tickettoride.R;
+import cs340.TicketToRide.model.User;
 
 public class MainActivity extends AppCompatActivity {
     String mUsername = "";
@@ -95,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void loggedIn(User user) {
+
+    }
+
+    public void invalid() {
+
     }
 
     private boolean canLogin() {
