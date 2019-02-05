@@ -3,10 +3,12 @@ package a340.tickettoride;
 import a340.tickettoride.communication.ClientCommunicator;
 import cs340.TicketToRide.IServer;
 import cs340.TicketToRide.communication.ICommand;
+import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.communication.Response;
 import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
@@ -25,7 +27,7 @@ public class ServerProxy implements IServer {
         return singleton;
     }
 
-    public AuthToken login(Username username, Password password) throws Exception {
+    public LoginRegisterResponse login(Username username, Password password) throws Exception {
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -39,9 +41,9 @@ public class ServerProxy implements IServer {
             throw (Exception)object;
         }
 
-        return (AuthToken)object;
+        return (LoginRegisterResponse) object;
     }
-    public AuthToken register(Username username, Password password) throws Exception {
+    public LoginRegisterResponse register(Username username, Password password) throws Exception {
         return null;
     }
     public Game createGame(AuthToken token, int numPlayers) throws Exception {
@@ -49,5 +51,10 @@ public class ServerProxy implements IServer {
     }
     public boolean joinGame(AuthToken token, ID gameId) throws Exception {
         return false;
+    }
+
+    @Override
+    public Games getGameList() {
+        return null;
     }
 }

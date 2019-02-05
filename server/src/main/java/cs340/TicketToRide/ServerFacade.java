@@ -1,8 +1,13 @@
 package cs340.TicketToRide;
 
+import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.model.Games;
+import cs340.TicketToRide.model.IServerModel;
+import cs340.TicketToRide.model.ServerModel;
 import cs340.TicketToRide.service.CreateGameService;
+import cs340.TicketToRide.service.GamesService;
 import cs340.TicketToRide.service.JoinGameService;
 import cs340.TicketToRide.service.LoginService;
 import cs340.TicketToRide.service.RegisterService;
@@ -24,10 +29,10 @@ public class ServerFacade implements IServer {
         return singleton;
     }
 
-    public AuthToken login(Username username, Password password) throws Exception {
+    public LoginRegisterResponse login(Username username, Password password) throws Exception {
         return new LoginService().login(username, password);
     }
-    public AuthToken register(Username username, Password password) throws Exception {
+    public LoginRegisterResponse register(Username username, Password password) throws Exception {
         return new RegisterService().register(username, password);
     }
     public Game createGame(AuthToken token, int numPlayers) throws Exception {
@@ -35,6 +40,10 @@ public class ServerFacade implements IServer {
     }
     public boolean joinGame(AuthToken token, ID gameId) throws Exception {
         return new JoinGameService().joinGame(token, gameId);
+    }
+
+    public Games getGameList() {
+        return new GamesService().getAvailableGames();
     }
 
 }

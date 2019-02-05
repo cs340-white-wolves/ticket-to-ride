@@ -10,4 +10,8 @@ public class ClientFacade implements IClient {
 
     }
 
+    public void updateGameList() {
+
+    }
+
 }
