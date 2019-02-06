@@ -90,6 +90,8 @@ public class ServerProxy implements IServer {
         }
 
         return (Boolean)resultObject;
+
+        // todo: Check if not instance of boolean?
     }
 
     @Override
