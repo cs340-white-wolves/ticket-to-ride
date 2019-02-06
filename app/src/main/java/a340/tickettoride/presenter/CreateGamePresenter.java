@@ -13,4 +13,8 @@ public class CreateGamePresenter implements ICreateGamePresenter {
         CreateGameTask task = new CreateGameTask(numPlayers);
         task.execute();
     }
+
+    public interface View {
+
+    }
 }
