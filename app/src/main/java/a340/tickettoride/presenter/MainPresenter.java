@@ -13,7 +13,7 @@ import cs340.TicketToRide.utility.Username;
 /**
  * This calls the Service facade and also updates the Views
  */
-public class MainPresenter implements Observer, IMainPresenter{
+public class MainPresenter implements Observer, IMainPresenter {
     private Username username;
     private Password password;
     private View view;
