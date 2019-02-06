@@ -13,11 +13,10 @@ import java.util.Locale;
 import java.util.logging.Level;
 
 import cs340.TicketToRide.communication.Command;
+import cs340.TicketToRide.communication.Response;
 
 public class Handler implements HttpHandler{
     private Gson gson = new Gson();
-
-    // todo: It may be good to add some more param checking here to throw IllegalArgExc. if needed
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
@@ -27,11 +26,7 @@ public class Handler implements HttpHandler{
         }
 
         Command cmd = decode(httpExchange);
-
-        // todo: if cmd == null, would it be good to sendError()?
-
         Object obj = cmd.execute(ServerFacade.getInstance());
-
         encodeAndSend(httpExchange, obj);
     }
 
@@ -39,7 +34,8 @@ public class Handler implements HttpHandler{
         OutputStreamWriter osw = new OutputStreamWriter(httpExchange.getResponseBody());
 
         try {
-            String jsonStr = gson.toJson(obj);
+            Response response = new Response(obj, obj.getClass().getName());
+            String jsonStr = gson.toJson(response);
 
             httpExchange.sendResponseHeaders(200, jsonStr.length());
 
