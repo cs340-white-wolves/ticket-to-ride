@@ -7,7 +7,6 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import com.google.gson.Gson;
 import cs340.TicketToRide.communication.Response;
@@ -20,7 +19,7 @@ public class ClientCommunicator {
 
     private ClientCommunicator() {};
 
-    public static ClientCommunicator getSingleton() {
+    public static ClientCommunicator getInstance() {
 
         if (SINGLETON == null) {
             SINGLETON = new ClientCommunicator();
@@ -33,22 +32,26 @@ public class ClientCommunicator {
 
         final String TARGET_RECIPIENT = "http://localhost:8080/command";
         Response result = null;
+        HttpURLConnection connection;
 
-        //Open the connection to the server
-        HttpURLConnection connection = openConnection(TARGET_RECIPIENT);
+        try {
+            //Open the connection to the server
+            connection = openConnection(TARGET_RECIPIENT);
+
+            //Write the request object
+            serializeCommand(connection, commandToSend);
+
+            //Send and receive data
+            connection.connect();
+
+            //Read the response
+            result = deserializeResponse(connection);
 
 
-        //Write the request object
-        serializeCommand(connection, commandToSend);
-
-        //Send and receive data
-        connection.connect();
-
-        //if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-
-        // Get the response from the server
-        Reader reader = new InputStreamReader(connection.getInputStream());
-        result = gson.fromJson(reader, Response.class);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
 
         return result;
     }
@@ -68,8 +71,18 @@ public class ClientCommunicator {
         writer.close();
     }
 
-    private Response deserializeResponse() {
-        return null;
+    private Response deserializeResponse(HttpURLConnection connection) throws IOException {
+
+        if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
+            // Get the response from the server
+            Reader reader = new InputStreamReader(connection.getInputStream());
+            Response result = gson.fromJson(reader, Response.class);
+            reader.close();
+            return result;
+        }
+
+        throw  new IOException("The server did not recieve a 200 response");
     }
 
 

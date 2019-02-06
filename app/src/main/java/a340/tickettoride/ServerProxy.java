@@ -29,7 +29,7 @@ public class ServerProxy implements IServer {
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }
-        IServerCommand command = new ServerCommand("login",
+        ServerCommand command = new ServerCommand("login",
                 new Class<?>[]{Username.class, Password.class}, new Object[]{username, password});
 
         ClientCommunicator communicator = ClientCommunicator.getInstance();
