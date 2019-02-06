@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     public void invalid(String message) {
-        showMessage(message); // pop-up indicating what went wrong
+        showMessage(message); // toast indicating what went wrong
     }
 
     private void showMessage(String message) {
