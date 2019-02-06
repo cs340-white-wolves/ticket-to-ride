@@ -5,7 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.util.Set;
+
 import cs340.TicketToRide.communication.LoginRegisterResponse;
+import cs340.TicketToRide.communication.Response;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.IServerModel;
@@ -85,11 +88,60 @@ class ServerFacadeTest {
 
     @Test
     void register() {
+        Username username = new Username("curt");
+        Password password = new Password("Password");
+        ServerFacade facade = ServerFacade.getInstance();
+        LoginRegisterResponse registerResponse = null;
+        try{
+             registerResponse = facade.register(username, password);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        }
+
+
+        ServerModel serverModel = ServerModel.getInstance();
+
+        Set<User> users = serverModel.getUsers();
+
+        assertTrue(users.size() == 1);
+
+        User storedUser = serverModel.getUserByAuthToken((registerResponse).getToken());
+
+        assertTrue(storedUser.getUsername().equals(username));
+        assertTrue(storedUser.getPassword().equals(password));
+
+
     }
 
     @Test
     void registerFail() {
+        Username username = new Username("curt");
+        Password password = new Password("Password");
+        ServerFacade facade = ServerFacade.getInstance();
+        LoginRegisterResponse registerResponse1 = null;
+        LoginRegisterResponse registerResponse2 = null;
 
+        try{
+            registerResponse1 = facade.register(username, password);
+            registerResponse2 = facade.register(username, password);
+        }
+        catch (Exception e) {
+            assertNotNull(e, e.getMessage());
+        }
+
+
+        ServerModel serverModel = ServerModel.getInstance();
+
+        Set<User> users = serverModel.getUsers();
+
+        assertTrue(users.size() == 1);
+
+        User storedUser = serverModel.getUserByAuthToken((registerResponse1).getToken());
+
+        assertTrue(storedUser.getUsername().equals(username));
+        assertTrue(storedUser.getPassword().equals(password));
     }
 
     @Test

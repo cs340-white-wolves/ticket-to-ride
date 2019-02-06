@@ -10,7 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import com.google.gson.Gson;
 import cs340.TicketToRide.communication.Response;
-import cs340.TicketToRide.communication.ServerCommand;
+import cs340.TicketToRide.communication.Command;
 
 public class ClientCommunicator {
 
@@ -28,7 +28,7 @@ public class ClientCommunicator {
         return SINGLETON;
     }
 
-    public Response sendCommand(ServerCommand commandToSend) {
+    public Response sendCommand(Command commandToSend) {
 
         final String TARGET_RECIPIENT = "http://localhost:8080/command";
         Response result = null;
@@ -64,7 +64,7 @@ public class ClientCommunicator {
         return connection;
     }
 
-    private void serializeCommand(HttpURLConnection connection, ServerCommand requestInfo) throws IOException {
+    private void serializeCommand(HttpURLConnection connection, Command requestInfo) throws IOException {
         OutputStream reqBody = connection.getOutputStream();
         Writer writer = new OutputStreamWriter(reqBody);
         gson.toJson(requestInfo, writer);

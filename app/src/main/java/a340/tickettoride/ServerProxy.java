@@ -32,7 +32,7 @@ public class ServerProxy implements IServer {
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }
-        ICommand command = new Command("login",
+        Command command = new Command("login",
                 new Class<?>[]{Username.class, Password.class}, new Object[]{username, password});
 
         Response response = communicator.sendCommand(command);
@@ -49,7 +49,7 @@ public class ServerProxy implements IServer {
             throw new IllegalArgumentException();
         }
 
-        ICommand command = new Command("register",
+        Command command = new Command("register",
                 new Class<?>[]{Username.class, Password.class}, new Object[]{username, password});
         Response response = communicator.sendCommand(command);
         Object resultObject = response.getResultObject();
@@ -65,7 +65,7 @@ public class ServerProxy implements IServer {
             throw new IllegalArgumentException();
         }
 
-        ICommand command = new Command("createGame",
+        Command command = new Command("createGame",
                 new Class<?>[]{AuthToken.class, int.class}, new Object[]{token, numPlayers});
         Response response = communicator.sendCommand(command);
         Object resultObject = response.getResultObject();
@@ -81,7 +81,7 @@ public class ServerProxy implements IServer {
             throw new IllegalArgumentException();
         }
 
-        ICommand command = new Command("joinGame",
+        Command command = new Command("joinGame",
                 new Class<?>[]{AuthToken.class, ID.class}, new Object[]{token, gameId});
         Response response = communicator.sendCommand(command);
         Object resultObject = response.getResultObject();
