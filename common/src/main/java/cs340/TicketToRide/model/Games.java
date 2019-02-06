@@ -24,10 +24,20 @@ public class Games {
         return games.add(game);
     }
 
+    public boolean removeGame(ID gameID) throws Exception {
+        Game game = getGameByID(gameID);
+        if (game == null) {
+            throw new Exception("This game does not exist");
+        }
+
+        return games.remove(game);
+    }
+
     public Game getGameByID(ID gameID) {
         if (gameID == null || !gameID.isValid()) {
             throw new IllegalArgumentException();
         }
+
         for (Game game : games) {
             if (game.getGameID().equals(gameID)) {
                 return game;
@@ -44,4 +54,7 @@ public class Games {
         games.clear();
     }
 
+    public Set<Game> getGameSet() {
+        return games;
+    }
 }

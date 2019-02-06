@@ -1,6 +1,6 @@
 package a340.tickettoride.presenter;
 
 public interface IMainPresenter {
-    void login(String username, String password) throws Exception;
-    void register(String usr, String pass) throws Exception;
+    void login(String usernameStr, String passwordStr) throws Exception;
+    void register(String usernamtStr, String passwordStr) throws Exception;
 }

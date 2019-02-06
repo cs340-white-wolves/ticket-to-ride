@@ -26,7 +26,7 @@
         tools:text="@string/login_title" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/createGameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <Button
-        android:id="@+id/registerButton"
+        android:id="@+id/joinGameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -55,7 +55,7 @@
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+        app:layout_constraintTop_toBottomOf="@+id/createGameButton" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"

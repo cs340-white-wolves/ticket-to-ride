@@ -1,5 +1,6 @@
 package cs340.TicketToRide.service;
 
+import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.IServerModel;
 import cs340.TicketToRide.model.ServerModel;
@@ -8,7 +9,7 @@ import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
 public class RegisterService {
-    public AuthToken register(Username username, Password password) throws Exception {
+    public LoginRegisterResponse register(Username username, Password password) throws Exception {
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -23,6 +24,6 @@ public class RegisterService {
         user = new User(username, password);
         AuthToken token = AuthToken.generateToken();
         model.registerUser(user, token);
-        return token;
+        return new LoginRegisterResponse(token, user);
     }
 }
