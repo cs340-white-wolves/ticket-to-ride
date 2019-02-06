@@ -1,5 +1,7 @@
 package a340.tickettoride.presenter;
 
+import android.app.Activity;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -16,6 +18,11 @@ import cs340.TicketToRide.utility.Username;
 public class MainPresenter implements Observer, IMainPresenter{
     private Username username;
     private Password password;
+    private View view;
+
+    public MainPresenter(View view) {
+        setView(view);
+    }
 
     @Override
     public void login(String usernameStr, String passStr) throws Exception {
@@ -65,4 +72,33 @@ public class MainPresenter implements Observer, IMainPresenter{
         }
     }
 
+
+    public interface View {
+
+    }
+
+
+    public Username getUsername() {
+        return username;
+    }
+
+    public void setUsername(Username username) {
+        this.username = username;
+    }
+
+    public Password getPassword() {
+        return password;
+    }
+
+    public void setPassword(Password password) {
+        this.password = password;
+    }
+
+    public View getView() {
+        return view;
+    }
+
+    public void setView(View view) {
+        this.view = view;
+    }
 }
