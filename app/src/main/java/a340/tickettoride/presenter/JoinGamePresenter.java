@@ -13,4 +13,8 @@ public class JoinGamePresenter implements IJoinGamePresenter {
         JoinGameTask task = new JoinGameTask(gameID);
         task.execute();
     }
+
+    public interface View {
+
+    }
 }
