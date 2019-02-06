@@ -4,6 +4,12 @@ import a340.tickettoride.task.CreateGameTask;
 import cs340.TicketToRide.model.Game;
 
 public class CreateGamePresenter implements ICreateGamePresenter {
+    private View view;
+
+    public CreateGamePresenter(View view) {
+        setView(view);
+    }
+
     @Override
     public void createGame(int numPlayers) {
         if (numPlayers < Game.MIN_PLAYERS || numPlayers > Game.MAX_PLAYERS) {
@@ -16,5 +22,9 @@ public class CreateGamePresenter implements ICreateGamePresenter {
 
     public interface View {
 
+    }
+
+    public void setView(View view) {
+        this.view = view;
     }
 }

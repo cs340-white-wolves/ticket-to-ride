@@ -13,6 +13,8 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_game);
+
+        presenter = new CreateGamePresenter(this);
     }
 
 
