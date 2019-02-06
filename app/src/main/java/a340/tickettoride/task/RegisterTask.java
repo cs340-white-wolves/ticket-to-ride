@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import a340.tickettoride.ServerProxy;
 import a340.tickettoride.model.ClientModel;
+import a340.tickettoride.model.IClientModel;
 import cs340.TicketToRide.IServer;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.utility.Password;
@@ -33,7 +34,7 @@ public class RegisterTask extends AsyncTask<Void, Integer, LoginRegisterResponse
 
     @Override
     protected void onPostExecute(LoginRegisterResponse response) {
-        ClientModel model = ClientModel.getInstance();
+        IClientModel model = ClientModel.getInstance();
         if (response == null) {
             model.onAuthenticateFail(exception);
             return;

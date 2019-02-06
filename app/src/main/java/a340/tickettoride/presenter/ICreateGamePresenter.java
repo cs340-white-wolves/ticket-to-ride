@@ -1,5 +1,5 @@
 package a340.tickettoride.presenter;
 
 public interface ICreateGamePresenter {
-    void createGame();
+    void createGame(int numPlayers);
 }
