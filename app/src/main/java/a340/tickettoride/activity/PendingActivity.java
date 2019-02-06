@@ -4,8 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import a340.tickettoride.R;
+import a340.tickettoride.presenter.PendingPresenter;
 
-public class PendingActivity extends AppCompatActivity {
+public class PendingActivity extends AppCompatActivity implements PendingPresenter.View {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
