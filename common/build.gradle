@@ -3,7 +3,7 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'org.junit.jupiter:junit-jupiter-api:5.0.0-M4'
-    implementation files('gson-2.8.5.jar')
+    implementation 'com.google.code.gson:gson:2.2.4'
 }
 
 repositories {
