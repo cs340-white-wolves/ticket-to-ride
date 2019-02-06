@@ -104,8 +104,8 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         startActivity(intent);
     }
 
-    public void invalid(String message) {
-        showMessage(message); // toast indicating what went wrong
+    public void invalid(String errorMessage) {
+        showMessage(errorMessage); // toast indicating what went wrong
     }
 
     private void showMessage(String message) {

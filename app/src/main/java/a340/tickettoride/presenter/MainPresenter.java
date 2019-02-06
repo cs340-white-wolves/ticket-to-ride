@@ -71,7 +71,8 @@ public class MainPresenter implements Observer, IMainPresenter {
 
 
     public interface View {
-
+        public void loggedIn();
+        public void invalid(String errorMessage); // shows up as a toast
     }
 
 

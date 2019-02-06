@@ -21,7 +21,7 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     }
 
     public interface View {
-
+        void gameCreated();
     }
 
     public void setView(View view) {
