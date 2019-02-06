@@ -44,6 +44,14 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
         notifyObservers(response);
     }
 
+    public void onJoinGameSuccess() {
+        notifyObservers();
+    }
+
+    public void onJoinGameFail(Exception e) {
+        notifyObservers(e);
+    }
+
     private void startPoller() {
         new Poller(this).run();
     }
