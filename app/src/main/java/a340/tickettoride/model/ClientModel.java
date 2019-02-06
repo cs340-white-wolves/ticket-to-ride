@@ -3,7 +3,6 @@ package a340.tickettoride.model;
 import java.util.Observable;
 
 import a340.tickettoride.communication.Poller;
-import a340.tickettoride.task.RegisterTask;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
@@ -43,6 +42,14 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
         setLoggedInUser(response.getUser());
         startPoller();
         notifyObservers(response);
+    }
+
+    public void onJoinGameSuccess() {
+        notifyObservers();
+    }
+
+    public void onJoinGameFail(Exception e) {
+        notifyObservers(e);
     }
 
     private void startPoller() {

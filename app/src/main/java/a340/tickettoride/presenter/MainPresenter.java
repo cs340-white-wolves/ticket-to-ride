@@ -1,21 +1,19 @@
 package a340.tickettoride.presenter;
 
-import android.app.Activity;
-
 import java.util.Observable;
 import java.util.Observer;
 
 import a340.tickettoride.ServiceFacade;
+import a340.tickettoride.task.LoginTask;
 import a340.tickettoride.task.RegisterTask;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
-import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
 /**
  * This calls the Service facade and also updates the Views
  */
-public class MainPresenter implements Observer, IMainPresenter{
+public class MainPresenter implements Observer, IMainPresenter {
     private Username username;
     private Password password;
     private View view;
@@ -27,16 +25,15 @@ public class MainPresenter implements Observer, IMainPresenter{
     @Override
     public void login(String usernameStr, String passStr) throws Exception {
         setUsernamePassword(usernameStr, passStr);
-        ServiceFacade facade = ServiceFacade.getInstance();
-        facade.login(username, password);
+        LoginTask task = new LoginTask(username, password);
+        task.execute();
     }
 
     @Override
     public void register(String usernameStr, String passStr) throws Exception {
         setUsernamePassword(usernameStr, passStr);
-
-        ServiceFacade facade = ServiceFacade.getInstance();
-        facade.register(username, password);
+        RegisterTask task = new RegisterTask(username, password);
+        task.execute();
     }
 
     @Override

@@ -10,12 +10,13 @@ import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
-public class RegisterTask extends AsyncTask<Void, Integer, LoginRegisterResponse> {
+public class LoginTask extends AsyncTask<Void, Integer, LoginRegisterResponse> {
+
     private Username username;
     private Password password;
     private Exception exception;
 
-    public RegisterTask(Username username, Password password) {
+    public LoginTask(Username username, Password password) {
         this.username = username;
         this.password = password;
     }
@@ -24,7 +25,7 @@ public class RegisterTask extends AsyncTask<Void, Integer, LoginRegisterResponse
     protected LoginRegisterResponse doInBackground(Void... voids) {
         IServer server = ServerProxy.getInstance();
         try {
-            return server.register(username, password);
+            return server.login(username, password);
         } catch (Exception e) {
             exception = e;
         }
@@ -37,10 +38,8 @@ public class RegisterTask extends AsyncTask<Void, Integer, LoginRegisterResponse
         IClientModel model = ClientModel.getInstance();
         if (response == null) {
             model.onAuthenticateFail(exception);
-            return;
         }
 
         model.onAuthenticateSuccess(response);
     }
-
 }

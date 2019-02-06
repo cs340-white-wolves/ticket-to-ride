@@ -16,6 +16,7 @@ import cs340.TicketToRide.utility.Username;
 public class ServerProxy implements IServer {
 
     private static ServerProxy singleton;
+    private ClientCommunicator communicator = ClientCommunicator.getInstance();
     private ServerProxy() {
     }
 
@@ -34,23 +35,63 @@ public class ServerProxy implements IServer {
         ICommand command = new Command("login",
                 new Class<?>[]{Username.class, Password.class}, new Object[]{username, password});
 
-        ClientCommunicator communicator = ClientCommunicator.getInstance();
         Response response = communicator.sendCommand(command);
-        Object object = response.getResultObject();
-        if (object instanceof Exception) {
-            throw (Exception)object;
+        Object resultObject = response.getResultObject();
+        if (resultObject instanceof Exception) {
+            throw (Exception)resultObject;
         }
 
-        return (LoginRegisterResponse) object;
+        return (LoginRegisterResponse)resultObject;
     }
+
     public LoginRegisterResponse register(Username username, Password password) throws Exception {
-        return null;
+        if (username == null || password == null || !username.isValid() || !password.isValid()) {
+            throw new IllegalArgumentException();
+        }
+
+        ICommand command = new Command("register",
+                new Class<?>[]{Username.class, Password.class}, new Object[]{username, password});
+        Response response = communicator.sendCommand(command);
+        Object resultObject = response.getResultObject();
+        if (resultObject instanceof Exception) {
+            throw (Exception)resultObject;
+        }
+
+        return (LoginRegisterResponse)resultObject;
     }
+
     public Game createGame(AuthToken token, int numPlayers) throws Exception {
-        return null;
+        if (token == null || !token.isValid() || numPlayers < Game.MIN_PLAYERS || numPlayers > Game.MAX_PLAYERS) {
+            throw new IllegalArgumentException();
+        }
+
+        ICommand command = new Command("createGame",
+                new Class<?>[]{AuthToken.class, int.class}, new Object[]{token, numPlayers});
+        Response response = communicator.sendCommand(command);
+        Object resultObject = response.getResultObject();
+        if (resultObject instanceof Exception) {
+            throw (Exception)resultObject;
+        }
+
+        return (Game)resultObject;
     }
+
     public boolean joinGame(AuthToken token, ID gameId) throws Exception {
-        return false;
+        if (token == null || gameId == null || !token.isValid() || !gameId.isValid()) {
+            throw new IllegalArgumentException();
+        }
+
+        ICommand command = new Command("joinGame",
+                new Class<?>[]{AuthToken.class, ID.class}, new Object[]{token, gameId});
+        Response response = communicator.sendCommand(command);
+        Object resultObject = response.getResultObject();
+        if (resultObject instanceof Exception) {
+            throw (Exception)resultObject;
+        }
+
+        return (Boolean)resultObject;
+
+        // todo: Check if not instance of boolean?
     }
 
     @Override
