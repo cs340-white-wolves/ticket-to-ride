@@ -10,7 +10,6 @@ import a340.tickettoride.R;
 import a340.tickettoride.presenter.LobbyPresenter;
 
 public class LobbyActivity extends AppCompatActivity {
-    LobbyPresenter presenter;
     Button mCreateButton = null;
     Button mJoinButton = null;
 
@@ -19,15 +18,13 @@ public class LobbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
-        presenter = new LobbyPresenter();
-
         // create button wire-up & listener
         mCreateButton = findViewById(R.id.createGameButton);
         mCreateButton.setEnabled(true);
         mCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.createGame();
+                startCreateGameActivity();
             }
         });
 
@@ -37,7 +34,7 @@ public class LobbyActivity extends AppCompatActivity {
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.joinGame();
+                startJoinGameActivity();
             }
         });
     }
