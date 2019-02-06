@@ -30,6 +30,7 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
     }
 
     public void onPollComplete(Games lobbyGameList) {
+        setLobbyGameList(lobbyGameList);
         notifyObservers(lobbyGameList);
     }
 

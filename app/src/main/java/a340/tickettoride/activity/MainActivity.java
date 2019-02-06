@@ -12,11 +12,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import a340.tickettoride.R;
+import a340.tickettoride.presenter.IMainPresenter;
 import a340.tickettoride.presenter.MainPresenter;
-import cs340.TicketToRide.model.User;
 
-public class MainActivity extends AppCompatActivity {
-    private MainPresenter presenter;
+public class MainActivity extends AppCompatActivity implements MainPresenter.View {
+    private IMainPresenter presenter;
     private String mUsername = "";
     private String mPassword = "";
     private Button mLoginButton = null;
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        presenter = new MainPresenter();
+        presenter = new MainPresenter(this);
 
         // login button wire-up & listener
         mLoginButton = findViewById(R.id.loginButton);
