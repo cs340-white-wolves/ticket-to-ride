@@ -9,5 +9,7 @@ public class ClientProxy implements IClient {
 
     }
 
-    public void updateGameList();
+    public void updateGameList() {
+
+    }
 }
