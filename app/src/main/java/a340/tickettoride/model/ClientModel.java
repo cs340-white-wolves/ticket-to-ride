@@ -52,6 +52,17 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
         notifyObservers(e);
     }
 
+    @Override
+    public void onCreateGameSuccess(Game game) {
+//        lobbyGameList.addGame(game);
+        notifyObservers(game);
+    }
+
+    @Override
+    public void onCreateGameFail(Exception e) {
+        notifyObservers(e);
+    }
+
     private void startPoller() {
         new Poller(this).run();
     }
