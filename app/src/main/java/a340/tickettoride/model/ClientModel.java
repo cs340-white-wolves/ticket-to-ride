@@ -3,7 +3,6 @@ package a340.tickettoride.model;
 import java.util.Observable;
 
 import a340.tickettoride.communication.Poller;
-import a340.tickettoride.task.RegisterTask;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
