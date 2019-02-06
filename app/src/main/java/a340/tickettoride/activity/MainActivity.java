@@ -19,8 +19,8 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     private IMainPresenter presenter;
     private String mUsername = "";
     private String mPassword = "";
-    private Button mLoginButton = null;
-    private Button mRegisterButton = null;
+    private Button mLoginButton;
+    private Button mRegisterButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,13 +68,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mUsername = s.toString();
-//                if (canLogin()) {
-//                    mLoginButton.setEnabled(true);
-//                    mRegisterButton.setEnabled(true);
-//                } else {
-//                    mLoginButton.setEnabled(false);
-//                    mRegisterButton.setEnabled(false);
-//                }
+                updateButtons();
             }
 
             @Override
@@ -94,13 +88,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mPassword = s.toString();
-//                if (canLogin()) {
-//                    mLoginButton.setEnabled(true);
-//                    mRegisterButton.setEnabled(true);
-//                } else {
-//                    mLoginButton.setEnabled(false);
-//                    mRegisterButton.setEnabled(false);
-//                }
+                updateButtons();
             }
 
             @Override
@@ -117,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     public void invalid(String message) {
-        showMessage(message); // pop-up indicating what went wrong
+        showMessage(message); // toast indicating what went wrong
     }
 
     private void showMessage(String message) {
@@ -126,7 +114,17 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
                 Toast.LENGTH_SHORT).show();
     }
 
-//    private boolean canLogin() {
-//        return (!mUsername.equals("") && !mPassword.equals(""));
-//    }
+    private boolean canLogin() {
+        return (!mUsername.equals("") && !mPassword.equals(""));
+    }
+
+    private void updateButtons() {
+        if (canLogin()) {
+            mLoginButton.setEnabled(true);
+            mRegisterButton.setEnabled(true);
+        } else {
+            mLoginButton.setEnabled(false);
+            mRegisterButton.setEnabled(false);
+        }
+    }
 }
