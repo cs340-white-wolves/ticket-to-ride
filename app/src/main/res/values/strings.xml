@@ -11,7 +11,7 @@
     <string name="game_name">Game Name</string>
     <string name="game_lobby">Game Lobby</string>
     <string name="available_games">Available Games</string>
-    <string name="players_number">Enter the number of players</string>
+    <string name="players_number">Number of Players</string>
     <string name="error_message_placeholder">Error message</string>
     <string name="list_of_players">List of Players</string>
     <string name="start_message">The game will start once
