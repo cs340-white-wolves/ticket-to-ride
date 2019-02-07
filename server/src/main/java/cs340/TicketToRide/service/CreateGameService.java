@@ -23,7 +23,7 @@ public class CreateGameService {
         }
 
         Game game = new Game(numPlayers);
-        Player player = new Player(user.getUserID());
+        Player player = new Player(user);
 
         if (!model.addGame(game)) {
             throw new Exception("Error creating game");
