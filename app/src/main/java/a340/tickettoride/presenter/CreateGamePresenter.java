@@ -1,5 +1,6 @@
 package a340.tickettoride.presenter;
 
+import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.task.CreateGameTask;
 import cs340.TicketToRide.model.Game;
 
@@ -7,7 +8,7 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     private View view;
 
     public CreateGamePresenter(View view) {
-        setView(view);
+        this.view = view;
     }
 
     @Override
@@ -16,15 +17,10 @@ public class CreateGamePresenter implements ICreateGamePresenter {
             throw new IllegalArgumentException();
         }
 
-        CreateGameTask task = new CreateGameTask(numPlayers);
-        task.execute();
+        ServiceFacade.getInstance().createGame(numPlayers);
     }
 
     public interface View {
-        void gameCreated();
-    }
-
-    public void setView(View view) {
-        this.view = view;
+        void onGameCreated();
     }
 }

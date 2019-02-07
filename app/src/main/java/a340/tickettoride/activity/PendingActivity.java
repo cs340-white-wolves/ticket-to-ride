@@ -14,9 +14,11 @@ import cs340.TicketToRide.model.Player;
 
 public class PendingActivity extends AppCompatActivity implements PendingPresenter.View {
     private IPendingPresenter presenter;
-    private Set<Player> players;
+
     private TextView mGameName;
     private TextView mPlayerList;
+
+    private Set<Player> players;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +42,11 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
         mGameName.setText(presenter.getGameName());
     }
 
-    public void updatePlayers(Set<Player> players) {
+    public void onUpdatePlayers(Set<Player> players) {
         // update list of players
     }
 
-    public void gameStarting() { // this will be implemented in the next phase
+    public void onGameStarting() { // this will be implemented in the next phase
         // start the game
         showMessage("Game is starting");
     }

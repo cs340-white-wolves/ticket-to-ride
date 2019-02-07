@@ -9,7 +9,7 @@ public class AuthManager {
         tokenUserMap = new HashMap<>();
     }
 
-    public void addTokenUser(AuthToken token, User user) throws Exception {
+    public void addTokenUser(AuthToken token, User user) {
         if (token == null || user == null || !token.isValid() || !user.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -19,7 +19,7 @@ public class AuthManager {
         }
 
         if (tokenUserMap.get(token) != null) {
-            throw new Exception("This auth token already belongs to a user");
+            throw new RuntimeException("This auth token already belongs to a user");
         }
 
         tokenUserMap.put(token, user);

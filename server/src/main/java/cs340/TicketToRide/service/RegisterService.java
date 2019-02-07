@@ -1,6 +1,8 @@
 package cs340.TicketToRide.service;
 
 import cs340.TicketToRide.communication.LoginRegisterResponse;
+import cs340.TicketToRide.exception.AuthenticationException;
+import cs340.TicketToRide.exception.NotUniqueException;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.IServerModel;
 import cs340.TicketToRide.model.ServerModel;
@@ -9,7 +11,7 @@ import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
 public class RegisterService {
-    public LoginRegisterResponse register(Username username, Password password) throws Exception {
+    public LoginRegisterResponse register(Username username, Password password) throws NotUniqueException {
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -18,7 +20,7 @@ public class RegisterService {
         User user = model.getUserByUsername(username);
 
         if (user != null) {
-            throw new Exception("This username has already been registered");
+            throw new NotUniqueException("This username has already been registered");
         }
 
         user = new User(username, password);

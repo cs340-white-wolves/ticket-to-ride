@@ -132,15 +132,15 @@ class ServerFacadeTest {
 
             token = server.register(new Username("jake"), new Password("abcd")).getToken();
             assertNotNull(token);
-            boolean joined = server.joinGame(token, game.getGameID());
-            assertTrue(joined);
+            Game joinedGame = server.joinGame(token, game.getGameID());
+            assertNotNull(joinedGame);
             assertFalse(game.hasTargetNumPlayers());
             assertEquals(game.getNumCurrentPlayers(), 2);
 
             token = server.register(new Username("sam"), new Password("pass")).getToken();
             assertNotNull(token);
-            joined = server.joinGame(token, game.getGameID());
-            assertTrue(joined);
+            joinedGame = server.joinGame(token, game.getGameID());
+            assertNotNull(joinedGame);
             assertTrue(game.hasTargetNumPlayers());
             assertEquals(game.getNumCurrentPlayers(), numPlayers);
         } catch (Exception e) {

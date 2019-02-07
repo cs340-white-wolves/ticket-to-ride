@@ -8,7 +8,7 @@ public class PendingPresenter implements IPendingPresenter {
     private View view;
 
     public PendingPresenter(View view) {
-        setView(view);
+        this.view = view;
     }
 
     @Override
@@ -26,11 +26,7 @@ public class PendingPresenter implements IPendingPresenter {
     }
 
     public interface View {
-        void updatePlayers(Set<Player> players);
-        void gameStarting();
-    }
-
-    public void setView(View view) {
-        this.view = view;
+        void onUpdatePlayers(Set<Player> players);
+        void onGameStarting();
     }
 }

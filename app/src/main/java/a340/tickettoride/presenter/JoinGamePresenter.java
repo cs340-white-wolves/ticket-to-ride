@@ -1,5 +1,6 @@
 package a340.tickettoride.presenter;
 
+import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.task.JoinGameTask;
 import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.utility.ID;
@@ -8,7 +9,7 @@ public class JoinGamePresenter implements IJoinGamePresenter {
     private View view;
 
     public JoinGamePresenter(View view) {
-        setView(view);
+        this.view = view;
     }
 
     @Override
@@ -17,15 +18,10 @@ public class JoinGamePresenter implements IJoinGamePresenter {
             throw new IllegalArgumentException();
         }
 
-        JoinGameTask task = new JoinGameTask(gameID);
-        task.execute();
+        ServiceFacade.getInstance().joinGame(gameID);
     }
 
     public interface View {
-        void gameJoined();
-    }
-
-    public void setView(View view) {
-        this.view = view;
+        void onGameJoined();
     }
 }

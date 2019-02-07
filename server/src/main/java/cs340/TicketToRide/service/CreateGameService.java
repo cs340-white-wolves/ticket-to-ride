@@ -1,5 +1,6 @@
 package cs340.TicketToRide.service;
 
+import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.IServerModel;
@@ -9,7 +10,7 @@ import cs340.TicketToRide.model.User;
 
 public class CreateGameService {
 
-    public Game createGame(AuthToken token, int numPlayers) throws Exception {
+    public Game createGame(AuthToken token, int numPlayers) throws AuthenticationException {
         if (token == null || !token.isValid() ||
                 numPlayers < Game.MIN_PLAYERS || numPlayers > Game.MAX_PLAYERS) {
             throw new IllegalArgumentException();
@@ -19,19 +20,20 @@ public class CreateGameService {
         User user = model.getUserByAuthToken(token);
 
         if (user == null) {
-            throw new Exception("The requesting user doesn't exist");
+            throw new AuthenticationException("Invalid Auth Token");
         }
 
         Game game = new Game(numPlayers);
         Player player = new Player(user);
 
         if (!model.addGame(game)) {
-            throw new Exception("Error creating game");
+            throw new RuntimeException("Error creating game");
         }
 
         if (!game.addPlayer(player)) {
-            throw new Exception("Error adding player to game");
+            throw new RuntimeException("Error adding player to game");
         }
+
         return game;
     }
 }

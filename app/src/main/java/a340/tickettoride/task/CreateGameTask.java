@@ -33,10 +33,12 @@ public class CreateGameTask extends AsyncTask<Void, Integer, Game> {
     @Override
     protected void onPostExecute(Game game) {
         IClientModel model = ClientModel.getInstance();
-        if (game == null) {
 
+        if (game == null) {
+            model.onCreateGameFail(exception);
+            return;
         }
 
-
+        model.onCreateGameSuccess(game);
     }
 }

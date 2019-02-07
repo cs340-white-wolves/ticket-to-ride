@@ -1,6 +1,12 @@
 package a340.tickettoride;
 
+import a340.tickettoride.task.CreateGameTask;
+import a340.tickettoride.task.JoinGameTask;
+import a340.tickettoride.task.LoginTask;
+import a340.tickettoride.task.RegisterTask;
 import cs340.TicketToRide.IServer;
+import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
@@ -25,7 +31,8 @@ public class ServiceFacade {
             throw new IllegalArgumentException();
         }
 
-
+        LoginTask task = new LoginTask(username, password);
+        task.execute();
     }
 
     public void register(Username username, Password password) {
@@ -33,5 +40,23 @@ public class ServiceFacade {
             throw new IllegalArgumentException();
         }
 
+        RegisterTask task = new RegisterTask(username, password);
+        task.execute();
+    }
+
+    public void createGame(int numPlayers) {
+        if (numPlayers < Game.MIN_PLAYERS || numPlayers > Game.MAX_PLAYERS) {
+            throw new IllegalArgumentException();
+        }
+        CreateGameTask task = new CreateGameTask(numPlayers);
+        task.execute();
+    }
+
+    public void joinGame(ID gameID) {
+        if (gameID == null || !gameID.isValid()) {
+            throw new IllegalArgumentException();
+        }
+        JoinGameTask task = new JoinGameTask(gameID);
+        task.execute();
     }
 }

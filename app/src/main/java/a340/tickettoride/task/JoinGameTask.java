@@ -7,9 +7,10 @@ import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
 import cs340.TicketToRide.IServer;
 import cs340.TicketToRide.model.AuthToken;
+import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.utility.ID;
 
-public class JoinGameTask extends AsyncTask<Void, Integer, Boolean> {
+public class JoinGameTask extends AsyncTask<Void, Integer, Game> {
 
     private IClientModel model = ClientModel.getInstance();
     private ID gameID;
@@ -20,7 +21,7 @@ public class JoinGameTask extends AsyncTask<Void, Integer, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Void... voids) {
+    protected Game doInBackground(Void... voids) {
         IServer server = ServerProxy.getInstance();
         AuthToken token = model.getAuthToken();
 
@@ -34,12 +35,12 @@ public class JoinGameTask extends AsyncTask<Void, Integer, Boolean> {
     }
 
     @Override
-    protected void onPostExecute(Boolean joinGameSuccess) {
-        if (joinGameSuccess) {
-            model.onJoinGameSuccess();
+    protected void onPostExecute(Game game) {
+        if (game == null) {
+            model.onJoinGameFail(exception);
             return;
         }
 
-        model.onJoinGameFail(exception);
+        model.onJoinGameSuccess(game);
     }
 }
