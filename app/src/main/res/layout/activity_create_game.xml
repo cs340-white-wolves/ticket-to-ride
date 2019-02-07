@@ -61,6 +61,13 @@
             app:layout_constraintStart_toStartOf="@+id/textView5"
             tools:layout_editor_absoluteY="284dp" />
 
+        <Button
+            android:id="@+id/createButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/create_game"
+            />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
