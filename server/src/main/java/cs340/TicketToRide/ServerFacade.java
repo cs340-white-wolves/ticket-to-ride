@@ -38,7 +38,7 @@ public class ServerFacade implements IServer {
     public Game createGame(AuthToken token, int numPlayers) throws Exception {
         return new CreateGameService().createGame(token, numPlayers);
     }
-    public boolean joinGame(AuthToken token, ID gameId) throws Exception {
+    public Game joinGame(AuthToken token, ID gameId) throws Exception {
         return new JoinGameService().joinGame(token, gameId);
     }
 

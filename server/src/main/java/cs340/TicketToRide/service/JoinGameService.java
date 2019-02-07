@@ -9,7 +9,7 @@ import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.utility.ID;
 
 public class JoinGameService {
-    public boolean joinGame(AuthToken token, ID gameID) throws Exception {
+    public Game joinGame(AuthToken token, ID gameID) throws Exception {
         if (token == null || gameID == null || !token.isValid() || !gameID.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -31,6 +31,11 @@ public class JoinGameService {
         }
 
         Player player = new Player(user);
-        return game.addPlayer(player);
+
+        if (!game.addPlayer(player)) {
+            throw new Exception("Error adding player to game");
+        }
+
+        return game;
     }
 }

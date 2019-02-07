@@ -12,6 +12,6 @@ public interface IServer {
     LoginRegisterResponse login(Username username, Password password) throws Exception;
     LoginRegisterResponse register(Username username, Password password) throws Exception;
     Game createGame(AuthToken token, int numPlayers) throws Exception;
-    boolean joinGame(AuthToken token, ID gameId) throws Exception;
+    Game joinGame(AuthToken token, ID gameId) throws Exception;
     Games getGameList();
 }
