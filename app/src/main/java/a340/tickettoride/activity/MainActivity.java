@@ -1,7 +1,6 @@
 package a340.tickettoride.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,89 +16,79 @@ import a340.tickettoride.presenter.MainPresenter;
 
 public class MainActivity extends AppCompatActivity implements MainPresenter.View {
     private IMainPresenter presenter;
-    private String mUsername = "";
-    private String mPassword = "";
     private Button mLoginButton;
     private Button mRegisterButton;
+    private EditText mUsernameField;
+    private EditText mPasswordField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         presenter = new MainPresenter(this);
+        findViews();
+        setButtonListeners();
+        setTextListeners();
+    }
 
-        // login button wire-up & listener
+    private void findViews() {
         mLoginButton = findViewById(R.id.loginButton);
-        mLoginButton.setEnabled(true);
+        mRegisterButton = findViewById(R.id.registerButton);
+        mUsernameField = findViewById(R.id.usernameInput);
+        mPasswordField = findViewById(R.id.passwordInput);
+    }
+
+    private void setButtonListeners() {
+        mLoginButton.setEnabled(false);
+        mRegisterButton.setEnabled(false);
+        final String usernameStr = mUsernameField.getText().toString();
+        final String passwordStr = mPasswordField.getText().toString();
+
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    presenter.login(mUsername, mPassword);
+                    presenter.login(usernameStr, passwordStr);
                 } catch (Exception ex) {
                     // handle exception (should this be handled in presenter?)
                 }
             }
         });
 
-        // register button wire-up & listener
-        mRegisterButton = findViewById(R.id.registerButton);
-        mRegisterButton.setEnabled(true);
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    presenter.register(mUsername, mPassword);
+                    presenter.register(usernameStr, passwordStr);
                 } catch (Exception ex) {
                     // handle exception (should this be handled in presenter?)
                 }
             }
         });
 
-        // username field wire-up & listener
-        EditText mUsernameField = findViewById(R.id.usernameInput);
-        mUsernameField.addTextChangedListener(new TextWatcher() {
+    }
+
+    private void setTextListeners() {
+        TextWatcher watcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mUsername = s.toString();
                 updateButtons();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
-        });
+        };
 
-        // password field wire-up & listener
-        EditText mPasswordField = findViewById(R.id.passwordInput);
-        mPasswordField.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mPassword = s.toString();
-                updateButtons();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        mUsernameField.addTextChangedListener(watcher);
+        mPasswordField.addTextChangedListener(watcher);
     }
 
     public void loggedIn() {
-        // start LobbyActivity
         Intent intent = new Intent(MainActivity.this, LobbyActivity.class);
         startActivity(intent);
     }
@@ -115,7 +104,9 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     private boolean canLogin() {
-        return (!mUsername.equals("") && !mPassword.equals(""));
+        final String usernameStr = mUsernameField.getText().toString();
+        final String passwordStr = mPasswordField.getText().toString();
+        return (!usernameStr.equals("") && !passwordStr.equals(""));
     }
 
     private void updateButtons() {

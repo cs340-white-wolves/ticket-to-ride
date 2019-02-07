@@ -1,7 +1,5 @@
 package cs340.TicketToRide.model;
 
-import cs340.TicketToRide.utility.ID;
-
 public class Player {
 
     private User user;
