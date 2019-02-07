@@ -7,47 +7,54 @@ import android.view.View;
 import android.widget.Button;
 
 import a340.tickettoride.R;
+import a340.tickettoride.presenter.ILobbyPresenter;
 import a340.tickettoride.presenter.LobbyPresenter;
 
-public class LobbyActivity extends AppCompatActivity {
-    LobbyPresenter presenter;
-    Button mCreateButton = null;
-    Button mJoinButton = null;
+public class LobbyActivity extends AppCompatActivity implements LobbyPresenter.View {
+    private Button mCreateButton = null;
+    private Button mJoinButton = null;
+
+    private ILobbyPresenter presenter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
 
-        presenter = new LobbyPresenter();
+        presenter = new LobbyPresenter(this);
 
-        // create button wire-up & listener
-        mCreateButton = findViewById(R.id.createGameButton);
-        mCreateButton.setEnabled(true);
-        mCreateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                presenter.createGame();
-            }
-        });
+        setupCreateGameButton();
+        setupJoinGameButton();
+    }
 
-        // join button wire-up & listener
+    private void setupJoinGameButton() {
         mJoinButton = findViewById(R.id.joinGameButton);
         mJoinButton.setEnabled(true);
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.joinGame();
+                presenter.onPressJoinGame();
             }
         });
     }
 
-    public void startCreateGameActivity() {
+    private void setupCreateGameButton() {
+        mCreateButton = findViewById(R.id.createGameButton);
+        mCreateButton.setEnabled(true);
+        mCreateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onPressCreateGame();
+            }
+        });
+    }
+
+    public void onPressCreateGame() {
         Intent intent = new Intent(LobbyActivity.this, CreateGameActivity.class);
         startActivity(intent);
     }
 
-    public void startJoinGameActivity() {
+    public void onPressJoinGame() {
         Intent intent = new Intent(LobbyActivity.this, JoinGameActivity.class);
         startActivity(intent);
     }

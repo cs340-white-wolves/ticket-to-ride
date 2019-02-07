@@ -6,6 +6,9 @@ import cs340.TicketToRide.communication.ICommand;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.communication.Response;
 import cs340.TicketToRide.communication.Command;
+import cs340.TicketToRide.exception.AuthenticationException;
+import cs340.TicketToRide.exception.GameFullException;
+import cs340.TicketToRide.exception.NotUniqueException;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.Games;
@@ -28,74 +31,102 @@ public class ServerProxy implements IServer {
         return singleton;
     }
 
-    public LoginRegisterResponse login(Username username, Password password) throws Exception {
-        if (username == null || password == null || !username.isValid() || !password.isValid()) {
-            throw new IllegalArgumentException();
-        }
-        Command command = new Command("login",
-                new Class<?>[]{Username.class, Password.class}, new Object[]{username, password});
-
-        Response response = communicator.sendCommand(command);
-        Object resultObject = response.getResultObject();
-        if (resultObject instanceof Exception) {
-            throw (Exception)resultObject;
-        }
-
-        return (LoginRegisterResponse)resultObject;
-    }
-
-    public LoginRegisterResponse register(Username username, Password password) throws Exception {
+    public LoginRegisterResponse login(Username username, Password password) throws AuthenticationException {
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }
 
-        Command command = new Command("register",
-                new Class<?>[]{Username.class, Password.class}, new Object[]{username, password});
+        ICommand command = new Command(
+                "login",
+                new Class<?>[]{Username.class, Password.class},
+                new Object[]{username, password}
+        );
+
         Response response = communicator.sendCommand(command);
         Object resultObject = response.getResultObject();
-        if (resultObject instanceof Exception) {
-            throw (Exception)resultObject;
+
+        if (resultObject instanceof AuthenticationException) {
+            throw (AuthenticationException) resultObject;
         }
 
+        throwIfException(resultObject);
         return (LoginRegisterResponse)resultObject;
     }
 
-    public Game createGame(AuthToken token, int numPlayers) throws Exception {
+    public LoginRegisterResponse register(Username username, Password password) throws NotUniqueException {
+        if (username == null || password == null || !username.isValid() || !password.isValid()) {
+            throw new IllegalArgumentException();
+        }
+
+        ICommand command = new Command(
+                "register",
+                new Class<?>[]{Username.class, Password.class},
+                new Object[]{username, password}
+        );
+
+        Response response = communicator.sendCommand(command);
+        Object resultObject = response.getResultObject();
+        if (resultObject instanceof NotUniqueException) {
+            throw (NotUniqueException) resultObject;
+        }
+
+        throwIfException(resultObject);
+        return (LoginRegisterResponse)resultObject;
+    }
+
+    public Game createGame(AuthToken token, int numPlayers) throws AuthenticationException {
         if (token == null || !token.isValid() || numPlayers < Game.MIN_PLAYERS || numPlayers > Game.MAX_PLAYERS) {
             throw new IllegalArgumentException();
         }
 
-        Command command = new Command("createGame",
-                new Class<?>[]{AuthToken.class, int.class}, new Object[]{token, numPlayers});
+        ICommand command = new Command(
+                "createGame",
+                new Class<?>[]{AuthToken.class, int.class},
+                new Object[]{token, numPlayers}
+        );
+
         Response response = communicator.sendCommand(command);
         Object resultObject = response.getResultObject();
-        if (resultObject instanceof Exception) {
-            throw (Exception)resultObject;
+        if (resultObject instanceof AuthenticationException) {
+            throw (AuthenticationException) resultObject;
         }
 
+        throwIfException(resultObject);
         return (Game)resultObject;
     }
 
-    public boolean joinGame(AuthToken token, ID gameId) throws Exception {
+    public Game joinGame(AuthToken token, ID gameId) throws GameFullException, AuthenticationException {
         if (token == null || gameId == null || !token.isValid() || !gameId.isValid()) {
             throw new IllegalArgumentException();
         }
 
-        Command command = new Command("joinGame",
-                new Class<?>[]{AuthToken.class, ID.class}, new Object[]{token, gameId});
+        ICommand command = new Command(
+                "joinGame",
+                new Class<?>[]{AuthToken.class, ID.class},
+                new Object[]{token, gameId}
+        );
+
         Response response = communicator.sendCommand(command);
         Object resultObject = response.getResultObject();
-        if (resultObject instanceof Exception) {
-            throw (Exception)resultObject;
+        if (resultObject instanceof GameFullException) {
+            throw (GameFullException) resultObject;
+        }
+        if (resultObject instanceof AuthenticationException) {
+            throw (AuthenticationException) resultObject;
         }
 
-        return (Boolean)resultObject;
-
-        // todo: Check if not instance of boolean?
+        throwIfException(resultObject);
+        return (Game) resultObject;
     }
 
     @Override
     public Games getGameList() {
         return null;
+    }
+
+    private void throwIfException(Object resultObject) {
+        if (resultObject instanceof Exception) {
+            throw new RuntimeException(((Exception)resultObject));
+        }
     }
 }

@@ -1,24 +1,25 @@
 package cs340.TicketToRide.model;
 
-import cs340.TicketToRide.utility.ID;
-
 public class Player {
 
-    private ID userID;
+    private User user;
 
-    public Player(ID userID) {
-        setUserID(userID);
+    public Player(User user) {
+        setUser(user);
     }
 
-    private void setUserID(ID userID) {
-        if (userID == null || !userID.isValid()) {
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        if (user == null || !user.isValid()) {
             throw new IllegalArgumentException();
         }
-
-        this.userID = userID;
+        this.user = user;
     }
 
     public boolean isValid() {
-        return userID != null && userID.isValid();
+        return user != null && user.isValid();
     }
 }

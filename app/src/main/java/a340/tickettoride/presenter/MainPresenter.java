@@ -19,21 +19,19 @@ public class MainPresenter implements Observer, IMainPresenter {
     private View view;
 
     public MainPresenter(View view) {
-        setView(view);
+        this.view = view;
     }
 
     @Override
     public void login(String usernameStr, String passStr) throws Exception {
         setUsernamePassword(usernameStr, passStr);
-        LoginTask task = new LoginTask(username, password);
-        task.execute();
+        ServiceFacade.getInstance().login(username, password);
     }
 
     @Override
     public void register(String usernameStr, String passStr) throws Exception {
         setUsernamePassword(usernameStr, passStr);
-        RegisterTask task = new RegisterTask(username, password);
-        task.execute();
+        ServiceFacade.getInstance().register(username, password);
     }
 
     @Override
@@ -71,7 +69,8 @@ public class MainPresenter implements Observer, IMainPresenter {
 
 
     public interface View {
-
+        public void onAuthenticated();
+        public void onInvalid(String errorMessage); // shows up as a toast
     }
 
 
@@ -89,13 +88,5 @@ public class MainPresenter implements Observer, IMainPresenter {
 
     public void setPassword(Password password) {
         this.password = password;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
     }
 }

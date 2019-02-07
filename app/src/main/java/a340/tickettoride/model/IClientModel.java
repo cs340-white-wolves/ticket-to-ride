@@ -8,7 +8,7 @@ public interface IClientModel {
     void onAuthenticateFail(Exception e);
     void onAuthenticateSuccess(LoginRegisterResponse token);
     AuthToken getAuthToken();
-    void onJoinGameSuccess();
+    void onJoinGameSuccess(Game game);
     void onJoinGameFail(Exception e);
     void onCreateGameSuccess(Game game);
     void onCreateGameFail(Exception e);

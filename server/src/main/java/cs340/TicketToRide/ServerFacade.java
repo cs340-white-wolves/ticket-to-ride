@@ -1,6 +1,9 @@
 package cs340.TicketToRide;
 
 import cs340.TicketToRide.communication.LoginRegisterResponse;
+import cs340.TicketToRide.exception.AuthenticationException;
+import cs340.TicketToRide.exception.GameFullException;
+import cs340.TicketToRide.exception.NotUniqueException;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.Games;
@@ -29,16 +32,16 @@ public class ServerFacade implements IServer {
         return singleton;
     }
 
-    public LoginRegisterResponse login(Username username, Password password) throws Exception {
+    public LoginRegisterResponse login(Username username, Password password) throws AuthenticationException {
         return new LoginService().login(username, password);
     }
-    public LoginRegisterResponse register(Username username, Password password) throws Exception {
+    public LoginRegisterResponse register(Username username, Password password) throws NotUniqueException {
         return new RegisterService().register(username, password);
     }
-    public Game createGame(AuthToken token, int numPlayers) throws Exception {
+    public Game createGame(AuthToken token, int numPlayers) throws AuthenticationException {
         return new CreateGameService().createGame(token, numPlayers);
     }
-    public boolean joinGame(AuthToken token, ID gameId) throws Exception {
+    public Game joinGame(AuthToken token, ID gameId) throws GameFullException, AuthenticationException {
         return new JoinGameService().joinGame(token, gameId);
     }
 

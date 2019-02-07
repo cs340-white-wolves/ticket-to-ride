@@ -12,22 +12,22 @@ public class Games {
         games = new HashSet<>();
     }
 
-    public boolean addGame(Game game) throws Exception {
+    public boolean addGame(Game game) {
         if (game == null || !game.isValid()) {
             throw new IllegalArgumentException();
         }
 
         if (games.contains(game)) {
-            throw new Exception("This game already exists");
+            throw new RuntimeException("This game already exists");
         }
 
         return games.add(game);
     }
 
-    public boolean removeGame(ID gameID) throws Exception {
+    public boolean removeGame(ID gameID) {
         Game game = getGameByID(gameID);
         if (game == null) {
-            throw new Exception("This game does not exist");
+            throw new RuntimeException("This game does not exist");
         }
 
         return games.remove(game);

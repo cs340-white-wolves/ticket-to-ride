@@ -44,8 +44,9 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
         notifyObservers(response);
     }
 
-    public void onJoinGameSuccess() {
-        notifyObservers();
+    public void onJoinGameSuccess(Game game) {
+        setActiveGame(game);
+        notifyObservers(game);
     }
 
     public void onJoinGameFail(Exception e) {
@@ -54,7 +55,7 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
 
     @Override
     public void onCreateGameSuccess(Game game) {
-//        lobbyGameList.addGame(game);
+        setActiveGame(game);
         notifyObservers(game);
     }
 
