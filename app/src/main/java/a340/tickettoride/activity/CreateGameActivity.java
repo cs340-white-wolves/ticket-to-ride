@@ -16,6 +16,10 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
     private ICreateGamePresenter presenter;
     private int numPlayers = 2;
 
+    // Since 2 players is at offset 0, this is added to the spinner offset to calculate the
+    // proper player number
+    private final int SPINNER_OFFSET = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +48,7 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                numPlayers = position + 2;
+                numPlayers = position + SPINNER_OFFSET;
             }
 
             @Override
