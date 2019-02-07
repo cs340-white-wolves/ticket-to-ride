@@ -1,5 +1,7 @@
 package cs340.TicketToRide.service;
 
+import cs340.TicketToRide.exception.AuthenticationException;
+import cs340.TicketToRide.exception.GameFullException;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.IServerModel;
@@ -9,7 +11,8 @@ import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.utility.ID;
 
 public class JoinGameService {
-    public Game joinGame(AuthToken token, ID gameID) throws Exception {
+    public Game joinGame(AuthToken token, ID gameID)
+            throws GameFullException, AuthenticationException {
         if (token == null || gameID == null || !token.isValid() || !gameID.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -17,23 +20,23 @@ public class JoinGameService {
         IServerModel model = ServerModel.getInstance();
         Game game = model.getGameByID(gameID);
         if (game == null) {
-            throw new Exception("This game does not exist");
+            throw new RuntimeException("This game does not exist");
         }
 
         if (game.hasTargetNumPlayers()) {
-            throw new Exception("This game already has its max number of players");
+            throw new GameFullException("This game already has its max number of players");
         }
 
         User user = model.getUserByAuthToken(token);
 
         if (user == null) {
-            throw new Exception("The requesting user doesn't exist");
+            throw new AuthenticationException("Invalid Auth Token");
         }
 
         Player player = new Player(user);
 
         if (!game.addPlayer(player)) {
-            throw new Exception("Error adding player to game");
+            throw new RuntimeException("Error adding player to game");
         }
 
         return game;

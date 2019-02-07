@@ -19,17 +19,17 @@ public class Game {
         gameID = ID.generateID();
     }
 
-    public boolean addPlayer(Player player) throws Exception {
+    public boolean addPlayer(Player player) {
         if (player == null || !player.isValid()) {
             throw new IllegalArgumentException();
         }
 
         if (players.contains(player)) {
-            throw new Exception("This player is already in the game");
+            throw new RuntimeException("This player is already in the game");
         }
 
         if (hasTargetNumPlayers()) {
-            throw new Exception("This game already reached its max number of players");
+            throw new RuntimeException("This game already reached its max number of players");
         }
 
         return players.add(player);

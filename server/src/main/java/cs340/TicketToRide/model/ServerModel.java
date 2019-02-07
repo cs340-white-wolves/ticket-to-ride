@@ -3,6 +3,8 @@ package cs340.TicketToRide.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import cs340.TicketToRide.exception.AuthenticationException;
+import cs340.TicketToRide.exception.NotUniqueException;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Username;
 
@@ -37,7 +39,7 @@ public class ServerModel implements IServerModel {
         return authManager.getUserByAuthToken(token);
     }
 
-    public boolean addGame(Game game) throws Exception {
+    public boolean addGame(Game game) {
         if (game == null || !game.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -71,34 +73,34 @@ public class ServerModel implements IServerModel {
         return null;
     }
 
-    public void registerUser(User user, AuthToken token) throws Exception {
+    public void registerUser(User user, AuthToken token) throws NotUniqueException {
         if (user == null || token == null || !user.isValid() || !token.isValid()) {
             throw new IllegalArgumentException();
         }
 
         if (users.contains(user)) {
-            throw new Exception("This username has already been registered");
+            throw new NotUniqueException("This username has already been registered");
         }
 
         if (authManager.getUserByAuthToken(token) != null) {
-            throw new Exception("This auth token already belongs to a user");
+            throw new RuntimeException("This auth token already belongs to a user");
         }
 
         users.add(user);
         authManager.addTokenUser(token, user);
     }
 
-    public void loginUser(User user, AuthToken token) throws Exception {
+    public void loginUser(User user, AuthToken token) throws AuthenticationException {
         if (user == null || token == null || !user.isValid() || !token.isValid()) {
             throw new IllegalArgumentException();
         }
 
         if (!users.contains(user)) {
-            throw new Exception("This username has not been registered");
+            throw new AuthenticationException("This username has not been registered");
         }
 
         if (authManager.getUserByAuthToken(token) != null) {
-            throw new Exception("This auth token already belongs to a user");
+            throw new RuntimeException("This auth token already belongs to a user");
         }
 
         authManager.addTokenUser(token, user);
