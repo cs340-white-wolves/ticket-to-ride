@@ -25,15 +25,13 @@ public class MainPresenter implements Observer, IMainPresenter {
     @Override
     public void login(String usernameStr, String passStr) throws Exception {
         setUsernamePassword(usernameStr, passStr);
-        LoginTask task = new LoginTask(username, password);
-        task.execute();
+        ServiceFacade.getInstance().login(username, password);
     }
 
     @Override
     public void register(String usernameStr, String passStr) throws Exception {
         setUsernamePassword(usernameStr, passStr);
-        RegisterTask task = new RegisterTask(username, password);
-        task.execute();
+        ServiceFacade.getInstance().register(username, password);
     }
 
     @Override
