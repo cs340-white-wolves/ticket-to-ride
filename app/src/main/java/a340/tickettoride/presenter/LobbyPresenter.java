@@ -1,16 +1,24 @@
 package a340.tickettoride.presenter;
 
 public class LobbyPresenter implements ILobbyPresenter {
+    private View view;
 
-    // todo: really these don't even need interaction w/ the presenter right? Can't the activity just start the new Activity?
-
-    @Override
-    public void createGame() {
-
+    public LobbyPresenter(View view) {
+        this.view = view;
     }
 
     @Override
-    public void joinGame() {
+    public void onPressCreateGame() {
+        view.onPressCreateGame();
+    }
 
+    @Override
+    public void onPressJoinGame() {
+        view.onPressJoinGame();
+    }
+
+    public interface View {
+        void onPressCreateGame();
+        void onPressJoinGame();
     }
 }

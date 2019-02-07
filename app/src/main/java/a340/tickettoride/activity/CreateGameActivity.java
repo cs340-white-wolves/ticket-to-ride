@@ -15,6 +15,8 @@ import a340.tickettoride.presenter.ICreateGamePresenter;
 public class CreateGameActivity extends AppCompatActivity implements CreateGamePresenter.View {
     private ICreateGamePresenter presenter;
     private int numPlayers = 2;
+    private Button mCreateButton;
+    private Spinner mSpinner;
 
     // Since 2 players is at offset 0, this is added to the spinner offset to calculate the
     // proper player number
@@ -32,9 +34,9 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
     }
 
     private void setupCreateButton() {
-        Button createButton = findViewById(R.id.createButton);
-        createButton.setEnabled(true);
-        createButton.setOnClickListener(new View.OnClickListener() {
+        mCreateButton = findViewById(R.id.createButton);
+        mCreateButton.setEnabled(true);
+        mCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 presenter.createGame(numPlayers);
@@ -43,9 +45,9 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
     }
 
     private void setupPlayerCountSpinner() {
-        Spinner spinner = findViewById(R.id.spinner);
-        spinner.setSelection(0);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinner = findViewById(R.id.spinner);
+        mSpinner.setSelection(0);
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 numPlayers = position + SPINNER_OFFSET;
@@ -58,7 +60,7 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
         });
     }
 
-    public void gameCreated() {
+    public void onGameCreated() {
         // switch to Pending activity
         Intent intent = new Intent(CreateGameActivity.this, PendingActivity.class);
         startActivity(intent);
