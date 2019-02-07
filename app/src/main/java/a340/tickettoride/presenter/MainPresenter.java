@@ -19,7 +19,7 @@ public class MainPresenter implements Observer, IMainPresenter {
     private View view;
 
     public MainPresenter(View view) {
-        setView(view);
+        this.view = view;
     }
 
     @Override
@@ -71,8 +71,8 @@ public class MainPresenter implements Observer, IMainPresenter {
 
 
     public interface View {
-        public void loggedIn();
-        public void invalid(String errorMessage); // shows up as a toast
+        public void onAuthenticated();
+        public void onInvalid(String errorMessage); // shows up as a toast
     }
 
 
@@ -90,13 +90,5 @@ public class MainPresenter implements Observer, IMainPresenter {
 
     public void setPassword(Password password) {
         this.password = password;
-    }
-
-    public View getView() {
-        return view;
-    }
-
-    public void setView(View view) {
-        this.view = view;
     }
 }

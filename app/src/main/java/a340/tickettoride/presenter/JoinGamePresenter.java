@@ -8,7 +8,7 @@ public class JoinGamePresenter implements IJoinGamePresenter {
     private View view;
 
     public JoinGamePresenter(View view) {
-        setView(view);
+        this.view = view;
     }
 
     @Override
@@ -22,10 +22,6 @@ public class JoinGamePresenter implements IJoinGamePresenter {
     }
 
     public interface View {
-        void gameJoined();
-    }
-
-    public void setView(View view) {
-        this.view = view;
+        void onGameJoined();
     }
 }

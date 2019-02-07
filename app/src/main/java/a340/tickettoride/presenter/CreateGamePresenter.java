@@ -7,7 +7,7 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     private View view;
 
     public CreateGamePresenter(View view) {
-        setView(view);
+        this.view = view;
     }
 
     @Override
@@ -21,10 +21,6 @@ public class CreateGamePresenter implements ICreateGamePresenter {
     }
 
     public interface View {
-        void gameCreated();
-    }
-
-    public void setView(View view) {
-        this.view = view;
+        void onGameCreated();
     }
 }

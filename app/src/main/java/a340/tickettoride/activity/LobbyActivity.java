@@ -7,15 +7,21 @@ import android.view.View;
 import android.widget.Button;
 
 import a340.tickettoride.R;
+import a340.tickettoride.presenter.ILobbyPresenter;
+import a340.tickettoride.presenter.LobbyPresenter;
 
-public class LobbyActivity extends AppCompatActivity {
-    Button mCreateButton = null;
-    Button mJoinButton = null;
+public class LobbyActivity extends AppCompatActivity implements LobbyPresenter.View {
+    private Button mCreateButton = null;
+    private Button mJoinButton = null;
+
+    private ILobbyPresenter presenter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lobby);
+
+        presenter = new LobbyPresenter(this);
 
         setupCreateGameButton();
         setupJoinGameButton();
@@ -27,7 +33,7 @@ public class LobbyActivity extends AppCompatActivity {
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startJoinGameActivity();
+                presenter.onPressJoinGame();
             }
         });
     }
@@ -38,17 +44,17 @@ public class LobbyActivity extends AppCompatActivity {
         mCreateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startCreateGameActivity();
+                presenter.onPressCreateGame();
             }
         });
     }
 
-    public void startCreateGameActivity() {
+    public void onPressCreateGame() {
         Intent intent = new Intent(LobbyActivity.this, CreateGameActivity.class);
         startActivity(intent);
     }
 
-    public void startJoinGameActivity() {
+    public void onPressJoinGame() {
         Intent intent = new Intent(LobbyActivity.this, JoinGameActivity.class);
         startActivity(intent);
     }

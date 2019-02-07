@@ -19,7 +19,7 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
         presenter = new JoinGamePresenter(this);
     }
 
-    public void gameJoined() {
+    public void onGameJoined() {
         // start Pending activity
         Intent intent = new Intent(JoinGameActivity.this, PendingActivity.class);
         startActivity(intent);
