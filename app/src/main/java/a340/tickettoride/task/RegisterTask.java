@@ -35,6 +35,7 @@ public class RegisterTask extends AsyncTask<Void, Integer, LoginRegisterResponse
     @Override
     protected void onPostExecute(LoginRegisterResponse response) {
         IClientModel model = ClientModel.getInstance();
+
         if (response == null) {
             model.onAuthenticateFail(exception);
             return;

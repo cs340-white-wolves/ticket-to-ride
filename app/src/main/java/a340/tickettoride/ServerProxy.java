@@ -88,7 +88,7 @@ public class ServerProxy implements IServer {
         return (Game)resultObject;
     }
 
-    public boolean joinGame(AuthToken token, ID gameId) throws Exception {
+    public Game joinGame(AuthToken token, ID gameId) throws Exception {
         if (token == null || gameId == null || !token.isValid() || !gameId.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -105,9 +105,7 @@ public class ServerProxy implements IServer {
             throw (Exception)resultObject;
         }
 
-        return (Boolean)resultObject;
-
-        // todo: Check if not instance of boolean?
+        return (Game)resultObject;
     }
 
     @Override
