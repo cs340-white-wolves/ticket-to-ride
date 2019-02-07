@@ -23,7 +23,22 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
 
         presenter = new CreateGamePresenter(this);
 
-        // numPlayers spinner wire-up and listener
+        setupPlayerCountSpinner();
+        setupCreateButton();
+    }
+
+    private void setupCreateButton() {
+        Button createButton = findViewById(R.id.createButton);
+        createButton.setEnabled(true);
+        createButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.createGame(numPlayers);
+            }
+        });
+    }
+
+    private void setupPlayerCountSpinner() {
         Spinner spinner = findViewById(R.id.spinner);
         spinner.setSelection(0);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -37,16 +52,6 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
 
             }
         });
-
-        // createGame button wire-up and listener
-//        Button mCreateButton = findViewByID(R.id.buttonid);
-//        mCreateButton.setEnabled(true);
-//        mCreateButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                presenter.createGame(numPlayers);
-//            }
-//        });
     }
 
     public void gameCreated() {

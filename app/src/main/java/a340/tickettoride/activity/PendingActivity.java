@@ -10,12 +10,13 @@ import java.util.Set;
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IPendingPresenter;
 import a340.tickettoride.presenter.PendingPresenter;
-import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.Player;
 
 public class PendingActivity extends AppCompatActivity implements PendingPresenter.View {
     private IPendingPresenter presenter;
     private Set<Player> players;
+    private TextView mGameName;
+    private TextView mPlayerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +25,19 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
 
         presenter = new PendingPresenter(this);
 
-        TextView gameName = findViewById(R.id.textView3);
-        gameName.setText(presenter.getGameName());
+        setupGameName();
+        setupPlayerList();
+    }
 
-        TextView playerList = findViewById(R.id.playerList);
+    private void setupPlayerList() {
         players = presenter.getPlayers();
-        playerList.setText(""); // sets the initial players
+        mPlayerList = findViewById(R.id.playerList);
+        mPlayerList.setText(""); // sets the initial players
+    }
+
+    private void setupGameName() {
+        mGameName = findViewById(R.id.gameNameSubtitle);
+        mGameName.setText(presenter.getGameName());
     }
 
     public void updatePlayers(Set<Player> players) {

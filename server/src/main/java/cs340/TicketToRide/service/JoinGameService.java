@@ -30,7 +30,7 @@ public class JoinGameService {
             throw new Exception("The requesting user doesn't exist");
         }
 
-        Player player = new Player(user.getUserID());
+        Player player = new Player(user);
         return game.addPlayer(player);
     }
 }
