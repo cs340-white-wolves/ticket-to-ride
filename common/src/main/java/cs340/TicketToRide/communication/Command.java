@@ -2,23 +2,47 @@ package cs340.TicketToRide.communication;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import cs340.TicketToRide.IServer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Command implements ICommand {
     private String methodName;
     private Object[] parameters;
-    private Class<?>[] parameterTypes;
+    private transient Class<?>[] parameterTypes;
+    private String[] paramTypeNames;
 
 
     public Command(String methodName, Class<?>[] paramTypes, Object[] params) {
         this.methodName = methodName;
         this.parameterTypes = paramTypes;
         this.parameters = params;
+        setParamTypeNames();
+    }
+
+    private void setParamTypeNames() {
+        List<String> names = new ArrayList<>();
+        for (Class<?> clazz: parameterTypes) {
+            names.add(clazz.getName());
+        }
+        paramTypeNames = (String[]) names.toArray();
+    }
+
+    private Class<?>[] getParameterTypes() {
+        List<Class<?>> classes = new ArrayList<>();
+        for (String name : paramTypeNames) {
+            try {
+                classes.add(Class.forName(name));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return (Class<?>[]) classes.toArray();
     }
 
     public Object execute(Object target) {
         Object result = null;
+        parameterTypes = getParameterTypes();
 
         try {
             Method method = Object.class.getMethod(methodName, parameterTypes);
