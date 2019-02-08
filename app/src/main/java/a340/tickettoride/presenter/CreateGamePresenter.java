@@ -1,10 +1,13 @@
 package a340.tickettoride.presenter;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.task.CreateGameTask;
 import cs340.TicketToRide.model.Game;
 
-public class CreateGamePresenter implements ICreateGamePresenter {
+public class CreateGamePresenter implements ICreateGamePresenter, Observer {
     private View view;
 
     public CreateGamePresenter(View view) {
@@ -18,6 +21,11 @@ public class CreateGamePresenter implements ICreateGamePresenter {
         }
 
         ServiceFacade.getInstance().createGame(numPlayers);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 
     public interface View {

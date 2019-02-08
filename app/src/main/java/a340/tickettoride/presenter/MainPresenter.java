@@ -23,13 +23,13 @@ public class MainPresenter implements Observer, IMainPresenter {
     }
 
     @Override
-    public void login(String usernameStr, String passStr) throws Exception {
+    public void login(String usernameStr, String passStr) {
         setUsernamePassword(usernameStr, passStr);
         ServiceFacade.getInstance().login(username, password);
     }
 
     @Override
-    public void register(String usernameStr, String passStr) throws Exception {
+    public void register(String usernameStr, String passStr) {
         setUsernamePassword(usernameStr, passStr);
         ServiceFacade.getInstance().register(username, password);
     }
@@ -51,7 +51,7 @@ public class MainPresenter implements Observer, IMainPresenter {
         // todo: unknown, failure
     }
 
-    private void setUsernamePassword(String usernameStr, String passStr) throws Exception {
+    private void setUsernamePassword(String usernameStr, String passStr) {
         if (usernameStr == null || passStr == null || usernameStr.equals("") || passStr.equals("")) {
             throw new IllegalArgumentException();
         }
@@ -60,10 +60,10 @@ public class MainPresenter implements Observer, IMainPresenter {
         password = new Password(passStr);
 
         if (!username.isValid()) {
-            throw new Exception("Invalid Username");
+            throw new RuntimeException("Invalid Username");
         }
         if (!password.isValid()) {
-            throw new Exception("Invalid Password");
+            throw new RuntimeException("Invalid Password");
         }
     }
 

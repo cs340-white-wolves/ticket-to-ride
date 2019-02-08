@@ -1,10 +1,12 @@
 package a340.tickettoride.presenter;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
 import cs340.TicketToRide.model.Player;
 
-public class PendingPresenter implements IPendingPresenter {
+public class PendingPresenter implements IPendingPresenter, Observer {
     private View view;
 
     public PendingPresenter(View view) {
@@ -23,6 +25,11 @@ public class PendingPresenter implements IPendingPresenter {
         // return the set of players (usernames) in the active game
 
         return null;
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 
     public interface View {
