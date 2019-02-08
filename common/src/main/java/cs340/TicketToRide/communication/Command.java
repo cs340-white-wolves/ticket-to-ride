@@ -22,7 +22,7 @@ public class Command implements ICommand {
     private void setParamTypeNames() {
         List<String> names = new ArrayList<>();
         for (Class<?> clazz: parameterTypes) {
-            names.add(clazz.getSimpleName());
+            names.add(clazz.getName());
         }
         paramTypeNames = names.toArray(new String[0]);
     }
