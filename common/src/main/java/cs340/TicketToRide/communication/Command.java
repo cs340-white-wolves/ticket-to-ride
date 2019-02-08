@@ -24,7 +24,7 @@ public class Command implements ICommand {
         for (Class<?> clazz: parameterTypes) {
             names.add(clazz.getName());
         }
-        paramTypeNames = (String[]) names.toArray();
+        paramTypeNames = names.toArray(new String[0]);
     }
 
     private Class<?>[] getParameterTypes() {
