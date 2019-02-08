@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 public class Response {
     private String jsonString;
     private String className;
-    private Gson gson = new Gson();
+    private transient Gson gson = new Gson();
 
     public Response(Object object, String className) {
         setJsonString(object);
@@ -14,6 +14,9 @@ public class Response {
 
     public Object getResultObject() {
         Class<?> clazz = null;
+        if (gson == null) {
+            gson = new Gson();
+        }
         try {
             clazz = Class.forName(className);
         } catch (ClassNotFoundException e) {
