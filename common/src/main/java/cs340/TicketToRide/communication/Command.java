@@ -42,6 +42,7 @@ public class Command implements ICommand {
 
     public Object execute(Object target) {
         Object result = null;
+        parameterTypes = getParameterTypes();
 
         try {
             Method method = Object.class.getMethod(methodName, parameterTypes);
