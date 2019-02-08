@@ -1,5 +1,7 @@
 package cs340.TicketToRide.model;
 
+import com.google.gson.Gson;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,24 +9,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameTest {
-
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
-    void addPlayer() {
-    }
+    void serializable() throws Exception {
+        Gson gson = new Gson();
 
-    @Test
-    void isValid() {
-    }
+        Game game = new Game(5);
+        String json = gson.toJson(game);
+        Game game2 = gson.fromJson(json, Game.class);
 
-    @Test
-    void hasTargetNumPlayers() {
+        assertEquals(game, game2);
     }
 }

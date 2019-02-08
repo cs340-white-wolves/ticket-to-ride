@@ -1,5 +1,7 @@
 package cs340.TicketToRide.model;
 
+import com.google.gson.Gson;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,24 +9,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AuthTokenTest {
-
-    @BeforeEach
-    void setUp() {
-    }
-
-    @AfterEach
-    void tearDown() {
-    }
-
     @Test
-    void isValid() {
-    }
+    void serializable() throws Exception {
+        Gson gson = new Gson();
 
-    @Test
-    void equals() {
-    }
+        AuthToken origToken = AuthToken.generateToken();
+        String json = gson.toJson(origToken);
+        AuthToken desToken = gson.fromJson(json, AuthToken.class);
 
-    @Test
-    void generateToken() {
+        assertEquals(origToken, desToken);
     }
 }
