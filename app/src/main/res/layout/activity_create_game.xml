@@ -25,11 +25,11 @@
         tools:text="@string/login_title" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/rectangle"
         android:gravity="center"
         android:orientation="vertical"
@@ -52,27 +52,23 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="244dp" />
 
-        <TextView
-            android:id="@+id/numberPlayers"
+
+        <Spinner
+            android:id="@+id/spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
-
-        <SeekBar
-            android:id="@+id/seekBar"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="5"
-            android:progress="2" />
-
+            android:backgroundTint="@color/DarkBrown"
+            android:spinnerMode="dialog" />
 
         <Button
             android:id="@+id/createButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/Red"
+            android:fontFamily="@font/shangiri"
             android:text="@string/create_game"
-            />
+            android:textColor="@color/Gold" />
 
     </LinearLayout>
 
