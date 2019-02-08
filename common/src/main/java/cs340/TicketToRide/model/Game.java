@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import cs340.TicketToRide.utility.ID;
+import cs340.TicketToRide.utility.Username;
 
 public class Game {
     public static final int MIN_PLAYERS = 2;
@@ -12,11 +13,13 @@ public class Game {
     private int targetNumPlayers;
     private Set<Player> players;
     private ID gameID;
+    private Username creator;
 
-    public Game(int targetNumPlayers) {
+    public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);
         players = new HashSet<>();
         gameID = ID.generateID();
+        setCreator(creator);
     }
 
     public boolean addPlayer(Player player) {
@@ -69,5 +72,16 @@ public class Game {
         }
 
         this.targetNumPlayers = targetNumPlayers;
+    }
+
+    public Username getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Username creator) {
+        if (creator == null || !creator.isValid()) {
+            throw new IllegalArgumentException();
+        }
+        this.creator = creator;
     }
 }
