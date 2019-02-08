@@ -1,5 +1,7 @@
 package a340.tickettoride.communication;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -31,8 +33,8 @@ public class ClientCommunicator {
     }
 
     public Response sendCommand(ICommand commandToSend) {
-
-        final String TARGET_RECIPIENT = "http://10.0.2.2:8080/command";
+        Log.d("Comm", "in send command");
+        final String TARGET_RECIPIENT = "https://10.0.2.2:8080/command";
         Response result = null;
         HttpURLConnection connection;
 
@@ -55,6 +57,7 @@ public class ClientCommunicator {
             e.printStackTrace();
         }
 
+        Log.d("Comm", "about to result");
         return result;
     }
 

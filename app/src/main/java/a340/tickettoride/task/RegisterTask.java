@@ -1,6 +1,7 @@
 package a340.tickettoride.task;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import a340.tickettoride.ServerProxy;
 import a340.tickettoride.model.ClientModel;
@@ -22,6 +23,7 @@ public class RegisterTask extends AsyncTask<Void, Integer, LoginRegisterResponse
 
     @Override
     protected LoginRegisterResponse doInBackground(Void... voids) {
+        Log.d("RegisterTask", "in do in background");
         IServer server = ServerProxy.getInstance();
         try {
             return server.register(username, password);

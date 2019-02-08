@@ -1,5 +1,7 @@
 package a340.tickettoride.presenter;
 
+import android.util.Log;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -30,6 +32,7 @@ public class MainPresenter implements Observer, IMainPresenter {
 
     @Override
     public void register(String usernameStr, String passStr) {
+        Log.d("MainPresenter", "in register");
         setUsernamePassword(usernameStr, passStr);
         ServiceFacade.getInstance().register(username, password);
     }

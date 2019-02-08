@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         mUsernameField = findViewById(R.id.usernameInput);
         mPasswordField = findViewById(R.id.passwordInput);
         mErrorMessage = findViewById(R.id.errorMessage);
-
     }
 
     private void setButtonListeners() {
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("MainActivity", "In on click");
                 final String usernameStr = mUsernameField.getText().toString();
                 final String passwordStr = mPasswordField.getText().toString();
                 presenter.register(usernameStr, passwordStr);
