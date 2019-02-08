@@ -37,6 +37,7 @@ public class Handler implements HttpHandler{
             Response response = new Response(obj, obj.getClass().getName());
             String jsonStr = gson.toJson(response);
 
+            System.out.println(jsonStr);
             httpExchange.sendResponseHeaders(200, jsonStr.length());
 
             osw.write(jsonStr);
@@ -53,7 +54,7 @@ public class Handler implements HttpHandler{
         InputStreamReader reqSR = new InputStreamReader(requestBody);
 
         try {
-            return gson.fromJson(reqSR, Command.class);
+            return new Command(reqSR);
         }
         catch (JsonParseException e) {
             Logger.logger.log(Level.WARNING, e.getMessage(), e);

@@ -23,7 +23,7 @@ public class ServerCommunicator {
             return;
         }
 
-        server.setExecutor(null);
+//        server.setExecutor(null);
 
         Logger.logger.info("Creating context");
         server.createContext(PATH_COMMAND, new Handler());

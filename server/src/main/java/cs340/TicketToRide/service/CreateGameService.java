@@ -23,7 +23,7 @@ public class CreateGameService {
             throw new AuthenticationException("Invalid Auth Token");
         }
 
-        Game game = new Game(numPlayers);
+        Game game = new Game(numPlayers, user.getUsername());
         Player player = new Player(user);
 
         if (!model.addGame(game)) {

@@ -40,7 +40,7 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
     public void onAuthenticateSuccess(LoginRegisterResponse response) {
         setAuthToken(response.getToken());
         setLoggedInUser(response.getUser());
-//        startPoller();
+// todo:        startPoller();
         notifyObservers(response);
     }
 

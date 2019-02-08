@@ -18,6 +18,7 @@ import cs340.TicketToRide.communication.Command;
 
 public class ClientCommunicator {
 
+    public static final String POST = "POST";
     private static ClientCommunicator SINGLETON = null;
     private Gson gson = new Gson();
 
@@ -34,7 +35,7 @@ public class ClientCommunicator {
 
     public Response sendCommand(ICommand commandToSend) {
         Log.d("Comm", "in send command");
-        final String TARGET_RECIPIENT = "https://10.0.2.2:8080/command";
+        final String TARGET_RECIPIENT = "http://10.0.2.2:8080/command";
         Response result = null;
         HttpURLConnection connection;
 
@@ -42,17 +43,14 @@ public class ClientCommunicator {
             //Open the connection to the server
             connection = openConnection(TARGET_RECIPIENT);
 
-            //Write the request object
+            connection.connect();
             serializeCommand(connection, commandToSend);
 
-            //Send and receive data
-            connection.connect();
-
-            //Read the response
             result = deserializeResponse(connection);
 
 
         } catch (IOException e) {
+            Log.d("Comm", "IO here");
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
@@ -64,6 +62,7 @@ public class ClientCommunicator {
     private HttpURLConnection openConnection(String recipient) throws IOException {
         URL url = new URL(recipient);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod(POST);
         connection.setConnectTimeout(5000);
         connection.setDoOutput(true);
         return connection;

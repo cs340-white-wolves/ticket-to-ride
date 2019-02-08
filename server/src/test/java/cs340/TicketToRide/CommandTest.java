@@ -11,7 +11,7 @@ public class CommandTest {
 
     @Test
     void execute() {
-        Class<?>[] paramTypes = {Username.class, Password.class};
+        String[] paramTypes = {Username.class.getName(), Password.class.getName()};
         Object[] params = {new Username("nate"), new Password("1234")};
         Command command = new Command("login", paramTypes, params);
         Object result = command.execute(ServerFacade.getInstance());
