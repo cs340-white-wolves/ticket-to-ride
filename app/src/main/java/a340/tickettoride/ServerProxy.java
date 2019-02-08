@@ -40,7 +40,7 @@ public class ServerProxy implements IServer {
 
         ICommand command = new Command(
                 "login",
-                new Class<?>[]{Username.class, Password.class},
+                new String[]{Username.class.getName(), Password.class.getName()},
                 new Object[]{username, password}
         );
 
@@ -63,7 +63,7 @@ public class ServerProxy implements IServer {
 
         ICommand command = new Command(
                 "register",
-                new Class<?>[]{Username.class, Password.class},
+                new String[]{Username.class.getName(), Password.class.getName()},
                 new Object[]{username, password}
         );
         Log.d("ServerProxy", "later in register");
@@ -85,7 +85,7 @@ public class ServerProxy implements IServer {
 
         ICommand command = new Command(
                 "createGame",
-                new Class<?>[]{AuthToken.class, int.class},
+                new String[]{AuthToken.class.getName(), int.class.getName()},
                 new Object[]{token, numPlayers}
         );
 
@@ -106,7 +106,7 @@ public class ServerProxy implements IServer {
 
         ICommand command = new Command(
                 "joinGame",
-                new Class<?>[]{AuthToken.class, ID.class},
+                new String[]{AuthToken.class.getName(), ID.class.getName()},
                 new Object[]{token, gameId}
         );
 
