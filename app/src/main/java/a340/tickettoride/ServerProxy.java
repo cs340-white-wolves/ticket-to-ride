@@ -1,5 +1,7 @@
 package a340.tickettoride;
 
+import android.util.Log;
+
 import a340.tickettoride.communication.ClientCommunicator;
 import cs340.TicketToRide.IServer;
 import cs340.TicketToRide.communication.ICommand;
@@ -54,6 +56,7 @@ public class ServerProxy implements IServer {
     }
 
     public LoginRegisterResponse register(Username username, Password password) throws NotUniqueException {
+        Log.d("ServerProxy", "in register");
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }

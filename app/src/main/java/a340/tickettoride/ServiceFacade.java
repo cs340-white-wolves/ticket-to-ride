@@ -1,5 +1,7 @@
 package a340.tickettoride;
 
+import android.util.Log;
+
 import a340.tickettoride.task.CreateGameTask;
 import a340.tickettoride.task.JoinGameTask;
 import a340.tickettoride.task.LoginTask;
@@ -36,6 +38,7 @@ public class ServiceFacade {
     }
 
     public void register(Username username, Password password) {
+        Log.d("ServiceFacade", "in register");
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }

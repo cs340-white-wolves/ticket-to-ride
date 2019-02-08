@@ -3,10 +3,12 @@ package a340.tickettoride.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IJoinGamePresenter;
 import a340.tickettoride.presenter.JoinGamePresenter;
-
 
 public class JoinGameActivity extends AppCompatActivity implements JoinGamePresenter.View {
     private IJoinGamePresenter presenter;
@@ -17,6 +19,13 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
         setContentView(R.layout.activity_join_game);
 
         presenter = new JoinGamePresenter(this);
+        setupRecyclerView();
+    }
+
+    private void setupRecyclerView() {
+        RecyclerView gameListRecycler = findViewById(R.id.gameListRecycler);
+        gameListRecycler.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
     public void onGameJoined() {
@@ -24,4 +33,5 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
         Intent intent = new Intent(JoinGameActivity.this, PendingActivity.class);
         startActivity(intent);
     }
+
 }

@@ -1,6 +1,9 @@
 package a340.tickettoride.presenter;
 
-public class LobbyPresenter implements ILobbyPresenter {
+import java.util.Observable;
+import java.util.Observer;
+
+public class LobbyPresenter implements ILobbyPresenter, Observer {
     private View view;
 
     public LobbyPresenter(View view) {
@@ -15,6 +18,11 @@ public class LobbyPresenter implements ILobbyPresenter {
     @Override
     public void onPressJoinGame() {
         view.onPressJoinGame();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+
     }
 
     public interface View {

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,34 +40,28 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         mUsernameField = findViewById(R.id.usernameInput);
         mPasswordField = findViewById(R.id.passwordInput);
         mErrorMessage = findViewById(R.id.errorMessage);
-
     }
 
     private void setButtonListeners() {
         mLoginButton.setEnabled(false);
         mRegisterButton.setEnabled(false);
-        final String usernameStr = mUsernameField.getText().toString();
-        final String passwordStr = mPasswordField.getText().toString();
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    presenter.login(usernameStr, passwordStr);
-                } catch (Exception ex) {
-                    // handle exception (should this be handled in presenter?)
-                }
+                final String usernameStr = mUsernameField.getText().toString();
+                final String passwordStr = mPasswordField.getText().toString();
+                presenter.login(usernameStr, passwordStr);
             }
         });
 
         mRegisterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    presenter.register(usernameStr, passwordStr);
-                } catch (Exception ex) {
-                    // handle exception (should this be handled in presenter?)
-                }
+                Log.d("MainActivity", "In on click");
+                final String usernameStr = mUsernameField.getText().toString();
+                final String passwordStr = mPasswordField.getText().toString();
+                presenter.register(usernameStr, passwordStr);
             }
         });
 
@@ -93,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     public void onAuthenticated() {
-        // start LobbyActivity
         Intent intent = new Intent(MainActivity.this, LobbyActivity.class);
         startActivity(intent);
     }
