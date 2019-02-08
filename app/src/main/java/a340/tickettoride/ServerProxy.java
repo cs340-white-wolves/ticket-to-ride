@@ -66,6 +66,7 @@ public class ServerProxy implements IServer {
                 new Class<?>[]{Username.class, Password.class},
                 new Object[]{username, password}
         );
+        Log.d("ServerProxy", "later in register");
 
         Response response = communicator.sendCommand(command);
         Object resultObject = response.getResultObject();
