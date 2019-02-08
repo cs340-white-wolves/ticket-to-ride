@@ -3,8 +3,6 @@ package cs340.TicketToRide.communication;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import cs340.TicketToRide.IServer;
-
 public class Command implements ICommand {
     private String methodName;
     private Object[] parameters;
