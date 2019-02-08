@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import a340.tickettoride.R;
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     private Button mRegisterButton;
     private EditText mUsernameField;
     private EditText mPasswordField;
+    private TextView mErrorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         mRegisterButton = findViewById(R.id.registerButton);
         mUsernameField = findViewById(R.id.usernameInput);
         mPasswordField = findViewById(R.id.passwordInput);
+        mErrorMessage = findViewById(R.id.errorMessage);
+
     }
 
     private void setButtonListeners() {

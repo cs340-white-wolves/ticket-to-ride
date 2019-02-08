@@ -25,14 +25,15 @@
         tools:text="@string/login_title" />
 
     <LinearLayout
-        android:layout_width="395dp"
-        android:layout_height="137dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/rectangle"
         android:gravity="center"
         android:orientation="vertical"
+        android:padding="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/createGameTitle">
@@ -51,22 +52,23 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="244dp" />
 
+
         <Spinner
             android:id="@+id/spinner"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/players"
-            android:spinnerMode="dropdown"
-            app:layout_constraintEnd_toEndOf="@+id/textView5"
-            app:layout_constraintStart_toStartOf="@+id/textView5"
-            tools:layout_editor_absoluteY="284dp" />
+            android:backgroundTint="@color/DarkBrown"
+            android:spinnerMode="dialog" />
 
         <Button
             android:id="@+id/createButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/Red"
+            android:fontFamily="@font/shangiri"
             android:text="@string/create_game"
-            />
+            android:textColor="@color/Gold" />
 
     </LinearLayout>
 
