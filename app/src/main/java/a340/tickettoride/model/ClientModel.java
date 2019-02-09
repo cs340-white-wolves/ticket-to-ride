@@ -30,6 +30,7 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
 
     public void onPollComplete(Games lobbyGameList) {
         setLobbyGameList(lobbyGameList);
+        setChanged();
         notifyObservers(lobbyGameList);
     }
 
@@ -48,21 +49,25 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
 
     public void onJoinGameSuccess(Game game) {
         setActiveGame(game);
+        setChanged();
         notifyObservers(game);
     }
 
     public void onJoinGameFail(Exception e) {
+        setChanged();
         notifyObservers(e);
     }
 
     @Override
     public void onCreateGameSuccess(Game game) {
         setActiveGame(game);
+        setChanged();
         notifyObservers(game);
     }
 
     @Override
     public void onCreateGameFail(Exception e) {
+        setChanged();
         notifyObservers(e);
     }
 

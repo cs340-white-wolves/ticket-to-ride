@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IJoinGamePresenter;
@@ -33,5 +34,17 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
         Intent intent = new Intent(JoinGameActivity.this, PendingActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    public void onInvalid(String errorMessage) {
+        showMessage(errorMessage); // toast indicating what went wrong
+    }
+
+    private void showMessage(String message) {
+        Toast.makeText(this,
+                message,
+                Toast.LENGTH_SHORT).show();
+    }
+
 
 }

@@ -4,12 +4,14 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import a340.tickettoride.model.ClientModel;
 import cs340.TicketToRide.model.Player;
 
 public class PendingPresenter implements IPendingPresenter, Observer {
     private View view;
 
     public PendingPresenter(View view) {
+        ClientModel.getInstance().addObserver(this);
         this.view = view;
     }
 
