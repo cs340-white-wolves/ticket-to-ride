@@ -34,6 +34,7 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
     }
 
     public void onAuthenticateFail(Exception e) {
+        setChanged();
         notifyObservers(e);
     }
 
@@ -41,6 +42,7 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
         setAuthToken(response.getToken());
         setLoggedInUser(response.getUser());
 // todo:        startPoller();
+        setChanged();
         notifyObservers(response);
     }
 
