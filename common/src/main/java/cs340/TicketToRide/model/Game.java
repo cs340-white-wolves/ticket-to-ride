@@ -38,6 +38,10 @@ public class Game {
         return players.add(player);
     }
 
+    public Set<Player> getPlayers() {
+        return players;
+    }
+
     public boolean isValid() {
         if (targetNumPlayers < MIN_PLAYERS || targetNumPlayers > MAX_PLAYERS) {
             return false;
@@ -84,4 +88,5 @@ public class Game {
         }
         this.creator = creator;
     }
+
 }

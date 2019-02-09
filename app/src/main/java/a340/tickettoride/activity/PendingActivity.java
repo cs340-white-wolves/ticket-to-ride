@@ -43,7 +43,7 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
     }
 
     public void onUpdatePlayers(Set<Player> players) {
-        // update list of players
+        // TODO: update list of players
     }
 
     public void onGameStarting() { // this will be implemented in the next phase
