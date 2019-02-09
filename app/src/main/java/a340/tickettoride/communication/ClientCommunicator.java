@@ -53,6 +53,7 @@ public class ClientCommunicator {
             Log.d("Comm", "IO here");
             System.out.println(e.getMessage());
             e.printStackTrace();
+            result = new Response(e, "IOException");
         }
 
         Log.d("Comm", "about to result");
