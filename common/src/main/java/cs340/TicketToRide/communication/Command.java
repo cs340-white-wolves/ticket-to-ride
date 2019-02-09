@@ -4,6 +4,8 @@ package cs340.TicketToRide.communication;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Objects;
 
 import com.google.gson.Gson;
 
@@ -24,11 +26,15 @@ public class Command implements ICommand {
     }
 
     public Command(InputStreamReader inputStreamReader) {
-        Command tempCommand = (Command)gson.fromJson(inputStreamReader, Command.class);
+        Command tempCommand = gson.fromJson(inputStreamReader, Command.class);
 
         methodName = tempCommand.getMethodName();
         parameterTypeNames = tempCommand.getParameterTypeNames();
         parametersAsJsonStrings = tempCommand.getParametersAsJsonStrings();
+        populateParameterStuff();
+    }
+
+    private void populateParameterStuff() {
         parameterTypes = createParameterTypes();
         parameters = new Object[parametersAsJsonStrings.length];
         for(int i = 0; i < parametersAsJsonStrings.length; i++) {
@@ -89,6 +95,10 @@ public class Command implements ICommand {
 
     //Commands
     public Object execute(Object target) {
+        if (parameters == null || parameterTypes == null) {
+            populateParameterStuff();
+        }
+
         Object result = null;
 
         try {
@@ -98,14 +108,15 @@ public class Command implements ICommand {
             System.out.println("ERROR: Could not find the method " + methodName + ", or, there was a security error");
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            System.err.println("Illegal accesss while trying to execute the method " + methodName);
+            System.err.println("Illegal access while trying to execute the method " + methodName);
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
             System.out.println("ERROR: Illegal argument while trying to find the method " + methodName);
             e.printStackTrace();
         } catch (InvocationTargetException e) {
-            System.err.println("Illegal accesss while trying to execute the method " + methodName);
+            System.out.println("INFO: Exception thrown when executing command for " + methodName);
             e.printStackTrace();
+            return e;
         }
 
         return result;
@@ -158,6 +169,28 @@ public class Command implements ICommand {
             default:
                 result = Class.forName(className);
         }
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Command command = (Command) o;
+        return Objects.equals(methodName, command.methodName) &&
+                Arrays.equals(parameterTypeNames, command.parameterTypeNames) &&
+                Arrays.equals(parametersAsJsonStrings, command.parametersAsJsonStrings) &&
+                Arrays.equals(parameters, command.parameters) &&
+                Arrays.equals(parameterTypes, command.parameterTypes);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(methodName);
+        result = 31 * result + Arrays.hashCode(parameterTypeNames);
+        result = 31 * result + Arrays.hashCode(parametersAsJsonStrings);
+        result = 31 * result + Arrays.hashCode(parameters);
+        result = 31 * result + Arrays.hashCode(parameterTypes);
         return result;
     }
 }
