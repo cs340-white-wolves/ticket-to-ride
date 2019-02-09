@@ -93,14 +93,15 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     }
 
     public void onInvalid(String errorMessage) {
-        showMessage(errorMessage); // toast indicating what went wrong
+        mErrorMessage.setText(errorMessage);
+//        showMessage(errorMessage); // toast indicating what went wrong
     }
 
-    private void showMessage(String message) {
-        Toast.makeText(this,
-                message,
-                Toast.LENGTH_SHORT).show();
-    }
+//    private void showMessage(String message) {
+//        Toast.makeText(this,
+//                message,
+//                Toast.LENGTH_SHORT).show();
+//    }
 
     private boolean canLogin() {
         final String usernameStr = mUsernameField.getText().toString();
