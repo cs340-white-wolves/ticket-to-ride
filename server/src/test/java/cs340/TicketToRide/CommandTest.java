@@ -7,23 +7,30 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import cs340.TicketToRide.communication.Command;
-import cs340.TicketToRide.model.AuthToken;
+import cs340.TicketToRide.model.ServerModel;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
 public class CommandTest {
 
+    private ServerModel serverModel = ServerModel.getInstance();
+    private ServerFacade serverFacade = ServerFacade.getInstance();
+
     @Test
     public void executeRegisterLocal() throws Exception {
+        serverModel.clear();
+
         String[] paramTypes = {Username.class.getName(), Password.class.getName()};
         Object[] params = {new Username("nate"), new Password("1234")};
         Command command = new Command("register", paramTypes, params);
-        Object result = command.execute(ServerFacade.getInstance());
+        Object result = command.execute(serverFacade);
         assertNotNull(result);
     }
 
     @Test
     public void executeRegisterRemote() throws Exception {
+        serverModel.clear();
+
         String[] paramTypes = {Username.class.getName(), Password.class.getName()};
         Object[] params = {new Username("nate"), new Password("1234")};
         Command command = new Command("register", paramTypes, params);
