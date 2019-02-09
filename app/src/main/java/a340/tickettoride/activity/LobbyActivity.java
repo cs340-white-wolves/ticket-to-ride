@@ -11,10 +11,10 @@ import a340.tickettoride.presenter.ILobbyPresenter;
 import a340.tickettoride.presenter.LobbyPresenter;
 
 public class LobbyActivity extends AppCompatActivity implements LobbyPresenter.View {
-    private Button mCreateButton = null;
-    private Button mJoinButton = null;
+    private ILobbyPresenter presenter;
+    private Button mCreateButton;
+    private Button mJoinButton;
 
-    private ILobbyPresenter presenter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
