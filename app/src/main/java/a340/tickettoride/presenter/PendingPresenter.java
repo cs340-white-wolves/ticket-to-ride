@@ -4,7 +4,12 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import a340.tickettoride.model.ClientModel;
+import a340.tickettoride.model.IClientModel;
+import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.Player;
+import cs340.TicketToRide.utility.ID;
 
 public class PendingPresenter implements IPendingPresenter, Observer {
     private View view;
@@ -29,7 +34,21 @@ public class PendingPresenter implements IPendingPresenter, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        // TODO: right now, this is using the entire game list. We should switch to only polling the active game.
+        if (arg instanceof Games) {
+            Games games = (Games) arg;
 
+            ClientModel model = ClientModel.getInstance();
+            ID gameId = model.getActiveGame().getGameID();
+
+            Game game = games.getGameByID(gameId);
+
+            view.onUpdatePlayers(game.getPlayers());
+
+            if (game.hasTargetNumPlayers()) {
+                view.onGameStarting();
+            }
+        }
     }
 
     public interface View {

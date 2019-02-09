@@ -25,7 +25,7 @@ public class CreateGamePresenter implements ICreateGamePresenter, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        // Nothing to observe right now
     }
 
     public interface View {

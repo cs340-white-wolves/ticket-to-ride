@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IJoinGamePresenter;
 import a340.tickettoride.presenter.JoinGamePresenter;
+import cs340.TicketToRide.model.Games;
 
 public class JoinGameActivity extends AppCompatActivity implements JoinGamePresenter.View {
     private IJoinGamePresenter presenter;
@@ -25,13 +26,22 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
     private void setupRecyclerView() {
         RecyclerView gameListRecycler = findViewById(R.id.gameListRecycler);
         gameListRecycler.setLayoutManager(new LinearLayoutManager(this));
-
     }
 
     public void onGameJoined() {
         // start Pending activity
         Intent intent = new Intent(JoinGameActivity.this, PendingActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onGameJoinFail(String msg) {
+        // TODO: Show error message
+    }
+
+    @Override
+    public void onGameListUpdate(Games games) {
+        // TODO: Update recycler view with new game list
     }
 
 }

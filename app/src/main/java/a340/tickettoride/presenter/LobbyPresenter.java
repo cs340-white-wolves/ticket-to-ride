@@ -22,7 +22,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        // Nothing to observe yet
     }
 
     public interface View {
