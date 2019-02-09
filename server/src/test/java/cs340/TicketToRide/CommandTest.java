@@ -1,5 +1,7 @@
 package cs340.TicketToRide;
 
+import com.google.gson.Gson;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,16 +14,29 @@ import cs340.TicketToRide.utility.Username;
 public class CommandTest {
 
     @Test
-    void execute() {
+    public void executeRegisterLocal() throws Exception {
         String[] paramTypes = {Username.class.getName(), Password.class.getName()};
         Object[] params = {new Username("nate"), new Password("1234")};
-        Command command = new Command("login", paramTypes, params);
+        Command command = new Command("register", paramTypes, params);
         Object result = command.execute(ServerFacade.getInstance());
-        if (result instanceof Throwable) {
-            System.out.println(((Throwable)result).getMessage());
-            return;
-        }
-        AuthToken token = (AuthToken)result;
-        System.out.println(token.toString());
+        assertNotNull(result);
+    }
+
+    @Test
+    public void executeRegisterRemote() throws Exception {
+        String[] paramTypes = {Username.class.getName(), Password.class.getName()};
+        Object[] params = {new Username("nate"), new Password("1234")};
+        Command command = new Command("register", paramTypes, params);
+
+        // Pretend to send over network (serialize and deserialize)
+        Gson gson = new Gson();
+        String json = gson.toJson(command);
+        Command cmd2 = gson.fromJson(json, Command.class);
+
+        assertEquals(command, cmd2);
+
+        Object result = cmd2.execute(ServerFacade.getInstance());
+
+        assertNotNull(result);
     }
 }
