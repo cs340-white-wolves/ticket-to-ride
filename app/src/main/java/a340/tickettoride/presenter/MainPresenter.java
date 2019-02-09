@@ -6,9 +6,12 @@ import java.util.Observable;
 import java.util.Observer;
 
 import a340.tickettoride.ServiceFacade;
+import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.task.LoginTask;
 import a340.tickettoride.task.RegisterTask;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
+import cs340.TicketToRide.exception.AuthenticationException;
+import cs340.TicketToRide.exception.NotUniqueException;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
@@ -21,6 +24,7 @@ public class MainPresenter implements Observer, IMainPresenter {
     private View view;
 
     public MainPresenter(View view) {
+        ClientModel.getInstance().addObserver(this);
         this.view = view;
     }
 
@@ -41,17 +45,24 @@ public class MainPresenter implements Observer, IMainPresenter {
     public void update(Observable o, Object arg) {
 
         if (arg instanceof LoginRegisterResponse) {
-            LoginRegisterResponse response = (LoginRegisterResponse)arg;
-            // todo: success
+            view.onAuthenticated();
+            return;
+        }
+
+        // todo: how do we want to handle the diff cases?
+        if (arg instanceof NotUniqueException || arg instanceof AuthenticationException) {
+            Exception exception = (Exception)arg;
+            view.onInvalid(exception.getMessage());
             return;
         }
 
         if (arg instanceof Exception) {
-            // todo: fail
+            Exception exception = (Exception)arg;
+            view.onInvalid(exception.getMessage());
             return;
         }
 
-        // todo: unknown, failure
+        view.onInvalid("Unknown Error");
     }
 
     private void setUsernamePassword(String usernameStr, String passStr) {
