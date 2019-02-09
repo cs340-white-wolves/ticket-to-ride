@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.Player;
 
 public class PendingPresenter implements IPendingPresenter, Observer {
@@ -14,15 +15,8 @@ public class PendingPresenter implements IPendingPresenter, Observer {
     }
 
     @Override
-    public String getGameName() {
+    public Game getPendingGame() {
         // return the name of the active game
-
-        return null;
-    }
-
-    @Override
-    public Set<Player> getPlayers() {
-        // return the set of players (usernames) in the active game
 
         return null;
     }
@@ -33,7 +27,7 @@ public class PendingPresenter implements IPendingPresenter, Observer {
     }
 
     public interface View {
-        void onUpdatePlayers(Set<Player> players);
+        void onUpdateGame(Game updatedGame);
         void onGameStarting();
     }
 }

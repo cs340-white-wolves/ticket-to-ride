@@ -58,6 +58,10 @@ public class Game {
         return gameID;
     }
 
+    public Set<Player> getPlayers() {
+        return players;
+    }
+
     public int getTargetNumPlayers() {
         return targetNumPlayers;
     }

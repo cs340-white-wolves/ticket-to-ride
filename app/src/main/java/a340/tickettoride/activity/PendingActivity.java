@@ -10,15 +10,14 @@ import java.util.Set;
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IPendingPresenter;
 import a340.tickettoride.presenter.PendingPresenter;
+import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.Player;
 
 public class PendingActivity extends AppCompatActivity implements PendingPresenter.View {
     private IPendingPresenter presenter;
-
     private TextView mGameName;
     private TextView mPlayerList;
-
-    private Set<Player> players;
+    private Game pendingGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,23 +25,39 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
         setContentView(R.layout.activity_pending);
 
         presenter = new PendingPresenter(this);
+        pendingGame = presenter.getPendingGame();
 
+        findViews();
         setupGameName();
         setupPlayerList();
     }
 
-    private void setupPlayerList() {
-        players = presenter.getPlayers();
+    private void findViews() {
+        mGameName = findViewById(R.id.gameNameSubtitle);
         mPlayerList = findViewById(R.id.playerList);
-        mPlayerList.setText(""); // sets the initial players
     }
 
     private void setupGameName() {
-        mGameName = findViewById(R.id.gameNameSubtitle);
-        mGameName.setText(presenter.getGameName());
+        String gameName = pendingGame.getCreator() + "\'s game";
+        mGameName.setText(gameName);
     }
 
-    public void onUpdatePlayers(Set<Player> players) {
+    private void setupPlayerList() {
+        // get player list string
+        Set<Player> players = pendingGame.getPlayers();
+
+        mPlayerList.setText(playersToString(players)); // sets the initial players
+    }
+
+    private String playersToString(Set<Player> players) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < players.size(); i++) {
+
+        }
+        return null;
+    }
+
+    public void onUpdateGame(Game updatedGame) {
         // update list of players
     }
 
