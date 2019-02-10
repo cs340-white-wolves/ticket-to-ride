@@ -27,6 +27,7 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
     private void setupRecyclerView() {
         RecyclerView gameListRecycler = findViewById(R.id.gameListRecycler);
         gameListRecycler.setLayoutManager(new LinearLayoutManager(this));
+        gameListRecycler.setAdapter(new GameAdapter(presenter.getLobbyGames()));
     }
 
     @Override
@@ -55,3 +56,5 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
 
 
 }
+
+
