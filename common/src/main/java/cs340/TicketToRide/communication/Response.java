@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 public class Response {
     private String jsonString;
     private String className;
+    private String errMessage;
     private transient Gson gson = new Gson();
 
     public Response(Object object, String className) {
@@ -34,6 +35,7 @@ public class Response {
         if (object == null) {
             throw new IllegalArgumentException();
         }
+        gson = new Gson();
         this.jsonString = gson.toJson(object);
     }
 

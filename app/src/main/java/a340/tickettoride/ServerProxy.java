@@ -34,6 +34,7 @@ public class ServerProxy implements IServer {
     }
 
     public LoginRegisterResponse login(Username username, Password password) throws AuthenticationException {
+        Log.d("ServerProxy", "in login");
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }
