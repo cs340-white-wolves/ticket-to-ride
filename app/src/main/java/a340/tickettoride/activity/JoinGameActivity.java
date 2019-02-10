@@ -38,7 +38,6 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
 
     @Override
     public void onGameJoinFail(String msg) {
-        // TODO: Show error message
         showMessage(msg);
     }
 

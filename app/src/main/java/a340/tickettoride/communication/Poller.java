@@ -12,13 +12,14 @@ import cs340.TicketToRide.model.Games;
 public class Poller {
 
     private Listener listener;
+    private ScheduledFuture scheduledFuture;
     public Poller(Listener listener) {
         this.listener = listener;
     }
 
     public void run() {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-        ScheduledFuture scheduledFuture = scheduler.scheduleAtFixedRate(new Thread() {
+        scheduledFuture = scheduler.scheduleAtFixedRate(new Thread() {
             @Override
             public void run() {
                 ServerProxy server = ServerProxy.getInstance();
