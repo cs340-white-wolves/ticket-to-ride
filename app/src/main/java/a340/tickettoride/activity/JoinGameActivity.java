@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IJoinGamePresenter;
@@ -28,6 +29,7 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
         gameListRecycler.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    @Override
     public void onGameJoined() {
         // start Pending activity
         Intent intent = new Intent(JoinGameActivity.this, PendingActivity.class);
@@ -37,11 +39,19 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
     @Override
     public void onGameJoinFail(String msg) {
         // TODO: Show error message
+        showMessage(msg);
     }
 
     @Override
     public void onGameListUpdate(Games games) {
         // TODO: Update recycler view with new game list
     }
+
+    private void showMessage(String message) {
+        Toast.makeText(this,
+                message,
+                Toast.LENGTH_SHORT).show();
+    }
+
 
 }

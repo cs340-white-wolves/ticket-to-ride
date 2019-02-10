@@ -4,13 +4,17 @@ import java.util.Observable;
 import java.util.Observer;
 
 import a340.tickettoride.ServiceFacade;
+import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.task.CreateGameTask;
+import cs340.TicketToRide.exception.AuthenticationException;
+import cs340.TicketToRide.exception.GameFullException;
 import cs340.TicketToRide.model.Game;
 
 public class CreateGamePresenter implements ICreateGamePresenter, Observer {
     private View view;
 
     public CreateGamePresenter(View view) {
+        ClientModel.getInstance().addObserver(this);
         this.view = view;
     }
 
@@ -25,10 +29,28 @@ public class CreateGamePresenter implements ICreateGamePresenter, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        // Nothing to observe right now
+        if (arg instanceof AuthenticationException) {
+            Exception exception = (Exception)arg;
+            view.onInvalid(exception.getMessage());
+            return;
+        }
+
+        // todo: how to handle?
+        if (arg instanceof Exception) {
+            Exception exception = (Exception)arg;
+            view.onInvalid(exception.getMessage());
+            return;
+        }
+
+        if (arg instanceof Game) {
+            view.onGameCreated();
+        }
+
+        // todo: unknown error
     }
 
     public interface View {
         void onGameCreated();
+        void onInvalid(String errorMsg);
     }
 }

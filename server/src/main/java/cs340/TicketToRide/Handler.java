@@ -34,7 +34,12 @@ public class Handler implements HttpHandler{
         OutputStreamWriter osw = new OutputStreamWriter(httpExchange.getResponseBody());
 
         try {
-            Response response = new Response(obj, obj.getClass().getName());
+            Response response;
+            if (obj instanceof Exception) {
+                response = new Response((Exception) obj);
+            } else {
+                response = new Response(obj, obj.getClass().getName());
+            }
             String jsonStr = gson.toJson(response);
 
             System.out.println(jsonStr);

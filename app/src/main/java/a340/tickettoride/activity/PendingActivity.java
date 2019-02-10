@@ -42,10 +42,12 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
         mGameName.setText(presenter.getGameName());
     }
 
+    @Override
     public void onUpdatePlayers(Set<Player> players) {
         // TODO: update list of players
     }
 
+    @Override
     public void onGameStarting() { // this will be implemented in the next phase
         // start the game
         showMessage("Game is starting");

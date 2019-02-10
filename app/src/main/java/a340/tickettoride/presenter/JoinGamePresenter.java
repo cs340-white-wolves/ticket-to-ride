@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import a340.tickettoride.ServiceFacade;
+import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.task.JoinGameTask;
 import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.Games;
@@ -13,6 +14,7 @@ public class JoinGamePresenter implements IJoinGamePresenter, Observer {
     private View view;
 
     public JoinGamePresenter(View view) {
+        ClientModel.getInstance().addObserver(this);
         this.view = view;
     }
 

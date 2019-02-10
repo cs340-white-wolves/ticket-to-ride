@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.CreateGamePresenter;
@@ -60,10 +61,22 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
         });
     }
 
+    @Override
     public void onGameCreated() {
         // switch to Pending activity
         Intent intent = new Intent(CreateGameActivity.this, PendingActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onInvalid(String errorMessage) {
+        showMessage(errorMessage); // toast indicating what went wrong
+    }
+
+    private void showMessage(String message) {
+        Toast.makeText(this,
+                message,
+                Toast.LENGTH_SHORT).show();
     }
 
 }

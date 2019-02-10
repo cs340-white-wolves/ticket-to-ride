@@ -32,16 +32,16 @@ public class ServerFacade implements IServer {
         return singleton;
     }
 
-    public LoginRegisterResponse login(Username username, Password password) throws AuthenticationException {
+    public LoginRegisterResponse login(Username username, Password password) {
         return new LoginService().login(username, password);
     }
-    public LoginRegisterResponse register(Username username, Password password) throws NotUniqueException {
+    public LoginRegisterResponse register(Username username, Password password) {
         return new RegisterService().register(username, password);
     }
-    public Game createGame(AuthToken token, int numPlayers) throws AuthenticationException {
+    public Game createGame(AuthToken token, int numPlayers) {
         return new CreateGameService().createGame(token, numPlayers);
     }
-    public Game joinGame(AuthToken token, ID gameId) throws GameFullException, AuthenticationException {
+    public Game joinGame(AuthToken token, ID gameId) {
         return new JoinGameService().joinGame(token, gameId);
     }
 

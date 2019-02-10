@@ -104,8 +104,7 @@ public class Command implements ICommand {
             System.out.println("ERROR: Illegal argument while trying to find the method " + methodName);
             e.printStackTrace();
         } catch (InvocationTargetException e) {
-            System.err.println("Illegal accesss while trying to execute the method " + methodName);
-            e.printStackTrace();
+            result = e.getTargetException();
         }
 
         return result;
