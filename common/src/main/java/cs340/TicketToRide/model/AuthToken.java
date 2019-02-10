@@ -40,4 +40,9 @@ public class AuthToken {
         String token = UUID.randomUUID().toString().substring(0, TOKEN_LENGTH);
         return new AuthToken(token);
     }
+
+    @Override
+    public int hashCode() {
+        return token.hashCode();
+    }
 }

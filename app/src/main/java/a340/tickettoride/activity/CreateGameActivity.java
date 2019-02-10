@@ -73,7 +73,7 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
 
     @Override
     public void onGameCreated() {
-        Intent intent = new Intent(CreateGameActivity.this, PendingActivity.class);
+        Intent intent = new Intent(this, PendingActivity.class);
         startActivity(intent);
     }
 

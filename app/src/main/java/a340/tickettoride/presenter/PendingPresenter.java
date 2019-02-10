@@ -42,7 +42,7 @@ public class PendingPresenter implements IPendingPresenter, Observer {
 
     @Override
     public Game getActiveGame() {
-        return activeGame;
+        return ClientModel.getInstance().getActiveGame();
     }
 
     public interface View {
