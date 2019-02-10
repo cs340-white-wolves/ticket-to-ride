@@ -14,24 +14,11 @@ import cs340.TicketToRide.utility.ID;
 
 public class PendingPresenter implements IPendingPresenter, Observer {
     private View view;
+    private Game activeGame;
 
     public PendingPresenter(View view) {
         ClientModel.getInstance().addObserver(this);
         this.view = view;
-    }
-
-    @Override
-    public String getGameName() {
-        // return the name of the active game
-
-        return null;
-    }
-
-    @Override
-    public Set<Player> getPlayers() {
-        // return the set of players (usernames) in the active game
-
-        return null;
     }
 
     @Override
@@ -43,14 +30,19 @@ public class PendingPresenter implements IPendingPresenter, Observer {
             ClientModel model = ClientModel.getInstance();
             ID gameId = model.getActiveGame().getGameID();
 
-            Game game = games.getGameByID(gameId);
+            activeGame = games.getGameByID(gameId);
 
-            view.onUpdatePlayers(game.getPlayers());
+            view.onUpdatePlayers(activeGame.getPlayers());
 
-            if (game.hasTargetNumPlayers()) {
+            if (activeGame.hasTargetNumPlayers()) {
                 view.onGameStarting();
             }
         }
+    }
+
+    @Override
+    public Game getActiveGame() {
+        return activeGame;
     }
 
     public interface View {
