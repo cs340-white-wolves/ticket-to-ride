@@ -84,7 +84,7 @@ public class MainPresenter implements Observer, IMainPresenter {
 
     public interface View {
         public void onAuthenticated();
-        public void onInvalid(String errorMessage); // shows up as a toast
+        public void onInvalid(String errorMessage); // shows up as a textview
     }
 
 
