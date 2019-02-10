@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -59,11 +60,20 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
 
             }
         });
+
+        String[] playerOptions = {"Two", "Three", "Four", "Five"};
+
+        // Initializing an ArrayAdapter
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+                this,R.layout.spinner_item, playerOptions
+        );
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_item);
+        mSpinner.setAdapter(spinnerArrayAdapter);
     }
 
     @Override
     public void onGameCreated() {
-        Intent intent = new Intent(CreateGameActivity.this, PendingActivity.class);
+        Intent intent = new Intent(this, PendingActivity.class);
         startActivity(intent);
     }
 
