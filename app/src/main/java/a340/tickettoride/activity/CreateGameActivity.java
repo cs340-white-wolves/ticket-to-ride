@@ -64,7 +64,7 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
         String[] playerOptions = {"Two", "Three", "Four", "Five"};
 
         // Initializing an ArrayAdapter
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(
                 this,R.layout.spinner_item, playerOptions
         );
         spinnerArrayAdapter.setDropDownViewResource(R.layout.spinner_item);

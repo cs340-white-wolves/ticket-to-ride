@@ -63,7 +63,8 @@ public class MainPresenter implements Observer, IMainPresenter {
             return;
         }
 
-        view.onInvalid("Unknown Error");
+        // todo: this is getting called because other presenters are updating also
+//        view.onInvalid("Unknown Error");
     }
 
     private void setUsernamePassword(String usernameStr, String passStr) {
