@@ -49,11 +49,13 @@ public class LobbyActivity extends AppCompatActivity implements LobbyPresenter.V
         });
     }
 
+    @Override
     public void onPressCreateGame() {
         Intent intent = new Intent(LobbyActivity.this, CreateGameActivity.class);
         startActivity(intent);
     }
 
+    @Override
     public void onPressJoinGame() {
         Intent intent = new Intent(LobbyActivity.this, JoinGameActivity.class);
         startActivity(intent);

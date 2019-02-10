@@ -12,9 +12,9 @@ import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
 public interface IServer {
-    LoginRegisterResponse login(Username username, Password password) throws AuthenticationException;
-    LoginRegisterResponse register(Username username, Password password) throws NotUniqueException;
-    Game createGame(AuthToken token, int numPlayers) throws AuthenticationException;
-    Game joinGame(AuthToken token, ID gameId) throws GameFullException, AuthenticationException;
+    LoginRegisterResponse login(Username username, Password password);
+    LoginRegisterResponse register(Username username, Password password);
+    Game createGame(AuthToken token, int numPlayers);
+    Game joinGame(AuthToken token, ID gameId);
     Games getGameList();
 }

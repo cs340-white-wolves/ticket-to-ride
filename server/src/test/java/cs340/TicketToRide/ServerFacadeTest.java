@@ -1,14 +1,16 @@
 package cs340.TicketToRide;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.After;
+import org.junit.Test;
 
+import static org.junit.Assert.*;
+
+import java.util.HashSet;
 import java.util.Set;
 
 import cs340.TicketToRide.communication.LoginRegisterResponse;
-import cs340.TicketToRide.communication.Response;
+import cs340.TicketToRide.exception.AuthenticationException;
+import cs340.TicketToRide.exception.NotUniqueException;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.IServerModel;
@@ -17,50 +19,62 @@ import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class ServerFacadeTest {
+public class ServerFacadeTest {
 
     private IServer server = ServerFacade.getInstance();
     private IServerModel model = ServerModel.getInstance();
+    private Username username = new Username("nate");
+    private Password password = new Password("1234");
 
-    @AfterEach
-    void clearData() {
+    @After
+    public void clearData() {
         model.clear();
     }
 
-    @Test
-    void login() {
-        Username username = new Username("nate");
-        Password password = new Password("1234");
-        boolean success = true;
-        try {
-            LoginRegisterResponse response = server.register(username, password);
-            AuthToken token = response.getToken();
-            assertNotNull(token);
-            assertTrue(token.isValid());
-            User user = model.getUserByAuthToken(token);
-            assertTrue(user.isValid());
-            assertEquals(user.getUsername(), username);
-            assertEquals(user.getPassword(), password);
+    private void createUser() throws NotUniqueException {
+        LoginRegisterResponse register = server.register(username, password);
 
-            token = server.login(username, password).getToken();
-            assertNotNull(token);
-            assertTrue(token.isValid());
-            user = model.getUserByAuthToken(token);
-            assertTrue(user.isValid());
-            assertEquals(user.getPassword(), password);
-            assertEquals(user.getPassword(), password);
-        } catch (Exception e) {
-            success = false;
-            System.out.println(e.getMessage());
-        }
+        assertNotNull(register);
 
-        assertTrue(success);
+        User user = register.getUser();
+        assertNotNull(user);
+        assertEquals(username, user.getUsername());
+        assertEquals(password, user.getPassword());
+
+        AuthToken token = register.getToken();
+        assertNotNull(token);
+        assertNotEquals("", token.toString());
     }
 
     @Test
-    void loginFail() {
+    public void loginSuccess() throws Exception {
+        createUser();
+
+        LoginRegisterResponse login = server.login(username, password);
+        assertNotNull(login);
+
+        User user = login.getUser();
+        assertNotNull(user);
+        assertEquals(username, user.getUsername());
+        assertEquals(password, user.getPassword());
+    }
+
+    @Test(expected = AuthenticationException.class)
+    public void loginWrongPassword() throws Exception {
+        createUser();
+
+        server.login(username, new Password("notpassword"));
+    }
+
+    @Test(expected = AuthenticationException.class)
+    public void loginNonExistent() throws Exception {
+        createUser();
+
+        server.login(new Username("nobody"), new Password("notpassword"));
+    }
+
+    @Test
+    public void loginFail() {
         Username username = new Username("nate");
         Password password = new Password("1234");
         boolean success = true;
@@ -87,119 +101,104 @@ class ServerFacadeTest {
     }
 
     @Test
-    void register() {
-        Username username = new Username("curt");
-        Password password = new Password("Password");
-        ServerFacade facade = ServerFacade.getInstance();
-        LoginRegisterResponse registerResponse = null;
-        try{
-             registerResponse = facade.register(username, password);
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        }
-
-
-        ServerModel serverModel = ServerModel.getInstance();
-
-        Set<User> users = serverModel.getUsers();
-
-        assertTrue(users.size() == 1);
-
-        User storedUser = serverModel.getUserByAuthToken((registerResponse).getToken());
-
-        assertTrue(storedUser.getUsername().equals(username));
-        assertTrue(storedUser.getPassword().equals(password));
-
-
+    public void registerSuccess() throws Exception {
+        createUser();
     }
 
     @Test
-    void registerFail() {
-        Username username = new Username("curt");
-        Password password = new Password("Password");
-        ServerFacade facade = ServerFacade.getInstance();
-        LoginRegisterResponse registerResponse1 = null;
-        LoginRegisterResponse registerResponse2 = null;
-
-        try{
-            registerResponse1 = facade.register(username, password);
-            registerResponse2 = facade.register(username, password);
-        }
-        catch (Exception e) {
-            assertNotNull(e, e.getMessage());
-        }
-
-
-        ServerModel serverModel = ServerModel.getInstance();
-
-        Set<User> users = serverModel.getUsers();
-
-        assertTrue(users.size() == 1);
-
-        User storedUser = serverModel.getUserByAuthToken((registerResponse1).getToken());
-
-        assertTrue(storedUser.getUsername().equals(username));
-        assertTrue(storedUser.getPassword().equals(password));
-    }
-
-    @Test
-    void createGame() {
-        boolean success = true;
-        int numPlayers = 3;
-        Game game;
+    public void registerNull() throws Exception {
         try {
-            AuthToken token = server.register(new Username("nate"), new Password("1234")).getToken();
-            assertNotNull(token);
-            game = server.createGame(token, numPlayers);
+            server.register(null, null);
+            fail();
+        }
+        catch (IllegalArgumentException e) {}
+
+        try {
+            server.register(new Username("test"), null);
+            fail();
+        }
+        catch (IllegalArgumentException e) {}
+
+        try {
+            server.register(null, new Password("test"));
+            fail();
+        }
+        catch (IllegalArgumentException e) {}
+    }
+
+    @Test(expected = NotUniqueException.class)
+    public void registerAlreadyExists() throws Exception {
+        server.register(username, password);
+        server.register(username, password);
+    }
+
+    @Test
+    public void createGame() throws Exception {
+        createUser();
+
+        LoginRegisterResponse resp = server.login(username, password);
+        AuthToken token = resp.getToken();
+
+        for (int numPlayers = 3; numPlayers <= 5; numPlayers++) {
+            Game game = server.createGame(token, numPlayers);
             assertNotNull(game);
             assertTrue(game.isValid());
-        } catch (Exception e) {
-            success = false;
-            System.out.println(e.getMessage());
+            assertEquals(numPlayers, game.getTargetNumPlayers());
+            assertEquals(1, game.getNumCurrentPlayers());
+            assertEquals(username, game.getCreator());
         }
-
-        assertTrue(success);
     }
 
     @Test
-    void createGameFail() {
+    public void createGameFail() throws Exception {
+        createUser();
 
+        LoginRegisterResponse resp = server.login(username, password);
+        AuthToken token = resp.getToken();
+
+        Set<Integer> cases = new HashSet<>();
+        cases.add(-1);
+        cases.add(0);
+        cases.add(1);
+        cases.add(6);
+        cases.add(1000);
+
+        for (Integer theCase : cases) {
+            try {
+                server.createGame(token, theCase);
+                fail("Game should not be able to have " + theCase + " players");
+            }
+            catch (IllegalArgumentException e) {}
+        }
     }
 
     @Test
-    void joinGame() {
-        boolean success = true;
+    public void joinGameSuccess() throws Exception {
+        LoginRegisterResponse host = server.register(new Username("player1"), new Password("1"));
+        Username hostUsername = host.getUser().getUsername();
+        AuthToken p1tok = host.getToken();
+        AuthToken p2tok = server.register(new Username("player2"), new Password("2")).getToken();
+        AuthToken p3tok = server.register(new Username("player3"), new Password("3")).getToken();
+
         int numPlayers = 3;
-        Game game;
-        try {
-            AuthToken token = server.register(new Username("nate"), new Password("1234")).getToken();
-            assertNotNull(token);
-            game = server.createGame(token, numPlayers);
-            assertNotNull(game);
-            assertTrue(game.isValid());
-            assertFalse(game.hasTargetNumPlayers());
-            assertEquals(game.getNumCurrentPlayers(), 1);
 
-            token = server.register(new Username("jake"), new Password("abcd")).getToken();
-            assertNotNull(token);
-            Game joinedGame = server.joinGame(token, game.getGameID());
-            assertNotNull(joinedGame);
-            assertFalse(game.hasTargetNumPlayers());
-            assertEquals(game.getNumCurrentPlayers(), 2);
+        Game gameHost = server.createGame(p1tok, numPlayers);
+        assertNotNull(gameHost);
+        assertNotNull(gameHost.getGameID());
+        assertEquals(numPlayers, gameHost.getTargetNumPlayers());
+        assertEquals(1, gameHost.getNumCurrentPlayers());
+        assertEquals(hostUsername, gameHost.getCreator());
 
-            token = server.register(new Username("sam"), new Password("pass")).getToken();
-            assertNotNull(token);
-            joinedGame = server.joinGame(token, game.getGameID());
-            assertNotNull(joinedGame);
-            assertTrue(game.hasTargetNumPlayers());
-            assertEquals(game.getNumCurrentPlayers(), numPlayers);
-        } catch (Exception e) {
-            success = false;
-            System.out.println(e.getMessage());
-        }
+        Game game2 = server.joinGame(p2tok, gameHost.getGameID());
+        assertNotNull(game2);
+        assertEquals(gameHost, game2);
+        assertEquals(numPlayers, game2.getTargetNumPlayers());
+        assertEquals(2, gameHost.getNumCurrentPlayers());
 
-        assertTrue(success);
+        Game game3 = server.joinGame(p3tok, gameHost.getGameID());
+        assertNotNull(game3);
+        assertEquals(gameHost, game3);
+        assertEquals(numPlayers, game3.getTargetNumPlayers());
+        assertEquals(3, gameHost.getNumCurrentPlayers());
     }
 }

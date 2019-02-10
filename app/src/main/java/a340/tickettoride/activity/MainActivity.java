@@ -87,11 +87,13 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         mPasswordField.addTextChangedListener(watcher);
     }
 
+    @Override
     public void onAuthenticated() {
         Intent intent = new Intent(MainActivity.this, LobbyActivity.class);
         startActivity(intent);
     }
 
+    @Override
     public void onInvalid(String errorMessage) {
         mErrorMessage.setText(errorMessage);
 //        showMessage(errorMessage); // toast indicating what went wrong

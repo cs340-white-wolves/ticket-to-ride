@@ -1,6 +1,7 @@
 package cs340.TicketToRide.model;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import cs340.TicketToRide.utility.ID;
@@ -36,6 +37,10 @@ public class Game {
         }
 
         return players.add(player);
+    }
+
+    public Set<Player> getPlayers() {
+        return players;
     }
 
     public boolean isValid() {
@@ -87,5 +92,20 @@ public class Game {
             throw new IllegalArgumentException();
         }
         this.creator = creator;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Game game = (Game) o;
+        return targetNumPlayers == game.targetNumPlayers &&
+                Objects.equals(gameID, game.gameID) &&
+                Objects.equals(creator, game.creator);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(targetNumPlayers, gameID, creator);
     }
 }

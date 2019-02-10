@@ -3,10 +3,13 @@ package a340.tickettoride.presenter;
 import java.util.Observable;
 import java.util.Observer;
 
+import a340.tickettoride.model.ClientModel;
+
 public class LobbyPresenter implements ILobbyPresenter, Observer {
     private View view;
 
     public LobbyPresenter(View view) {
+        ClientModel.getInstance().addObserver(this);
         this.view = view;
     }
 
@@ -22,7 +25,7 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-
+        // Nothing to observe yet
     }
 
     public interface View {
