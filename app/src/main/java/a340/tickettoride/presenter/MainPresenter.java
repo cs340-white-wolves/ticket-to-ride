@@ -24,8 +24,7 @@ public class MainPresenter implements Observer, IMainPresenter {
     private View view;
 
     public MainPresenter(View view) {
-        ClientModel.getInstance().addObserver(this);
-        // todo: remove this observer when starting a new one?
+        ClientModel.getInstance().setupNewObserver(this);
         this.view = view;
     }
 
