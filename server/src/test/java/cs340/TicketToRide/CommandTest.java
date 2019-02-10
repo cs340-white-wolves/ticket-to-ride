@@ -1,6 +1,8 @@
 package cs340.TicketToRide;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
 
 import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.model.AuthToken;

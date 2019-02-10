@@ -10,6 +10,7 @@ import android.widget.Toast;
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IJoinGamePresenter;
 import a340.tickettoride.presenter.JoinGamePresenter;
+import cs340.TicketToRide.model.Games;
 
 public class JoinGameActivity extends AppCompatActivity implements JoinGamePresenter.View {
     private IJoinGamePresenter presenter;
@@ -26,7 +27,6 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
     private void setupRecyclerView() {
         RecyclerView gameListRecycler = findViewById(R.id.gameListRecycler);
         gameListRecycler.setLayoutManager(new LinearLayoutManager(this));
-
     }
 
     @Override
@@ -37,8 +37,14 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
     }
 
     @Override
-    public void onInvalid(String errorMessage) {
-        showMessage(errorMessage); // toast indicating what went wrong
+    public void onGameJoinFail(String msg) {
+        // TODO: Show error message
+        showMessage(msg);
+    }
+
+    @Override
+    public void onGameListUpdate(Games games) {
+        // TODO: Update recycler view with new game list
     }
 
     private void showMessage(String message) {

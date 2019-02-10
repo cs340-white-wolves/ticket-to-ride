@@ -44,7 +44,7 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
 
     @Override
     public void onUpdatePlayers(Set<Player> players) {
-        // update list of players
+        // TODO: update list of players
     }
 
     @Override
