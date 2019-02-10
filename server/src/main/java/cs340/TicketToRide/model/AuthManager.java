@@ -34,7 +34,9 @@ public class AuthManager {
             return null;
         }
 
-        return tokenUserMap.get(token);
+        boolean c = tokenUserMap.containsKey(token);
+        User user = tokenUserMap.get(token);
+        return user;
     }
 
     public void clear() {

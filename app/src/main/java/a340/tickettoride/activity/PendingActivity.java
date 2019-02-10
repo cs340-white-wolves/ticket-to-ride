@@ -38,6 +38,7 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
     }
 
     private void setupGameName() {
+        activeGame = presenter.getActiveGame();
         String name = activeGame.getCreator() + "'s game";
         mGameName.setText(name);
     }

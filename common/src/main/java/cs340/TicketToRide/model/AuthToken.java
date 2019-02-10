@@ -1,6 +1,7 @@
 package cs340.TicketToRide.model;
 
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class AuthToken {
@@ -39,5 +40,10 @@ public class AuthToken {
     public static AuthToken generateToken() {
         String token = UUID.randomUUID().toString().substring(0, TOKEN_LENGTH);
         return new AuthToken(token);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(token);
     }
 }

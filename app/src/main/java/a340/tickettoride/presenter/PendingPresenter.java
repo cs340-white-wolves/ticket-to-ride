@@ -5,10 +5,8 @@ import java.util.Observer;
 import java.util.Set;
 
 import a340.tickettoride.model.ClientModel;
-import a340.tickettoride.model.IClientModel;
 import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.Games;
-import a340.tickettoride.model.ClientModel;
 import cs340.TicketToRide.model.Player;
 import cs340.TicketToRide.utility.ID;
 
@@ -42,7 +40,7 @@ public class PendingPresenter implements IPendingPresenter, Observer {
 
     @Override
     public Game getActiveGame() {
-        return activeGame;
+        return ClientModel.getInstance().getActiveGame();
     }
 
     public interface View {

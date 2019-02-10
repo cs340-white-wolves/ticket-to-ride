@@ -1,8 +1,10 @@
 package a340.tickettoride.model;
 
 import java.util.Observable;
+import java.util.Observer;
 
 import a340.tickettoride.communication.Poller;
+import a340.tickettoride.presenter.MainPresenter;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.Game;
@@ -42,7 +44,7 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
     public void onAuthenticateSuccess(LoginRegisterResponse response) {
         setAuthToken(response.getToken());
         setLoggedInUser(response.getUser());
-// todo:        startPoller();
+        startPoller();
         setChanged();
         notifyObservers(response);
     }
@@ -105,5 +107,10 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
 
     public AuthToken getAuthToken() {
         return authToken;
+    }
+
+    public void setupNewObserver(Observer observer) {
+        deleteObservers();
+        addObserver(observer);
     }
 }
