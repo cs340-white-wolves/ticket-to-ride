@@ -9,7 +9,7 @@
     <string name="join_game">Join Game</string>
     <string name="joinGameTitle">Join a Game</string>
     <string name="game_name">Game Name</string>
-    <string name="game_lobby">Game Lobby</string>
+    <string name="game_pending">Game Pending</string>
     <string name="available_games">Available Games</string>
     <string name="players_number">Number of Players</string>
     <string name="error_message_placeholder">Error message</string>

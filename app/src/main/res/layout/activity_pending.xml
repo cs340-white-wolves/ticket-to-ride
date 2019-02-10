@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/game_lobby" />
+        tools:text="@string/login_title" />
 
     <TextView
         android:id="@+id/gameNameSubtitle"
@@ -58,20 +58,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gameNameSubtitle" />
 
-    <Button
-        android:id="@+id/registerButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:backgroundTint="@color/Red"
-        android:fontFamily="@font/shangiri"
-        android:text="@string/join_game"
-        android:textColor="@color/Gold"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/playerList"
-        app:layout_constraintStart_toStartOf="@+id/playerList"
-        app:layout_constraintTop_toBottomOf="@+id/playerList" />
-
     <TextView
         android:id="@+id/startMessage"
         android:layout_width="204dp"
@@ -85,7 +71,6 @@
         android:textAlignment="center"
         android:textColor="@color/DarkBrown"
         android:textSize="24sp"
-        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playerList" />

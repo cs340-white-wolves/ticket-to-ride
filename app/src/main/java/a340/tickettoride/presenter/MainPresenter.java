@@ -25,6 +25,7 @@ public class MainPresenter implements Observer, IMainPresenter {
 
     public MainPresenter(View view) {
         ClientModel.getInstance().addObserver(this);
+        // todo: remove this observer when starting a new one?
         this.view = view;
     }
 
@@ -62,7 +63,8 @@ public class MainPresenter implements Observer, IMainPresenter {
             return;
         }
 
-        view.onInvalid("Unknown Error");
+        // todo: this is getting called because other presenters are updating also
+//        view.onInvalid("Unknown Error");
     }
 
     private void setUsernamePassword(String usernameStr, String passStr) {
