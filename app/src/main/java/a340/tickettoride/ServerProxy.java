@@ -33,7 +33,7 @@ public class ServerProxy implements IServer {
         return singleton;
     }
 
-    public LoginRegisterResponse login(Username username, Password password) throws AuthenticationException {
+    public LoginRegisterResponse login(Username username, Password password) {
         Log.d("ServerProxy", "in login");
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
@@ -46,17 +46,17 @@ public class ServerProxy implements IServer {
         );
 
         Response response = communicator.sendCommand(command);
-        Object resultObject = response.getResultObject();
 
-        if (resultObject instanceof AuthenticationException) {
-            throw (AuthenticationException) resultObject;
+        if (response.isError()) {
+            throw response.getException();
         }
 
-        throwIfException(resultObject);
+        Object resultObject = response.getResultObject();
+
         return (LoginRegisterResponse)resultObject;
     }
 
-    public LoginRegisterResponse register(Username username, Password password) throws NotUniqueException {
+    public LoginRegisterResponse register(Username username, Password password) {
         Log.d("ServerProxy", "in register");
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
@@ -70,16 +70,16 @@ public class ServerProxy implements IServer {
         Log.d("ServerProxy", "later in register");
 
         Response response = communicator.sendCommand(command);
-        Object resultObject = response.getResultObject();
-        if (resultObject instanceof NotUniqueException) {
-            throw (NotUniqueException) resultObject;
+
+        if (response.isError()) {
+            throw response.getException();
         }
 
-        throwIfException(resultObject);
+        Object resultObject = response.getResultObject();
         return (LoginRegisterResponse)resultObject;
     }
 
-    public Game createGame(AuthToken token, int numPlayers) throws AuthenticationException {
+    public Game createGame(AuthToken token, int numPlayers) {
         if (token == null || !token.isValid() || numPlayers < Game.MIN_PLAYERS || numPlayers > Game.MAX_PLAYERS) {
             throw new IllegalArgumentException();
         }
@@ -91,16 +91,15 @@ public class ServerProxy implements IServer {
         );
 
         Response response = communicator.sendCommand(command);
-        Object resultObject = response.getResultObject();
-        if (resultObject instanceof AuthenticationException) {
-            throw (AuthenticationException) resultObject;
+        if (response.isError()) {
+            throw response.getException();
         }
 
-        throwIfException(resultObject);
-        return (Game)resultObject;
+        Object resultObject = response.getResultObject();
+        return (Game) resultObject;
     }
 
-    public Game joinGame(AuthToken token, ID gameId) throws GameFullException, AuthenticationException {
+    public Game joinGame(AuthToken token, ID gameId) {
         if (token == null || gameId == null || !token.isValid() || !gameId.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -111,16 +110,13 @@ public class ServerProxy implements IServer {
                 new Object[]{token, gameId}
         );
 
+
         Response response = communicator.sendCommand(command);
-        Object resultObject = response.getResultObject();
-        if (resultObject instanceof GameFullException) {
-            throw (GameFullException) resultObject;
-        }
-        if (resultObject instanceof AuthenticationException) {
-            throw (AuthenticationException) resultObject;
+        if (response.isError()) {
+            throw response.getException();
         }
 
-        throwIfException(resultObject);
+        Object resultObject = response.getResultObject();
         return (Game) resultObject;
     }
 
@@ -129,9 +125,4 @@ public class ServerProxy implements IServer {
         return null;
     }
 
-    private void throwIfException(Object resultObject) {
-        if (resultObject instanceof Exception) {
-            throw new RuntimeException(((Exception)resultObject));
-        }
-    }
 }

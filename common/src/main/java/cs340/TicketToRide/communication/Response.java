@@ -2,6 +2,10 @@ package cs340.TicketToRide.communication;
 
 import com.google.gson.Gson;
 
+import cs340.TicketToRide.exception.AuthenticationException;
+import cs340.TicketToRide.exception.GameFullException;
+import cs340.TicketToRide.exception.NotUniqueException;
+
 public class Response {
     private String jsonString;
     private String className;
@@ -13,7 +17,17 @@ public class Response {
         setClassName(className);
     }
 
+    public Response(Exception exception) {
+        className = exception.getClass().getName();
+        errMessage = exception.getMessage();
+    }
+
     public Object getResultObject() {
+
+        if (errMessage != null) {
+            return new Exception(errMessage);
+        }
+
         Class<?> clazz = null;
         if (gson == null) {
             gson = new Gson();
@@ -48,5 +62,23 @@ public class Response {
             throw new IllegalArgumentException();
         }
         this.className = className;
+    }
+
+    public boolean isError() {
+        return errMessage != null && !errMessage.equals("");
+    }
+
+    public RuntimeException getException() {
+        if (className.equals(AuthenticationException.class.getName())) {
+            return new AuthenticationException(errMessage);
+        }
+        if (className.equals(GameFullException.class.getName())) {
+            return new GameFullException(errMessage);
+        }
+        if (className.equals(NotUniqueException.class.getName())) {
+            return new NotUniqueException(errMessage);
+        }
+
+        return new RuntimeException(errMessage);
     }
 }
