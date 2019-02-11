@@ -121,8 +121,27 @@ public class ServerProxy implements IServer {
     }
 
     @Override
-    public Games getGameList() {
-        return null;
+    public Games getAvailableGames(AuthToken token) {
+        if (token == null || !token.isValid()) {
+            throw new IllegalArgumentException();
+        }
+
+        ICommand command = new Command(
+                "getAvailableGames",
+                new String[]{AuthToken.class.getName()},
+                new Object[]{token}
+        );
+
+
+        Response response = communicator.sendCommand(command);
+
+        if (response.isError()) {
+            throw response.getException();
+        }
+
+        Object resultObject = response.getResultObject();
+
+        return (Games) resultObject;
     }
 
 }

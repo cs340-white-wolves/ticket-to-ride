@@ -1,5 +1,7 @@
 package a340.tickettoride.presenter;
 
+import android.util.Log;
+
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
@@ -21,6 +23,7 @@ public class PendingPresenter implements IPendingPresenter, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        Log.i("PendingPresenter", "Got update" + arg.getClass().getName());
         // TODO: right now, this is using the entire game list. We should switch to only polling the active game.
         if (arg instanceof Games) {
             Games games = (Games) arg;

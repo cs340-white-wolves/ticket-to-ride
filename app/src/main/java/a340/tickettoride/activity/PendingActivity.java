@@ -2,9 +2,11 @@ package a340.tickettoride.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -50,7 +52,14 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
 
     @Override
     public void onUpdatePlayers(Set<Player> players) {
-        // TODO: update list of players
+        StringWriter sw = new StringWriter();
+
+        for (Player player : players) {
+            sw.append(player.getUser().getUsername().toString());
+            sw.append("\n");
+        }
+
+        mPlayerList.setText(sw.toString());
     }
 
     @Override
