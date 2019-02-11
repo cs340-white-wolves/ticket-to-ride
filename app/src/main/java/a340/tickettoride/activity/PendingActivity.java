@@ -52,6 +52,8 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
 
     @Override
     public void onUpdatePlayers(Set<Player> players) {
+        Log.i("JoinGame", "got player list");
+
         StringWriter sw = new StringWriter();
 
         for (Player player : players) {
@@ -59,7 +61,14 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
             sw.append("\n");
         }
 
-        mPlayerList.setText(sw.toString());
+        final String result = sw.toString();
+
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mPlayerList.setText(result);
+            }
+        });
     }
 
     @Override
