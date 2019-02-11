@@ -34,6 +34,18 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
         setTextListeners();
     }
 
+    @Override
+    protected void onResume() {
+        presenter.startObserving();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        presenter.stopObserving();
+        super.onPause();
+    }
+
     private void findViews() {
         mLoginButton = findViewById(R.id.loginButton);
         mRegisterButton = findViewById(R.id.registerButton);

@@ -14,6 +14,16 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     }
 
     @Override
+    public void startObserving() {
+        ClientModel.getInstance().addObserver(this);
+    }
+
+    @Override
+    public void stopObserving() {
+        ClientModel.getInstance().deleteObserver(this);
+    }
+
+    @Override
     public void onPressCreateGame() {
         view.onPressCreateGame();
     }

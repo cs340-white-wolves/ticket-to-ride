@@ -39,6 +39,18 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
         setupRecyclerView();
     }
 
+    @Override
+    protected void onResume() {
+        presenter.startObserving();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        presenter.stopObserving();
+        super.onPause();
+    }
+
     private void setupRecyclerView() {
         Games games = new Games();
         checkGameListLength(games);

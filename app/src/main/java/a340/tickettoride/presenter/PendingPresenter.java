@@ -22,6 +22,16 @@ public class PendingPresenter implements IPendingPresenter, Observer {
     }
 
     @Override
+    public void startObserving() {
+        ClientModel.getInstance().addObserver(this);
+    }
+
+    @Override
+    public void stopObserving() {
+        ClientModel.getInstance().deleteObserver(this);
+    }
+
+    @Override
     public void update(Observable o, Object arg) {
         Log.i("PendingPresenter", "Got update" + arg.getClass().getName());
         // TODO: right now, this is using the entire game list. We should switch to only polling the active game.

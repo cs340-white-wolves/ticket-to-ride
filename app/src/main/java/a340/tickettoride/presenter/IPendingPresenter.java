@@ -6,5 +6,7 @@ import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.Player;
 
 public interface IPendingPresenter {
-    public Game getActiveGame();
+    Game getActiveGame();
+    void startObserving();
+    void stopObserving();
 }
