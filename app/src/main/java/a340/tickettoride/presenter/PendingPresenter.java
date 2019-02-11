@@ -44,6 +44,7 @@ public class PendingPresenter implements IPendingPresenter, Observer {
             activeGame = games.getGameByID(gameId);
 
             view.onUpdatePlayers(activeGame.getPlayers());
+            view.onUpdateGame(activeGame);
 
             if (activeGame.hasTargetNumPlayers()) {
                 view.onGameStarting();
@@ -58,6 +59,7 @@ public class PendingPresenter implements IPendingPresenter, Observer {
 
     public interface View {
         void onUpdatePlayers(Set<Player> players);
+        void onUpdateGame(Game game);
         void onGameStarting();
     }
 }
