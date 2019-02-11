@@ -35,6 +35,18 @@ public class CreateGameActivity extends AppCompatActivity implements CreateGameP
         setupCreateButton();
     }
 
+    @Override
+    protected void onResume() {
+        presenter.startObserving();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        presenter.stopObserving();
+        super.onPause();
+    }
+
     private void setupCreateButton() {
         mCreateButton = findViewById(R.id.createButton);
         mCreateButton.setEnabled(true);
