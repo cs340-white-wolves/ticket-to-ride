@@ -5,10 +5,10 @@ import java.util.Observer;
 
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
-import a340.tickettoride.task.JoinGameTask;
 import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.utility.ID;
+import cs340.TicketToRide.utility.Username;
 
 public class JoinGamePresenter implements IJoinGamePresenter, Observer {
     private View view;
@@ -20,11 +20,23 @@ public class JoinGamePresenter implements IJoinGamePresenter, Observer {
 
     @Override
     public void joinGame(ID gameID) {
+
         if (gameID == null || !gameID.isValid()) {
             throw new IllegalArgumentException();
         }
 
         ServiceFacade.getInstance().joinGame(gameID);
+    }
+
+    @Override
+    public Games getLobbyGames() {
+        //TODO connect to server
+//        List<Game> games = new ArrayList<>();
+
+        Games games = new Games();
+        games.addGame(new Game(5,new Username("Curt")));
+
+        return games;
     }
 
     @Override

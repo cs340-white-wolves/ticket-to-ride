@@ -1,6 +1,8 @@
 package cs340.TicketToRide.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import cs340.TicketToRide.utility.ID;
@@ -54,7 +56,11 @@ public class Games {
         games.clear();
     }
 
-    public Set<Game> getGameSet() {
-        return games;
+    public Set<Game> getGameSet() { return games; }
+
+    public List<Game> getGameList() {
+        List<Game> list = new ArrayList<Game>();
+        list.addAll(games);
+        return list;
     }
 }

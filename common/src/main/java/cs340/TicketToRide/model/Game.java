@@ -104,4 +104,9 @@ public class Game {
     public int hashCode() {
         return Objects.hash(targetNumPlayers, gameID, creator);
     }
+
+    public String getPlayerString(){
+
+        return getNumCurrentPlayers() + "/" +getTargetNumPlayers() + " Players";
+    }
 }
