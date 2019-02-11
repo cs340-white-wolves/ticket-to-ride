@@ -26,7 +26,7 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
     private IJoinGamePresenter presenter;
     private GameAdapter listAdapter;
     private TextView message;
-    private TextView title;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,16 +35,6 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
 
         presenter = new JoinGamePresenter(this);
         message = findViewById(R.id.noGames);
-        title = findViewById(R.id.joinGameTitle);
-        title.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                Games games = new Games();
-                games.addGame(new Game(5, new Username("username")));
-                onGameListUpdate(games);
-            }
-        });
 
         setupRecyclerView();
     }
