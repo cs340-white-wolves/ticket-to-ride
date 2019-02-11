@@ -4,6 +4,8 @@ package cs340.TicketToRide.communication;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Objects;
 
 import com.google.gson.Gson;
 
@@ -24,7 +26,7 @@ public class Command implements ICommand {
     }
 
     public Command(InputStreamReader inputStreamReader) {
-        Command tempCommand = (Command)gson.fromJson(inputStreamReader, Command.class);
+        Command tempCommand = gson.fromJson(inputStreamReader, Command.class);
 
         methodName = tempCommand.getMethodName();
         parameterTypeNames = tempCommand.getParameterTypeNames();
@@ -98,7 +100,7 @@ public class Command implements ICommand {
             System.out.println("ERROR: Could not find the method " + methodName + ", or, there was a security error");
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            System.err.println("Illegal accesss while trying to execute the method " + methodName);
+            System.err.println("Illegal access while trying to execute the method " + methodName);
             e.printStackTrace();
         } catch (IllegalArgumentException e) {
             System.out.println("ERROR: Illegal argument while trying to find the method " + methodName);
