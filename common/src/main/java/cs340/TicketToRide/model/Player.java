@@ -1,5 +1,7 @@
 package cs340.TicketToRide.model;
 
+import java.util.Objects;
+
 public class Player {
 
     private User user;
@@ -21,5 +23,18 @@ public class Player {
 
     public boolean isValid() {
         return user != null && user.isValid();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(user, player.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(user);
     }
 }

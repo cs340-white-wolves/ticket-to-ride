@@ -1,5 +1,6 @@
 package cs340.TicketToRide.utility;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class ID {
@@ -41,4 +42,8 @@ public class ID {
         return new ID(id);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

@@ -1,5 +1,7 @@
 package cs340.TicketToRide.utility;
 
+import java.util.Objects;
+
 public class Password {
 
     private String password;
@@ -31,5 +33,10 @@ public class Password {
 
         Password p = (Password) o;
         return this.password.equals(p.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(password);
     }
 }

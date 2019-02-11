@@ -1,5 +1,7 @@
 package cs340.TicketToRide.utility;
 
+import java.util.Objects;
+
 public class Username {
 
     private String username;
@@ -31,5 +33,10 @@ public class Username {
 
         Username u = (Username)o;
         return this.username.equals(u.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username);
     }
 }
