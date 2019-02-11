@@ -29,6 +29,16 @@ public class JoinGamePresenter implements IJoinGamePresenter, Observer {
         view.onGameJoined();
     }
 
+    @Override
+    public void startObserving() {
+        ClientModel.getInstance().addObserver(this);
+    }
+
+    @Override
+    public void stopObserving() {
+        ClientModel.getInstance().deleteObserver(this);
+    }
+
 
     @Override
     public void update(Observable o, Object arg) {

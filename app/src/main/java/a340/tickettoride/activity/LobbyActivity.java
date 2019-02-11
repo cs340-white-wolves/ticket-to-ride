@@ -27,6 +27,18 @@ public class LobbyActivity extends AppCompatActivity implements LobbyPresenter.V
         setupJoinGameButton();
     }
 
+    @Override
+    protected void onResume() {
+        presenter.startObserving();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        presenter.stopObserving();
+        super.onPause();
+    }
+
     private void setupJoinGameButton() {
         mJoinButton = findViewById(R.id.joinGameButton);
         mJoinButton.setEnabled(true);

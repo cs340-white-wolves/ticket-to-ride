@@ -14,7 +14,6 @@ public class CreateGamePresenter implements ICreateGamePresenter, Observer {
     private View view;
 
     public CreateGamePresenter(View view) {
-        ClientModel.getInstance().addObserver(this);
         this.view = view;
     }
 
@@ -25,6 +24,16 @@ public class CreateGamePresenter implements ICreateGamePresenter, Observer {
         }
 
         ServiceFacade.getInstance().createGame(numPlayers);
+    }
+
+    @Override
+    public void startObserving() {
+        ClientModel.getInstance().addObserver(this);
+    }
+
+    @Override
+    public void stopObserving() {
+        ClientModel.getInstance().deleteObserver(this);
     }
 
     @Override

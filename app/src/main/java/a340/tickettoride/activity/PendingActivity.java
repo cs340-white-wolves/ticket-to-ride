@@ -33,6 +33,18 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
         setupGameName();
     }
 
+    @Override
+    protected void onResume() {
+        presenter.startObserving();
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        presenter.stopObserving();
+        super.onPause();
+    }
+
     private void findViews() {
         mPlayerList = findViewById(R.id.playerList);
         mGameName = findViewById(R.id.gameNameSubtitle);

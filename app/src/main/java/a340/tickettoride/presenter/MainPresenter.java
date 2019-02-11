@@ -29,6 +29,16 @@ public class MainPresenter implements Observer, IMainPresenter {
     }
 
     @Override
+    public void startObserving() {
+        ClientModel.getInstance().addObserver(this);
+    }
+
+    @Override
+    public void stopObserving() {
+        ClientModel.getInstance().deleteObserver(this);
+    }
+
+    @Override
     public void login(String usernameStr, String passStr) {
         try {
             setUsernamePassword(usernameStr, passStr);
