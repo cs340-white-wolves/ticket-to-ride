@@ -9,7 +9,7 @@ public class Username {
     }
 
     private void setUsername(String username) {
-        if (username == null || username.equals("")) {
+        if (username == null || username.equals("") || username.contains(" ")) {
             throw new IllegalArgumentException();
         }
         this.username = username;
@@ -20,7 +20,7 @@ public class Username {
     }
 
     public boolean isValid() {
-        return this.username != null && !this.username.equals("");
+        return this.username != null && !this.username.equals("") && !this.username.contains(" ");
     }
 
     @Override
