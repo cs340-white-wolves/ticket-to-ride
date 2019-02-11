@@ -16,5 +16,5 @@ public interface IServer {
     LoginRegisterResponse register(Username username, Password password);
     Game createGame(AuthToken token, int numPlayers);
     Game joinGame(AuthToken token, ID gameId);
-    Games getGameList();
+    Games getAvailableGames(AuthToken token);
 }

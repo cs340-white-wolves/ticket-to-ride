@@ -105,6 +105,16 @@ public class Game {
         return Objects.hash(targetNumPlayers, gameID, creator);
     }
 
+    @Override
+    public String toString() {
+        return "Game{" +
+                "targetNumPlayers=" + targetNumPlayers +
+                ", players=" + players +
+                ", gameID=" + gameID +
+                ", creator=" + creator +
+                '}';
+    }
+
     public String getPlayerString(){
 
         return getNumCurrentPlayers() + "/" +getTargetNumPlayers() + " Players";
