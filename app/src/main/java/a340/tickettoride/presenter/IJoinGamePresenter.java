@@ -5,5 +5,7 @@ import cs340.TicketToRide.utility.ID;
 
 public interface IJoinGamePresenter {
     void joinGame(ID gameID);
+    void startObserving();
+    void stopObserving();
 //    Games getLobbyGames();
 }
