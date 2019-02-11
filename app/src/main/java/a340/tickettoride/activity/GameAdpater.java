@@ -11,27 +11,37 @@ import android.widget.TextView;
 import java.util.List;
 
 import a340.tickettoride.R;
+import a340.tickettoride.presenter.IJoinGamePresenter;
 import cs340.TicketToRide.model.Game;
+
 
 class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameView> {
 
     private List<Game> mGames;
+    private IJoinGamePresenter presenter;
 
-    public GameAdapter(List<Game> games) {
+    public GameAdapter(List<Game> games, IJoinGamePresenter presenter) {
         mGames = games;
+        this.presenter = presenter;
     }
 
     @NonNull
     @Override
-    public GameView onCreateViewHolder(@NonNull ViewGroup viewGroup, int index) {
+    public GameView onCreateViewHolder(@NonNull ViewGroup viewGroup, final int index) {
+
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_game, viewGroup, false);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.joinGame(mGames.get(index).getGameID());
+            }
+        });
         return new GameView(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull GameView gameView, int index) {
         Game game = mGames.get(index);
-
         gameView.gameName.setText(game.getCreator().toString());
         gameView.numberOfPlayers.setText(game.getPlayerString());
     }
@@ -48,11 +58,12 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameView> {
         differences.dispatchUpdatesTo(this);
     }
 
+
     //This class is the layout/view for each individual list item
     public static class GameView extends RecyclerView.ViewHolder {
 
-        TextView gameName;
-        TextView numberOfPlayers;
+        private TextView gameName;
+        private TextView numberOfPlayers;
 
         public GameView(@NonNull View itemView) {
             super(itemView);
@@ -60,6 +71,7 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameView> {
             numberOfPlayers =  itemView.findViewById(R.id.playerCount);
 
         }
+
     }
 
 }

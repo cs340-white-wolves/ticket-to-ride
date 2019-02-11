@@ -17,6 +17,7 @@
     <string name="start_message">The game will start once
         all players have joined</string>
     <string name="no_games">No games have been created yet...\n Please create a game.</string>
+    <string name="lobby">Game Lobby</string>
     <string-array name="players">
         <item>Two</item>
         <item>Three</item>

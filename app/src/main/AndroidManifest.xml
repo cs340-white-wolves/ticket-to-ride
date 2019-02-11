@@ -14,17 +14,15 @@
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".activity.MainActivity">
-
-        </activity>
-        <activity android:name=".activity.LobbyActivity" />
-        <activity android:name=".activity.CreateGameActivity" />
-        <activity android:name=".activity.JoinGameActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.LobbyActivity" />
+        <activity android:name=".activity.CreateGameActivity" />
+        <activity android:name=".activity.JoinGameActivity"/>
         <activity android:name=".activity.PendingActivity" />
     </application>
 </manifest>

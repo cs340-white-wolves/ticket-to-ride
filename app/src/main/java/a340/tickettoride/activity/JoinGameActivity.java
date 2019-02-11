@@ -21,7 +21,7 @@ import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
-public class JoinGameActivity extends AppCompatActivity implements JoinGamePresenter.View, View.OnClickListener {
+public class JoinGameActivity extends AppCompatActivity implements JoinGamePresenter.View {
 
     private IJoinGamePresenter presenter;
     private GameAdapter listAdapter;
@@ -35,16 +35,24 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
 
         presenter = new JoinGamePresenter(this);
         message = findViewById(R.id.noGames);
-
         title = findViewById(R.id.joinGameTitle);
-        title.setOnClickListener(this);
+        title.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Games games = new Games();
+                games.addGame(new Game(5, new Username("username")));
+                onGameListUpdate(games);
+            }
+        });
+
         setupRecyclerView();
     }
 
     private void setupRecyclerView() {
-        Games games = presenter.getLobbyGames();
+        Games games = new Games();
         checkGameListLength(games);
-        listAdapter = new GameAdapter(games.getGameList());
+        listAdapter = new GameAdapter(games.getGameList(), presenter);
         RecyclerView gameListRecycler = findViewById(R.id.gameListRecycler);
         gameListRecycler.setLayoutManager(new LinearLayoutManager(this));
         gameListRecycler.setAdapter(listAdapter);
@@ -63,9 +71,15 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
     }
 
     @Override
-    public void onGameListUpdate(Games games) {
-        checkGameListLength(games);
-        listAdapter.updateList(games.getGameList());
+    public void onGameListUpdate(final Games games) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                checkGameListLength(games);
+                listAdapter.updateList(games.getGameList());
+            }
+        });
+
     }
 
     private void showMessage(String message) {
@@ -84,20 +98,10 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
             message.setVisibility(View.GONE);
         }
 
-
     }
 
 
 
-    @Override
-    public void onClick(View view) {
-        List<Game> games = presenter.getLobbyGames().getGameList();
-
-        games.get(0).setCreator(new Username("Spencer"));
-        games.get(0).addPlayer(new Player(new User(new Username("landon"), new Password("password"))));
-        listAdapter.updateList(games);
-
-    }
 }
 
 

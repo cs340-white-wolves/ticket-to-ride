@@ -26,18 +26,9 @@ public class JoinGamePresenter implements IJoinGamePresenter, Observer {
         }
 
         ServiceFacade.getInstance().joinGame(gameID);
+        view.onGameJoined();
     }
 
-    @Override
-    public Games getLobbyGames() {
-        //TODO connect to server
-//        List<Game> games = new ArrayList<>();
-
-        Games games = new Games();
-        games.addGame(new Game(5,new Username("Curt")));
-
-        return games;
-    }
 
     @Override
     public void update(Observable o, Object arg) {

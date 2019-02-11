@@ -5,5 +5,5 @@ import cs340.TicketToRide.utility.ID;
 
 public interface IJoinGamePresenter {
     void joinGame(ID gameID);
-    Games getLobbyGames();
+//    Games getLobbyGames();
 }
