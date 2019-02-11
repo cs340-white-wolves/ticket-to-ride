@@ -114,4 +114,9 @@ public class Game {
                 ", creator=" + creator +
                 '}';
     }
+
+    public String getPlayerString(){
+
+        return getNumCurrentPlayers() + "/" +getTargetNumPlayers() + " Players";
+    }
 }

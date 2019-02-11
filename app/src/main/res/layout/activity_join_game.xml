@@ -16,26 +16,25 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/chipfn"
+        android:text="@string/joinGameTitle"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/Red"
         android:textSize="48sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/joinGameTitle" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gameListRecycler"
         android:layout_width="395dp"
-        android:layout_height="193dp"
+        android:layout_height="0dp"
         android:layout_marginStart="60dp"
         android:layout_marginTop="60dp"
         android:layout_marginEnd="60dp"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/rectangle"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:padding="5dp"
         android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,5 +56,22 @@
         app:layout_constraintBottom_toTopOf="@+id/gameListRecycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/noGames"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/vacer"
+        android:text="@string/no_games"
+        android:textAlignment="center"
+        android:textColor="@color/DarkBrown"
+        android:textSize="24sp"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listTitle" />
 
 </android.support.constraint.ConstraintLayout>

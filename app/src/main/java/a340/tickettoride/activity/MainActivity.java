@@ -96,7 +96,9 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     @Override
     public void onInvalid(String errorMessage) {
         mErrorMessage.setText(errorMessage);
+        mErrorMessage.setVisibility(View.VISIBLE);
         showMessage(errorMessage); // toast indicating what went wrong
+
     }
 
     private void showMessage(String message) {

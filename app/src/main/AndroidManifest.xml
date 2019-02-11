@@ -22,7 +22,7 @@
         </activity>
         <activity android:name=".activity.LobbyActivity" />
         <activity android:name=".activity.CreateGameActivity" />
-        <activity android:name=".activity.JoinGameActivity" />
+        <activity android:name=".activity.JoinGameActivity"/>
         <activity android:name=".activity.PendingActivity" />
     </application>
 </manifest>

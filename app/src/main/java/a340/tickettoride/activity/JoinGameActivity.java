@@ -5,15 +5,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.List;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IJoinGamePresenter;
 import a340.tickettoride.presenter.JoinGamePresenter;
+import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.Games;
+import cs340.TicketToRide.model.Player;
+import cs340.TicketToRide.model.User;
+import cs340.TicketToRide.utility.Password;
+import cs340.TicketToRide.utility.Username;
 
 public class JoinGameActivity extends AppCompatActivity implements JoinGamePresenter.View {
+
     private IJoinGamePresenter presenter;
+    private GameAdapter listAdapter;
+    private TextView message;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,12 +34,18 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
         setContentView(R.layout.activity_join_game);
 
         presenter = new JoinGamePresenter(this);
+        message = findViewById(R.id.noGames);
+
         setupRecyclerView();
     }
 
     private void setupRecyclerView() {
+        Games games = new Games();
+        checkGameListLength(games);
+        listAdapter = new GameAdapter(games.getGameList(), presenter);
         RecyclerView gameListRecycler = findViewById(R.id.gameListRecycler);
         gameListRecycler.setLayoutManager(new LinearLayoutManager(this));
+        gameListRecycler.setAdapter(listAdapter);
     }
 
     @Override
@@ -42,8 +61,15 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
     }
 
     @Override
-    public void onGameListUpdate(Games games) {
-        // TODO: Update recycler view with new game list
+    public void onGameListUpdate(final Games games) {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                checkGameListLength(games);
+                listAdapter.updateList(games.getGameList());
+            }
+        });
+
     }
 
     private void showMessage(String message) {
@@ -52,5 +78,20 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
                 Toast.LENGTH_SHORT).show();
     }
 
+    private void checkGameListLength(Games games) {
+        int numGames = games.getGameList().size();
+
+        if (numGames == 0) {
+            message.setVisibility(View.VISIBLE);
+        }
+        else {
+            message.setVisibility(View.GONE);
+        }
+
+    }
+
+
 
 }
+
+
