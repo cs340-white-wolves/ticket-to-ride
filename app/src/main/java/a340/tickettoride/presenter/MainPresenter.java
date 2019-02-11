@@ -30,15 +30,25 @@ public class MainPresenter implements Observer, IMainPresenter {
 
     @Override
     public void login(String usernameStr, String passStr) {
-        setUsernamePassword(usernameStr, passStr);
-        ServiceFacade.getInstance().login(username, password);
+        try {
+            setUsernamePassword(usernameStr, passStr);
+            ServiceFacade.getInstance().login(username, password);
+        } catch (IllegalArgumentException e) {
+            view.onInvalid(e.getMessage());
+        }
+
     }
 
     @Override
     public void register(String usernameStr, String passStr) {
         Log.d("MainPresenter", "in register");
-        setUsernamePassword(usernameStr, passStr);
-        ServiceFacade.getInstance().register(username, password);
+        try {
+            setUsernamePassword(usernameStr, passStr);
+            ServiceFacade.getInstance().register(username, password);
+        } catch (IllegalArgumentException e) {
+            view.onInvalid(e.getMessage());
+        }
+
     }
 
     @Override

@@ -12,7 +12,7 @@ public class Username {
 
     private void setUsername(String username) {
         if (username == null || username.equals("") || username.contains(" ")) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid Username");
         }
         this.username = username;
     }
