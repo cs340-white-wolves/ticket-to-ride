@@ -31,7 +31,6 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
 
         findViews();
         setupGameName();
-        setupPlayerList();
     }
 
     private void findViews() {
@@ -43,11 +42,6 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
         activeGame = presenter.getActiveGame();
         String name = activeGame.getCreator() + "'s game";
         mGameName.setText(name);
-    }
-
-    private void setupPlayerList() {
-        activeGame = presenter.getActiveGame();
-        mPlayerList.setText(""); // TODO: set the initial players
     }
 
     @Override
