@@ -42,7 +42,8 @@ class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameView> {
     @Override
     public void onBindViewHolder(@NonNull GameView gameView, int index) {
         Game game = mGames.get(index);
-        gameView.gameName.setText(game.getCreator().toString());
+        String formattedName = game.getCreator().toString() + "'s Game";
+        gameView.gameName.setText(formattedName);
         gameView.numberOfPlayers.setText(game.getPlayerString());
     }
 
