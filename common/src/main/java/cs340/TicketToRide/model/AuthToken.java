@@ -44,6 +44,6 @@ public class AuthToken {
 
     @Override
     public int hashCode() {
-        return Objects.hash(token);
+        return token.hashCode();
     }
 }

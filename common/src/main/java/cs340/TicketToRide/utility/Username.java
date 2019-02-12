@@ -37,6 +37,6 @@ public class Username {
 
     @Override
     public int hashCode() {
-        return Objects.hash(username);
+        return username.hashCode();
     }
 }

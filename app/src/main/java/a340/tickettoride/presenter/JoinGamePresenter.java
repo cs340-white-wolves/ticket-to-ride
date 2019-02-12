@@ -26,7 +26,6 @@ public class JoinGamePresenter implements IJoinGamePresenter, Observer {
         }
 
         ServiceFacade.getInstance().joinGame(gameID);
-        view.onGameJoined();
     }
 
     @Override
@@ -42,6 +41,11 @@ public class JoinGamePresenter implements IJoinGamePresenter, Observer {
 
     @Override
     public void update(Observable o, Object arg) {
+        if (arg instanceof Game) {
+            view.onGameJoined();
+            return;
+        }
+
         if (arg instanceof Games) {
             view.onGameListUpdate((Games) arg);
             return;

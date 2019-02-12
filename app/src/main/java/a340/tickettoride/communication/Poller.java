@@ -14,7 +14,7 @@ import a340.tickettoride.model.IClientModel;
 import cs340.TicketToRide.model.Games;
 
 public class Poller {
-    public static final int POLLER_FREQUENCY = 1; // in seconds
+    public static final int POLLER_FREQUENCY = 5; // in seconds
     private Listener listener;
     private ScheduledFuture scheduledFuture;
 

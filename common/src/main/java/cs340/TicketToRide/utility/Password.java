@@ -37,6 +37,6 @@ public class Password {
 
     @Override
     public int hashCode() {
-        return Objects.hash(password);
+        return password.hashCode();
     }
 }
