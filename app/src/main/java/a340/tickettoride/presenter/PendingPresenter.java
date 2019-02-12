@@ -14,7 +14,6 @@ import cs340.TicketToRide.utility.ID;
 
 public class PendingPresenter implements IPendingPresenter, Observer {
     private View view;
-    private Game activeGame;
 
     public PendingPresenter(View view) {
         ClientModel.getInstance().addObserver(this);
@@ -36,15 +35,10 @@ public class PendingPresenter implements IPendingPresenter, Observer {
         Log.i("PendingPresenter", "Got update" + arg.getClass().getName());
         // TODO: right now, this is using the entire game list. We should switch to only polling the active game.
         if (arg instanceof Games) {
-            Games games = (Games) arg;
+            Game activeGame = ClientModel.getInstance().getActiveGame();
 
-            ClientModel model = ClientModel.getInstance();
-            ID gameId = model.getActiveGame().getGameID();
-
-            activeGame = games.getGameByID(gameId);
-
-            view.onUpdatePlayers(activeGame.getPlayers());
             view.onUpdateGame(activeGame);
+            view.onUpdatePlayers(activeGame.getPlayers());
 
             if (activeGame.hasTargetNumPlayers()) {
                 view.onGameStarting();

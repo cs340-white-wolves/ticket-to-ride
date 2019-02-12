@@ -1,5 +1,7 @@
 package a340.tickettoride.model;
 
+import android.util.Log;
+
 import java.util.Observable;
 import java.util.Observer;
 
@@ -12,6 +14,7 @@ import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.User;
 
 public class ClientModel extends Observable implements IClientModel, Poller.Listener {
+    private Poller poller = new Poller(this);
     private static ClientModel singleton;
 
     private User loggedInUser;
@@ -20,6 +23,14 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
     private Games lobbyGameList;
 
     private ClientModel() {
+        Log.i("ClientModel", "I'm alive!");
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        Log.i("ClientModel", "I'm DEAD!");
+
+        super.finalize();
     }
 
     public static ClientModel getInstance() {
@@ -32,8 +43,20 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
 
     public void onPollComplete(Games lobbyGameList) {
         setLobbyGameList(lobbyGameList);
+        setActiveGameFromGames(lobbyGameList);
         setChanged();
         notifyObservers(lobbyGameList);
+    }
+
+    private void setActiveGameFromGames(Games lobbyGameList) {
+        if (activeGame == null) {
+            return;
+        }
+
+        Game game = lobbyGameList.getGameByID(activeGame.getGameID());
+
+        // The players in the active game change!
+        setActiveGame(game);
     }
 
     public void onAuthenticateFail(Exception e) {
@@ -74,7 +97,8 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
     }
 
     private void startPoller() {
-        new Poller(this).run();
+        poller = new Poller(this);
+        poller.run();
     }
 
     public void setLoggedInUser(User loggedInUser) {

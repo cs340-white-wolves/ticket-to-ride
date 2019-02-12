@@ -20,7 +20,6 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
     private IPendingPresenter presenter;
     private TextView mGameName;
     private TextView mPlayerList;
-    private Game activeGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +50,6 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
     }
 
     private void setupGameName() {
-        activeGame = presenter.getActiveGame();
         mGameName.setText("Loading game...");
     }
 
@@ -78,8 +76,14 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
 
     @Override
     public void onUpdateGame(Game game) {
-        String name = activeGame.getCreator() + "'s game";
-        mGameName.setText(name);
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Game activeGame = presenter.getActiveGame();
+                String name = activeGame.getCreator() + "'s game";
+                mGameName.setText(name);
+            }
+        });
     }
 
     @Override

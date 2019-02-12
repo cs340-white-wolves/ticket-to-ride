@@ -29,12 +29,18 @@ public class Poller {
         scheduledFuture = scheduler.scheduleAtFixedRate(new Thread() {
             @Override
             public void run() {
-                Log.i("Poller", "fixedRate run()");
-                IClientModel model = ClientModel.getInstance();
-                ServerProxy server = ServerProxy.getInstance();
-                Games games = server.getAvailableGames(model.getAuthToken());
-                Log.i("Poller", "Got " + games.getGameSet().size() + " games");
-                listener.onPollComplete(games);
+                try {
+                    Log.i("Poller", "fixedRate run()");
+                    IClientModel model = ClientModel.getInstance();
+                    ServerProxy server = ServerProxy.getInstance();
+                    Games games = server.getAvailableGames(model.getAuthToken());
+                    Log.i("Poller", "Got " + games.getGameSet().size() + " games");
+                    listener.onPollComplete(games);
+                }
+                catch (Throwable t) {
+                    t.printStackTrace();
+                    Log.e("Poller", t.getMessage());
+                }
             }
         }, 0, POLLER_FREQUENCY, TimeUnit.SECONDS);
     }
