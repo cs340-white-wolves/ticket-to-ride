@@ -64,4 +64,8 @@ public class Games {
         return list;
     }
 
+    public int size() {
+        return games.size();
+    }
+
 }

@@ -49,7 +49,7 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
     }
 
     private void setActiveGameFromGames(Games lobbyGameList) {
-        if (activeGame == null) {
+        if (activeGame == null || lobbyGameList == null || lobbyGameList.size() == 0) {
             return;
         }
 
