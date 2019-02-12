@@ -89,7 +89,12 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
     @Override
     public void onGameStarting() { // this will be implemented in the next phase
         // start the game
-        showMessage("Game is starting");
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                showMessage("Game is starting");
+            }
+        });
     }
 
     private void showMessage(String message) {

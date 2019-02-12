@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 import a340.tickettoride.communication.Poller;
 import a340.tickettoride.presenter.MainPresenter;
@@ -54,6 +55,10 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
         }
 
         Game game = lobbyGameList.getGameByID(activeGame.getGameID());
+
+        if (game == null) {
+            return;
+        }
 
         // The players in the active game change!
         setActiveGame(game);
@@ -114,6 +119,16 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
     }
 
     public void setLobbyGameList(Games lobbyGameList) {
+        Set<Game> gameSet = lobbyGameList.getGameSet();
+
+        Games lobbyGames = new Games();
+
+        for (Game game : gameSet) {
+            if (!game.hasTargetNumPlayers()) {
+                lobbyGames.addGame(game);
+            }
+        }
+
         this.lobbyGameList = lobbyGameList;
     }
 
