@@ -42,11 +42,11 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
         return singleton;
     }
 
-    public void onPollComplete(Games lobbyGameList) {
-        setLobbyGameList(lobbyGameList);
-        setActiveGameFromGames(lobbyGameList);
+    public void onPollComplete(Games gameList) {
+        setLobbyGameList(gameList);
+        setActiveGameFromGames(gameList);
         setChanged();
-        notifyObservers(lobbyGameList);
+        notifyObservers(this.lobbyGameList);
     }
 
     private void setActiveGameFromGames(Games lobbyGameList) {
@@ -129,7 +129,7 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
             }
         }
 
-        this.lobbyGameList = lobbyGameList;
+        this.lobbyGameList = lobbyGames;
     }
 
     public User getLoggedInUser() {

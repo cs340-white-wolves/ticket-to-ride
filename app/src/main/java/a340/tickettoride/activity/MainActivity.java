@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IMainPresenter;
@@ -109,14 +108,6 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
     public void onInvalid(String errorMessage) {
         mErrorMessage.setText(errorMessage);
         mErrorMessage.setVisibility(View.VISIBLE);
-        showMessage(errorMessage); // toast indicating what went wrong
-
-    }
-
-    private void showMessage(String message) {
-        Toast.makeText(this,
-                message,
-                Toast.LENGTH_SHORT).show();
     }
 
     private boolean canLogin() {
