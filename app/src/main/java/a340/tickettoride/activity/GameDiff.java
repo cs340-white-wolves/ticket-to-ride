@@ -5,7 +5,7 @@ import android.support.v7.util.DiffUtil;
 
 import java.util.List;
 
-import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.utility.ID;
 
 public class GameDiff extends DiffUtil.Callback {

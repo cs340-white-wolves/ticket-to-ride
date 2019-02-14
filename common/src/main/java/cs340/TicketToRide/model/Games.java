@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.utility.ID;
 
 public class Games {

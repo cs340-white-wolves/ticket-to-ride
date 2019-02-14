@@ -1,10 +1,26 @@
-package cs340.TicketToRide.model;
+package cs340.TicketToRide.model.game;
 
 import java.util.Objects;
+import java.util.Set;
+
+import cs340.TicketToRide.model.User;
+import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.TrainCard;
 
 public class Player {
 
+    enum Color {
+        red, green, blue, yellow, black
+    }
+
     private User user;
+    private int score;
+    private int numTrains;
+    private Set<TrainCard> trainCards;
+    private Set<DestinationCard> destinationCards;
+    private Color color;
+
+    // todo: should the player have a set of routes? or route has player?
 
     public Player(User user) {
         setUser(user);
