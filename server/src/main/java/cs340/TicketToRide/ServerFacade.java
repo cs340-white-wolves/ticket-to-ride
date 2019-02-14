@@ -24,14 +24,12 @@ public class ServerFacade implements IServer {
 
     private ServerFacade() {
     }
-
     public static ServerFacade getInstance() {
         if (singleton == null) {
             singleton = new ServerFacade();
         }
         return singleton;
     }
-
     public LoginRegisterResponse login(Username username, Password password) {
         return new LoginService().login(username, password);
     }
@@ -44,7 +42,6 @@ public class ServerFacade implements IServer {
     public Game joinGame(AuthToken token, ID gameId) {
         return new JoinGameService().joinGame(token, gameId);
     }
-
     public Games getAvailableGames(AuthToken token) {
         return new GamesService().getAvailableGames(token);
     }

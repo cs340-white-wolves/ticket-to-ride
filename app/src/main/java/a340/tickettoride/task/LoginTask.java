@@ -24,7 +24,6 @@ public class LoginTask extends AsyncTask<Void, Integer, LoginRegisterResponse> {
 
     @Override
     protected LoginRegisterResponse doInBackground(Void... voids) {
-        Log.d("LoginTask", "in do in background");
         IServer server = ServerProxy.getInstance();
         try {
             return server.login(username, password);

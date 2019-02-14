@@ -38,7 +38,6 @@ public class ServiceFacade {
     }
 
     public void register(Username username, Password password) {
-        Log.d("ServiceFacade", "in register");
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }

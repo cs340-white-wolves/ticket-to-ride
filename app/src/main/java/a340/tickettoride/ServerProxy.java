@@ -34,25 +34,19 @@ public class ServerProxy implements IServer {
     }
 
     public LoginRegisterResponse login(Username username, Password password) {
-        Log.d("ServerProxy", "in login");
         if (username == null || password == null || !username.isValid() || !password.isValid()) {
             throw new IllegalArgumentException();
         }
-
         ICommand command = new Command(
                 "login",
                 new String[]{Username.class.getName(), Password.class.getName()},
                 new Object[]{username, password}
         );
-
         Response response = communicator.sendCommand(command);
-
         if (response.isError()) {
             throw response.getException();
         }
-
         Object resultObject = response.getResultObject();
-
         return (LoginRegisterResponse)resultObject;
     }
 
