@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import cs340.TicketToRide.model.game.board.Board;
+import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Username;
 

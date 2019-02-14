@@ -1,4 +1,6 @@
-package cs340.TicketToRide.model.game;
+package cs340.TicketToRide.model.game.card;
+
+import cs340.TicketToRide.model.game.board.City;
 
 public class DestinationCard {
     private City city1;

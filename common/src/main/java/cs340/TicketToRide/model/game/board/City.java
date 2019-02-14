@@ -1,4 +1,4 @@
-package cs340.TicketToRide.model.game;
+package cs340.TicketToRide.model.game.board;
 
 public class City {
     private String name;

@@ -4,6 +4,8 @@ import java.util.Objects;
 import java.util.Set;
 
 import cs340.TicketToRide.model.User;
+import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.TrainCard;
 
 public class Player {
 

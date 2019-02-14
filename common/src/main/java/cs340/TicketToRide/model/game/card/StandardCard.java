@@ -1,7 +1,7 @@
-package cs340.TicketToRide.model.game;
+package cs340.TicketToRide.model.game.card;
 
 public class StandardCard {
-    enum Color {
+    public enum Color {
         passengerWhite, tankerBlue, reeferYellow, freightOrange,
         cabooseGreen, boxPurple, hopperBlack, coalRed
     }
