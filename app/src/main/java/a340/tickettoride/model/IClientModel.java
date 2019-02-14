@@ -2,7 +2,7 @@ package a340.tickettoride.model;
 
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
-import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.model.game.Game;
 
 public interface IClientModel {
     void onAuthenticateFail(Exception e);

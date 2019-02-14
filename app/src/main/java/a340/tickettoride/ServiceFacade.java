@@ -1,13 +1,10 @@
 package a340.tickettoride;
 
-import android.util.Log;
-
 import a340.tickettoride.task.CreateGameTask;
 import a340.tickettoride.task.JoinGameTask;
 import a340.tickettoride.task.LoginTask;
 import a340.tickettoride.task.RegisterTask;
-import cs340.TicketToRide.IServer;
-import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;

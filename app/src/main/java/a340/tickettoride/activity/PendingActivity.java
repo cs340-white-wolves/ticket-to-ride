@@ -7,14 +7,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.StringWriter;
-import java.util.Iterator;
 import java.util.Set;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IPendingPresenter;
 import a340.tickettoride.presenter.PendingPresenter;
-import cs340.TicketToRide.model.Game;
-import cs340.TicketToRide.model.Player;
+import cs340.TicketToRide.model.game.Game;
+import cs340.TicketToRide.model.game.Player;
 
 public class PendingActivity extends AppCompatActivity implements PendingPresenter.View {
     private IPendingPresenter presenter;

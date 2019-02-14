@@ -7,10 +7,9 @@ import java.util.Observer;
 import java.util.Set;
 
 import a340.tickettoride.model.ClientModel;
-import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
-import cs340.TicketToRide.model.Player;
-import cs340.TicketToRide.utility.ID;
+import cs340.TicketToRide.model.game.Player;
 
 public class PendingPresenter implements IPendingPresenter, Observer {
     private View view;

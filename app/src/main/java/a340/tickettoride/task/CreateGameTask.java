@@ -7,7 +7,7 @@ import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
 import cs340.TicketToRide.IServer;
 import cs340.TicketToRide.model.AuthToken;
-import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.model.game.Game;
 
 public class CreateGameTask extends AsyncTask<Void, Integer, Game> {
     private IClientModel model = ClientModel.getInstance();

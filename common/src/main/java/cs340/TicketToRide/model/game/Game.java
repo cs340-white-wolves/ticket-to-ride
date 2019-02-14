@@ -1,4 +1,4 @@
-package cs340.TicketToRide.model;
+package cs340.TicketToRide.model.game;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -15,6 +15,13 @@ public class Game {
     private Set<Player> players;
     private ID gameID;
     private Username creator;
+    private Board board;
+    private Set<DestinationCard> destinationCardDeck;
+    private Set<TrainCard> trainCardDeck;
+    private Set<TrainCard> discardedTrainCards;
+    private Set<TrainCard> faceUpTrainCards;
+
+    // todo: do we want to make any custom classes for these instead of natives?
 
     public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);

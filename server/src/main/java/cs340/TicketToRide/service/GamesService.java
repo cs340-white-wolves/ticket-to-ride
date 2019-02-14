@@ -1,10 +1,7 @@
 package cs340.TicketToRide.service;
 
-import java.util.Set;
-
 import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.model.AuthToken;
-import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.IServerModel;
 import cs340.TicketToRide.model.ServerModel;

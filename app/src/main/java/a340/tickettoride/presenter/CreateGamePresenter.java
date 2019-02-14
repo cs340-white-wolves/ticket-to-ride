@@ -5,10 +5,8 @@ import java.util.Observer;
 
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
-import a340.tickettoride.task.CreateGameTask;
 import cs340.TicketToRide.exception.AuthenticationException;
-import cs340.TicketToRide.exception.GameFullException;
-import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.model.game.Game;
 
 public class CreateGamePresenter implements ICreateGamePresenter, Observer {
     private View view;

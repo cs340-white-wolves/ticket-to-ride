@@ -12,7 +12,7 @@ import java.util.List;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IJoinGamePresenter;
-import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.model.game.Game;
 
 
 class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameView> {
