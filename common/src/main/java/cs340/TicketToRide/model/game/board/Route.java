@@ -6,7 +6,8 @@ public class Route {
     private City city1;
     private City city2;
     private StandardCard.Color color; // todo: if color is empty, it's gray
-    private int length; // todo: use this to determine points
+    private int length;
+    // todo: should a route have a player occupying it? or a player should have a set of routes they occupy?
 
     public int getPointValue() {
         switch (length) {
