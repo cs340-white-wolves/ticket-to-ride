@@ -1,10 +1,12 @@
 package cs340.TicketToRide.model.game;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 import cs340.TicketToRide.model.game.board.Board;
+import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.ID;
@@ -19,12 +21,10 @@ public class Game {
     private ID gameID;
     private Username creator;
     private Board board;
-    private Set<DestinationCard> destinationCardDeck;
-    private Set<TrainCard> trainCardDeck;
-    private Set<TrainCard> discardedTrainCards;
-    private Set<TrainCard> faceUpTrainCards;
-
-    // todo: do we want to make any custom classes for these instead of natives?
+    private List<TrainCard> discardedTrainCards;
+    private List<TrainCard> faceUpTrainCards;
+    private Deck<TrainCard> trainCardDeck;
+    private Deck<DestinationCard> destinationCardDeck;
 
     public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);
