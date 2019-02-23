@@ -6,6 +6,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 

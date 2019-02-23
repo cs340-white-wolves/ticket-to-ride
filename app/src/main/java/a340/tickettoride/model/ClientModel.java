@@ -7,10 +7,9 @@ import java.util.Observer;
 import java.util.Set;
 
 import a340.tickettoride.communication.Poller;
-import a340.tickettoride.presenter.MainPresenter;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
-import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.User;
 

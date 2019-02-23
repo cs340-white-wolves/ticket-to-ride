@@ -1,14 +1,9 @@
 package cs340.TicketToRide;
 
 import cs340.TicketToRide.communication.LoginRegisterResponse;
-import cs340.TicketToRide.exception.AuthenticationException;
-import cs340.TicketToRide.exception.GameFullException;
-import cs340.TicketToRide.exception.NotUniqueException;
 import cs340.TicketToRide.model.AuthToken;
-import cs340.TicketToRide.model.Game;
+import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
-import cs340.TicketToRide.model.IServerModel;
-import cs340.TicketToRide.model.ServerModel;
 import cs340.TicketToRide.service.CreateGameService;
 import cs340.TicketToRide.service.GamesService;
 import cs340.TicketToRide.service.JoinGameService;

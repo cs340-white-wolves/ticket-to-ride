@@ -9,17 +9,10 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IJoinGamePresenter;
 import a340.tickettoride.presenter.JoinGamePresenter;
-import cs340.TicketToRide.model.Game;
 import cs340.TicketToRide.model.Games;
-import cs340.TicketToRide.model.Player;
-import cs340.TicketToRide.model.User;
-import cs340.TicketToRide.utility.Password;
-import cs340.TicketToRide.utility.Username;
 
 public class JoinGameActivity extends AppCompatActivity implements JoinGamePresenter.View {
 
