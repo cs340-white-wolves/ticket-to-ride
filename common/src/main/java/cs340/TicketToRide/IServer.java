@@ -14,4 +14,9 @@ public interface IServer {
     Game createGame(AuthToken token, int numPlayers);
     Game joinGame(AuthToken token, ID gameId);
     Games getAvailableGames(AuthToken token);
+    /*
+        SendChat
+        getDestCards? they get automatically
+        Return dest cards
+     */
 }
