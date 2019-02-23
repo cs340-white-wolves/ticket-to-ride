@@ -4,8 +4,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import a340.tickettoride.model.ClientModel;
+import a340.tickettoride.observerable.ModelChangeType;
+import a340.tickettoride.observerable.ModelObserver;
 
-public class LobbyPresenter implements ILobbyPresenter, Observer {
+public class LobbyPresenter implements ILobbyPresenter, ModelObserver {
     private View view;
 
     public LobbyPresenter(View view) {
@@ -34,8 +36,8 @@ public class LobbyPresenter implements ILobbyPresenter, Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        // Nothing to observe yet
+    public void onModelEvent(ModelChangeType changeType, Object obj) {
+        // This does not do anything currently
     }
 
     public interface View {

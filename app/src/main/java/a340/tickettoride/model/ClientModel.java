@@ -7,13 +7,15 @@ import java.util.Observer;
 import java.util.Set;
 
 import a340.tickettoride.communication.Poller;
+import a340.tickettoride.observerable.ModelChangeType;
+import a340.tickettoride.observerable.ModelObservable;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.User;
 
-public class ClientModel extends Observable implements IClientModel, Poller.Listener {
+public class ClientModel extends ModelObservable implements IClientModel, Poller.Listener {
     private Poller poller = new Poller(this);
     private static ClientModel singleton;
 
@@ -44,8 +46,7 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
     public void onPollComplete(Games gameList) {
         setLobbyGameList(gameList);
         setActiveGameFromGames(gameList);
-        setChanged();
-        notifyObservers(this.lobbyGameList);
+        notifyObservers(ModelChangeType.AvailableGameList, gameList);
     }
 
     private void setActiveGameFromGames(Games lobbyGameList) {
@@ -64,40 +65,34 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
     }
 
     public void onAuthenticateFail(Exception e) {
-        setChanged();
-        notifyObservers(e);
+        notifyObservers(ModelChangeType.FailureException, e);
     }
 
     public void onAuthenticateSuccess(LoginRegisterResponse response) {
         setAuthToken(response.getToken());
         setLoggedInUser(response.getUser());
         startPoller();
-        setChanged();
-        notifyObservers(response);
+        notifyObservers(ModelChangeType.AuthenticateSuccess, response);
     }
 
     public void onJoinGameSuccess(Game game) {
         setActiveGame(game);
-        setChanged();
-        notifyObservers(game);
+        notifyObservers(ModelChangeType.JoinGame, game);
     }
 
     public void onJoinGameFail(Exception e) {
-        setChanged();
-        notifyObservers(e);
+        notifyObservers(ModelChangeType.FailureException, e);
     }
 
     @Override
     public void onCreateGameSuccess(Game game) {
         setActiveGame(game);
-        setChanged();
-        notifyObservers(game);
+        notifyObservers(ModelChangeType.JoinGame, game);
     }
 
     @Override
     public void onCreateGameFail(Exception e) {
-        setChanged();
-        notifyObservers(e);
+        notifyObservers(ModelChangeType.FailureException, e);
     }
 
     private void startPoller() {
@@ -145,10 +140,5 @@ public class ClientModel extends Observable implements IClientModel, Poller.List
 
     public AuthToken getAuthToken() {
         return authToken;
-    }
-
-    public void setupNewObserver(Observer observer) {
-        deleteObservers();
-        addObserver(observer);
     }
 }
