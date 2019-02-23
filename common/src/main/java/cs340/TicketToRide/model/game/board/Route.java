@@ -1,12 +1,14 @@
 package cs340.TicketToRide.model.game.board;
 
-import cs340.TicketToRide.model.game.card.StandardCard;
+import cs340.TicketToRide.model.game.card.TrainCard;
 
 public class Route {
     private City city1;
     private City city2;
-    private StandardCard.Color color; // todo: if color is empty, it's gray
-    private int length; // todo: use this to determine points
+    private TrainCard.Color color; // if color is empty, it's gray
+    private int length;
+
+    // todo: should a route have a player occupying it? or a player should have a set of routes they occupy?
 
     public int getPointValue() {
         switch (length) {
