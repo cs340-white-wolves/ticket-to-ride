@@ -2,12 +2,15 @@ package a340.tickettoride.activity;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import a340.tickettoride.R;
@@ -41,8 +44,17 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng chicago = new LatLng(39.8283, -98.5795);
+        final LatLngBounds BOUNDS = new LatLngBounds(chicago, chicago);
+        mMap.setLatLngBoundsForCameraTarget(BOUNDS);
+        mMap.setMinZoomPreference(4);
+        mMap.setMaxZoomPreference(5);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setZoomGesturesEnabled(true);
+        boolean success = mMap.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                        this, R.raw.map_options));
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(chicago));
     }
 }
