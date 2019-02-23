@@ -5,11 +5,13 @@ import java.util.Observer;
 
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
+import a340.tickettoride.observerable.ModelChangeType;
+import a340.tickettoride.observerable.ModelObserver;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.utility.ID;
 
-public class JoinGamePresenter implements IJoinGamePresenter, Observer {
+public class JoinGamePresenter implements IJoinGamePresenter, ModelObserver {
     private View view;
 
     public JoinGamePresenter(View view) {
@@ -39,20 +41,21 @@ public class JoinGamePresenter implements IJoinGamePresenter, Observer {
 
 
     @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof Game) {
+    public void onModelEvent(ModelChangeType changeType, Object obj) {
+        if (changeType == ModelChangeType.JoinGame) {
             view.onGameJoined();
             return;
         }
 
-        if (arg instanceof Games) {
-            view.onGameListUpdate((Games) arg);
+        if (changeType == ModelChangeType.AvailableGameList) {
+            view.onGameListUpdate((Games) obj);
             return;
         }
 
-        if (arg instanceof Exception) {
-            Exception e = (Exception) arg;
+        if (changeType == ModelChangeType.FailureException) {
+            Exception e = (Exception) obj;
             view.onGameJoinFail(e.getMessage());
+            return;
         }
     }
 

@@ -5,10 +5,12 @@ import java.util.Observer;
 
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
+import a340.tickettoride.observerable.ModelChangeType;
+import a340.tickettoride.observerable.ModelObserver;
 import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.model.game.Game;
 
-public class CreateGamePresenter implements ICreateGamePresenter, Observer {
+public class CreateGamePresenter implements ICreateGamePresenter, ModelObserver {
     private View view;
 
     public CreateGamePresenter(View view) {
@@ -35,25 +37,16 @@ public class CreateGamePresenter implements ICreateGamePresenter, Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof AuthenticationException) {
-            Exception exception = (Exception)arg;
-            view.onInvalid(exception.getMessage());
-            return;
-        }
-
-        // todo: how to handle?
-        if (arg instanceof Exception) {
-            Exception exception = (Exception)arg;
-            view.onInvalid(exception.getMessage());
-            return;
-        }
-
-        if (arg instanceof Game) {
+    public void onModelEvent(ModelChangeType changeType, Object obj) {
+        if (changeType == ModelChangeType.JoinGame) {
             view.onGameCreated();
+            return;
         }
 
-        // todo: unknown error
+        if (changeType == ModelChangeType.FailureException) {
+            Exception exception = (Exception)obj;
+            view.onInvalid(exception.getMessage());
+        }
     }
 
     public interface View {
