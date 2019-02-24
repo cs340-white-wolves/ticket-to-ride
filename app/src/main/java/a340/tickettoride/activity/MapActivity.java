@@ -2,7 +2,6 @@ package a340.tickettoride.activity;
 
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -77,12 +76,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     private void addCityToMap(City city) {
-
+        LatLng latLng = new LatLng(city.getLat(), city.getLng());
+        String name = city.getName();
     }
 
     private void drawRoute(Route route) {
-        LatLng first = new LatLng(route.getCity1().getLat(), route.getCity1().getLng());
-        LatLng second = new LatLng(route.getCity2().getLat(), route.getCity2().getLng());
+        LatLng first = new LatLng(route.getCity1Lat(), route.getCity1Lng());
+        LatLng second = new LatLng(route.getCity2Lat(), route.getCity2Lng());
 
         if (route.isDoubleRoute()) {
             first = new LatLng(route.getCity1OffsetLat(), route.getCity1OffsetLng());
@@ -90,12 +90,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
 
         Color color = route.getColor();
-        int length = route.getLength();
         int colorValue = getColorValue(color);
         PolylineOptions polylineOptions = new PolylineOptions().add(first, second)
                 .color(colorValue).width(20);
         map.addPolyline(polylineOptions);
+        drawRouteLength(route);
     }
+
+    private void drawRouteLength(Route route) {
+        int length = route.getLength();
+        double midLat = route.getMidLat();
+        double midLng = route.getMidLng();
+    }
+
+
     private Integer getColorValue(Color color) {
         if (color == null) {
             return GRAY;

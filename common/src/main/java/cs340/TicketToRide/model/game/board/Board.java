@@ -157,30 +157,6 @@ public class Board {
         routes.add(route);
     }
 
-    public static void main(String[] args) {
-        Board board = new Board();
-        Set<Route> routes = board.getRoutes();
-        for (Route route : routes) {
-            if (route.isDoubleRoute()) {
-                City city1 = route.getCity1();
-                City city2 = route.getCity2();
-                System.out.println("City 1 lat: " + city1.getLat());
-                System.out.println("City 1 lng: " + city1.getLng());
-                System.out.println("City 1 new lat: " + route.getCity1OffsetLat());
-                System.out.println("\n\n\n");
-                System.out.println("City 1 new lng: " + route.getCity1OffsetLng());
-
-                System.out.println("\n\n\n");
-                System.out.println("City 2 lat: " + city2.getLat());
-                System.out.println("City 2 lng: " + city2.getLng());
-                System.out.println("City 2 new lat: " + route.getCity2OffsetLat());
-                System.out.println("\n\n\n");
-                System.out.println("City 2 new lng: " + route.getCity2OffsetLng());
-                return;
-            }
-        }
-    }
-
     private void addDoubleRoute(City city1, City city2, Color color1, Color color2, int length) {
         Route route1 = new Route(city1, city2, color1, length, 1);
         Route route2 = new Route(city1, city2, color2, length, 2);

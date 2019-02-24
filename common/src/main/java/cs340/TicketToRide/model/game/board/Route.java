@@ -1,6 +1,7 @@
 package cs340.TicketToRide.model.game.board;
 
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.utility.ID;
 
 public class Route {
     public static final double SHIFT_OFFSET = 0.4;
@@ -11,6 +12,7 @@ public class Route {
     private int length;
     private boolean isDoubleRoute;
     private int priority;
+    private ID occupierId;
 
     // todo: should a route have a player occupying it? or a player should have a set of routes they occupy?
 
@@ -34,12 +36,6 @@ public class Route {
     }
 
     private double getSlope(double x1, double x2, double y1, double y2) {
-//        double y1 = city1.getLat();
-//        double x1 = city1.getLng();
-//
-//        double y2 = city2.getLat();
-//        double x2 = city2.getLng();
-
         if (x2 - x1 == 0) {
 
         }
@@ -229,5 +225,21 @@ public class Route {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public double getCity1Lat() {
+        return city1.getLat();
+    }
+
+    public double getCity1Lng() {
+        return city1.getLng();
+    }
+
+    public double getCity2Lat() {
+        return city2.getLat();
+    }
+
+    public double getCity2Lng() {
+        return city2.getLng();
     }
 }
