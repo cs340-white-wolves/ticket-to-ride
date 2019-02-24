@@ -118,7 +118,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         Color color = route.getColor();
         int colorValue = getColorValue(color);
         PolylineOptions polylineOptions = new PolylineOptions().add(first, second)
-                .color(colorValue).width(20);
+                .color(colorValue).width(10);
 
         List<PatternItem> patterns = Arrays.asList(new Dash(10f), new Gap(5f));
         polylineOptions.pattern(patterns);
