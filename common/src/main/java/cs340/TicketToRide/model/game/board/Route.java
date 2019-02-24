@@ -1,6 +1,7 @@
 package cs340.TicketToRide.model.game.board;
 
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.utility.Graph;
 import cs340.TicketToRide.utility.ID;
 
 public class Route {
@@ -13,6 +14,7 @@ public class Route {
     private boolean isDoubleRoute;
     private int priority;
     private ID occupierId;
+    private Graph graph = new Graph();
 
     // todo: should a route have a player occupying it? or a player should have a set of routes they occupy?
 
@@ -35,28 +37,7 @@ public class Route {
         setPriority(priority);
     }
 
-    private double getSlope(double x1, double x2, double y1, double y2) {
-        if (x2 - x1 == 0) {
 
-        }
-
-        return (y2 - y1) / (x2 - x1);
-    }
-
-    private double getPerpendicularSlope(double slope) {
-        if (slope == 0) {
-
-        }
-        return (-1 / slope);
-    }
-
-    private double getYIntercept(double y1, double x1, double slope) {
-        return y1 - slope * x1;
-    }
-
-    private double getDistance(double x1, double x2, double y1, double y2) {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-    }
 
     public double getCity1OffsetLat() {
         double x1 = city1.getLat();
@@ -66,14 +47,14 @@ public class Route {
 
         System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
 
-        double slope = getSlope(x1, x2, y1, y2);
+        double slope = graph.getSlope(x1, x2, y1, y2);
         System.out.println("slope: " + slope);
-        double perpendicularSlope = getPerpendicularSlope(slope);
+        double perpendicularSlope = graph.getPerpendicularSlope(slope);
         System.out.println("perp slope: " + perpendicularSlope);
-        double perpendicularYIntercept = getYIntercept(y1, x1, perpendicularSlope);
+        double perpendicularYIntercept = graph.getYIntercept(y1, x1, perpendicularSlope);
         System.out.println("perp y int: " + perpendicularYIntercept);
 
-        double distance = getDistance(x1, 0, y1, perpendicularYIntercept);
+        double distance = graph.getDistance(x1, 0, y1, perpendicularYIntercept);
         System.out.println("distance: " + distance);
         double shift = (SHIFT_OFFSET / distance) * (0 - x1);
         System.out.println("shift: " + shift);
@@ -90,14 +71,14 @@ public class Route {
 
         System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
 
-        double slope = getSlope(x1, x2, y1, y2);
+        double slope = graph.getSlope(x1, x2, y1, y2);
         System.out.println("slope: " + slope);
-        double perpendicularSlope = getPerpendicularSlope(slope);
+        double perpendicularSlope = graph.getPerpendicularSlope(slope);
         System.out.println("perp slope: " + perpendicularSlope);
-        double perpendicularYIntercept = getYIntercept(y1, x1, perpendicularSlope);
+        double perpendicularYIntercept = graph.getYIntercept(y1, x1, perpendicularSlope);
         System.out.println("perp y int: " + perpendicularYIntercept);
 
-        double distance = getDistance(x1, 0, y1, perpendicularYIntercept);
+        double distance = graph.getDistance(x1, 0, y1, perpendicularYIntercept);
         System.out.println("distance: " + distance);
         double shift = (SHIFT_OFFSET / distance) * (0 - x1);
         System.out.println("shift: " + shift);
@@ -114,14 +95,14 @@ public class Route {
 
         System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
 
-        double slope = getSlope(x1, x2, y1, y2);
+        double slope = graph.getSlope(x1, x2, y1, y2);
         System.out.println("slope: " + slope);
-        double perpendicularSlope = getPerpendicularSlope(slope);
+        double perpendicularSlope = graph.getPerpendicularSlope(slope);
         System.out.println("perp slope: " + perpendicularSlope);
-        double perpendicularYIntercept = getYIntercept(y1, x1, perpendicularSlope);
+        double perpendicularYIntercept = graph.getYIntercept(y1, x1, perpendicularSlope);
         System.out.println("perp y int: " + perpendicularYIntercept);
 
-        double distance = getDistance(x1, 0, y1, perpendicularYIntercept);
+        double distance = graph.getDistance(x1, 0, y1, perpendicularYIntercept);
         System.out.println("distance: " + distance);
         double shift = (SHIFT_OFFSET / distance) * (perpendicularYIntercept - y1);
         System.out.println("shift: " + shift);
@@ -138,14 +119,14 @@ public class Route {
 
         System.out.println(x1 + " " + y1 + " " + x2 + " " + y2);
 
-        double slope = getSlope(x1, x2, y1, y2);
+        double slope = graph.getSlope(x1, x2, y1, y2);
         System.out.println("slope: " + slope);
-        double perpendicularSlope = getPerpendicularSlope(slope);
+        double perpendicularSlope = graph.getPerpendicularSlope(slope);
         System.out.println("perp slope: " + perpendicularSlope);
-        double perpendicularYIntercept = getYIntercept(y1, x1, perpendicularSlope);
+        double perpendicularYIntercept = graph.getYIntercept(y1, x1, perpendicularSlope);
         System.out.println("perp y int: " + perpendicularYIntercept);
 
-        double distance = getDistance(x1, 0, y1, perpendicularYIntercept);
+        double distance = graph.getDistance(x1, 0, y1, perpendicularYIntercept);
         System.out.println("distance: " + distance);
         double shift = (SHIFT_OFFSET / distance) * (perpendicularYIntercept - y1);
         System.out.println("shift: " + shift);
@@ -154,13 +135,7 @@ public class Route {
         return (getPriority() == PRIMARY ? y1 + shift : y1 - shift);
     }
 
-    public double getMidLat() {
-        return (city1.getLat() + city2.getLat()) / 2;
-    }
 
-    public double getMidLng() {
-        return (city1.getLng() + city2.getLng()) / 2;
-    }
 
     public int getPointValue() {
         switch (length) {
