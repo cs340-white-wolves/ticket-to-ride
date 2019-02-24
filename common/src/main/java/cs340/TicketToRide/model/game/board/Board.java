@@ -73,20 +73,15 @@ public class Board {
 
         this.cities.addAll(Arrays.asList(cities));
 
-        addRoute(vancouver, seattle, null, 1);
-        addRoute(vancouver, seattle, null, 1);
+        addDoubleRoute(vancouver, seattle, null, null, 1);
         addRoute(vancouver, calgary, null, 3);
         addRoute(seattle, calgary, null, 4);
         addRoute(seattle, helena, reeferYellow, 6);
-        addRoute(seattle, portland, null, 1);
-        addRoute(seattle, portland, null, 1);
+        addDoubleRoute(seattle, portland, null, null, 1);
         addRoute(portland, saltLakeCity, tankerBlue, 6);
-        addRoute(portland, sanFrancisco, boxPurple, 5);
-        addRoute(portland, sanFrancisco, cabooseGreen, 5);
-        addRoute(sanFrancisco, saltLakeCity, freightOrange, 5);
-        addRoute(sanFrancisco, saltLakeCity, passengerWhite, 5);
-        addRoute(sanFrancisco, losAngeles, boxPurple, 3);
-        addRoute(sanFrancisco, losAngeles, reeferYellow, 3);
+        addDoubleRoute(portland, sanFrancisco, boxPurple, cabooseGreen, 5);
+        addDoubleRoute(sanFrancisco, saltLakeCity, freightOrange, passengerWhite, 5);
+        addDoubleRoute(sanFrancisco, losAngeles, boxPurple, reeferYellow, 3);
         addRoute(losAngeles, lasVegas, null, 2);
         addRoute(losAngeles, phoenix, null, 3);
         addRoute(losAngeles, elPaso, hopperBlack, 6);
@@ -96,15 +91,13 @@ public class Board {
         addRoute(helena, denver, cabooseGreen, 4);
         addRoute(helena, omaha, coalRed, 5);
         addRoute(helena, winnipeg, tankerBlue, 4);
-        addRoute(saltLakeCity, denver, coalRed, 3);
-        addRoute(saltLakeCity, denver, reeferYellow, 3);
+        addDoubleRoute(saltLakeCity, denver, coalRed, reeferYellow, 3);
         addRoute(saltLakeCity, lasVegas, freightOrange, 3);
         addRoute(phoenix, denver, passengerWhite, 5);
         addRoute(phoenix, santaFe, null, 3);
         addRoute(phoenix, elPaso, null, 3);
         addRoute(denver, omaha, boxPurple, 4);
-        addRoute(denver, kansasCity, hopperBlack, 4);
-        addRoute(denver, kansasCity, freightOrange, 4);
+        addDoubleRoute(denver, kansasCity, hopperBlack, freightOrange, 4);
         addRoute(denver, oklahomaCity, coalRed, 4);
         addRoute(denver, santaFe, null, 2);
         addRoute(santaFe, oklahomaCity, tankerBlue, 3);
@@ -117,64 +110,82 @@ public class Board {
         addRoute(duluth, saultStMarie, null, 3);
         addRoute(duluth, toronto, boxPurple, 6);
         addRoute(duluth, chicago, coalRed, 3);
-        addRoute(duluth, omaha, null, 2);
-        addRoute(duluth, omaha, null, 2);
+        addDoubleRoute(duluth, omaha, null,null, 2);
         addRoute(omaha, chicago, tankerBlue, 4);
-        addRoute(omaha, kansasCity, null, 1);
-        addRoute(omaha, kansasCity, null, 1);
-        addRoute(kansasCity, saintLouis, tankerBlue, 2);
-        addRoute(kansasCity, saintLouis, boxPurple, 2);
-        addRoute(kansasCity, oklahomaCity, null, 1);
-        addRoute(kansasCity, oklahomaCity, null, 1);
+        addDoubleRoute(omaha, kansasCity, null, null, 1);
+        addDoubleRoute(kansasCity, saintLouis, tankerBlue, boxPurple, 2);
+        addDoubleRoute(kansasCity, oklahomaCity, null, null, 1);
         addRoute(oklahomaCity, littleRock, null, 2);
-        addRoute(oklahomaCity, dallas, null, 2);
-        addRoute(oklahomaCity, dallas, null, 2);
+        addDoubleRoute(oklahomaCity, dallas, null, null, 2);
         addRoute(dallas, littleRock, null, 2);
-        addRoute(dallas, houston, null, 1);
-        addRoute(dallas, houston, null, 1);
+        addDoubleRoute(dallas, houston, null, null, 1);
         addRoute(houston, newOrleans, null, 2);
         addRoute(saultStMarie, montreal, hopperBlack, 5);
         addRoute(saultStMarie, toronto, null, 2);
         addRoute(chicago, toronto, passengerWhite, 4);
-        addRoute(chicago, pittsburgh, freightOrange, 3);
-        addRoute(chicago, pittsburgh, hopperBlack, 3);
-        addRoute(chicago, saintLouis, passengerWhite, 2);
-        addRoute(chicago, saintLouis, cabooseGreen, 2);
+        addDoubleRoute(chicago, pittsburgh, freightOrange, hopperBlack, 3);
+        addDoubleRoute(chicago, saintLouis, passengerWhite, cabooseGreen, 2);
         addRoute(saintLouis, pittsburgh, cabooseGreen, 5);
         addRoute(saintLouis, nashville, null, 2);
         addRoute(saintLouis, littleRock, null, 2);
         addRoute(littleRock, nashville, passengerWhite, 3);
         addRoute(littleRock, newOrleans, cabooseGreen, 3);
-        addRoute(newOrleans, atlanta, reeferYellow, 4);
-        addRoute(newOrleans, atlanta, freightOrange, 4);
+        addDoubleRoute(newOrleans, atlanta, reeferYellow, freightOrange, 4);
+        addRoute(newOrleans, miami, coalRed, 6);
         addRoute(nashville, pittsburgh, reeferYellow, 4);
         addRoute(nashville, raleigh, hopperBlack, 3);
         addRoute(nashville, atlanta, null, 1);
-        addRoute(atlanta, raleigh, null, 2);
-        addRoute(atlanta, raleigh, null, 2);
+        addDoubleRoute(atlanta, raleigh, null,null, 2);
         addRoute(atlanta, charleston, null, 2);
+        addRoute(atlanta, miami, tankerBlue, 5);
         addRoute(toronto, montreal, null, 3);
         addRoute(toronto, pittsburgh, null, 2);
-        addRoute(pittsburgh, newYork, passengerWhite, 2);
-        addRoute(pittsburgh, newYork, cabooseGreen, 2);
+        addDoubleRoute(pittsburgh, newYork, passengerWhite, cabooseGreen, 2);
         addRoute(pittsburgh, washington, null, 2);
         addRoute(pittsburgh, raleigh, null, 2);
-        addRoute(raleigh, washington, null, 2);
-        addRoute(raleigh, washington, null, 2);
+        addDoubleRoute(raleigh, washington, null, null, 2);
         addRoute(raleigh, charleston, null, 2);
         addRoute(charleston, miami, boxPurple, 4);
-        addRoute(montreal, boston, null, 2);
-        addRoute(montreal, boston, null, 2);
+        addDoubleRoute(montreal, boston, null, null, 2);
         addRoute(montreal, newYork, tankerBlue, 3);
-        addRoute(newYork, boston, reeferYellow, 2);
-        addRoute(newYork, boston, coalRed, 2);
-        addRoute(newYork, washington, freightOrange, 2);
-        addRoute(newYork, washington, hopperBlack, 2);
+        addDoubleRoute(newYork, boston, reeferYellow, coalRed, 2);
+        addDoubleRoute(newYork, washington, hopperBlack, hopperBlack, 2);
     }
 
     private void addRoute(City city1, City city2, Color color, int length) {
         Route route = new Route(city1, city2, color, length);
         routes.add(route);
+    }
+
+    public static void main(String[] args) {
+        Board board = new Board();
+        Set<Route> routes = board.getRoutes();
+        for (Route route : routes) {
+            if (route.isDoubleRoute()) {
+                City city1 = route.getCity1();
+                City city2 = route.getCity2();
+                System.out.println("City 1 lat: " + city1.getLat());
+                System.out.println("City 1 lng: " + city1.getLng());
+                System.out.println("City 1 new lat: " + route.getCity1OffsetLat());
+                System.out.println("\n\n\n");
+                System.out.println("City 1 new lng: " + route.getCity1OffsetLng());
+
+                System.out.println("\n\n\n");
+                System.out.println("City 2 lat: " + city2.getLat());
+                System.out.println("City 2 lng: " + city2.getLng());
+                System.out.println("City 2 new lat: " + route.getCity2OffsetLat());
+                System.out.println("\n\n\n");
+                System.out.println("City 2 new lng: " + route.getCity2OffsetLng());
+                return;
+            }
+        }
+    }
+
+    private void addDoubleRoute(City city1, City city2, Color color1, Color color2, int length) {
+        Route route1 = new Route(city1, city2, color1, length, 1);
+        Route route2 = new Route(city1, city2, color2, length, 2);
+        routes.add(route1);
+        routes.add(route2);
     }
 
     public Set<City> getCities() {
