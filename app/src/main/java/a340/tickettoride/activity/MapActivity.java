@@ -7,14 +7,24 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.Dash;
+import com.google.android.gms.maps.model.Dot;
+import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.PatternItem;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import static android.graphics.Color.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,6 +88,22 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private void addCityToMap(City city) {
         LatLng latLng = new LatLng(city.getLat(), city.getLng());
         String name = city.getName();
+        CircleOptions options = new CircleOptions()
+                .center(latLng)
+                .strokeColor(BLACK)
+                .fillColor(RED)
+                .clickable(true);
+
+        Circle circle = map.addCircle(options);
+
+        map.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
+
+            @Override
+            public void onCircleClick(Circle circle) {
+                int strokeColor = circle.getStrokeColor() ^ 0x00ffffff;
+                circle.setStrokeColor(strokeColor);
+            }
+        });
     }
 
     private void drawRoute(Route route) {
@@ -92,8 +118,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         Color color = route.getColor();
         int colorValue = getColorValue(color);
         PolylineOptions polylineOptions = new PolylineOptions().add(first, second)
-                .color(colorValue).width(20);
-        map.addPolyline(polylineOptions);
+                .color(colorValue).width(10);
+
+        List<PatternItem> patterns = Arrays.asList(new Dash(10f), new Gap(5f));
+        polylineOptions.pattern(patterns);
+
+        Polyline polyline = map.addPolyline(polylineOptions);
         drawRouteLength(route);
     }
 
