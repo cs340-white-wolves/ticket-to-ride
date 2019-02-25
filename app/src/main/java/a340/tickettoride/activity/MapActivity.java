@@ -136,7 +136,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                                                final LatLng second, final float segmentSize) {
         Color color = route.getColor();
         int colorValue = getColorValue(color);
-        List<PatternItem> patterns = Arrays.asList(new Gap(getRouteBorderGapSize(route)), new Dash(segmentSize));
+        List<PatternItem> patterns = Arrays.asList(new Gap(getRouteGapSize(route)), new Dash(segmentSize));
 
         return new PolylineOptions()
                 .add(first, second)
