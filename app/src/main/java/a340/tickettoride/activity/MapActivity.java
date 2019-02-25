@@ -39,14 +39,16 @@ import cs340.TicketToRide.model.game.card.TrainCard.Color;
 import cs340.TicketToRide.utility.Graph;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
-    public static final float GAP = 5f;
-    public static final int LINE_WIDTH = 10;
-    private static Map<Color, Integer> colorValues = new HashMap<>();
-    private static final int ORANGE = 0xFF8C0000;
+    private static final float GAP = 16f;
+    private static final int LINE_WIDTH = 10;
+    private static final int CIRCLE_RADIUS = 40000;
+    private static final float CIRCLE_STROKE_WIDTH = 8f;
+    private static final int ORANGE = 0xFF8E0F00;
     private static final double CENTER_LAT = 39.8283;
     private static final double CENTER_LNG = -98.5795;
     private static final float ZOOM = 3.5f;
 
+    private Map<Color, Integer> colorValues = new HashMap<>();
     private GoogleMap map;
     private IMapPresenter presenter;
     private SupportMapFragment mapFragment;
@@ -68,6 +70,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         final LatLngBounds bounds = new LatLngBounds(center, center);
         map.setLatLngBoundsForCameraTarget(bounds);
         map.setMinZoomPreference(ZOOM);
+        map.getUiSettings().setZoomGesturesEnabled(false);
+        map.getUiSettings().setZoomControlsEnabled(false);
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_options));
         map.moveCamera(CameraUpdateFactory.newLatLng(center));
         initColorValues();
@@ -78,12 +82,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         Board board = new Board();
         Set<City> cities = board.getCities();
         Set<Route> routes = board.getRoutes();
-        for (City city : cities) {
-            addCityToMap(city);
-        }
 
         for (Route route : routes) {
             drawRoute(route);
+        }
+
+        for (City city : cities) {
+            addCityToMap(city);
         }
     }
 
@@ -92,9 +97,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         String name = city.getName();
         CircleOptions options = new CircleOptions()
                 .center(latLng)
+                .strokeWidth(CIRCLE_STROKE_WIDTH)
                 .strokeColor(BLACK)
                 .fillColor(RED)
-                .clickable(true);
+                .clickable(true)
+                .radius(CIRCLE_RADIUS);
 
         Circle circle = map.addCircle(options);
 
@@ -125,7 +132,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                                                final LatLng second, final float segmentSize) {
         Color color = route.getColor();
         int colorValue = getColorValue(color);
-        List<PatternItem> patterns = Arrays.asList(new Dash(segmentSize - GAP), new Gap(GAP));
+        List<PatternItem> patterns = Arrays.asList(new Gap(GAP), new Dash(segmentSize));
 
         return new PolylineOptions()
                 .add(first, second)
@@ -155,10 +162,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     private float calculateSegmentSize(Point point1, Point point2, Route route) {
-        int length = route.getLength();
-        Graph graph = new Graph();
-        double distance = graph.getDistance(point1.x, point2.x, point1.y, point2.y);
-        return (float) (distance / length);
+        final int length = route.getLength();
+        final int numGaps = length + 1;
+        final Graph graph = new Graph();
+        final double distance = graph.getDistance(point1.x, point2.x, point1.y, point2.y);
+        final double distanceWithoutGaps = distance - (numGaps * GAP);
+        return (float) (distanceWithoutGaps / length);
     }
 
     private Integer getColorValue(Color color) {
