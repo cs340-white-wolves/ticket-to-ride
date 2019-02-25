@@ -39,16 +39,16 @@ import cs340.TicketToRide.model.game.card.TrainCard.Color;
 import cs340.TicketToRide.utility.Graph;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
-    private static final float GAP = 18f;
+    private static final float GAP = 16f;
     private static final int LINE_WIDTH = 10;
-    private static final int CIRCLE_RADIUS = 50000;
+    private static final int CIRCLE_RADIUS = 40000;
     private static final float CIRCLE_STROKE_WIDTH = 8f;
-    private Map<Color, Integer> colorValues = new HashMap<>();
     private static final int ORANGE = 0xFF8E0F00;
     private static final double CENTER_LAT = 39.8283;
     private static final double CENTER_LNG = -98.5795;
     private static final float ZOOM = 3.5f;
 
+    private Map<Color, Integer> colorValues = new HashMap<>();
     private GoogleMap map;
     private IMapPresenter presenter;
     private SupportMapFragment mapFragment;
