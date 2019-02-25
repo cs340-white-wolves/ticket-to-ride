@@ -39,8 +39,10 @@ import cs340.TicketToRide.model.game.card.TrainCard.Color;
 import cs340.TicketToRide.utility.Graph;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
-    private static final float GAP = 16f;
+    private static final float GAP = 19f; // TODO: WAS 16F, GOOD
+    private static final float BORDER_GAP = 16f;
     private static final int LINE_WIDTH = 10;
+    private static final int LINE_BORDER_WIDTH = 16;
     private static final int CIRCLE_RADIUS = 40000;
     private static final float CIRCLE_STROKE_WIDTH = 8f;
     private static final int ORANGE = 0xFF8E0F00;
@@ -124,20 +126,34 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             second = new LatLng(route.getCity2OffsetLat(), route.getCity2OffsetLng());
         }
 
+        final PolylineOptions borderPolyLineOptions = getBorderPolylineOptions(route, first, second, segmentSize);
         final PolylineOptions polylineOptions = getPolylineOptions(route, first, second, segmentSize);
-        final Polyline polyline = map.addPolyline(polylineOptions);
+        map.addPolyline(borderPolyLineOptions);
+        map.addPolyline(polylineOptions);
     }
 
     private PolylineOptions getPolylineOptions(final Route route, final LatLng first,
                                                final LatLng second, final float segmentSize) {
         Color color = route.getColor();
         int colorValue = getColorValue(color);
-        List<PatternItem> patterns = Arrays.asList(new Gap(GAP), new Dash(segmentSize));
+        List<PatternItem> patterns = Arrays.asList(new Gap(getRouteBorderGapSize(route)), new Dash(segmentSize));
 
         return new PolylineOptions()
                 .add(first, second)
                 .color(colorValue)
                 .width(LINE_WIDTH)
+                .pattern(patterns);
+    }
+
+    private PolylineOptions getBorderPolylineOptions(Route route, final LatLng first,
+                                                     final LatLng second, float segmentSize) {
+//        int colorVal = (route.getColor() == Color.hopperBlack) ? WHITE : BLACK;
+        List<PatternItem> patterns = Arrays.asList(new Gap(getRouteBorderGapSize(route)),
+                new Dash(segmentSize + (getRouteGapSize(route) - getRouteBorderGapSize(route))));
+        return new PolylineOptions()
+                .add(first, second)
+                .color(BLACK)
+                .width(LINE_BORDER_WIDTH)
                 .pattern(patterns);
     }
 
@@ -166,8 +182,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         final int numGaps = length + 1;
         final Graph graph = new Graph();
         final double distance = graph.getDistance(point1.x, point2.x, point1.y, point2.y);
-        final double distanceWithoutGaps = distance - (numGaps * GAP);
+        final double distanceWithoutGaps = distance - (numGaps * getRouteGapSize(route));
         return (float) (distanceWithoutGaps / length);
+    }
+
+    private float getRouteGapSize(Route route) {
+        return 16f + route.getLength();
+    }
+
+    private float getRouteBorderGapSize(Route route) {
+        return 14f + route.getLength();
     }
 
     private Integer getColorValue(Color color) {
