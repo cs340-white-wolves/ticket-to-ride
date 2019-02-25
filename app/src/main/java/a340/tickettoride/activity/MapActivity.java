@@ -39,9 +39,11 @@ import cs340.TicketToRide.model.game.card.TrainCard.Color;
 import cs340.TicketToRide.utility.Graph;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
-    public static final float GAP = 5f;
-    public static final int LINE_WIDTH = 10;
-    private static Map<Color, Integer> colorValues = new HashMap<>();
+    private static final float GAP = 18f;
+    private static final int LINE_WIDTH = 10;
+    private static final int CIRCLE_RADIUS = 50000;
+    private static final float CIRCLE_STROKE_WIDTH = 8f;
+    private Map<Color, Integer> colorValues = new HashMap<>();
     private static final int ORANGE = 0xFF8E0F00;
     private static final double CENTER_LAT = 39.8283;
     private static final double CENTER_LNG = -98.5795;
@@ -95,11 +97,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         String name = city.getName();
         CircleOptions options = new CircleOptions()
                 .center(latLng)
-                .strokeWidth(8f)
+                .strokeWidth(CIRCLE_STROKE_WIDTH)
                 .strokeColor(BLACK)
                 .fillColor(RED)
                 .clickable(true)
-                .radius(50000);
+                .radius(CIRCLE_RADIUS);
 
         Circle circle = map.addCircle(options);
 
@@ -130,7 +132,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                                                final LatLng second, final float segmentSize) {
         Color color = route.getColor();
         int colorValue = getColorValue(color);
-        List<PatternItem> patterns = Arrays.asList(new Dash(segmentSize - GAP), new Gap(GAP));
+        List<PatternItem> patterns = Arrays.asList(new Gap(GAP), new Dash(segmentSize));
 
         return new PolylineOptions()
                 .add(first, second)
@@ -160,10 +162,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     private float calculateSegmentSize(Point point1, Point point2, Route route) {
-        int length = route.getLength();
-        Graph graph = new Graph();
-        double distance = graph.getDistance(point1.x, point2.x, point1.y, point2.y);
-        return (float) (distance / length);
+        final int length = route.getLength();
+        final int numGaps = length + 1;
+        final Graph graph = new Graph();
+        final double distance = graph.getDistance(point1.x, point2.x, point1.y, point2.y);
+        final double distanceWithoutGaps = distance - (numGaps * GAP);
+        return (float) (distanceWithoutGaps / length);
     }
 
     private Integer getColorValue(Color color) {
