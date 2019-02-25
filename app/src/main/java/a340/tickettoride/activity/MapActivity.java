@@ -42,7 +42,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public static final float GAP = 5f;
     public static final int LINE_WIDTH = 10;
     private static Map<Color, Integer> colorValues = new HashMap<>();
-    private static final int ORANGE = 0xFF8C0000;
+    private static final int ORANGE = 0xFF8E0F00;
     private static final double CENTER_LAT = 39.8283;
     private static final double CENTER_LNG = -98.5795;
     private static final float ZOOM = 3.5f;
@@ -68,6 +68,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         final LatLngBounds bounds = new LatLngBounds(center, center);
         map.setLatLngBoundsForCameraTarget(bounds);
         map.setMinZoomPreference(ZOOM);
+        map.getUiSettings().setZoomGesturesEnabled(false);
+        map.getUiSettings().setZoomControlsEnabled(false);
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_options));
         map.moveCamera(CameraUpdateFactory.newLatLng(center));
         initColorValues();
@@ -78,12 +80,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         Board board = new Board();
         Set<City> cities = board.getCities();
         Set<Route> routes = board.getRoutes();
-        for (City city : cities) {
-            addCityToMap(city);
-        }
 
         for (Route route : routes) {
             drawRoute(route);
+        }
+
+        for (City city : cities) {
+            addCityToMap(city);
         }
     }
 
@@ -92,9 +95,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         String name = city.getName();
         CircleOptions options = new CircleOptions()
                 .center(latLng)
+                .strokeWidth(8f)
                 .strokeColor(BLACK)
                 .fillColor(RED)
-                .clickable(true);
+                .clickable(true)
+                .radius(50000);
 
         Circle circle = map.addCircle(options);
 
