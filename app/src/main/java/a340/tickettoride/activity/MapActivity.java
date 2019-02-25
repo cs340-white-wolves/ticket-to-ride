@@ -45,7 +45,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private static final int LINE_BORDER_WIDTH = 16;
     private static final int CIRCLE_RADIUS = 40000;
     private static final float CIRCLE_STROKE_WIDTH = 8f;
-    private static final int ORANGE = 0xFF8E0F00;
+    private static final int ORANGE = 0xFFFF9800;
     private static final double CENTER_LAT = 39.8283;
     private static final double CENTER_LNG = -98.5795;
     private static final float ZOOM = 3.5f;
