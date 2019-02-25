@@ -187,11 +187,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     private float getRouteGapSize(Route route) {
-        return 16f + route.getLength();
+        return 17f + route.getLength();
     }
 
     private float getRouteBorderGapSize(Route route) {
-        return 14f + route.getLength();
+        return 15f + route.getLength();
     }
 
     private Integer getColorValue(Color color) {
