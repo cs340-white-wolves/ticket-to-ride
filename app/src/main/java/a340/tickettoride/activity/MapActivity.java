@@ -48,7 +48,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private static final int ORANGE = 0xFFFF9800;
     private static final double CENTER_LAT = 39.8283;
     private static final double CENTER_LNG = -98.5795;
-    private static final float ZOOM = 3.5f;
+    private static final float ZOOM = 3.75f;
 
     private Map<Color, Integer> colorValues = new HashMap<>();
     private GoogleMap map;

@@ -32,7 +32,7 @@ public class Board {
         City sanFrancisco = new City("San Francisco", 37.7749, -122.4194);
         City losAngeles = new City("Los Angeles", 34.0522, -118.2437);
         City lasVegas = new City("Las Vegas", 36.1699, -115.1398);
-        City phoenix = new City("Phoenix", 33.4484, -112.0740);
+        City phoenix = new City("Phoenix", 35.1983, -111.6513);
         City santaFe = new City("Santa Fe", 35.6870, -105.9378);
         City elPaso = new City("El Paso", 31.7619, -106.4850);
         City saltLakeCity = new City("Salt Lake City", 40.7608, -111.8910);
@@ -59,7 +59,7 @@ public class Board {
         City raleigh = new City("Raleigh", 35.7796, -78.6382);
         City charleston = new City("Charleston", 32.7765, -79.9311);
         City washington = new City("Washington", 38.9072, -77.0369);
-        City newYork = new City("New York", 40.7128, -74.0060);
+        City newYork = new City("New York", 42.0848, -74.3154);
         City boston = new City("Boston", 42.3601, -71.0589);
         City montreal = new City("Montreal", 45.5017, -73.5673);
 
@@ -114,7 +114,7 @@ public class Board {
         addRoute(omaha, chicago, tankerBlue, 4);
         addDoubleRoute(omaha, kansasCity, null, null, 1);
         addDoubleRoute(kansasCity, saintLouis, tankerBlue, boxPurple, 2);
-        addDoubleRoute(kansasCity, oklahomaCity, null, null, 1);
+        addDoubleRoute(kansasCity, oklahomaCity, null, null, 2);
         addRoute(oklahomaCity, littleRock, null, 2);
         addDoubleRoute(oklahomaCity, dallas, null, null, 2);
         addRoute(dallas, littleRock, null, 2);
