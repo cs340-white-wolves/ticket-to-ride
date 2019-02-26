@@ -47,8 +47,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private static final float CIRCLE_STROKE_WIDTH = 8f;
     private static final int ORANGE = 0xFFFF9800;
     private static final double CENTER_LAT = 39.8283;
-    private static final double CENTER_LNG = -98.5795;
-    private static final float ZOOM = 3.75f;
+    private static final double CENTER_LNG = -94.5795;
+    private static final float ZOOM = 3.7f;
 
     private Map<Color, Integer> colorValues = new HashMap<>();
     private GoogleMap map;
@@ -105,7 +105,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 .clickable(true)
                 .radius(CIRCLE_RADIUS);
 
-        Circle circle = map.addCircle(options);
+        map.addCircle(options);
 
         map.setOnCircleClickListener(new GoogleMap.OnCircleClickListener() {
 
@@ -147,7 +147,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private PolylineOptions getBorderPolylineOptions(Route route, final LatLng first,
                                                      final LatLng second, float segmentSize) {
-//        int colorVal = (route.getColor() == Color.hopperBlack) ? WHITE : BLACK;
         List<PatternItem> patterns = Arrays.asList(new Gap(getRouteBorderGapSize(route)),
                 new Dash(segmentSize + (getRouteGapSize(route) - getRouteBorderGapSize(route))));
         return new PolylineOptions()
@@ -166,11 +165,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-//                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                     final Point point1 = map.getProjection().toScreenLocation(latLng1);
                     final Point point2 = map.getProjection().toScreenLocation(latLng2);
                     final float segmentSize = calculateSegmentSize(point1, point2, route);
                     drawRouteSegments(route, segmentSize);
+//                    getResources().getDisplayMetrics().densityDpi;
                 }
             });
         }

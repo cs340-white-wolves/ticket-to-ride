@@ -6,14 +6,7 @@ import java.util.Set;
 
 import cs340.TicketToRide.model.game.card.TrainCard.Color;
 
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.boxPurple;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.cabooseGreen;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.coalRed;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.freightOrange;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.hopperBlack;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.passengerWhite;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.reeferYellow;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.tankerBlue;
+import static cs340.TicketToRide.model.game.card.TrainCard.Color.*;
 
 public class Board {
     private Set<City> cities;
