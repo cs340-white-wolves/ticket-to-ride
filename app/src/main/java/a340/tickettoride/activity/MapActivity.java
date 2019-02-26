@@ -3,6 +3,7 @@ package a340.tickettoride.activity;
 import android.graphics.Point;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -39,8 +40,6 @@ import cs340.TicketToRide.model.game.card.TrainCard.Color;
 import cs340.TicketToRide.utility.Graph;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
-    private static final float GAP = 19f; // TODO: WAS 16F, GOOD
-    private static final float BORDER_GAP = 16f;
     private static final int LINE_WIDTH = 10;
     private static final int LINE_BORDER_WIDTH = 16;
     private static final int CIRCLE_RADIUS = 40000;
@@ -49,6 +48,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private static final double CENTER_LAT = 39.8283;
     private static final double CENTER_LNG = -94.5795;
     private static final float ZOOM = 3.7f;
+    public static final float BASE_GAP = 17f;
 
     private Map<Color, Integer> colorValues = new HashMap<>();
     private GoogleMap map;
@@ -147,8 +147,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private PolylineOptions getBorderPolylineOptions(Route route, final LatLng first,
                                                      final LatLng second, float segmentSize) {
-        List<PatternItem> patterns = Arrays.asList(new Gap(getRouteBorderGapSize(route)),
-                new Dash(segmentSize + (getRouteGapSize(route) - getRouteBorderGapSize(route))));
+        List<PatternItem> patterns = Arrays.asList(new Gap(getRouteGapSize(route)),
+                new Dash(segmentSize));
         return new PolylineOptions()
                 .add(first, second)
                 .color(BLACK)
@@ -167,9 +167,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 public void onGlobalLayout() {
                     final Point point1 = map.getProjection().toScreenLocation(latLng1);
                     final Point point2 = map.getProjection().toScreenLocation(latLng2);
+
+//                    Point x1 = new Point(convertPixelsToDp(point1.x), convertPixelsToDp(point1.y));
+//                    Point y1 = new Point(convertPixelsToDp(point2.x), convertPixelsToDp(point2.y));
                     final float segmentSize = calculateSegmentSize(point1, point2, route);
                     drawRouteSegments(route, segmentSize);
-//                    getResources().getDisplayMetrics().densityDpi;
                 }
             });
         }
@@ -186,11 +188,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     private float getRouteGapSize(Route route) {
-        return 17f + route.getLength();
+        return BASE_GAP + route.getLength();
     }
 
-    private float getRouteBorderGapSize(Route route) {
-        return 15f + route.getLength();
+    private int convertPixelsToDp(float px){
+        return (int) (px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
     private Integer getColorValue(Color color) {

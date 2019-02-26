@@ -16,9 +16,6 @@ public class Route {
     private ID occupierId;
     private Graph graph = new Graph();
 
-    // todo: should a route have a player occupying it? or a player should have a set of routes they occupy?
-
-
     public Route(City city1, City city2, TrainCard.Color color, int length) {
         setCity1(city1);
         setCity2(city2);
@@ -36,8 +33,6 @@ public class Route {
         setDoubleRoute(true);
         setPriority(priority);
     }
-
-
 
     public double getCity1OffsetLat() {
         double x1 = city1.getLat();
