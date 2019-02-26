@@ -1,6 +1,10 @@
 package a340.tickettoride.activity;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Shader;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -11,6 +15,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.Dash;
@@ -18,9 +24,12 @@ import com.google.android.gms.maps.model.Gap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PatternItem;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+
+import com.google.maps.android.ui.IconGenerator;
 
 import static android.graphics.Color.*;
 
@@ -96,7 +105,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     private void addCityToMap(City city) {
         LatLng latLng = new LatLng(city.getLat(), city.getLng());
-        String name = city.getName();
+        String name = city.getCode();
         CircleOptions options = new CircleOptions()
                 .center(latLng)
                 .strokeWidth(CIRCLE_STROKE_WIDTH)
@@ -115,6 +124,55 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 circle.setStrokeColor(strokeColor);
             }
         });
+
+
+        MarkerOptions options1 = new MarkerOptions();
+        BitmapDescriptor d = createPureTextIcon(name);
+        options1.icon(d).position(latLng);
+        map.addMarker(options1);
+//        map.addMarker(new MarkerOptions().position(latLng).title(name).visible(false));
+
+//        IconGenerator iconGenerator = new IconGenerator(this);
+//        iconGenerator.setTextAppearance(R.style.BlackText);
+//        iconGenerator.setStyle(IconGenerator.STYLE_RED);
+//        Bitmap iconBitmap = iconGenerator.makeIcon(name);
+//        iconBitmap = Bitmap.createScaledBitmap(iconBitmap, 100, 100, false);
+////        map.addMarker(new MarkerOptions()
+////                .icon(BitmapDescriptorFactory.fromBitmap(iconBitmap)).position(latLng));
+    }
+
+    public BitmapDescriptor createPureTextIcon(String text) {
+
+        Paint textPaint = new Paint(); // Adapt to your needs
+
+        textPaint.setTextSize(50f);
+        textPaint.setColor(WHITE);
+
+//        textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+//        textPaint.setStrokeWidth(2);
+//        textPaint.setStrokeCap(Paint.Cap.ROUND);
+        textPaint.setFakeBoldText(true);
+        textPaint.setShadowLayer(5, 0, 0, BLACK);
+//        textPaint.setTextScaleX(5);
+        float textWidth = textPaint.measureText(text);
+        float textHeight = textPaint.getTextSize();
+        int width = (int) (textWidth);
+        int height = (int) (textHeight);
+
+        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(image);
+
+        canvas.translate(0, height);
+
+        // For development only:
+        // Set a background in order to see the
+        // full size and positioning of the bitmap.
+        // Remove that for a fully transparent icon.
+//        canvas.drawColor(BLACK);
+
+        canvas.drawText(text, 0, 0, textPaint);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(image);
+        return icon;
     }
 
     private void drawRouteSegments(Route route, float segmentSize) {
