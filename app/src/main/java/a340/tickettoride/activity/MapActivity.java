@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -307,4 +308,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         colorValues.put(Color.coalRed, RED);
     }
 
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
