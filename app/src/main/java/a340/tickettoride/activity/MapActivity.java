@@ -1,6 +1,7 @@
 package a340.tickettoride.activity;
 
 import android.graphics.Point;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -38,7 +39,7 @@ import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.TrainCard.Color;
 import cs340.TicketToRide.utility.Graph;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback, BankFragment.BankInteractionListener, SummaryFragment.SummaryFragmentListener {
     private static final float GAP = 19f; // TODO: WAS 16F, GOOD
     private static final float BORDER_GAP = 16f;
     private static final int LINE_WIDTH = 10;
@@ -214,4 +215,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
 }
