@@ -151,8 +151,8 @@ public class Board {
     }
 
     private void addDoubleRoute(City city1, City city2, Color color1, Color color2, int length) {
-        Route route1 = new Route(city1, city2, color1, length, 1);
-        Route route2 = new Route(city1, city2, color2, length, 2);
+        Route route1 = new Route(city1, city2, color1, length, Route.PRIMARY);
+        Route route2 = new Route(city1, city2, color2, length, Route.SECONDARY);
         routes.add(route1);
         routes.add(route2);
     }
