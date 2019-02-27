@@ -25,4 +25,7 @@
         <item>Five</item>
     </string-array>
     <string name="title_activity_map">Map</string>
+    <string name="draw_cards">Draw Cards</string>
+    <string name="place_trains">Place Trains</string>
+    <string name="draw_routes">Draw Routes</string>
 </resources>

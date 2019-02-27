@@ -6,4 +6,42 @@
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.MapActivity" />
+    tools:context=".activity.MapActivity" >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="left|bottom"
+        tools:context=".MapActivity">
+
+        <Button
+            android:id="@+id/drawCardsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/draw_cards"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"/>
+
+        <Button
+            android:id="@+id/placeTrainsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/place_trains"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"/>
+
+        <Button
+            android:id="@+id/drawRoutesButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/draw_routes"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"/>
+
+    </LinearLayout>
+
+</fragment>
