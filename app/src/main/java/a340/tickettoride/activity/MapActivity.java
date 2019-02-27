@@ -49,8 +49,8 @@ import cs340.TicketToRide.utility.Graph;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
     private static final int LINE_WIDTH = 15;
-    private static final int LINE_BORDER_WIDTH = 16;
-    private static final int CIRCLE_RADIUS = 40000;
+    private static final int LINE_BORDER_WIDTH = 17;
+    private static final int CIRCLE_RADIUS = 35000;
     private static final int ORANGE = 0xFFFF9800;
     private static final double CENTER_LAT = 39.8283;
     private static final double CENTER_LNG = -94.5795;
