@@ -5,8 +5,9 @@ import cs340.TicketToRide.utility.Graph;
 import cs340.TicketToRide.utility.ID;
 
 public class Route {
-    public static final double SHIFT_OFFSET = 0.3;
+    public static final double SHIFT_OFFSET = 0.4;
     public static final int PRIMARY = 1;
+    public static final int SECONDARY = 0;
     private City city1;
     private City city2;
     private TrainCard.Color color; // if color is empty, it's gray
@@ -22,7 +23,7 @@ public class Route {
         setColor(color);
         setLength(length);
         setDoubleRoute(false);
-        setPriority(0);
+        setPriority(SECONDARY);
     }
 
     public Route(City city1, City city2, TrainCard.Color color, int length, int priority) {
