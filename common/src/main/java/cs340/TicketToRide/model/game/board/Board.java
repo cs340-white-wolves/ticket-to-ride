@@ -19,12 +19,12 @@ public class Board {
     }
 
     private void initCitiesAndRoutes() {
-        City vancouver = new City("Vancouver", "VAN", 49.2827,-123.1207);
+        City vancouver = new City("Vancouver", "VAN", 50.2827,-123.1207);
         City seattle = new City("Seattle", "SEA", 47.6062, -122.3321);
-        City portland = new City("Portland", "POR", 45.5122, -122.6587);
+        City portland = new City("Portland", "POR", 45.0, -122.6587);
         City sanFrancisco = new City("San Francisco", "SFO", 37.7749, -122.4194);
-        City losAngeles = new City("Los Angeles", "LAX", 34.0522, -118.2437);
-        City lasVegas = new City("Las Vegas", "LVS", 36.1699, -115.1398);
+        City losAngeles = new City("Los Angeles", "LA", 34.0522, -118.2437);
+        City lasVegas = new City("Las Vegas", "LV", 36.1699, -115.1398);
         City phoenix = new City("Phoenix", "PHX", 35.1983, -111.6513);
         City santaFe = new City("Santa Fe", "SAF", 35.6870, -105.9378);
         City elPaso = new City("El Paso", "ELP", 31.7619, -106.4850);
@@ -35,7 +35,7 @@ public class Board {
         City winnipeg = new City("Winnipeg", "WIN", 49.8951, -97.1384);
         City duluth = new City("Duluth", "DLH", 46.7867, -92.1005);
         City omaha = new City("Omaha", "OMA", 41.2565, -95.9345);
-        City kansasCity = new City("Kansas City", "KCK", 39.0997, -94.5786);
+        City kansasCity = new City("Kansas City", "KC", 39.0997, -94.5786);
         City oklahomaCity = new City("Oklahoma City", "OKC", 35.4676, -97.5164);
         City dallas = new City("DFW", "DAL", 32.7767, -96.7970);
         City houston = new City("Houston", "HOU", 29.7604, -95.3698);
@@ -51,8 +51,8 @@ public class Board {
         City miami = new City("Miami", "MIA", 25.7617, -80.1918);
         City raleigh = new City("Raleigh", "RAL", 35.7796, -78.6382);
         City charleston = new City("Charleston", "CHS", 32.7765, -79.9311);
-        City washington = new City("Washington", "WDC", 38.9072, -77.0369);
-        City newYork = new City("New York", "NYC", 42.0848, -74.3154);
+        City washington = new City("Washington", "D.C.", 38.9072, -77.0369);
+        City newYork = new City("New York", "NYC", 42.0848, -75.5);
         City boston = new City("Boston", "BOS", 42.3601, -71.0589);
         City montreal = new City("Montreal", "MON", 45.5017, -73.5673);
 

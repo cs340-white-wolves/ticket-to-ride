@@ -54,11 +54,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     private static final int ORANGE = 0xFFFF9800;
     private static final double CENTER_LAT = 39.8283;
     private static final double CENTER_LNG = -94.5795;
-    private static final float ZOOM = 3.7f;
+    private static final float ZOOM = 3.65f;
     public static final float BASE_GAP = 17f;
     public static final float CITY_CODE_TEXT_SIZE = 50f;
     public static final int CITY_CODE_SHADOW_RADIUS = 5;
     public static final int CITY_CODE_STROKE_WIDTH = 2;
+    public static final double CITY_NAME_LAT_OFFSET = 0.5;
 
     private Map<Color, Integer> colorValues = new HashMap<>();
     private GoogleMap map;
@@ -99,7 +100,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         map.moveCamera(CameraUpdateFactory.newLatLng(center));
         displayCities();
         drawRoutes();
-        setRouteClickListener();
+//        setRouteClickListener();
     }
 
     private void displayText(String text) {
@@ -112,11 +113,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             public void onPolylineClick(Polyline polyline) {
                 Route route = lineRouteManager.get(polyline);
                 displayText(route.getCity1().getName() + " " + route.getCity2().getName());
-//                if (citiesDisplayed()) {
-//                    removeCities();
-//                } else {
-//                    displayCities();
-//                }
             }
         });
     }
@@ -160,8 +156,11 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 .fillColor(RED)
                 .radius(CIRCLE_RADIUS);
 
+        latLng = new LatLng(latLng.latitude + CITY_NAME_LAT_OFFSET, latLng.longitude);
         map.addCircle(options);
-        Marker marker = map.addMarker(new MarkerOptions().icon(createPureTextIcon(name)).position(latLng));
+        Marker marker = map.addMarker(new MarkerOptions()
+                .icon(createPureTextIcon(name))
+                .position(latLng));
         cityMarkers.add(marker);
     }
 
