@@ -6,14 +6,7 @@ import java.util.Set;
 
 import cs340.TicketToRide.model.game.card.TrainCard.Color;
 
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.boxPurple;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.cabooseGreen;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.coalRed;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.freightOrange;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.hopperBlack;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.passengerWhite;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.reeferYellow;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.tankerBlue;
+import static cs340.TicketToRide.model.game.card.TrainCard.Color.*;
 
 public class Board {
     private Set<City> cities;
@@ -26,42 +19,42 @@ public class Board {
     }
 
     private void initCitiesAndRoutes() {
-        City vancouver = new City("Vancouver", 49.2827,-123.1207);
-        City seattle = new City("Seattle", 47.6062, -122.3321);
-        City portland = new City("Portland", 45.5122, -122.6587);
-        City sanFrancisco = new City("San Francisco", 37.7749, -122.4194);
-        City losAngeles = new City("Los Angeles", 34.0522, -118.2437);
-        City lasVegas = new City("Las Vegas", 36.1699, -115.1398);
-        City phoenix = new City("Phoenix", 33.4484, -112.0740);
-        City santaFe = new City("Santa Fe", 35.6870, -105.9378);
-        City elPaso = new City("El Paso", 31.7619, -106.4850);
-        City saltLakeCity = new City("Salt Lake City", 40.7608, -111.8910);
-        City helena = new City("Helena", 46.5891, -112.0391);
-        City calgary = new City("Calgary", 51.0486, -114.0708);
-        City denver = new City("Denver", 39.7392, -104.9903);
-        City winnipeg = new City("Winnipeg", 49.8951, -97.1384);
-        City duluth = new City("Duluth", 46.7867, -92.1005);
-        City omaha = new City("Omaha", 41.2565, -95.9345);
-        City kansasCity = new City("Kansas City", 39.0997, -94.5786);
-        City oklahomaCity = new City("Oklahoma City", 35.4676, -97.5164);
-        City dallas = new City("Dallas", 32.7767, -96.7970);
-        City houston = new City("Houston", 29.7604, -95.3698);
-        City newOrleans = new City("New Orleans", 29.9511, -90.0715);
-        City littleRock = new City("Little Rock", 34.7465, -92.2896);
-        City chicago = new City("Chicago", 41.8781, -87.6298);
-        City saintLouis = new City("Saint Louis", 38.6270, -90.1994);
-        City saultStMarie = new City("Sault St. Marie", 46.4977, -84.3476);
-        City toronto = new City("Toronto", 43.6532, -79.3832);
-        City pittsburgh = new City("Pittsburgh", 40.4406, -79.9959);
-        City nashville = new City("Nashville", 36.1627, -86.7816);
-        City atlanta = new City("Atlanta", 33.7490, -84.3880);
-        City miami = new City("Miami", 25.7617, -80.1918);
-        City raleigh = new City("Raleigh", 35.7796, -78.6382);
-        City charleston = new City("Charleston", 32.7765, -79.9311);
-        City washington = new City("Washington", 38.9072, -77.0369);
-        City newYork = new City("New York", 40.7128, -74.0060);
-        City boston = new City("Boston", 42.3601, -71.0589);
-        City montreal = new City("Montreal", 45.5017, -73.5673);
+        City vancouver = new City("Vancouver", "VAN", 50.2827,-123.1207);
+        City seattle = new City("Seattle", "SEA", 47.6062, -122.3321);
+        City portland = new City("Portland", "POR", 45.0, -122.6587);
+        City sanFrancisco = new City("San Francisco", "SFO", 37.7749, -122.4194);
+        City losAngeles = new City("Los Angeles", "LA", 34.0522, -118.2437);
+        City lasVegas = new City("Las Vegas", "LV", 36.1699, -115.1398);
+        City phoenix = new City("Phoenix", "PHX", 35.1983, -111.6513);
+        City santaFe = new City("Santa Fe", "SAF", 35.6870, -105.9378);
+        City elPaso = new City("El Paso", "ELP", 31.7619, -106.4850);
+        City saltLakeCity = new City("Salt Lake City", "SLC", 40.7608, -111.8910);
+        City helena = new City("Helena", "HLN", 46.5891, -112.0391);
+        City calgary = new City("Calgary", "CGY", 51.0486, -114.0708);
+        City denver = new City("Denver", "DEN", 39.7392, -104.9903);
+        City winnipeg = new City("Winnipeg", "WIN", 49.8951, -97.1384);
+        City duluth = new City("Duluth", "DLH", 46.7867, -92.1005);
+        City omaha = new City("Omaha", "OMA", 41.2565, -95.9345);
+        City kansasCity = new City("Kansas City", "KC", 39.0997, -94.5786);
+        City oklahomaCity = new City("Oklahoma City", "OKC", 35.4676, -97.5164);
+        City dallas = new City("DFW", "DAL", 32.7767, -96.7970);
+        City houston = new City("Houston", "HOU", 29.7604, -95.3698);
+        City newOrleans = new City("New Orleans", "NOL", 29.9511, -90.0715);
+        City littleRock = new City("Little Rock", "LIT", 34.7465, -92.2896);
+        City chicago = new City("Chicago", "CHI", 41.8781, -87.6298);
+        City saintLouis = new City("Saint Louis", "STL", 38.6270, -90.1994);
+        City saultStMarie = new City("Sault St. Marie", "SSM", 46.4977, -84.3476);
+        City toronto = new City("Toronto", "TOR", 43.6532, -79.3832);
+        City pittsburgh = new City("Pittsburgh", "PIT", 40.4406, -79.9959);
+        City nashville = new City("Nashville", "NAS", 36.1627, -86.7816);
+        City atlanta = new City("Atlanta", "ATL", 33.7490, -84.3880);
+        City miami = new City("Miami", "MIA", 25.7617, -80.1918);
+        City raleigh = new City("Raleigh", "RAL", 35.7796, -78.6382);
+        City charleston = new City("Charleston", "CHS", 32.7765, -79.9311);
+        City washington = new City("Washington", "D.C.", 38.9072, -77.0369);
+        City newYork = new City("New York", "NYC", 42.0848, -75.5);
+        City boston = new City("Boston", "BOS", 42.3601, -71.0589);
+        City montreal = new City("Montreal", "MON", 45.5017, -73.5673);
 
         City[] cities = {
                 vancouver, seattle, portland, sanFrancisco, losAngeles, lasVegas, phoenix,
@@ -114,7 +107,7 @@ public class Board {
         addRoute(omaha, chicago, tankerBlue, 4);
         addDoubleRoute(omaha, kansasCity, null, null, 1);
         addDoubleRoute(kansasCity, saintLouis, tankerBlue, boxPurple, 2);
-        addDoubleRoute(kansasCity, oklahomaCity, null, null, 1);
+        addDoubleRoute(kansasCity, oklahomaCity, null, null, 2);
         addRoute(oklahomaCity, littleRock, null, 2);
         addDoubleRoute(oklahomaCity, dallas, null, null, 2);
         addRoute(dallas, littleRock, null, 2);
@@ -158,8 +151,8 @@ public class Board {
     }
 
     private void addDoubleRoute(City city1, City city2, Color color1, Color color2, int length) {
-        Route route1 = new Route(city1, city2, color1, length, 1);
-        Route route2 = new Route(city1, city2, color2, length, 2);
+        Route route1 = new Route(city1, city2, color1, length, Route.PRIMARY);
+        Route route2 = new Route(city1, city2, color2, length, Route.SECONDARY);
         routes.add(route1);
         routes.add(route2);
     }

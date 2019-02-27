@@ -2,11 +2,13 @@ package cs340.TicketToRide.model.game.board;
 
 public class City {
     private String name;
+    private String code;
     private double lat;
     private double lng;
 
-    public City(String name, double lat, double lng) {
+    public City(String name, String code, double lat, double lng) {
         this.name = name;
+        this.code = code;
         this.lat = lat;
         this.lng = lng;
     }
@@ -35,4 +37,11 @@ public class City {
         this.lng = lng;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 }
