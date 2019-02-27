@@ -10,4 +10,9 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="BlackText">
+        <item name="android:textColor">@color/White</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
