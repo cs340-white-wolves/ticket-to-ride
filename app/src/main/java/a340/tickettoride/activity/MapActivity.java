@@ -107,12 +107,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         map.setMinZoomPreference(ZOOM);
         map.getUiSettings().setZoomGesturesEnabled(false);
         map.getUiSettings().setZoomControlsEnabled(false);
+        map.getUiSettings().setMapToolbarEnabled(false);
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_options));
         map.moveCamera(CameraUpdateFactory.newLatLng(center));
         displayCities();
         drawRoutes();
-//        setupRecyclerView();
-//        setRouteClickListener();
     }
 
     private void displayText(String text) {
