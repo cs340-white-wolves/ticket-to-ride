@@ -188,13 +188,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         float textWidth = textPaint.measureText(text);
         float textHeight = textPaint.getTextSize();
-        int width = (int) (textWidth);
-        int height = (int) (textHeight);
+        int width = (int) (textWidth) + CITY_CODE_SHADOW_RADIUS * 2;
+        int height = (int) (textHeight) + CITY_CODE_SHADOW_RADIUS * 2;
 
         Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(image);
-        canvas.translate(0, height);
-        canvas.drawText(text, 0, 0, textPaint);
+        canvas.translate(0, height - CITY_CODE_SHADOW_RADIUS * 2);
+        canvas.drawText(text, CITY_CODE_SHADOW_RADIUS, CITY_CODE_SHADOW_RADIUS, textPaint);
         return BitmapDescriptorFactory.fromBitmap(image);
     }
 
