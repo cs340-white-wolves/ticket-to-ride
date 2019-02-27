@@ -6,9 +6,13 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -31,6 +35,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import static android.graphics.Color.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,13 +46,18 @@ import java.util.Set;
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
+import cs340.TicketToRide.model.Games;
+import cs340.TicketToRide.model.User;
+import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.Board;
 import cs340.TicketToRide.model.game.board.City;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.TrainCard.Color;
 import cs340.TicketToRide.utility.Graph;
+import cs340.TicketToRide.utility.Password;
+import cs340.TicketToRide.utility.Username;
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final int LINE_WIDTH = 15;
     private static final int LINE_BORDER_WIDTH = 17;
     private static final int CIRCLE_RADIUS = 35000;
@@ -78,6 +88,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         initColorValues();
+        setupRecyclerView();
     }
 
     @Override
@@ -100,6 +111,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         map.moveCamera(CameraUpdateFactory.newLatLng(center));
         displayCities();
         drawRoutes();
+//        setupRecyclerView();
 //        setRouteClickListener();
     }
 
@@ -264,6 +276,18 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         return (int) (px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
+    private void setupRecyclerView() {
+        List<Player> players = new ArrayList<>();
+        players.add(new Player(new User(new Username("nate"), new Password("123"))));
+        players.add(new Player(new User(new Username("jake"), new Password("123"))));
+        players.add(new Player(new User(new Username("kate"), new Password("123"))));
+        players.add(new Player(new User(new Username("sara"), new Password("123"))));
+        PlayerTurnTrackerAdapter adapter = new PlayerTurnTrackerAdapter(players);
+        RecyclerView playerTurnRecycler = findViewById(R.id.player_turn_recycler);
+        playerTurnRecycler.setLayoutManager(new LinearLayoutManager(this));
+        playerTurnRecycler.setAdapter(adapter);
+    }
+
     private Integer getColorValue(Color color) {
         if (color == null) {
             return GRAY;
@@ -282,6 +306,5 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         colorValues.put(Color.boxPurple, MAGENTA);
         colorValues.put(Color.coalRed, RED);
     }
-
 
 }
