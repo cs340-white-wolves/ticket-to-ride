@@ -32,6 +32,58 @@
             app:layout_constraintRight_toRightOf="parent"
             android:background="@color/Black"
             android:alpha="0.3"/>
+        tools:context=".activity.MapActivity" >
+
+        <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="left|bottom">
+
+            <Button
+                android:id="@+id/drawCardsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/draw_cards"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:paddingRight="10dp"/>
+
+            <Button
+                android:id="@+id/placeTrainsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/place_trains"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:paddingRight="10dp"/>
+
+            <Button
+                android:id="@+id/drawRoutesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/draw_routes"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:paddingRight="10dp"/>
+
+        </LinearLayout>
+
+
+    </fragment>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/player_turn_recycler"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="6dp"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent=".15"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent=".3"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@color/Black"
+        android:alpha="0.3"/>
 </android.support.constraint.ConstraintLayout>
     <fragment
         android:id="@+id/fragment"

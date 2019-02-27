@@ -29,4 +29,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="bank_title">Bank</string>
+    <string name="draw_cards">Draw Cards</string>
+    <string name="place_trains">Place Trains</string>
+    <string name="draw_routes">Draw Routes</string>
 </resources>
