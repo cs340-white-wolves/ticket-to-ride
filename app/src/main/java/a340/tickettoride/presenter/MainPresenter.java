@@ -7,6 +7,8 @@ import java.util.Observer;
 
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
+import a340.tickettoride.observerable.ModelChangeType;
+import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.task.LoginTask;
 import a340.tickettoride.task.RegisterTask;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
@@ -18,13 +20,12 @@ import cs340.TicketToRide.utility.Username;
 /**
  * This calls the Service facade and also updates the Views
  */
-public class MainPresenter implements Observer, IMainPresenter {
+public class MainPresenter implements ModelObserver, IMainPresenter {
     private Username username;
     private Password password;
     private View view;
 
     public MainPresenter(View view) {
-        ClientModel.getInstance().setupNewObserver(this);
         this.view = view;
     }
 
@@ -62,28 +63,16 @@ public class MainPresenter implements Observer, IMainPresenter {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-
-        if (arg instanceof LoginRegisterResponse) {
+    public void onModelEvent(ModelChangeType changeType, Object obj) {
+        if (changeType == ModelChangeType.AuthenticateSuccess) {
             view.onAuthenticated();
             return;
         }
-
-        // todo: how do we want to handle the diff cases?
-        if (arg instanceof NotUniqueException || arg instanceof AuthenticationException) {
-            Exception exception = (Exception)arg;
+        else if (changeType == ModelChangeType.FailureException) {
+            Exception exception = (Exception)obj;
             view.onInvalid(exception.getMessage());
             return;
         }
-
-        if (arg instanceof Exception) {
-            Exception exception = (Exception)arg;
-            view.onInvalid(exception.getMessage());
-            return;
-        }
-
-        // todo: this is getting called because other presenters are updating also
-//        view.onInvalid("Unknown Error");
     }
 
     private void setUsernamePassword(String usernameStr, String passStr) {

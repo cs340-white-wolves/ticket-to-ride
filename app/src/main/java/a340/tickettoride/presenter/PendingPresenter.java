@@ -7,11 +7,13 @@ import java.util.Observer;
 import java.util.Set;
 
 import a340.tickettoride.model.ClientModel;
+import a340.tickettoride.observerable.ModelChangeType;
+import a340.tickettoride.observerable.ModelObserver;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.game.Player;
 
-public class PendingPresenter implements IPendingPresenter, Observer {
+public class PendingPresenter implements IPendingPresenter, ModelObserver {
     private View view;
 
     public PendingPresenter(View view) {
@@ -30,10 +32,14 @@ public class PendingPresenter implements IPendingPresenter, Observer {
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        Log.i("PendingPresenter", "Got update" + arg.getClass().getName());
+    public Game getActiveGame() {
+        return ClientModel.getInstance().getActiveGame();
+    }
+
+    @Override
+    public void onModelEvent(ModelChangeType changeType, Object obj) {
         // TODO: right now, this is using the entire game list. We should switch to only polling the active game.
-        if (arg instanceof Games) {
+        if (changeType == ModelChangeType.AvailableGameList) {
             Game activeGame = ClientModel.getInstance().getActiveGame();
 
             view.onUpdateGame(activeGame);
@@ -43,11 +49,6 @@ public class PendingPresenter implements IPendingPresenter, Observer {
                 view.onGameStarting();
             }
         }
-    }
-
-    @Override
-    public Game getActiveGame() {
-        return ClientModel.getInstance().getActiveGame();
     }
 
     public interface View {
