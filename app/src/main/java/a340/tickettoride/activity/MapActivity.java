@@ -47,7 +47,6 @@ import java.util.Set;
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
-import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.Board;
@@ -212,7 +211,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         final PolylineOptions routeLine = getPolylineOptions(route, first, second, segmentSize);
         map.addPolyline(border);
         Polyline line = map.addPolyline(routeLine);
-        line.setClickable(true);
+//        line.setClickable(true);
         lineRouteManager.put(line, route);
     }
 
@@ -283,7 +282,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         players.add(new Player(new User(new Username("jake"), new Password("123"))));
         players.add(new Player(new User(new Username("kate"), new Password("123"))));
         players.add(new Player(new User(new Username("sara"), new Password("123"))));
-        PlayerTurnTrackerAdapter adapter = new PlayerTurnTrackerAdapter(players);
+        players.add(new Player(new User(new Username("dave"), new Password("123"))));
+        players.get(0).setColor(Player.Color.black);
+        players.get(1).setColor(Player.Color.blue);
+        players.get(2).setColor(Player.Color.red);
+        players.get(3).setColor(Player.Color.green);
+        players.get(4).setColor(Player.Color.yellow);
+        PlayerTurnTrackerAdapter adapter = new PlayerTurnTrackerAdapter(players, this);
         RecyclerView playerTurnRecycler = findViewById(R.id.player_turn_recycler);
         playerTurnRecycler.setLayoutManager(new LinearLayoutManager(this));
         playerTurnRecycler.setAdapter(adapter);

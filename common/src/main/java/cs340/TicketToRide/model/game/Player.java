@@ -9,7 +9,7 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 
 public class Player {
 
-    enum Color {
+    public enum Color {
         red, green, blue, yellow, black
     }
 
@@ -35,6 +35,46 @@ public class Player {
             throw new IllegalArgumentException();
         }
         this.user = user;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getNumTrains() {
+        return numTrains;
+    }
+
+    public void setNumTrains(int numTrains) {
+        this.numTrains = numTrains;
+    }
+
+    public Set<TrainCard> getTrainCards() {
+        return trainCards;
+    }
+
+    public void setTrainCards(Set<TrainCard> trainCards) {
+        this.trainCards = trainCards;
+    }
+
+    public Set<DestinationCard> getDestinationCards() {
+        return destinationCards;
+    }
+
+    public void setDestinationCards(Set<DestinationCard> destinationCards) {
+        this.destinationCards = destinationCards;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     public boolean isValid() {
