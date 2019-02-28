@@ -58,7 +58,8 @@ import cs340.TicketToRide.utility.Graph;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
+        BankFragment.BankInteractionListener, SummaryFragment.SummaryFragmentListener {
     private static final int LINE_WIDTH = 15;
     private static final int LINE_BORDER_WIDTH = 17;
     private static final int CIRCLE_RADIUS = 35000;
@@ -108,12 +109,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         map.setMinZoomPreference(ZOOM);
         map.getUiSettings().setZoomGesturesEnabled(false);
         map.getUiSettings().setZoomControlsEnabled(false);
+        map.getUiSettings().setMapToolbarEnabled(false);
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_options));
         map.moveCamera(CameraUpdateFactory.newLatLng(center));
         displayCities();
         drawRoutes();
-//        setupRecyclerView();
-//        setRouteClickListener();
     }
 
     private void displayText(String text) {
