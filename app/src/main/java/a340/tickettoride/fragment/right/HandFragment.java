@@ -1,4 +1,4 @@
-package a340.tickettoride.activity;
+package a340.tickettoride.fragment.right;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,15 +10,16 @@ import android.view.ViewGroup;
 
 import a340.tickettoride.R;
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link BankInteractionListener} interface
+ * {@link HandFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link BankFragment#newInstance} factory method to
+ * Use the {@link HandFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BankFragment extends Fragment {
+public class HandFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,9 +29,9 @@ public class BankFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private BankInteractionListener mListener;
+    private OnFragmentInteractionListener mListener;
 
-    public BankFragment() {
+    public HandFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +41,11 @@ public class BankFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment BankFragment.
+     * @return A new instance of fragment HandFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static BankFragment newInstance(String param1, String param2) {
-        BankFragment fragment = new BankFragment();
+    public static HandFragment newInstance(String param1, String param2) {
+        HandFragment fragment = new HandFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,7 +66,7 @@ public class BankFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_bank, container, false);
+        return inflater.inflate(R.layout.fragment_hand, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -78,11 +79,11 @@ public class BankFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof BankInteractionListener) {
-            mListener = (BankInteractionListener) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement BankInteractionListener");
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -102,7 +103,7 @@ public class BankFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface BankInteractionListener {
+    public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
