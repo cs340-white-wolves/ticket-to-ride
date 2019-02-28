@@ -71,6 +71,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public static final int CITY_CODE_SHADOW_RADIUS = 5;
     public static final int CITY_CODE_STROKE_WIDTH = 2;
     public static final double CITY_NAME_LAT_OFFSET = 0.5;
+    public static final int ActivePlayer = 0;
 
     private Map<Color, Integer> colorValues = new HashMap<>();
     private GoogleMap map;
@@ -292,6 +293,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         RecyclerView playerTurnRecycler = findViewById(R.id.player_turn_recycler);
         playerTurnRecycler.setLayoutManager(new LinearLayoutManager(this));
         playerTurnRecycler.setAdapter(adapter);
+        adapter.setActivePlayerIndex(1);
+        adapter.notifyDataSetChanged();
     }
 
     private Integer getColorValue(Color color) {

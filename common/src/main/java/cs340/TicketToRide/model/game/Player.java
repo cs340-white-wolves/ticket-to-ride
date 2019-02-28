@@ -6,6 +6,7 @@ import java.util.Set;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.utility.ID;
 
 public class Player {
 
@@ -19,11 +20,13 @@ public class Player {
     private Set<TrainCard> trainCards;
     private Set<DestinationCard> destinationCards;
     private Color color;
+    private ID id;
 
     // todo: should the player have a set of routes? or route has player?
 
     public Player(User user) {
         setUser(user);
+        id = ID.generateID();
     }
 
     public User getUser() {
@@ -79,6 +82,10 @@ public class Player {
 
     public boolean isValid() {
         return user != null && user.isValid();
+    }
+
+    public ID getId() {
+        return id;
     }
 
     @Override
