@@ -1,16 +1,15 @@
 package a340.tickettoride.activity;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,21 +17,20 @@ import java.util.Map;
 import a340.tickettoride.R;
 import cs340.TicketToRide.model.game.Player;
 
-import static android.graphics.Color.BLACK;
-import static android.graphics.Color.BLUE;
 import static android.graphics.Color.GRAY;
-import static android.graphics.Color.GREEN;
-import static android.graphics.Color.RED;
-import static android.graphics.Color.YELLOW;
 
-class PlayerTurnTrackerAdapter extends RecyclerView.Adapter<PlayerTurnTrackerAdapter.PlayerTurnView> {
+class TurnTrackerAdapter extends RecyclerView.Adapter<TurnTrackerAdapter.PlayerTurnView> {
 
     private List<Player> players;
+    private List<PlayerTurnView> playerTurnViews;
     private Context context;
     Map<Player.Color, Integer> playerColors;
-    public PlayerTurnTrackerAdapter(List<Player> players, Context context) {
+    private int activePlayerIndex;
+    public TurnTrackerAdapter(List<Player> players, Context context) {
         this.players = players;
         this.context = context;
+        this.activePlayerIndex = 0;
+        playerTurnViews = new ArrayList<>();
         initPlayerColors();
     }
 
@@ -42,7 +40,7 @@ class PlayerTurnTrackerAdapter extends RecyclerView.Adapter<PlayerTurnTrackerAda
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.list_item_player_tracker, viewGroup, false);
 
-        return new PlayerTurnView(view);
+        return new PlayerTurnView(view, context);
     }
 
     @Override
@@ -51,6 +49,11 @@ class PlayerTurnTrackerAdapter extends RecyclerView.Adapter<PlayerTurnTrackerAda
         int color = getPlayerColor(player);
         playerTurnView.usernameView.setText(player.getUser().getUsername().toString());
         playerTurnView.usernameView.setBackgroundColor(color);
+        if (activePlayerIndex == index) {
+            playerTurnView.setActive();
+        } else {
+            playerTurnView.setInactive();
+        }
     }
 
     @Override
@@ -75,17 +78,42 @@ class PlayerTurnTrackerAdapter extends RecyclerView.Adapter<PlayerTurnTrackerAda
         playerColors.put(Player.Color.yellow, context.getColor(R.color.Gold));
     }
 
+    public void setActivePlayerIndex(int index) {
+        if (index == getItemCount()) {
+            index = 0;
+        }
+        this.activePlayerIndex = index;
+    }
+
+    public void setNextActivePlayer() {
+        activePlayerIndex++;
+        if (activePlayerIndex == getItemCount()) {
+            activePlayerIndex = 0;
+        }
+    }
+
     //This class is the layout/view for each individual list item
     public static class PlayerTurnView extends RecyclerView.ViewHolder {
 
+        private ConstraintLayout background;
         private TextView usernameView;
         private int color;
+        private Context context;
 
-        public PlayerTurnView(@NonNull View itemView) {
+        public PlayerTurnView(@NonNull View itemView, Context context) {
             super(itemView);
+            this.context = context;
+            background = itemView.findViewById(R.id.player_name_background);
             usernameView = itemView.findViewById(R.id.playerName);
         }
 
+        public void setActive() {
+            background.setBackgroundColor(context.getColor(R.color.ActivePlayer));
+        }
+
+        public void setInactive() {
+            background.setBackgroundColor(context.getColor(R.color.InactivePlayer));
+        }
     }
 
 }

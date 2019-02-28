@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -80,6 +82,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public static final int CITY_CODE_SHADOW_RADIUS = 5;
     public static final int CITY_CODE_STROKE_WIDTH = 2;
     public static final double CITY_NAME_LAT_OFFSET = 0.5;
+    public static final int ActivePlayer = 0;
 
     private Map<Color, Integer> colorValues = new HashMap<>();
     private GoogleMap map;
@@ -88,6 +91,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Set<Marker> cityMarkers;
     private Map<Polyline, Route> lineRouteManager;
     private Board board;
+    private RecyclerView playerTurnRecycler;
 
     private void init() {
         lineRouteManager = new HashMap<>();
@@ -297,10 +301,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         players.get(2).setColor(Player.Color.red);
         players.get(3).setColor(Player.Color.green);
         players.get(4).setColor(Player.Color.yellow);
-        PlayerTurnTrackerAdapter adapter = new PlayerTurnTrackerAdapter(players, this);
-        RecyclerView playerTurnRecycler = findViewById(R.id.player_turn_recycler);
+        TurnTrackerAdapter adapter = new TurnTrackerAdapter(players, this);
+        playerTurnRecycler = findViewById(R.id.player_turn_recycler);
         playerTurnRecycler.setLayoutManager(new LinearLayoutManager(this));
         playerTurnRecycler.setAdapter(adapter);
+    }
+
+    private void nextPlayersTurn() {
+        TurnTrackerAdapter adapter = (TurnTrackerAdapter) playerTurnRecycler.getAdapter();
+        if (adapter == null) {
+            return;
+        }
+        adapter.setNextActivePlayer();
+        adapter.notifyDataSetChanged();
     }
 
     private Integer getColorValue(Color color) {
