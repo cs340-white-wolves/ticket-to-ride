@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.*;
@@ -20,6 +21,12 @@ import static android.graphics.Color.*;
 import java.util.*;
 
 import a340.tickettoride.R;
+import a340.tickettoride.fragment.left.BankFragment;
+import a340.tickettoride.fragment.right.AllPlayersFragment;
+import a340.tickettoride.fragment.right.ChatFragment;
+import a340.tickettoride.fragment.right.HandFragment;
+import a340.tickettoride.fragment.right.RoutesFragment;
+import a340.tickettoride.fragment.right.SummaryFragment;
 import a340.tickettoride.presenter.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
 import cs340.TicketToRide.model.User;
@@ -31,7 +38,12 @@ import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
-        BankFragment.BankInteractionListener, SummaryFragment.SummaryFragmentListener {
+        BankFragment.BankInteractionListener,
+        SummaryFragment.SummaryFragmentListener,
+        ChatFragment.OnFragmentInteractionListener,
+        HandFragment.OnFragmentInteractionListener,
+        RoutesFragment.OnFragmentInteractionListener,
+        AllPlayersFragment.OnFragmentInteractionListener {
     private static final int LINE_WIDTH = 15;
     private static final int LINE_BORDER_WIDTH = 17;
     private static final int CIRCLE_RADIUS = 35000;

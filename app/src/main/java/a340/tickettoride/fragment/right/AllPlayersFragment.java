@@ -1,4 +1,4 @@
-package a340.tickettoride.activity;
+package a340.tickettoride.fragment.right;
 
 import android.content.Context;
 import android.net.Uri;
@@ -10,15 +10,16 @@ import android.view.ViewGroup;
 
 import a340.tickettoride.R;
 
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SummaryFragmentListener} interface
+ * {@link AllPlayersFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SummaryFragment#newInstance} factory method to
+ * Use the {@link AllPlayersFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SummaryFragment extends Fragment {
+public class AllPlayersFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,9 +29,9 @@ public class SummaryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private SummaryFragmentListener mListener;
+    private OnFragmentInteractionListener mListener;
 
-    public SummaryFragment() {
+    public AllPlayersFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +41,11 @@ public class SummaryFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SummaryFragment.
+     * @return A new instance of fragment AllPlayersFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SummaryFragment newInstance(String param1, String param2) {
-        SummaryFragment fragment = new SummaryFragment();
+    public static AllPlayersFragment newInstance(String param1, String param2) {
+        AllPlayersFragment fragment = new AllPlayersFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,7 +66,7 @@ public class SummaryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_summary, container, false);
+        return inflater.inflate(R.layout.fragment_all_players, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -78,11 +79,11 @@ public class SummaryFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof SummaryFragmentListener) {
-            mListener = (SummaryFragmentListener) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement SummaryFragmentListener");
+                    + " must implement OnFragmentInteractionListener");
         }
     }
 
@@ -102,7 +103,7 @@ public class SummaryFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface SummaryFragmentListener {
+    public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
