@@ -11,14 +11,14 @@
         android:layout_width="match_parent"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".activity.MapActivity" />
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".activity.MapActivity" />
         <android.support.v7.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -32,7 +32,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:background="@color/Black"
             android:alpha="0.3"/>
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
     <fragment
         android:id="@+id/fragment"
         android:name="a340.tickettoride.activity.BankFragment"
@@ -52,6 +52,5 @@
         android:fitsSystemWindows="true"
         tools:context=".activity.MapActivity"
         tools:layout="@layout/fragment_summary" />
-
 
 </android.support.v4.widget.DrawerLayout>

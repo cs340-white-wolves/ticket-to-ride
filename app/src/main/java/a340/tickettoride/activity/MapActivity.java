@@ -58,7 +58,7 @@ import cs340.TicketToRide.utility.Graph;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, BankFragment.BankInteractionListener, SummaryFragment.SummaryFragmentListener {
     private static final int LINE_WIDTH = 15;
     private static final int LINE_BORDER_WIDTH = 17;
     private static final int CIRCLE_RADIUS = 35000;
