@@ -274,12 +274,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    if (!lineRouteManager.containsKey(route)) {
-                        final Point point1 = map.getProjection().toScreenLocation(latLng1);
-                        final Point point2 = map.getProjection().toScreenLocation(latLng2);
-                        final float segmentSize = calculateSegmentSize(point1, point2, route);
-                        drawRouteSegments(route, segmentSize);
+                    if (lineRouteManager.containsKey(route)) {
+                        return;
                     }
+                    final Point point1 = map.getProjection().toScreenLocation(latLng1);
+                    final Point point2 = map.getProjection().toScreenLocation(latLng2);
+                    final float segmentSize = calculateSegmentSize(point1, point2, route);
+                    drawRouteSegments(route, segmentSize);
                 }
             });
         }
@@ -295,19 +296,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void drawRouteSegments(Route route, float segmentSize) {
+        if (lineRouteManager.containsKey(route)) {
+            return;
+        }
         LatLng start = getRouteStartLocation(route);
         LatLng end = getRouteEndLocation(route);
 
         final PolylineOptions borderOptions = getBorderPolylineOptions(route, start, end, segmentSize);
         final PolylineOptions routeOptions = getPolylineOptions(route, start, end, segmentSize);
-        if (!lineRouteManager.containsKey(route)) {
-            Polyline borderLine = map.addPolyline(borderOptions);
-            Polyline routeLine = map.addPolyline(routeOptions);
-            List<Polyline> lines = new ArrayList<>();
-            lines.add(borderLine);
-            lines.add(routeLine);
-            lineRouteManager.put(route, lines);
-        }
+        Polyline borderLine = map.addPolyline(borderOptions);
+        Polyline routeLine = map.addPolyline(routeOptions);
+        List<Polyline> lines = new ArrayList<>();
+        lines.add(borderLine);
+        lines.add(routeLine);
+        lineRouteManager.put(route, lines);
     }
 
     private LatLng getRouteStartLocation(Route route) {
