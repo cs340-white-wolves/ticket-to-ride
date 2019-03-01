@@ -18,7 +18,45 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".activity.MapActivity" />
+            tools:context=".activity.MapActivity" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="left|bottom">
+
+                <Button
+                    android:id="@+id/drawCardsButton"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/draw_cards"
+                    android:padding="10dp"
+                    android:layout_marginTop="20dp"
+                    android:paddingRight="10dp"/>
+
+                <Button
+                    android:id="@+id/placeTrainsButton"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/place_trains"
+                    android:padding="10dp"
+                    android:layout_marginTop="20dp"
+                    android:paddingRight="10dp"/>
+
+                <Button
+                    android:id="@+id/drawRoutesButton"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/draw_routes"
+                    android:padding="10dp"
+                    android:layout_marginTop="20dp"
+                    android:paddingRight="10dp"/>
+
+            </LinearLayout>
+
+
+        </fragment>
         <android.support.v7.widget.RecyclerView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -26,16 +64,16 @@
             android:layout_marginEnd="6dp"
             android:layout_marginBottom="6dp"
             app:layout_constraintWidth_default="percent"
-            app:layout_constraintWidth_percent=".15"
+            app:layout_constraintWidth_percent=".18"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHeight_percent=".3"
+            app:layout_constraintHeight_percent=".345"
             app:layout_constraintRight_toRightOf="parent"
-            android:background="@color/Black"
-            android:alpha="0.3"/>
+            android:background="#4D000000"/>
+
     </android.support.constraint.ConstraintLayout>
     <fragment
         android:id="@+id/fragment"
-        android:name="a340.tickettoride.activity.BankFragment"
+        android:name="a340.tickettoride.fragment.left.BankFragment"
         android:layout_width="80dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
@@ -45,12 +83,13 @@
 
     <fragment
         android:id="@+id/fragment2"
-        android:name="a340.tickettoride.activity.SummaryFragment"
+        android:name="a340.tickettoride.fragment.right.SummaryFragment"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
         tools:context=".activity.MapActivity"
         tools:layout="@layout/fragment_summary" />
+
 
 </android.support.v4.widget.DrawerLayout>

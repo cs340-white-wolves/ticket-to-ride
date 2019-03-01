@@ -6,10 +6,11 @@ import java.util.Set;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.utility.ID;
 
 public class Player {
 
-    enum Color {
+    public enum Color {
         red, green, blue, yellow, black
     }
 
@@ -19,11 +20,13 @@ public class Player {
     private Set<TrainCard> trainCards;
     private Set<DestinationCard> destinationCards;
     private Color color;
+    private ID id;
 
     // todo: should the player have a set of routes? or route has player?
 
     public Player(User user) {
         setUser(user);
+        id = ID.generateID();
     }
 
     public User getUser() {
@@ -37,8 +40,52 @@ public class Player {
         this.user = user;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public int getNumTrains() {
+        return numTrains;
+    }
+
+    public void setNumTrains(int numTrains) {
+        this.numTrains = numTrains;
+    }
+
+    public Set<TrainCard> getTrainCards() {
+        return trainCards;
+    }
+
+    public void setTrainCards(Set<TrainCard> trainCards) {
+        this.trainCards = trainCards;
+    }
+
+    public Set<DestinationCard> getDestinationCards() {
+        return destinationCards;
+    }
+
+    public void setDestinationCards(Set<DestinationCard> destinationCards) {
+        this.destinationCards = destinationCards;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
     public boolean isValid() {
         return user != null && user.isValid();
+    }
+
+    public ID getId() {
+        return id;
     }
 
     @Override
