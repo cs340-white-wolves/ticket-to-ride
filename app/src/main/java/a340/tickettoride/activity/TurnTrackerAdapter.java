@@ -31,7 +31,6 @@ class TurnTrackerAdapter extends RecyclerView.Adapter<TurnTrackerAdapter.PlayerT
         this.context = context;
         this.activePlayerIndex = 0;
         playerTurnViews = new ArrayList<>();
-        initPlayerColors();
     }
 
     @NonNull
@@ -46,7 +45,8 @@ class TurnTrackerAdapter extends RecyclerView.Adapter<TurnTrackerAdapter.PlayerT
     @Override
     public void onBindViewHolder(@NonNull PlayerTurnView playerTurnView, int index) {
         Player player = players.get(index);
-        int color = getPlayerColor(player);
+
+        int color = ((MapActivity)context).getPlayerColorValue(player.getColor());
         playerTurnView.usernameView.setText(player.getUser().getUsername().toString());
         playerTurnView.usernameView.setBackgroundColor(color);
         if (activePlayerIndex == index) {
@@ -59,23 +59,6 @@ class TurnTrackerAdapter extends RecyclerView.Adapter<TurnTrackerAdapter.PlayerT
     @Override
     public int getItemCount() {
         return players.size();
-    }
-
-    private int getPlayerColor(Player player) {
-        Player.Color color = player.getColor();
-        if (playerColors.containsKey(color)) {
-            return playerColors.get(color);
-        }
-        return GRAY;
-    }
-
-    private void initPlayerColors() {
-        playerColors = new HashMap<>();
-        playerColors.put(Player.Color.black, context.getColor(R.color.Black));
-        playerColors.put(Player.Color.blue, context.getColor(R.color.Blue));
-        playerColors.put(Player.Color.red, context.getColor(R.color.Red));
-        playerColors.put(Player.Color.green, context.getColor(R.color.Green));
-        playerColors.put(Player.Color.yellow, context.getColor(R.color.Gold));
     }
 
     public void setActivePlayerIndex(int index) {
