@@ -70,8 +70,8 @@
             android:layout_marginTop="25dp"
             android:backgroundTint="@color/Red"
             android:fontFamily="@font/shangiri"
-            android:text="@string/create_game"
-            android:textColor="@color/Gold" />
+            android:textColor="@color/Gold"
+            android:text="@string/create_game" />
 
     </LinearLayout>
 
