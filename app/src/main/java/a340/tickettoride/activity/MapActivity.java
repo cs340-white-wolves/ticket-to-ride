@@ -30,10 +30,12 @@ import a340.tickettoride.fragment.right.SummaryFragment;
 import a340.tickettoride.presenter.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
 import cs340.TicketToRide.model.User;
+import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.*;
 import cs340.TicketToRide.model.game.card.TrainCard.Color;
 import cs340.TicketToRide.utility.Graph;
+import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
@@ -57,14 +59,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int CITY_CODE_STROKE_WIDTH = 2;
     private static final double CITY_NAME_LAT_OFFSET = 0.5;
 
-    private Map<Color, Integer> colorValues = new HashMap<>();
+    private Map<Color, Integer> trainColorValues = new HashMap<>();
+    private Map<Player.Color, Integer> playerColorValues = new HashMap<>();
     private GoogleMap map;
     private IMapPresenter presenter;
     private SupportMapFragment mapFragment;
     private Set<Marker> cityMarkers;
-    private Map<Polyline, Route> lineRouteManager;
+    private Map<Route, List<Polyline>> lineRouteManager;
     private Board board;
     private RecyclerView playerTurnRecycler;
+
+    private List<Player> players = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +95,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void init() {
+        initTrainColorValues();
+        initPlayerColorValues();
         lineRouteManager = new HashMap<>();
         cityMarkers = new HashSet<>();
         presenter = new MapPresenter();
@@ -97,7 +104,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        initColorValues();
         initTurnTracker();
         initButtons();
     }
@@ -110,11 +116,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 nextPlayersTurn();
             }
         });
+
         Button placeTrainBtn = findViewById(R.id.placeTrainsButton);
         placeTrainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 nextPlayersTurn();
+                for (Route route : lineRouteManager.keySet()) {
+                    showRouteIsClaimed(route);
+                }
             }
         });
         Button drawCardsBtn = findViewById(R.id.drawCardsButton);
@@ -126,15 +136,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-    private void initColorValues() {
-        colorValues.put(Color.hopperBlack, BLACK);
-        colorValues.put(Color.passengerWhite, WHITE);
-        colorValues.put(Color.tankerBlue, BLUE);
-        colorValues.put(Color.reeferYellow, YELLOW);
-        colorValues.put(Color.freightOrange, ORANGE);
-        colorValues.put(Color.cabooseGreen, GREEN);
-        colorValues.put(Color.boxPurple, MAGENTA);
-        colorValues.put(Color.coalRed, RED);
+    private void initTrainColorValues() {
+        trainColorValues.put(Color.hopperBlack, BLACK);
+        trainColorValues.put(Color.passengerWhite, WHITE);
+        trainColorValues.put(Color.tankerBlue, BLUE);
+        trainColorValues.put(Color.reeferYellow, YELLOW);
+        trainColorValues.put(Color.freightOrange, ORANGE);
+        trainColorValues.put(Color.cabooseGreen, GREEN);
+        trainColorValues.put(Color.boxPurple, MAGENTA);
+        trainColorValues.put(Color.coalRed, RED);
+    }
+
+    private void initPlayerColorValues() {
+        playerColorValues.put(Player.Color.black, this.getColor(R.color.Black));
+        playerColorValues.put(Player.Color.blue, this.getColor(R.color.Blue));
+        playerColorValues.put(Player.Color.red, this.getColor(R.color.Red));
+        playerColorValues.put(Player.Color.green, this.getColor(R.color.Green));
+        playerColorValues.put(Player.Color.yellow, this.getColor(R.color.Gold));
     }
 
     private Integer getColorValue(Color color) {
@@ -142,11 +160,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             return GRAY;
         }
 
-        return colorValues.get(color);
+        return trainColorValues.get(color);
+    }
+
+    public Integer getPlayerColorValue(Player.Color color) {
+        if (color == null) {
+            return GRAY;
+        }
+        return playerColorValues.get(color);
     }
 
     private void initTurnTracker() {
-        List<Player> players = new ArrayList<>();
         players.add(new Player(new User(new Username("nate"), new Password("123"))));
         players.add(new Player(new User(new Username("jake"), new Password("123"))));
         players.add(new Player(new User(new Username("kate"), new Password("123"))));
@@ -239,7 +263,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         for (Route route : routes) {
             drawRoute(route);
         }
-    }
+     }
 
     private void drawRoute(final Route route) {
         final LatLng latLng1 = new LatLng(route.getCity1Lat(), route.getCity1Lng());
@@ -250,14 +274,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
                 public void onGlobalLayout() {
-                    final Point point1 = map.getProjection().toScreenLocation(latLng1);
-                    final Point point2 = map.getProjection().toScreenLocation(latLng2);
-                    final float segmentSize = calculateSegmentSize(point1, point2, route);
-                    drawRouteSegments(route, segmentSize);
+                    if (!lineRouteManager.containsKey(route)) {
+                        final Point point1 = map.getProjection().toScreenLocation(latLng1);
+                        final Point point2 = map.getProjection().toScreenLocation(latLng2);
+                        final float segmentSize = calculateSegmentSize(point1, point2, route);
+                        drawRouteSegments(route, segmentSize);
+                    }
                 }
             });
         }
-
     }
 
     private float calculateSegmentSize(Point point1, Point point2, Route route) {
@@ -270,19 +295,35 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void drawRouteSegments(Route route, float segmentSize) {
-        LatLng first = new LatLng(route.getCity1Lat(), route.getCity1Lng());
-        LatLng second = new LatLng(route.getCity2Lat(), route.getCity2Lng());
+        LatLng start = getRouteStartLocation(route);
+        LatLng end = getRouteEndLocation(route);
 
+        final PolylineOptions borderOptions = getBorderPolylineOptions(route, start, end, segmentSize);
+        final PolylineOptions routeOptions = getPolylineOptions(route, start, end, segmentSize);
+        if (!lineRouteManager.containsKey(route)) {
+            Polyline borderLine = map.addPolyline(borderOptions);
+            Polyline routeLine = map.addPolyline(routeOptions);
+            List<Polyline> lines = new ArrayList<>();
+            lines.add(borderLine);
+            lines.add(routeLine);
+            lineRouteManager.put(route, lines);
+        }
+    }
+
+    private LatLng getRouteStartLocation(Route route) {
         if (route.isDoubleRoute()) {
-            first = new LatLng(route.getCity1OffsetLat(), route.getCity1OffsetLng());
-            second = new LatLng(route.getCity2OffsetLat(), route.getCity2OffsetLng());
+            return new LatLng(route.getCity1OffsetLat(), route.getCity1OffsetLng());
         }
 
-        final PolylineOptions border = getBorderPolylineOptions(route, first, second, segmentSize);
-        final PolylineOptions routeLine = getPolylineOptions(route, first, second, segmentSize);
-        map.addPolyline(border);
-        Polyline line = map.addPolyline(routeLine);
-        lineRouteManager.put(line, route);
+        return new LatLng(route.getCity1Lat(), route.getCity1Lng());
+    }
+
+    private LatLng getRouteEndLocation(Route route) {
+        if (route.isDoubleRoute()) {
+            return new LatLng(route.getCity2OffsetLat(), route.getCity2OffsetLng());
+        }
+
+        return new LatLng(route.getCity2Lat(), route.getCity2Lng());
     }
 
     private float getRouteGapSize(Route route) {
@@ -312,6 +353,35 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .color(BLACK)
                 .width(LINE_BORDER_WIDTH)
                 .pattern(patterns);
+    }
+
+    private PolylineOptions getClaimedRoutePolylineOptions(LatLng start, LatLng end, int color) {
+        return new PolylineOptions()
+                .add(start, end)
+                .color(color)
+                .width(LINE_BORDER_WIDTH);
+    }
+
+    private void showRouteIsClaimed(final Route route) {
+        Player player = players.get(0);
+        route.occupy(player.getId()); // this is just for now
+        ID playerId = route.getOccupierId();
+        if (playerId == null) {
+            return;
+        }
+
+        final List<Polyline> polylines = lineRouteManager.get(route);
+        if (polylines == null) {
+            return;
+        }
+        for (Polyline polyline : polylines) {
+            polyline.remove();
+        }
+        LatLng start = getRouteStartLocation(route);
+        LatLng end = getRouteEndLocation(route);
+        Player.Color color = player.getColor();
+        int colorValue = getPlayerColorValue(color);
+        map.addPolyline(getClaimedRoutePolylineOptions(start, end, colorValue));
     }
 
     private int convertPixelsToDp(float px){

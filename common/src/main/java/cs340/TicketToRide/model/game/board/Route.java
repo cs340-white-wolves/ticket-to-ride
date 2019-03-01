@@ -99,7 +99,7 @@ public class Route {
         return (getPriority() == PRIMARY ? y1 + shift : y1 - shift);
     }
 
-    private void occupy(ID playerId) {
+    public void occupy(ID playerId) {
         if (playerId == null || !playerId.isValid()) {
             throw new IllegalArgumentException();
         }
@@ -190,5 +190,14 @@ public class Route {
 
     public double getCity2Lng() {
         return city2.getLng();
+    }
+
+    public ID getOccupierId() {
+        return occupierId;
+    }
+
+    @Override
+    public int hashCode() {
+        return city1.getName().hashCode() * city2.getName().hashCode() +  31 * priority;
     }
 }

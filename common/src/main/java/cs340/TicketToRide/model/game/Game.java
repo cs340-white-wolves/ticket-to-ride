@@ -100,6 +100,15 @@ public class Game {
         this.creator = creator;
     }
 
+    public Player getPlayerById(ID playerId) {
+        for (Player player : players) {
+            if (player.getId().equals(playerId)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
