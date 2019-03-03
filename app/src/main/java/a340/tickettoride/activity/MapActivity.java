@@ -40,7 +40,6 @@ import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
-        BankFragment.BankInteractionListener,
         SummaryFragment.SummaryFragmentListener,
         ChatFragment.OnFragmentInteractionListener,
         HandFragment.OnFragmentInteractionListener,

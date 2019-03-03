@@ -71,15 +71,16 @@
             android:background="#4D000000"/>
 
     </android.support.constraint.ConstraintLayout>
+
     <fragment
         android:id="@+id/fragment"
         android:name="a340.tickettoride.fragment.left.BankFragment"
-        android:layout_width="80dp"
+        android:layout_width="100dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        tools:layout="@layout/fragment_bank"
-        tools:context=".activity.MapActivity"/>
+        tools:context=".activity.MapActivity"
+        tools:layout="@layout/fragment_bank" />
 
     <fragment
         android:id="@+id/fragment2"
