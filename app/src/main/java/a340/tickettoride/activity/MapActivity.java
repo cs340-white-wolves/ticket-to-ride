@@ -3,14 +3,15 @@ package a340.tickettoride.activity;
 import android.graphics.*;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.*;
@@ -30,9 +31,9 @@ import a340.tickettoride.fragment.right.SummaryFragment;
 import a340.tickettoride.presenter.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
 import cs340.TicketToRide.model.User;
-import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.*;
+import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.TrainCard.Color;
 import cs340.TicketToRide.utility.Graph;
 import cs340.TicketToRide.utility.ID;
@@ -113,6 +114,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 nextPlayersTurn();
+                initDestCardDialog();
             }
         });
 
@@ -133,6 +135,39 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 nextPlayersTurn();
             }
         });
+    }
+
+    private void initDestCardDialog() {
+        List<DestinationCard> cards = new ArrayList<>();
+
+        cards.add(new DestinationCard(
+                new City("SLC", "slc", 10, -10),
+                new City("SLC", "slc", 10, -10),
+                10
+        ));
+        cards.add(new DestinationCard(
+                new City("dal", "slc", 10, -10),
+                new City("dal", "slc", 10, -10),
+                10
+        ));
+
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_route, null, false);
+        RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
+        DestCardAdapter adapter = new DestCardAdapter(cards);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+
+        AlertDialog dialog = new AlertDialog.Builder(
+                MapActivity.this)
+                .setView(view)
+                .setTitle("Alert Dialog")
+                .create();
+
+//        dialog.setContentView(R.layout.dialog_choose_route);
+
+
+
+        dialog.show();
     }
 
     private void initTrainColorValues() {
