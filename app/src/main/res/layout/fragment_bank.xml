@@ -3,48 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
-    android:layout_width="80dp"
+    android:layout_width="100dp"
     android:layout_height="match_parent"
     android:background="@color/LighterLightBrown"
     android:fitsSystemWindows="true"
     tools:context=".fragment.left.BankFragment"
     tools:layout_editor_absoluteY="25dp">
 
-    <TextView
-        android:id="@+id/bankTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/chipfn"
-        android:text="@string/bank_title"
-        android:textColor="@color/Red"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/card1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-
     <ImageView
         android:id="@+id/card1"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="90dp"
+        android:layout_height="60dp"
         android:contentDescription="@string/train_card_description"
         android:scaleType="fitCenter"
         android:src="@drawable/green_car"
         app:layout_constraintBottom_toTopOf="@+id/card2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bankTitle" />
+        app:layout_constraintEnd_toEndOf="@+id/drawPile"
+        app:layout_constraintStart_toStartOf="@+id/drawPile"
+        app:layout_constraintTop_toBottomOf="@+id/drawPile" />
 
     <ImageView
         android:id="@+id/card2"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
+        android:layout_width="90dp"
+        android:layout_height="60dp"
         android:contentDescription="@string/train_card_description"
         android:scaleType="fitCenter"
         android:src="@drawable/black_car"
@@ -55,8 +36,8 @@
 
     <ImageView
         android:id="@+id/card3"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
+        android:layout_width="90dp"
+        android:layout_height="60dp"
         android:contentDescription="@string/train_card_description"
         android:scaleType="fitCenter"
         android:src="@drawable/blue_car"
@@ -67,8 +48,8 @@
 
     <ImageView
         android:id="@+id/card4"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
+        android:layout_width="90dp"
+        android:layout_height="60dp"
         android:contentDescription="@string/train_card_description"
         android:scaleType="fitCenter"
         android:src="@drawable/red_car"
@@ -79,13 +60,29 @@
 
     <ImageView
         android:id="@+id/card5"
-        android:layout_width="70dp"
-        android:layout_height="50dp"
+        android:layout_width="90dp"
+        android:layout_height="60dp"
         android:contentDescription="@string/train_card_description"
         android:src="@drawable/locomotive"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/card4"
         app:layout_constraintStart_toStartOf="@+id/card4"
         app:layout_constraintTop_toBottomOf="@+id/card4" />
+
+    <TextView
+        android:id="@+id/drawPile"
+        android:layout_width="90dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/DarkBrown"
+        android:fontFamily="@font/shangiri"
+        android:paddingTop="5dp"
+        android:text="@string/draw_pile"
+        android:textAlignment="center"
+        android:textColor="@color/Gold"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
