@@ -18,7 +18,7 @@ public interface IServer {
     Game joinGame(AuthToken token, ID gameId);
     Games getAvailableGames(AuthToken token);
     void sendChat(AuthToken token, ID gameId, ChatMessage message);
-    Commands getQueuedCommands(AuthToken token, Player p, int index);
+    Commands getQueuedCommands(AuthToken token, ID playerId, int index);
     /*
         SendChat
         getDestCards? they get automatically

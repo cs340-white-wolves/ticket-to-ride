@@ -52,8 +52,8 @@ public class ServerFacade implements IServer {
         return new JoinGameService().joinGame(token, gameId);
     }
 
-    public Commands getQueuedCommands(AuthToken token, Player p, int index) {
-        return new QueueService().getQueuedCommands(token, p, index);
+    public Commands getQueuedCommands(AuthToken token, ID playerId, int index) {
+        return new QueueService().getQueuedCommands(token, playerId, index);
     }
 
     public Games getAvailableGames(AuthToken token) {
@@ -74,7 +74,7 @@ public class ServerFacade implements IServer {
                     new String[]{ChatMessage.class.getName()},
                     new Object[]{message}
             );
-            model.getClientQueueManager().put(player, gotChat);
+            model.getClientQueueManager().put(player.getId(), gotChat);
         }
 
     }

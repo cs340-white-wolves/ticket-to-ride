@@ -5,20 +5,17 @@ import java.util.Map;
 
 import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.communication.Commands;
-import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.utility.ID;
 
 public class ClientQueueManager {
-    private static ClientQueueManager singleton;
-
     private Map<ID, ClientCommandQueue> queues = new HashMap<>();
 
-    public void create(Player player) {
-        queues.put(player.getId(), new ClientCommandQueue());
+    public void create(ID playerId) {
+        queues.put(playerId, new ClientCommandQueue());
     }
 
-    public void put(Player player, Command cmd) {
-        ClientCommandQueue ccq = queues.get(player.getId());
+    public void put(ID playerId, Command cmd) {
+        ClientCommandQueue ccq = queues.get(playerId);
 
         if (ccq == null) {
             throw new RuntimeException("Could not put into non-existent queue");
@@ -27,8 +24,8 @@ public class ClientQueueManager {
         ccq.add(cmd);
     }
 
-    public Commands getAfter(Player player, int index) {
-        ClientCommandQueue ccq = queues.get(player.getId());
+    public Commands getAfter(ID playerId, int index) {
+        ClientCommandQueue ccq = queues.get(playerId);
 
         if (ccq == null) {
             throw new RuntimeException("Could not put into non-existent queue");

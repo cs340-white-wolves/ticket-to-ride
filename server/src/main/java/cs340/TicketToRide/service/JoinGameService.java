@@ -40,7 +40,7 @@ public class JoinGameService {
             throw new RuntimeException("Error adding player to game");
         }
 
-        model.getClientQueueManager().create(player);
+        model.getClientQueueManager().create(player.getId());
 
         return game;
     }

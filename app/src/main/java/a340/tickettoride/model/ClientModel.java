@@ -2,18 +2,22 @@ package a340.tickettoride.model;
 
 import android.util.Log;
 
-import java.util.Observable;
-import java.util.Observer;
+import java.util.List;
 import java.util.Set;
 
+import a340.tickettoride.ClientFacade;
 import a340.tickettoride.communication.Poller;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObservable;
+import cs340.TicketToRide.communication.Command;
+import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.User;
+import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.utility.ID;
 
 public class ClientModel extends ModelObservable implements IClientModel, Poller.Listener {
     private Poller poller = new Poller(this);
@@ -23,6 +27,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     private AuthToken authToken;
     private Game activeGame;
     private Games lobbyGameList;
+    private ID playerId;
 
     private ClientModel() {
         Log.i("ClientModel", "I'm alive!");
@@ -47,6 +52,14 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         setLobbyGameList(gameList);
         setActiveGameFromGames(gameList);
         notifyObservers(ModelChangeType.AvailableGameList, gameList);
+    }
+
+    @Override
+    public void onPollComplete(Commands queuedCommands) {
+        //TODO: make sure we have not executed the command before
+        for (Command cmd : queuedCommands.getAll()) {
+            cmd.execute(ClientFacade.getInstance());
+        }
     }
 
     private void setActiveGameFromGames(Games lobbyGameList) {
@@ -76,8 +89,19 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
     public void onJoinGameSuccess(Game game) {
+        setActivePlayerId(game);
         setActiveGame(game);
         notifyObservers(ModelChangeType.JoinGame, game);
+    }
+
+    private void setActivePlayerId(Game game) {
+        Set<Player> players = game.getPlayers();
+
+        for (Player player : players) {
+            if (player.getUser().equals(getLoggedInUser())) {
+                setPlayerId(player.getId());
+            }
+        }
     }
 
     public void onJoinGameFail(Exception e) {
@@ -86,6 +110,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     @Override
     public void onCreateGameSuccess(Game game) {
+        setActivePlayerId(game);
         setActiveGame(game);
         notifyObservers(ModelChangeType.JoinGame, game);
     }
@@ -97,7 +122,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     private void startPoller() {
         poller = new Poller(this);
-        poller.run();
+        poller.runUpdateGameList();
     }
 
     public void setLoggedInUser(User loggedInUser) {
@@ -140,5 +165,13 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     public AuthToken getAuthToken() {
         return authToken;
+    }
+
+    public ID getPlayerId() {
+        return playerId;
+    }
+
+    public void setPlayerId(ID playerId) {
+        this.playerId = playerId;
     }
 }

@@ -29,6 +29,7 @@ import a340.tickettoride.fragment.right.ChatListFragment;
 import a340.tickettoride.fragment.right.HandFragment;
 import a340.tickettoride.fragment.right.RoutesFragment;
 import a340.tickettoride.fragment.right.SummaryFragment;
+import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.presenter.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
 import cs340.TicketToRide.model.User;
@@ -44,7 +45,6 @@ import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
-        BankFragment.BankInteractionListener,
         SummaryFragment.SummaryFragmentListener,
         ChatFragment.OnFragmentInteractionListener,
         HandFragment.OnFragmentInteractionListener,

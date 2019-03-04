@@ -140,9 +140,8 @@ public class ServerProxy implements IServer {
 
     @Override
     public void sendChat(AuthToken token, ID gameId, ChatMessage message) {
-
         ICommand command = new Command(
-                "gotChat",
+                "sendChat",
                 new String[]{AuthToken.class.getName(), ID.class.getName(), ChatMessage.class.getName()},
                 new Object[]{token, gameId, message}
         );
@@ -151,7 +150,7 @@ public class ServerProxy implements IServer {
     }
 
     @Override
-    public Commands getQueuedCommands(AuthToken token, Player p, int index) {
+    public Commands getQueuedCommands(AuthToken token, ID playerId, int index) {
         return null;
     }
 

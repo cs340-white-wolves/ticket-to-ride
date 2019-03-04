@@ -7,9 +7,10 @@ import cs340.TicketToRide.model.IServerModel;
 import cs340.TicketToRide.model.ServerModel;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.utility.ID;
 
 public class QueueService extends Commands {
-    public Commands getQueuedCommands(AuthToken token, Player player, int index) {
+    public Commands getQueuedCommands(AuthToken token, ID playerId, int index) {
         IServerModel model = ServerModel.getInstance();
 
         User user = model.getUserByAuthToken(token);
@@ -18,6 +19,6 @@ public class QueueService extends Commands {
             throw new AuthenticationException("Invalid Auth Token");
         }
 
-        return model.getClientQueueManager().getAfter(player, index);
+        return model.getClientQueueManager().getAfter(playerId, index);
     }
 }
