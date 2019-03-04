@@ -1,6 +1,7 @@
 package a340.tickettoride;
 
 import cs340.TicketToRide.IClient;
+import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.utility.ID;
 
 public class ClientFacade implements IClient {
@@ -11,6 +12,11 @@ public class ClientFacade implements IClient {
     }
 
     public void updateGameList() {
+
+    }
+
+    @Override
+    public void gotChat(ChatMessage message) {
 
     }
 
