@@ -9,7 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import a340.tickettoride.R;
+import a340.tickettoride.presenter.ChatListPresenter;
+import a340.tickettoride.presenter.IChatListPresenter;
 import cs340.TicketToRide.model.game.ChatMessage;
 
 /**
@@ -18,17 +22,34 @@ import cs340.TicketToRide.model.game.ChatMessage;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class ChatListFragment extends Fragment {
+public class ChatListFragment extends Fragment implements ChatListPresenter.ChatListPresenterListener {
 
     private OnListFragmentInteractionListener mListener;
     private ChatRecyclerViewAdapter mChatRecyclerViewAdapter;
     private LinearLayoutManager mLinearLayoutManager;
+
+    private IChatListPresenter presenter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public ChatListFragment() {
+        presenter = new ChatListPresenter(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        presenter.startObserving();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        presenter.stopObserving();
     }
 
     @Override
@@ -48,7 +69,7 @@ public class ChatListFragment extends Fragment {
             mLinearLayoutManager = new LinearLayoutManager(context);
             mLinearLayoutManager.setStackFromEnd(true);
 
-            mChatRecyclerViewAdapter = new ChatRecyclerViewAdapter(ChatMessage.TEST_CHATS, mListener);
+            mChatRecyclerViewAdapter = new ChatRecyclerViewAdapter(mListener);
 
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(mLinearLayoutManager);
@@ -74,6 +95,11 @@ public class ChatListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void updateChatMessages(List<ChatMessage> messages) {
+        mChatRecyclerViewAdapter.setMessages(messages);
     }
 
     /**

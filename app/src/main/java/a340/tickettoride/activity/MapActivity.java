@@ -42,7 +42,6 @@ import cs340.TicketToRide.utility.Username;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
         SummaryFragment.SummaryFragmentListener,
-        ChatFragment.OnFragmentInteractionListener,
         HandFragment.OnFragmentInteractionListener,
         RoutesFragment.OnFragmentInteractionListener,
         AllPlayersFragment.OnFragmentInteractionListener,
