@@ -1,4 +1,4 @@
-package a340.tickettoride.activity;
+package a340.tickettoride.activity.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,16 +10,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import a340.tickettoride.R;
+import a340.tickettoride.activity.MapActivity;
 import cs340.TicketToRide.model.game.Player;
 
-import static android.graphics.Color.GRAY;
-
-class TurnTrackerAdapter extends RecyclerView.Adapter<TurnTrackerAdapter.PlayerTurnView> {
+public class TurnTrackerAdapter extends RecyclerView.Adapter<TurnTrackerAdapter.PlayerTurnView> {
 
     private List<Player> players;
     private List<PlayerTurnView> playerTurnViews;
