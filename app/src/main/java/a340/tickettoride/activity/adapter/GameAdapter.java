@@ -12,7 +12,7 @@ import java.util.List;
 
 import a340.tickettoride.R;
 import a340.tickettoride.activity.GameDiff;
-import a340.tickettoride.presenter.IJoinGamePresenter;
+import a340.tickettoride.presenter.interfaces.IJoinGamePresenter;
 import cs340.TicketToRide.model.game.Game;
 
 

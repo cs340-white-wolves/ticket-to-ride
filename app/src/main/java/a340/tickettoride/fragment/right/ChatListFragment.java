@@ -13,7 +13,7 @@ import java.util.List;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.ChatListPresenter;
-import a340.tickettoride.presenter.IChatListPresenter;
+import a340.tickettoride.presenter.interfaces.IChatListPresenter;
 import cs340.TicketToRide.model.game.ChatMessage;
 
 /**

@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 
 import a340.tickettoride.R;
-import a340.tickettoride.presenter.ILobbyPresenter;
+import a340.tickettoride.presenter.interfaces.ILobbyPresenter;
 import a340.tickettoride.presenter.LobbyPresenter;
 
 public class LobbyActivity extends AppCompatActivity implements LobbyPresenter.View {

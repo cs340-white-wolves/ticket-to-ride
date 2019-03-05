@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import a340.tickettoride.R;
 import a340.tickettoride.activity.adapter.GameAdapter;
-import a340.tickettoride.presenter.IJoinGamePresenter;
+import a340.tickettoride.presenter.interfaces.IJoinGamePresenter;
 import a340.tickettoride.presenter.JoinGamePresenter;
 import cs340.TicketToRide.model.Games;
 

@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.ChatPresenter;
-import a340.tickettoride.presenter.IChatPresenter;
+import a340.tickettoride.presenter.interfaces.IChatPresenter;
 
 public class ChatFragment extends Fragment implements ChatPresenter.ChatPresenterListener {
     private Button mChatMessageSendButton;

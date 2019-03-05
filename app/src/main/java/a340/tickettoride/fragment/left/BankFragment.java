@@ -13,7 +13,7 @@ import java.util.List;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.BankPresenter;
-import a340.tickettoride.presenter.IBankPresenter;
+import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
 
 public class BankFragment extends Fragment implements BankPresenter.BankPresenterListener {

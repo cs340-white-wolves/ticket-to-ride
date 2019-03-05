@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.*;
@@ -22,7 +21,6 @@ import com.google.android.gms.maps.model.*;
 import static android.graphics.Color.*;
 import static cs340.TicketToRide.model.game.card.TrainCard.Color.*;
 
-import java.awt.font.TextAttribute;
 import java.util.*;
 
 import a340.tickettoride.R;
@@ -30,14 +28,13 @@ import a340.tickettoride.activity.adapter.DestCardAdapter;
 import a340.tickettoride.activity.adapter.PlaceTrainsAdapter;
 import a340.tickettoride.activity.adapter.TurnTrackerAdapter;
 import a340.tickettoride.fragment.right.*;
-import a340.tickettoride.presenter.IMapPresenter;
+import a340.tickettoride.presenter.interfaces.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.*;
 import cs340.TicketToRide.model.game.card.DestinationCard;
-import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCard.Color;
 import cs340.TicketToRide.utility.Graph;
 import cs340.TicketToRide.utility.ID;
