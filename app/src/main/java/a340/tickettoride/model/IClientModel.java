@@ -2,6 +2,7 @@ package a340.tickettoride.model;
 
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
+import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.utility.ID;
 
@@ -13,5 +14,7 @@ public interface IClientModel {
     void onJoinGameFail(Exception e);
     void onCreateGameSuccess(Game game);
     void onCreateGameFail(Exception e);
+    void onChatMessageReceived(ChatMessage message);
+
     ID getPlayerId();
 }

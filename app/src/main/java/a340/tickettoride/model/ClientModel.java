@@ -2,6 +2,7 @@ package a340.tickettoride.model;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -13,6 +14,7 @@ import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
+import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.User;
@@ -28,9 +30,13 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     private Game activeGame;
     private Games lobbyGameList;
     private ID playerId;
+    private List<ChatMessage> chatMessages;
 
     private ClientModel() {
         Log.i("ClientModel", "I'm alive!");
+
+        chatMessages = new ArrayList<>();
+        chatMessages.addAll(ChatMessage.TEST_CHATS);//TODO: remove this hardcoded test
     }
 
     @Override
@@ -118,6 +124,12 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     @Override
     public void onCreateGameFail(Exception e) {
         notifyObservers(ModelChangeType.FailureException, e);
+    }
+
+    @Override
+    public void onChatMessageReceived(ChatMessage message) {
+        chatMessages.add(message);
+        notifyObservers(ModelChangeType.ChatMessageReceived, chatMessages);
     }
 
     private void startPoller() {
