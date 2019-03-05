@@ -26,7 +26,7 @@ public class ServerCommunicator {
 //        server.setExecutor(null);
 
         Logger.logger.info("Creating context");
-        server.createContext(PATH_COMMAND, new Handler());
+        server.createContext(PATH_COMMAND, new CommandHandler());
 
         Logger.logger.info("Starting HTTP server");
         server.start();

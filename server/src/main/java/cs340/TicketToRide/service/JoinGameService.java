@@ -1,5 +1,6 @@
 package cs340.TicketToRide.service;
 
+import cs340.TicketToRide.model.ClientQueueManager;
 import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.exception.GameFullException;
 import cs340.TicketToRide.model.AuthToken;
@@ -38,6 +39,8 @@ public class JoinGameService {
         if (!game.addPlayer(player)) {
             throw new RuntimeException("Error adding player to game");
         }
+
+        model.getClientQueueManager().create(player.getId());
 
         return game;
     }

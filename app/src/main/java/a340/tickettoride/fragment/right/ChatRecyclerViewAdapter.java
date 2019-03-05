@@ -10,6 +10,7 @@ import a340.tickettoride.R;
 import a340.tickettoride.fragment.right.ChatListFragment.OnListFragmentInteractionListener;
 import cs340.TicketToRide.model.game.ChatMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,13 +22,19 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
     private final OnListFragmentInteractionListener mListener;
     private final List<ChatMessage> mMessages;
 
-    public ChatRecyclerViewAdapter(List<ChatMessage> messages, OnListFragmentInteractionListener listener) {
-        mMessages = messages;
+    public ChatRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
+        mMessages = new ArrayList<>();
         mListener = listener;
     }
 
     public void addMessage(ChatMessage message) {
-        mMessages.add(new ChatMessage("test", "testing"));
+        mMessages.add(message);
+        notifyDataSetChanged();
+    }
+
+    public void setMessages(List<ChatMessage> messages) {
+        mMessages.clear();
+        mMessages.addAll(messages);
         notifyDataSetChanged();
     }
 

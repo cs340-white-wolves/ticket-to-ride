@@ -4,13 +4,16 @@ import android.util.Log;
 
 import a340.tickettoride.communication.ClientCommunicator;
 import cs340.TicketToRide.IServer;
+import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.communication.ICommand;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.communication.Response;
 import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.model.AuthToken;
+import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
+import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
@@ -133,6 +136,22 @@ public class ServerProxy implements IServer {
         Object resultObject = response.getResultObject();
 
         return (Games) resultObject;
+    }
+
+    @Override
+    public void sendChat(AuthToken token, ID gameId, ChatMessage message) {
+        ICommand command = new Command(
+                "sendChat",
+                new String[]{AuthToken.class.getName(), ID.class.getName(), ChatMessage.class.getName()},
+                new Object[]{token, gameId, message}
+        );
+
+        Response response = communicator.sendCommand(command);
+    }
+
+    @Override
+    public Commands getQueuedCommands(AuthToken token, ID playerId, int index) {
+        return null;
     }
 
 }

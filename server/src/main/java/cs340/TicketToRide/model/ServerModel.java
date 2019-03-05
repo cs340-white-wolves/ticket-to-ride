@@ -14,11 +14,13 @@ public class ServerModel implements IServerModel {
     private AuthManager authManager;
     private Games games;
     private Set<User> users;
+    private ClientQueueManager clientQueueManager;
 
     private ServerModel() {
         authManager = new AuthManager();
         games = new Games();
         users = new HashSet<>();
+        clientQueueManager = new ClientQueueManager();
     }
 
     public static ServerModel getInstance() {
@@ -135,5 +137,9 @@ public class ServerModel implements IServerModel {
 
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public ClientQueueManager getClientQueueManager() {
+        return clientQueueManager;
     }
 }
