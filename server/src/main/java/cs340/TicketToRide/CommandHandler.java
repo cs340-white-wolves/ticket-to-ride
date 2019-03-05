@@ -15,7 +15,7 @@ import java.util.logging.Level;
 import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.communication.Response;
 
-public class Handler implements HttpHandler{
+public class CommandHandler implements HttpHandler{
     private Gson gson = new Gson();
 
     @Override
