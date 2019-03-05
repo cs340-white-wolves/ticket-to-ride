@@ -24,29 +24,25 @@ import static cs340.TicketToRide.model.game.card.TrainCard.Color.*;
 import java.util.*;
 
 import a340.tickettoride.R;
-import a340.tickettoride.activity.adapter.DestCardAdapter;
-import a340.tickettoride.activity.adapter.PlaceTrainsAdapter;
-import a340.tickettoride.activity.adapter.TurnTrackerAdapter;
+import a340.tickettoride.activity.adapter.*;
 import a340.tickettoride.fragment.right.*;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
 import cs340.TicketToRide.model.User;
-import cs340.TicketToRide.model.game.ChatMessage;
-import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.*;
 import cs340.TicketToRide.model.game.board.*;
 import cs340.TicketToRide.model.game.card.DestinationCard;
-import cs340.TicketToRide.model.game.card.TrainCard.Color;
-import cs340.TicketToRide.utility.Graph;
-import cs340.TicketToRide.utility.ID;
-import cs340.TicketToRide.utility.Password;
-import cs340.TicketToRide.utility.Username;
+import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.model.game.card.TrainCard.Color.*;
+import cs340.TicketToRide.utility.*;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
         SummaryFragment.SummaryFragmentListener,
         HandFragment.OnFragmentInteractionListener,
         RoutesFragment.OnFragmentInteractionListener,
         AllPlayersFragment.OnFragmentInteractionListener,
-        ChatListFragment.OnListFragmentInteractionListener {
+        ChatListFragment.OnListFragmentInteractionListener,
+        MapPresenter.View{
     private static final int LINE_WIDTH = 15;
     private static final int LINE_BORDER_WIDTH = 17;
     private static final int CIRCLE_RADIUS = 35000;
@@ -60,7 +56,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int CITY_CODE_STROKE_WIDTH = 2;
     private static final double CITY_NAME_LAT_OFFSET = 0.5;
 
-    private Map<Color, Integer> trainColorValues = new HashMap<>();
+    private Map<TrainCard.Color, Integer> trainColorValues = new HashMap<>();
     private Map<Player.Color, Integer> playerColorValues = new HashMap<>();
     private GoogleMap map;
     private IMapPresenter presenter;
@@ -69,6 +65,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Map<Route, List<Polyline>> lineRouteManager;
     private Board board;
     private RecyclerView playerTurnRecycler;
+    private DestCardAdapter destCardAdapter;
+    private PlaceTrainsAdapter placeTrainsAdapter;
 
     private List<Player> players = new ArrayList<>();
 
@@ -114,7 +112,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         routesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextPlayersTurn();
                 initDestCardDialog();
             }
         });
@@ -123,7 +120,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         placeTrainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextPlayersTurn();
                 for (Route route : lineRouteManager.keySet()) {
                     showRouteIsClaimed(route);
                     initPlaceTrainDialog();
@@ -134,7 +130,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawCardsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextPlayersTurn();
             }
         });
     }
@@ -155,9 +150,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_route, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
-        DestCardAdapter adapter = new DestCardAdapter(cards, this);
+        destCardAdapter = new DestCardAdapter(cards, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(destCardAdapter);
 
         AlertDialog dialog = new AlertDialog.Builder(
                 MapActivity.this)
@@ -185,9 +180,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_place_trains, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.place_trains_recycler);
-        PlaceTrainsAdapter adapter = new PlaceTrainsAdapter(routes, this);
+        placeTrainsAdapter = new PlaceTrainsAdapter(routes, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(placeTrainsAdapter);
 
         AlertDialog dialog = new AlertDialog.Builder(
                 MapActivity.this)
@@ -205,13 +200,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void initTrainColorValues() {
-        trainColorValues.put(Color.hopperBlack, BLACK);
-        trainColorValues.put(Color.passengerWhite, WHITE);
-        trainColorValues.put(Color.tankerBlue, BLUE);
-        trainColorValues.put(Color.reeferYellow, YELLOW);
-        trainColorValues.put(Color.freightOrange, ORANGE);
-        trainColorValues.put(Color.cabooseGreen, GREEN);
-        trainColorValues.put(Color.boxPurple, MAGENTA);
+        trainColorValues.put(hopperBlack, BLACK);
+        trainColorValues.put(passengerWhite, WHITE);
+        trainColorValues.put(tankerBlue, BLUE);
+        trainColorValues.put(reeferYellow, YELLOW);
+        trainColorValues.put(freightOrange, ORANGE);
+        trainColorValues.put(cabooseGreen, GREEN);
+        trainColorValues.put(boxPurple, MAGENTA);
         trainColorValues.put(coalRed, RED);
     }
 
@@ -223,7 +218,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         playerColorValues.put(Player.Color.yellow, this.getColor(R.color.Gold));
     }
 
-    private Integer getColorValue(Color color) {
+    private Integer getColorValue(TrainCard.Color color) {
         if (color == null) {
             return GRAY;
         }
@@ -255,7 +250,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         playerTurnRecycler.setAdapter(adapter);
     }
 
-    private void nextPlayersTurn() {
+    public void displayNextPlayersTurn() {
         TurnTrackerAdapter adapter = (TurnTrackerAdapter) playerTurnRecycler.getAdapter();
         if (adapter == null) {
             return;
@@ -402,7 +397,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private PolylineOptions getPolylineOptions(final Route route, final LatLng first,
                                                final LatLng second, final float segmentSize) {
-        Color color = route.getColor();
+        TrainCard.Color color = route.getColor();
         int colorValue = getColorValue(color);
         List<PatternItem> patterns = Arrays.asList(new Gap(getRouteGapSize(route)),
                 new Dash(segmentSize));
@@ -432,7 +427,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .width(LINE_BORDER_WIDTH);
     }
 
-    private void showRouteIsClaimed(final Route route) {
+    public void showRouteIsClaimed(final Route route) {
         Player player = players.get(0);
         route.occupy(player.getId()); // this is just for now
         ID playerId = route.getOccupierId();
@@ -452,6 +447,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Player.Color color = player.getColor();
         int colorValue = getPlayerColorValue(color);
         map.addPolyline(getClaimedRoutePolylineOptions(start, end, colorValue));
+    }
+
+    @Override
+    public Set<DestinationCard> getSelectedDestinationCards() {
+        return destCardAdapter.getSelectedDestCards();
+    }
+
+    @Override
+    public Route getSelectedRoute() {
+        return placeTrainsAdapter.getSelectedRoute();
     }
 
     private int convertPixelsToDp(float px){

@@ -20,15 +20,12 @@ import cs340.TicketToRide.model.game.Player;
 public class TurnTrackerAdapter extends RecyclerView.Adapter<TurnTrackerAdapter.PlayerTurnView> {
 
     private List<Player> players;
-    private List<PlayerTurnView> playerTurnViews;
     private Context context;
-    Map<Player.Color, Integer> playerColors;
     private int activePlayerIndex;
     public TurnTrackerAdapter(List<Player> players, Context context) {
         this.players = players;
         this.context = context;
         this.activePlayerIndex = 0;
-        playerTurnViews = new ArrayList<>();
     }
 
     @NonNull

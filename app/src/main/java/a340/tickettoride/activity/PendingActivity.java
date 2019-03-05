@@ -11,6 +11,7 @@ import java.util.Set;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.PendingPresenter;
+import a340.tickettoride.presenter.interfaces.IPendingPresenter;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 
