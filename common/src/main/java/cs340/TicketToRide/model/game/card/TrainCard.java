@@ -7,7 +7,6 @@ public class TrainCard {
     }
 
     private Color color;
-    // todo: this may not need to be abstract. We could just have it have a color, and if not, it's a locomotive
 
     public TrainCard(Color color) {
         this.color = color;

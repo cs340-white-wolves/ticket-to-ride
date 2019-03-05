@@ -13,13 +13,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 
 import static android.graphics.Color.*;
+import static cs340.TicketToRide.model.game.card.TrainCard.Color.*;
 
+import java.awt.font.TextAttribute;
 import java.util.*;
 
 import a340.tickettoride.R;
@@ -34,6 +37,7 @@ import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.*;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCard.Color;
 import cs340.TicketToRide.utility.Graph;
 import cs340.TicketToRide.utility.ID;
@@ -125,6 +129,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 nextPlayersTurn();
                 for (Route route : lineRouteManager.keySet()) {
                     showRouteIsClaimed(route);
+                    initPlaceTrainDialog();
                 }
             }
         });
@@ -133,7 +138,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 nextPlayersTurn();
-                initPlaceTrainDialog();
             }
         });
     }
@@ -176,10 +180,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void initPlaceTrainDialog() {
         List<Route> routes = new ArrayList<>();
 
-        Route route = new Route(new City("Sandy", "sd", 20, 10), new City("Salt Lake", "sd", 20, 10), Color.coalRed, 0);
+        Route route = new Route(new City("Sandy", "sd", 20, 10), new City("Salt Lake", "sd", 20, 10), coalRed, 0);
         routes.add(route);
 
-        route = new Route(new City("Provo", "sd", 20, 10), new City("American Fork", "sd", 20, 10), Color.coalRed, 0);
+        route = new Route(new City("Provo", "sd", 20, 10), new City("American Fork", "sd", 20, 10), coalRed, 0);
         routes.add(route);
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_place_trains, null, false);
@@ -211,7 +215,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         trainColorValues.put(Color.freightOrange, ORANGE);
         trainColorValues.put(Color.cabooseGreen, GREEN);
         trainColorValues.put(Color.boxPurple, MAGENTA);
-        trainColorValues.put(Color.coalRed, RED);
+        trainColorValues.put(coalRed, RED);
     }
 
     private void initPlayerColorValues() {
