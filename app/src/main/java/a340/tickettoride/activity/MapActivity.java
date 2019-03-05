@@ -126,6 +126,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 nextPlayersTurn();
                 for (Route route : lineRouteManager.keySet()) {
                     showRouteIsClaimed(route);
+                    initPlaceTrainDialog();
                 }
             }
         });
@@ -134,7 +135,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 nextPlayersTurn();
-                initPlaceTrainDialog();
             }
         });
     }
