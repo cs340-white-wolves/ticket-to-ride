@@ -40,4 +40,9 @@ public class DestinationCard {
     public String toString() {
         return city1.getName() + ", " + city2.getName();
     }
+
+    @Override
+    public int hashCode() {
+        return points * (city1.hashCode() + city2.hashCode());
+    }
 }

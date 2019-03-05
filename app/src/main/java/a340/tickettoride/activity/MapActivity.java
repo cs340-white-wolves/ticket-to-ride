@@ -1,5 +1,6 @@
 package a340.tickettoride.activity;
 
+import android.content.DialogInterface;
 import android.graphics.*;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,18 +23,14 @@ import static android.graphics.Color.*;
 import java.util.*;
 
 import a340.tickettoride.R;
-import a340.tickettoride.fragment.left.BankFragment;
-import a340.tickettoride.fragment.right.AllPlayersFragment;
-import a340.tickettoride.fragment.right.ChatFragment;
-import a340.tickettoride.fragment.right.ChatListFragment;
-import a340.tickettoride.fragment.right.HandFragment;
-import a340.tickettoride.fragment.right.RoutesFragment;
-import a340.tickettoride.fragment.right.SummaryFragment;
+import a340.tickettoride.activity.adapter.DestCardAdapter;
+import a340.tickettoride.activity.adapter.PlaceTrainsAdapter;
+import a340.tickettoride.activity.adapter.TurnTrackerAdapter;
+import a340.tickettoride.fragment.right.*;
 import a340.tickettoride.presenter.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.ChatMessage;
-import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.*;
 import cs340.TicketToRide.model.game.card.DestinationCard;
@@ -137,6 +134,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 nextPlayersTurn();
+                initPlaceTrainDialog();
             }
         });
     }
@@ -157,20 +155,52 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_route, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
-        DestCardAdapter adapter = new DestCardAdapter(cards);
+        DestCardAdapter adapter = new DestCardAdapter(cards, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
         AlertDialog dialog = new AlertDialog.Builder(
                 MapActivity.this)
                 .setView(view)
-                .setTitle("Alert Dialog")
+                .setTitle("Destination Card")
+                .setMessage("Select at least 2 destination cards to keep")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        displayText("Selected OK");
+                    }
+                })
                 .create();
+        dialog.show();
+    }
 
-//        dialog.setContentView(R.layout.dialog_choose_route);
+    private void initPlaceTrainDialog() {
+        List<Route> routes = new ArrayList<>();
 
+        Route route = new Route(new City("Sandy", "sd", 20, 10), new City("Salt Lake", "sd", 20, 10), Color.coalRed, 0);
+        routes.add(route);
 
+        route = new Route(new City("Provo", "sd", 20, 10), new City("American Fork", "sd", 20, 10), Color.coalRed, 0);
+        routes.add(route);
 
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_place_trains, null, false);
+        RecyclerView recyclerView = view.findViewById(R.id.place_trains_recycler);
+        PlaceTrainsAdapter adapter = new PlaceTrainsAdapter(routes, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+
+        AlertDialog dialog = new AlertDialog.Builder(
+                MapActivity.this)
+                .setView(view)
+                .setTitle("Possible Paths")
+                .setMessage("Select a path to claim")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        displayText("Selected OK");
+                    }
+                })
+                .create();
         dialog.show();
     }
 
