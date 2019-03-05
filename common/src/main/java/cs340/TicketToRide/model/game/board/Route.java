@@ -200,4 +200,9 @@ public class Route {
     public int hashCode() {
         return city1.getName().hashCode() * city2.getName().hashCode() +  31 * priority;
     }
+
+    @Override
+    public String toString() {
+        return city1.getName() + ", " + city2.getName() + ": " + getPointValue();
+    }
 }
