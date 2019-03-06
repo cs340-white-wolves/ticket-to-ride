@@ -43,7 +43,7 @@ public class Board {
         City littleRock = new City("Little Rock", "LIT", 34.7465, -92.2896);
         City chicago = new City("Chicago", "CHI", 41.8781, -87.6298);
         City saintLouis = new City("Saint Louis", "STL", 38.6270, -90.1994);
-        City saultStMarie = new City("Sault St. Marie", "SSM", 46.4977, -84.3476);
+        City saultStMarie = new City("Sault Ste. Marie", "SSM", 46.4977, -84.3476);
         City toronto = new City("Toronto", "TOR", 43.6532, -79.3832);
         City pittsburgh = new City("Pittsburgh", "PIT", 40.4406, -79.9959);
         City nashville = new City("Nashville", "NAS", 36.1627, -86.7816);
