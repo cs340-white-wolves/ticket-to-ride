@@ -1,11 +1,13 @@
 package cs340.TicketToRide;
 
+import java.util.List;
 import java.util.Set;
 
 import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
+import cs340.TicketToRide.model.ClientProxyManager;
 import cs340.TicketToRide.model.IServerModel;
 import cs340.TicketToRide.model.ServerModel;
 import cs340.TicketToRide.model.game.ChatMessage;
@@ -66,15 +68,10 @@ public class ServerFacade implements IServer {
 
         Game game = model.getGameByID(gameId);
 
-        Set<Player> players = game.getPlayers();
+        List<Player> players = game.getPlayers();
 
         for (Player player : players) {
-            Command gotChat = new Command(
-                    "gotChat",
-                    new String[]{ChatMessage.class.getName()},
-                    new Object[]{message}
-            );
-            model.getClientQueueManager().put(player.getId(), gotChat);
+            ClientProxyManager.getInstance().get(player.getId()).chatMessageReceived(message);
         }
 
     }

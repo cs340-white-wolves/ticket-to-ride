@@ -3,10 +3,10 @@ package cs340.TicketToRide.service;
 import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.model.AuthToken;
+import cs340.TicketToRide.model.ClientProxyManager;
 import cs340.TicketToRide.model.IServerModel;
 import cs340.TicketToRide.model.ServerModel;
 import cs340.TicketToRide.model.User;
-import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.utility.ID;
 
 public class QueueService extends Commands {
@@ -19,6 +19,10 @@ public class QueueService extends Commands {
             throw new AuthenticationException("Invalid Auth Token");
         }
 
-        return model.getClientQueueManager().getAfter(playerId, index);
+        // Law of demeter - defied!
+        return ClientProxyManager.getInstance()
+                .get(playerId)
+                .getQueue()
+                .getAfter(index);
     }
 }

@@ -46,19 +46,19 @@ public class Poller {
         }, 0, POLLER_FREQUENCY, TimeUnit.SECONDS);
     }
 
-    public void runGetCommands() {
-        Log.i("Poller", "->runGetCommands()");
+    public void runGetGameCommands() {
+        Log.i("Poller", "->runGetGameCommands()");
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduledFuture = scheduler.scheduleAtFixedRate(new Thread() {
             @Override
             public void run() {
                 try {
-                    Log.i("Poller", "fixedRate runGetCommands()");
+                    Log.i("Poller", "fixedRate runGetGameCommands()");
                     IClientModel model = ClientModel.getInstance();
                     ServerProxy server = ServerProxy.getInstance();
                     int currentIndex = 0; // TODO: actually get this
                     Commands queuedCommands = server.getQueuedCommands(model.getAuthToken(), model.getPlayerId(), currentIndex);
-                    Log.i("Poller", "Got " + queuedCommands.getAll().size() + " games");
+                    Log.i("Poller", "Got " + queuedCommands.getAll().size() + " commands");
                     listener.onPollComplete(queuedCommands);
                 }
                 catch (Throwable t) {

@@ -14,6 +14,5 @@ public interface IServerModel {
     void registerUser(User user, AuthToken token) throws NotUniqueException;
     void loginUser(User user, AuthToken token) throws AuthenticationException;
     void clear();
-
-    ClientQueueManager getClientQueueManager();
+    void setupGame(Game game);
 }

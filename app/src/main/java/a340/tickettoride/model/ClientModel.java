@@ -30,12 +30,12 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     private Game activeGame;
     private Games lobbyGameList;
     private ID playerId;
-    private List<ChatMessage> chatMessages;
+    private List<ChatMessage> chatMessages = new ArrayList<>();
+    private int lastExecutedCommandIndex = 0;
 
     private ClientModel() {
         Log.i("ClientModel", "I'm alive!");
 
-        chatMessages = new ArrayList<>();
         chatMessages.addAll(ChatMessage.TEST_CHATS);//TODO: remove this hardcoded test
     }
 
@@ -62,10 +62,17 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     @Override
     public void onPollComplete(Commands queuedCommands) {
-        //TODO: make sure we have not executed the command before
+        int startIndex = queuedCommands.getStartIndex();
+
         for (Command cmd : queuedCommands.getAll()) {
-            cmd.execute(ClientFacade.getInstance());
+            // make sure we have not executed the command before
+            if (startIndex > lastExecutedCommandIndex) {
+                cmd.execute(ClientFacade.getInstance());
+            }
+            startIndex++;
         }
+
+        lastExecutedCommandIndex = queuedCommands.getEndIndex();
     }
 
     private void setActiveGameFromGames(Games lobbyGameList) {
@@ -81,6 +88,11 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
         // The players in the active game change!
         setActiveGame(game);
+
+        if (game.hasTargetNumPlayers()) {
+            stopPoller();
+            startGameCommandPoller();
+        }
     }
 
     public void onAuthenticateFail(Exception e) {
@@ -90,24 +102,24 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     public void onAuthenticateSuccess(LoginRegisterResponse response) {
         setAuthToken(response.getToken());
         setLoggedInUser(response.getUser());
-        startPoller();
+        startGameListPoller();
         notifyObservers(ModelChangeType.AuthenticateSuccess, response);
     }
 
-    public void onJoinGameSuccess(Game game) {
-        setActivePlayerId(game);
-        setActiveGame(game);
-        notifyObservers(ModelChangeType.JoinGame, game);
-    }
-
     private void setActivePlayerId(Game game) {
-        Set<Player> players = game.getPlayers();
+        List<Player> players = game.getPlayers();
 
         for (Player player : players) {
             if (player.getUser().equals(getLoggedInUser())) {
                 setPlayerId(player.getId());
             }
         }
+    }
+
+    public void onJoinGameSuccess(Game game) {
+        setActivePlayerId(game);
+        setActiveGame(game);
+        notifyObservers(ModelChangeType.JoinGame, game);
     }
 
     public void onJoinGameFail(Exception e) {
@@ -132,9 +144,16 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         notifyObservers(ModelChangeType.ChatMessageReceived, chatMessages);
     }
 
-    private void startPoller() {
-        poller = new Poller(this);
+    private void startGameListPoller() {
         poller.runUpdateGameList();
+    }
+
+    private void startGameCommandPoller () {
+        poller.runGetGameCommands();
+    }
+
+    private void stopPoller() {
+        poller.stop();
     }
 
     public void setLoggedInUser(User loggedInUser) {
@@ -185,5 +204,9 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     public void setPlayerId(ID playerId) {
         this.playerId = playerId;
+    }
+
+    public int getLastExecutedCommandIndex() {
+        return lastExecutedCommandIndex;
     }
 }
