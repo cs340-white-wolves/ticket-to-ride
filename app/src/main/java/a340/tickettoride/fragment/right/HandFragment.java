@@ -14,19 +14,12 @@ import java.util.List;
 import java.util.Map;
 
 import a340.tickettoride.R;
+import a340.tickettoride.presenter.HandPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
 
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.boxPurple;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.cabooseGreen;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.coalRed;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.freightOrange;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.hopperBlack;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.locomotive;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.passengerWhite;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.reeferYellow;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.tankerBlue;
+import static cs340.TicketToRide.model.game.card.TrainCard.Color.*;
 
-public class HandFragment extends Fragment {
+public class HandFragment extends Fragment implements HandPresenter.View {
 
     private OnFragmentInteractionListener mListener;
     private View view;
@@ -35,7 +28,7 @@ public class HandFragment extends Fragment {
         // Required empty public constructor
     }
 
-    private void updatePlayerHand(List<TrainCard> trainCards) {
+    public void updatePlayerHandDisplay(List<TrainCard> trainCards) {
         Map<TrainCard.Color, Integer> colorCounts = new HashMap<>();
         colorCounts.put(coalRed, 0);
         colorCounts.put(passengerWhite, 0);
