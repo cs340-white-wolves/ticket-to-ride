@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import a340.tickettoride.ServerProxy;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
+import cs340.TicketToRide.IServer;
 import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.model.Games;
 
@@ -55,9 +56,13 @@ public class Poller {
                 try {
                     Log.i("Poller", "fixedRate runGetGameCommands()");
                     IClientModel model = ClientModel.getInstance();
-                    ServerProxy server = ServerProxy.getInstance();
-                    int currentIndex = 0; // TODO: actually get this
-                    Commands queuedCommands = server.getQueuedCommands(model.getAuthToken(), model.getPlayerId(), currentIndex);
+                    IServer server = ServerProxy.getInstance();
+                    int currentIndex = model.getLastExecutedCommandIndex();
+                    Commands queuedCommands = server.getQueuedCommands(
+                            model.getAuthToken(),
+                            model.getPlayerId(),
+                            model.getActiveGame().getGameID(),
+                            currentIndex);
                     Log.i("Poller", "Got " + queuedCommands.getAll().size() + " commands");
                     listener.onPollComplete(queuedCommands);
                 }

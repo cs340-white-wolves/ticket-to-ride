@@ -5,7 +5,6 @@ import java.util.List;
 
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.board.City;
-import sun.security.krb5.internal.crypto.Des;
 
 public class DestinationCard {
     private City city1;
@@ -26,7 +25,7 @@ public class DestinationCard {
             {"Calgary", "Salt Lake City", "7"},
             {"Helena", "Los Angeles", "8"},
             {"Duluth", "Houston", "8"},
-            {"Sault Ste Marie", "Nashville", "8"},
+            {"Sault Ste. Marie", "Nashville", "8"},
             {"Montreal", "Atlanta", "9"},
             {"Sault Ste. Marie", "Oklahoma City", "9"},
             {"Seattle", "Los Angeles", "9"},
@@ -90,7 +89,8 @@ public class DestinationCard {
     }
 
     public String toString() {
-        return city1.getName() + ", " + city2.getName();
+        return city1.getName() + " (" + city1.getCode() + "), " +
+                city2.getName() + " (" + city2.getCode() + ")";
     }
 
     @Override

@@ -214,7 +214,7 @@ public class Game {
                 player.getTrainCards().add(trainCard);
             }
 
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < 3; j++) {
                 DestinationCard destinationCard = destinationCardDeck.drawFromTop();
                 player.getDestinationCards().add(destinationCard);
             }

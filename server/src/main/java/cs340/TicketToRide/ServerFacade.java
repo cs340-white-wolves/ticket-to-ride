@@ -54,8 +54,8 @@ public class ServerFacade implements IServer {
         return new JoinGameService().joinGame(token, gameId);
     }
 
-    public Commands getQueuedCommands(AuthToken token, ID playerId, int index) {
-        return new QueueService().getQueuedCommands(token, playerId, index);
+    public Commands getQueuedCommands(AuthToken token, ID playerId, ID gameId, int index) {
+        return new QueueService().getQueuedCommands(token, playerId, gameId, index);
     }
 
     public Games getAvailableGames(AuthToken token) {

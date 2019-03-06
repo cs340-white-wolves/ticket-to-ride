@@ -126,6 +126,11 @@ public class ServerModel implements IServerModel {
         }
     }
 
+    @Override
+    public Player getPlayerById(ID playerId) {
+        return null;
+    }
+
     public void clear() {
         authManager.clear();
         games.clear();
