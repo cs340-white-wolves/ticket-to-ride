@@ -68,9 +68,9 @@ public class Game {
         return true;
     }
 
-    public List<DestinationCard> getPlayersCompletedDestCards(ID playerId) {
+    public Set<DestinationCard> getPlayersCompletedDestCards(ID playerId) {
         Player player = getPlayerById(playerId);
-        List<DestinationCard> completedCards = new ArrayList<>();
+        Set<DestinationCard> completedCards = new HashSet<>();
         for (DestinationCard card : player.getDestinationCards()) {
             if (playerCompletedDestCard(playerId, card)) {
                 completedCards.add(card);

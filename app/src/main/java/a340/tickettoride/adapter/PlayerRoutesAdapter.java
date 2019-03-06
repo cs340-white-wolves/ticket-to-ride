@@ -9,18 +9,21 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Set;
 
 import a340.tickettoride.R;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 
 public class PlayerRoutesAdapter extends RecyclerView.Adapter<PlayerRoutesAdapter.PlayerRouteView> {
-    private List<DestinationCard> cards;
+    private DestinationCard[] cards;
+    private Set<DestinationCard> completedCards;
     private Context context;
 
-    public PlayerRoutesAdapter(List<DestinationCard> cards, Context context) {
+    public PlayerRoutesAdapter(Set<DestinationCard> completedCards, DestinationCard[] cards, Context context) {
         this.cards = cards;
         this.context = context;
+        this.completedCards = completedCards;
     }
 
     @NonNull
@@ -33,13 +36,18 @@ public class PlayerRoutesAdapter extends RecyclerView.Adapter<PlayerRoutesAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PlayerRouteView playerRouteView, int index) {
-        DestinationCard card = cards.get(index);
+        DestinationCard card = cards[index];
         playerRouteView.textView.setText(card.toString());
+        if (completedCards.contains(card)) {
+            playerRouteView.textView.setBackgroundColor(context.getColor(R.color.Green));
+        } else {
+            playerRouteView.textView.setBackgroundColor(context.getColor(R.color.Red));
+        }
     }
 
     @Override
     public int getItemCount() {
-        return cards.size();
+        return cards.length;
     }
 
     static class PlayerRouteView extends RecyclerView.ViewHolder {

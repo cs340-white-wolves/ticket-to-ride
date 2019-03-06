@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+import java.util.Set;
 
 import a340.tickettoride.R;
 import a340.tickettoride.adapter.PlayerRoutesAdapter;
@@ -34,8 +35,10 @@ public class RoutesFragment extends Fragment implements RoutesPresenter.View {
     }
 
     @Override
-    public void updatePlayerDestCardDisplay(List<DestinationCard> cards) {
-        PlayerRoutesAdapter adapter = new PlayerRoutesAdapter(cards, getActivity());
+    public void updatePlayerDestCardDisplay(Set<DestinationCard> completedCards, Set<DestinationCard> cards) {
+        PlayerRoutesAdapter adapter = new PlayerRoutesAdapter(completedCards,
+                cards.toArray(new DestinationCard[0]), getActivity());
+
         RecyclerView routesRecycler = view.findViewById(R.id.player_routes_recycler);
         routesRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         routesRecycler.setAdapter(adapter);
