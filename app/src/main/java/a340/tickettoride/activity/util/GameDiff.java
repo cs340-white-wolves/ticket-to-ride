@@ -1,4 +1,4 @@
-package a340.tickettoride.activity;
+package a340.tickettoride.activity.util;
 
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;

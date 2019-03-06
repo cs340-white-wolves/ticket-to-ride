@@ -44,4 +44,19 @@ public class City {
     public void setCode(String code) {
         this.code = code;
     }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+
+        City c = (City)o;
+        return c.name.equals(name);
+    }
 }

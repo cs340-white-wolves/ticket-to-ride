@@ -13,6 +13,10 @@ public class DestinationCard {
         this.points = points;
     }
 
+    public static Deck<DestinationCard> createDeck() {
+        return null; // TODO: actually do this
+    }
+
     public City getCity1() {
         return city1;
     }
@@ -39,5 +43,10 @@ public class DestinationCard {
 
     public String toString() {
         return city1.getName() + ", " + city2.getName();
+    }
+
+    @Override
+    public int hashCode() {
+        return points * (city1.hashCode() + city2.hashCode());
     }
 }

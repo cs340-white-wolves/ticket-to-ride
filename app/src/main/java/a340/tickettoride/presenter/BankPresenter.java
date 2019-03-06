@@ -1,14 +1,12 @@
 package a340.tickettoride.presenter;
 
-import android.support.v4.app.Fragment;
-import android.view.View;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
+import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
 
 public class BankPresenter implements IBankPresenter, ModelObserver {

@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 import a340.tickettoride.ServerProxy;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
+import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.model.Games;
 
 public class Poller {
@@ -23,14 +24,14 @@ public class Poller {
         this.listener = listener;
     }
 
-    public void run() {
-        Log.i("Poller", "->run()");
+    public void runUpdateGameList() {
+        Log.i("Poller", "->runUpdateGameList()");
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         scheduledFuture = scheduler.scheduleAtFixedRate(new Thread() {
             @Override
             public void run() {
                 try {
-                    Log.i("Poller", "fixedRate run()");
+                    Log.i("Poller", "fixedRate runUpdateGameList()");
                     IClientModel model = ClientModel.getInstance();
                     ServerProxy server = ServerProxy.getInstance();
                     Games games = server.getAvailableGames(model.getAuthToken());
@@ -45,7 +46,35 @@ public class Poller {
         }, 0, POLLER_FREQUENCY, TimeUnit.SECONDS);
     }
 
+    public void runGetGameCommands() {
+        Log.i("Poller", "->runGetGameCommands()");
+        ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+        scheduledFuture = scheduler.scheduleAtFixedRate(new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Log.i("Poller", "fixedRate runGetGameCommands()");
+                    IClientModel model = ClientModel.getInstance();
+                    ServerProxy server = ServerProxy.getInstance();
+                    int currentIndex = 0; // TODO: actually get this
+                    Commands queuedCommands = server.getQueuedCommands(model.getAuthToken(), model.getPlayerId(), currentIndex);
+                    Log.i("Poller", "Got " + queuedCommands.getAll().size() + " commands");
+                    listener.onPollComplete(queuedCommands);
+                }
+                catch (Throwable t) {
+                    t.printStackTrace();
+                    Log.e("Poller", t.getMessage());
+                }
+            }
+        }, 0, POLLER_FREQUENCY, TimeUnit.SECONDS);
+    }
+
+    public void stop () {
+        scheduledFuture.cancel(true);
+    }
+
     public interface Listener {
         void onPollComplete(Games lobbyGameList);
+        void onPollComplete(Commands queuedCommands);
     }
 }

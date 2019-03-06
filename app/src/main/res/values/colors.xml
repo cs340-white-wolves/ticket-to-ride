@@ -12,12 +12,14 @@
     <color name="ActivePlayer">#FFFFFFFF</color>
     <color name="InactivePlayer">#00000000</color>
     <color name="Green">#4B8D4B</color>
-    <color name="Yellow">#FFCC02</color>
+    <color name="Yellow">#5E4A04</color>
     <color name="LighterLightBrown">#F3D298</color>
     <color name="DestinationBrown">#C8B39A</color>
     <color name="White">#90E3DFDC</color>
     <color name="PureWhite">#FFFFFF</color>
     <color name="Orange">#FF9800</color>
+    <color name="Purple">#FFFF00FF</color>
+    <color name="Gray">#FF888888</color>
     <color name="ErrorRedBackground">#FF9494</color>
 
 

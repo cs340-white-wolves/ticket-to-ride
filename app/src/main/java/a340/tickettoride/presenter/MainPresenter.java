@@ -2,18 +2,11 @@ package a340.tickettoride.presenter;
 
 import android.util.Log;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
-import a340.tickettoride.task.LoginTask;
-import a340.tickettoride.task.RegisterTask;
-import cs340.TicketToRide.communication.LoginRegisterResponse;
-import cs340.TicketToRide.exception.AuthenticationException;
-import cs340.TicketToRide.exception.NotUniqueException;
+import a340.tickettoride.presenter.interfaces.IMainPresenter;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
 

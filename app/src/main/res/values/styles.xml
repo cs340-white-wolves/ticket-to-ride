@@ -20,4 +20,28 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="PlayerHandColor">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:fontFamily">@font/shangiri</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:layout_marginEnd">30dp</item>
+    </style>
+
+    <style name="PlayerHandNumber">
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:fontFamily">@font/shangiri</item>
+        <item name="android:textColor">@color/Black</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginStart">30dp</item>
+        <item name="android:layout_marginEnd">30dp</item>
+    </style>
+
 </resources>

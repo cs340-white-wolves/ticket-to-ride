@@ -1,11 +1,14 @@
 package cs340.TicketToRide.model.game;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 import cs340.TicketToRide.model.game.board.Board;
+import cs340.TicketToRide.model.game.board.City;
+import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.TrainCard;
@@ -17,7 +20,7 @@ public class Game {
     public static final int MAX_PLAYERS = 5;
 
     private int targetNumPlayers;
-    private Set<Player> players;
+    private List<Player> players;
     private ID gameID;
     private Username creator;
     private Board board;
@@ -28,8 +31,12 @@ public class Game {
 
     public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);
-        players = new HashSet<>();
+        players = new ArrayList<>();
         gameID = ID.generateID();
+        discardedTrainCards = new ArrayList<>();
+        faceUpTrainCards = new ArrayList<>();
+        trainCardDeck = TrainCard.createDeck();
+        destinationCardDeck = DestinationCard.createDeck();
         setCreator(creator);
     }
 
@@ -49,7 +56,7 @@ public class Game {
         return players.add(player);
     }
 
-    public Set<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -63,6 +70,50 @@ public class Game {
         }
 
         return true;
+    }
+
+    public Set<DestinationCard> getPlayersCompletedDestCards(ID playerId) {
+        Player player = getPlayerById(playerId);
+        Set<DestinationCard> completedCards = new HashSet<>();
+        for (DestinationCard card : player.getDestinationCards()) {
+            if (playerCompletedDestCard(playerId, card)) {
+                completedCards.add(card);
+            }
+        }
+        return completedCards;
+    }
+
+    private boolean playerCompletedDestCard(ID playerId, DestinationCard card) {
+        City start = card.getCity1();
+        City end = card.getCity2();
+        return pathOwnedByPlayer(playerId, start, end);
+    }
+
+    private boolean pathOwnedByPlayer(ID playerId, City start, City target) {
+        Set<Route> connectedRoutes = getRoutesFromCity(start);
+
+        for (Route connectedRoute : connectedRoutes) {
+            if (connectedRoute.occupiedBy(playerId)) {
+                City intermediate = connectedRoute.getOtherCity(start);
+                if (target.equals(intermediate)) {
+                    return true;
+                }
+
+                return pathOwnedByPlayer(playerId, intermediate, target);
+            }
+        }
+
+        return false;
+    }
+
+    private Set<Route> getRoutesFromCity(City city) {
+        Set<Route> connectedRoutes = new HashSet<>();
+        for (Route route : board.getRoutes()) {
+            if (route.contains(city)) {
+                connectedRoutes.add(route);
+            }
+        }
+        return connectedRoutes;
     }
 
     public boolean hasTargetNumPlayers() {
@@ -134,8 +185,34 @@ public class Game {
                 '}';
     }
 
-    public String getPlayerString(){
+    public String getPlayerString() {
+        return getNumCurrentPlayers() + "/" + getTargetNumPlayers() + " Players";
+    }
 
-        return getNumCurrentPlayers() + "/" +getTargetNumPlayers() + " Players";
+    public void setup() {
+        List<Player> players = getPlayers();
+
+        // Possible colors
+        Player.Color[] values = Player.Color.values();
+
+        // Assign color, make sure player attributes are initialized
+        for (int i = 0; i < players.size(); i++) {
+
+            Player player = players.get(i);
+
+            for (int j = 0; j < 4; j++) {
+                TrainCard trainCard = trainCardDeck.drawFromTop();
+                player.getTrainCards().add(trainCard);
+            }
+
+            for (int j = 0; j < 4; j++) {
+                DestinationCard destinationCard = destinationCardDeck.drawFromTop();
+                player.getDestinationCards().add(destinationCard);
+            }
+
+            player.setColor(values[i]);
+            player.setScore(0);
+            player.setNumTrains(45);
+        }
     }
 }

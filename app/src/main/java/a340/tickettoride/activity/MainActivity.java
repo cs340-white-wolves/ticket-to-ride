@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import a340.tickettoride.R;
-import a340.tickettoride.presenter.IMainPresenter;
+import a340.tickettoride.presenter.interfaces.IMainPresenter;
 import a340.tickettoride.presenter.MainPresenter;
 
 public class MainActivity extends AppCompatActivity implements MainPresenter.View {
