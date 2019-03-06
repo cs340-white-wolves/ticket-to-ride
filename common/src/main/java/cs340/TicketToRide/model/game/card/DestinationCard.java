@@ -13,6 +13,10 @@ public class DestinationCard {
         this.points = points;
     }
 
+    public static Deck<DestinationCard> createDeck() {
+        return null; // TODO: actually do this
+    }
+
     public City getCity1() {
         return city1;
     }

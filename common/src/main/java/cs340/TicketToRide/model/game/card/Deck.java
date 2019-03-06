@@ -7,6 +7,7 @@ public class Deck<Card> {
     private List<Card> cards;
     public Deck(List<Card> cards) {
         this.cards = cards;
+        shuffle();
     }
 
     public void shuffle() {
@@ -20,9 +21,17 @@ public class Deck<Card> {
 
     public Card drawFromTop() {
         if (cards.isEmpty()) {
-            // todo: how to handle?
             return null;
         }
-        return cards.get(0);
+
+        Card card = cards.get(0);
+
+        cards.remove(0);
+
+        return card;
+    }
+
+    public void addCard(Card card) {
+        cards.add(card);
     }
 }

@@ -64,6 +64,10 @@ public class ServiceFacade {
         task.execute();
     }
 
+    public void setupGame() {
+
+    }
+
     public void sendChatMessage(String message) {
         Log.i("ServiceFacade", "Got Chat: " + message);
         IClientModel model = ClientModel.getInstance();

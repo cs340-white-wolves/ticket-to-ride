@@ -1,5 +1,6 @@
 package a340.tickettoride.presenter;
 
+import java.util.List;
 import java.util.Set;
 
 import a340.tickettoride.model.ClientModel;
@@ -40,15 +41,11 @@ public class PendingPresenter implements IPendingPresenter, ModelObserver {
 
             view.onUpdateGame(activeGame);
             view.onUpdatePlayers(activeGame.getPlayers());
-
-            if (activeGame.hasTargetNumPlayers()) {
-                view.onGameStarting();
-            }
         }
     }
 
     public interface View {
-        void onUpdatePlayers(Set<Player> players);
+        void onUpdatePlayers(List<Player> players);
         void onUpdateGame(Game game);
         void onGameStarting();
     }

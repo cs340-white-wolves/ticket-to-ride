@@ -1,11 +1,15 @@
 package cs340.TicketToRide.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import cs340.TicketToRide.ClientProxy;
+import cs340.TicketToRide.IClient;
 import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.exception.NotUniqueException;
 import cs340.TicketToRide.model.game.Game;
+import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Username;
 
@@ -14,13 +18,11 @@ public class ServerModel implements IServerModel {
     private AuthManager authManager;
     private Games games;
     private Set<User> users;
-    private ClientQueueManager clientQueueManager;
 
     private ServerModel() {
         authManager = new AuthManager();
         games = new Games();
         users = new HashSet<>();
-        clientQueueManager = new ClientQueueManager();
     }
 
     public static ServerModel getInstance() {
@@ -109,6 +111,21 @@ public class ServerModel implements IServerModel {
         authManager.addTokenUser(token, user);
     }
 
+    @Override
+    public void setupGame(Game game) {
+        ClientProxyManager proxyManager = ClientProxyManager.getInstance();
+
+        game.setup();
+
+        List<Player> players = game.getPlayers();
+
+        // Set updates
+        for (Player player : players) {
+            IClient clientProxy = proxyManager.get(player.getId());
+            clientProxy.playersUpdated(players);
+        }
+    }
+
     public void clear() {
         authManager.clear();
         games.clear();
@@ -137,9 +154,5 @@ public class ServerModel implements IServerModel {
 
     public void setUsers(Set<User> users) {
         this.users = users;
-    }
-
-    public ClientQueueManager getClientQueueManager() {
-        return clientQueueManager;
     }
 }

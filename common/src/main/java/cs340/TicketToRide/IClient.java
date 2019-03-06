@@ -1,9 +1,11 @@
 package cs340.TicketToRide;
 
+import java.util.List;
+
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Player;
-import cs340.TicketToRide.utility.ID;
 
 public interface IClient {
-    void gotChat(ChatMessage message);
+    void chatMessageReceived(ChatMessage message);
+    void playersUpdated(List<Player> players);
 }

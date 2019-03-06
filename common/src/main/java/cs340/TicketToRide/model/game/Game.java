@@ -20,7 +20,7 @@ public class Game {
     public static final int MAX_PLAYERS = 5;
 
     private int targetNumPlayers;
-    private Set<Player> players;
+    private List<Player> players;
     private ID gameID;
     private Username creator;
     private Board board;
@@ -31,8 +31,12 @@ public class Game {
 
     public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);
-        players = new HashSet<>();
+        players = new ArrayList<>();
         gameID = ID.generateID();
+        discardedTrainCards = new ArrayList<>();
+        faceUpTrainCards = new ArrayList<>();
+        trainCardDeck = TrainCard.createDeck();
+        destinationCardDeck = DestinationCard.createDeck();
         setCreator(creator);
     }
 
@@ -52,7 +56,7 @@ public class Game {
         return players.add(player);
     }
 
-    public Set<Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
 
@@ -181,7 +185,34 @@ public class Game {
                 '}';
     }
 
-    public String getPlayerString(){
-        return getNumCurrentPlayers() + "/" +getTargetNumPlayers() + " Players";
+    public String getPlayerString() {
+        return getNumCurrentPlayers() + "/" + getTargetNumPlayers() + " Players";
+    }
+
+    public void setup() {
+        List<Player> players = getPlayers();
+
+        // Possible colors
+        Player.Color[] values = Player.Color.values();
+
+        // Assign color, make sure player attributes are initialized
+        for (int i = 0; i < players.size(); i++) {
+
+            Player player = players.get(i);
+
+            for (int j = 0; j < 4; j++) {
+                TrainCard trainCard = trainCardDeck.drawFromTop();
+                player.getTrainCards().add(trainCard);
+            }
+
+            for (int j = 0; j < 4; j++) {
+                DestinationCard destinationCard = destinationCardDeck.drawFromTop();
+                player.getDestinationCards().add(destinationCard);
+            }
+
+            player.setColor(values[i]);
+            player.setScore(0);
+            player.setNumTrains(45);
+        }
     }
 }

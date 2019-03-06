@@ -1,21 +1,31 @@
 package cs340.TicketToRide;
 
+import java.util.List;
+
+import cs340.TicketToRide.model.ClientCommandQueue;
 import cs340.TicketToRide.model.game.ChatMessage;
-import cs340.TicketToRide.utility.ID;
+import cs340.TicketToRide.model.game.Player;
 
 public class ClientProxy implements IClient {
+    public ClientCommandQueue queue = new ClientCommandQueue();
 
-    @Override
-    public void updatePlayerCount(ID gameID, int playerCount) {
-
-    }
-
-    public void updateGameList() {
-
+    public ClientCommandQueue getQueue() {
+        return queue;
     }
 
     @Override
-    public void gotChat(ChatMessage message) {
+    public void chatMessageReceived(ChatMessage message) {
+
+//        Command gotChat = new Command(
+//                "chatMessageReceived",
+//                new String[]{ChatMessage.class.getName()},
+//                new Object[]{message}
+//        );
+
+    }
+
+    @Override
+    public void playersUpdated(List<Player> players) {
 
     }
 }

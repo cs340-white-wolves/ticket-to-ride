@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.StringWriter;
+import java.util.List;
 import java.util.Set;
 
 import a340.tickettoride.R;
@@ -53,7 +54,7 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
     }
 
     @Override
-    public void onUpdatePlayers(Set<Player> players) {
+    public void onUpdatePlayers(List<Player> players) {
         Log.i("JoinGame", "got player list");
 
         StringWriter sw = new StringWriter();
