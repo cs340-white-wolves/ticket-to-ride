@@ -33,7 +33,7 @@
     <string name="draw_cards">Draw Cards</string>
     <string name="place_trains">Place Trains</string>
     <string name="draw_routes">Draw Routes</string>
-    <string name="draw_pile">Draw Pile</string>
+    <string name="draw_pile">Draw</string>
     <string name="test_chat_message">This is a very long message that I will use to test to see if the layout will work properly for what I am trying to do.</string>
     <string name="test_chat_name">Player Name:</string>
     <string name="send">Send</string>
