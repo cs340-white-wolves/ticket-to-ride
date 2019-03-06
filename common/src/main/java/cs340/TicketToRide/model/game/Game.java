@@ -1,11 +1,14 @@
 package cs340.TicketToRide.model.game;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
 import cs340.TicketToRide.model.game.board.Board;
+import cs340.TicketToRide.model.game.board.City;
+import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.TrainCard;
@@ -63,6 +66,50 @@ public class Game {
         }
 
         return true;
+    }
+
+    public List<DestinationCard> getPlayersCompletedDestCards(ID playerId) {
+        Player player = getPlayerById(playerId);
+        List<DestinationCard> completedCards = new ArrayList<>();
+        for (DestinationCard card : player.getDestinationCards()) {
+            if (playerCompletedDestCard(playerId, card)) {
+                completedCards.add(card);
+            }
+        }
+        return completedCards;
+    }
+
+    private boolean playerCompletedDestCard(ID playerId, DestinationCard card) {
+        City start = card.getCity1();
+        City end = card.getCity2();
+        return pathOwnedByPlayer(playerId, start, end);
+    }
+
+    private boolean pathOwnedByPlayer(ID playerId, City start, City target) {
+        Set<Route> connectedRoutes = getRoutesFromCity(start);
+
+        for (Route connectedRoute : connectedRoutes) {
+            if (connectedRoute.occupiedBy(playerId)) {
+                City intermediate = connectedRoute.getOtherCity(start);
+                if (target.equals(intermediate)) {
+                    return true;
+                }
+
+                return pathOwnedByPlayer(playerId, intermediate, target);
+            }
+        }
+
+        return false;
+    }
+
+    private Set<Route> getRoutesFromCity(City city) {
+        Set<Route> connectedRoutes = new HashSet<>();
+        for (Route route : board.getRoutes()) {
+            if (route.contains(city)) {
+                connectedRoutes.add(route);
+            }
+        }
+        return connectedRoutes;
     }
 
     public boolean hasTargetNumPlayers() {
@@ -135,7 +182,6 @@ public class Game {
     }
 
     public String getPlayerString(){
-
         return getNumCurrentPlayers() + "/" +getTargetNumPlayers() + " Players";
     }
 }

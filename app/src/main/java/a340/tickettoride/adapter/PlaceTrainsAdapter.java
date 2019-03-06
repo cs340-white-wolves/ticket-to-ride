@@ -1,4 +1,4 @@
-package a340.tickettoride.activity.adapter;
+package a340.tickettoride.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

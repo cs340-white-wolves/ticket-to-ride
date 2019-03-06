@@ -132,6 +132,18 @@ public class Route {
         return city1;
     }
 
+    public City getOtherCity(City city) {
+        if (city1.equals(city)) {
+            return city2;
+        }
+
+        if (city2.equals(city)) {
+            return city1;
+        }
+
+        throw new RuntimeException("City not part of route");
+    }
+
     public void setCity1(City city1) {
         this.city1 = city1;
     }
@@ -204,5 +216,13 @@ public class Route {
     @Override
     public String toString() {
         return city1.getName() + ", " + city2.getName() + ": " + getPointValue();
+    }
+
+    public boolean contains(City city) {
+        return city1.equals(city) || city2.equals(city);
+    }
+
+    public boolean occupiedBy(ID playerId) {
+        return playerId.equals(occupierId);
     }
 }

@@ -1,4 +1,4 @@
-package a340.tickettoride.activity.adapter;
+package a340.tickettoride.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -9,9 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import a340.tickettoride.R;
 import a340.tickettoride.activity.MapActivity;
