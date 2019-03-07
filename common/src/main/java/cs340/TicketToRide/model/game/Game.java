@@ -36,8 +36,17 @@ public class Game {
         discardedTrainCards = new ArrayList<>();
         faceUpTrainCards = new ArrayList<>();
         trainCardDeck = TrainCard.createDeck();
-        destinationCardDeck = DestinationCard.createDeck();
+        destinationCardDeck = DestinationCard.createDeck(this);
         setCreator(creator);
+    }
+
+    public City getCityByName(String name) {
+        for (City city : board.getCities()) {
+            if (city.getName().equals(name)) {
+                return city;
+            }
+        }
+        return null;
     }
 
     public boolean addPlayer(Player player) {
@@ -205,7 +214,7 @@ public class Game {
                 player.getTrainCards().add(trainCard);
             }
 
-            for (int j = 0; j < 4; j++) {
+            for (int j = 0; j < 3; j++) {
                 DestinationCard destinationCard = destinationCardDeck.drawFromTop();
                 player.getDestinationCards().add(destinationCard);
             }
@@ -214,5 +223,9 @@ public class Game {
             player.setScore(0);
             player.setNumTrains(45);
         }
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

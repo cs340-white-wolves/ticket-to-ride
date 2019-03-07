@@ -3,6 +3,7 @@ package cs340.TicketToRide.model;
 import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.exception.NotUniqueException;
 import cs340.TicketToRide.model.game.Game;
+import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Username;
 
@@ -15,4 +16,5 @@ public interface IServerModel {
     void loginUser(User user, AuthToken token) throws AuthenticationException;
     void clear();
     void setupGame(Game game);
+    Player getPlayerById(ID playerId);
 }

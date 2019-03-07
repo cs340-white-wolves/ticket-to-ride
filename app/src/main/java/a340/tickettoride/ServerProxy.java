@@ -150,8 +150,15 @@ public class ServerProxy implements IServer {
     }
 
     @Override
-    public Commands getQueuedCommands(AuthToken token, ID playerId, int index) {
-        return null;
+    public Commands getQueuedCommands(AuthToken token, ID playerId, ID gameId, int index) {
+        ICommand command = new Command(
+                "getQueuedCommands",
+                new String[]{AuthToken.class.getName(), ID.class.getName(), ID.class.getName(), int.class.getName()},
+                new Object[]{token, playerId, gameId, index}
+        );
+        Response response = communicator.sendCommand(command);
+        Object resultObject = response.getResultObject();
+        return (Commands)resultObject;
     }
 
 }
