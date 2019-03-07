@@ -4,11 +4,14 @@ import android.content.DialogInterface;
 import android.graphics.*;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -66,6 +69,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private RecyclerView playerTurnRecycler;
     private DestCardAdapter destCardAdapter;
     private PlaceTrainsAdapter placeTrainsAdapter;
+    private DrawerLayout drawerLayout;
+
 
     private List<Player> players = new ArrayList<>();
 
@@ -102,6 +107,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        drawerLayout = findViewById(R.id.drawer_layout);
         initTurnTracker();
         initButtons();
     }
@@ -129,6 +135,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawCardsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                drawerLayout.openDrawer(GravityCompat.START);
+                //TODO: disable the other buttons so that a player cannot take multiple actions once they draw a card
             }
         });
     }
