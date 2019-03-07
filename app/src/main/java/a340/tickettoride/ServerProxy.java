@@ -2,6 +2,8 @@ package a340.tickettoride;
 
 import android.util.Log;
 
+import java.util.List;
+
 import a340.tickettoride.communication.ClientCommunicator;
 import cs340.TicketToRide.IServer;
 import cs340.TicketToRide.communication.Commands;
@@ -13,7 +15,7 @@ import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
-import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
@@ -159,6 +161,17 @@ public class ServerProxy implements IServer {
         Response response = communicator.sendCommand(command);
         Object resultObject = response.getResultObject();
         return (Commands)resultObject;
+    }
+
+    @Override
+    public void discardDestCards(List<DestinationCard> cards, AuthToken token, ID gameId, ID playerId) {
+        ICommand command = new Command(
+                "discardDestCards",
+                new String[]{cards.getClass().getName(), AuthToken.class.getName(),
+                        ID.class.getName(), ID.class.getName()},
+                new Object[]{cards, token, gameId, playerId}
+        );
+        communicator.sendCommand(command);
     }
 
 }

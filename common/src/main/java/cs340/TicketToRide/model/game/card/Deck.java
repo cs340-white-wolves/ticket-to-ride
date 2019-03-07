@@ -34,4 +34,12 @@ public class Deck<Card> {
     public void addCard(Card card) {
         cards.add(card);
     }
+
+    public void addAll(List<Card> cards) {
+        this.cards.addAll(cards);
+    }
+
+    public int size() {
+        return cards.size();
+    }
 }

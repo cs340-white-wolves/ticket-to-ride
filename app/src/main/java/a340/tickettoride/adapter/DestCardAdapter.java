@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -19,14 +20,14 @@ import cs340.TicketToRide.model.game.card.DestinationCard;
 
 public class DestCardAdapter extends RecyclerView.Adapter<DestCardAdapter.DestCardView> {
     private List<DestinationCard> cards;
-    private Set<DestinationCard> selectedCards;
+    private List<DestinationCard> selectedCards;
     private Map<View, DestinationCard> viewCards;
     private Context context;
 
     public DestCardAdapter(List<DestinationCard> cards, Context context) {
         this.cards = cards;
         viewCards = new HashMap<>();
-        selectedCards = new HashSet<>();
+        selectedCards = new ArrayList<>();
         this.context = context;
     }
 
@@ -53,7 +54,7 @@ public class DestCardAdapter extends RecyclerView.Adapter<DestCardAdapter.DestCa
         });
     }
 
-    public Set<DestinationCard> getSelectedDestCards() {
+    public List<DestinationCard> getSelectedDestCards() {
         return selectedCards;
     }
 

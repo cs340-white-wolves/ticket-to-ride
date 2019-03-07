@@ -16,14 +16,15 @@ import java.util.Set;
 import a340.tickettoride.R;
 import a340.tickettoride.adapter.PlayerRoutesAdapter;
 import a340.tickettoride.presenter.RoutesPresenter;
+import a340.tickettoride.presenter.interfaces.IRoutesPresenter;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 
 public class RoutesFragment extends Fragment implements RoutesPresenter.View {
-    private OnFragmentInteractionListener mListener;
     private View view;
+    private IRoutesPresenter presenter;
 
     public RoutesFragment() {
-        // Required empty public constructor
+        presenter = new RoutesPresenter(this);
     }
 
     @Override
@@ -35,7 +36,7 @@ public class RoutesFragment extends Fragment implements RoutesPresenter.View {
     }
 
     @Override
-    public void updatePlayerDestCardDisplay(Set<DestinationCard> completedCards, Set<DestinationCard> cards) {
+    public void updatePlayerDestCardDisplay(Set<DestinationCard> completedCards, List<DestinationCard> cards) {
         PlayerRoutesAdapter adapter = new PlayerRoutesAdapter(completedCards,
                 cards.toArray(new DestinationCard[0]), getActivity());
 
@@ -44,42 +45,5 @@ public class RoutesFragment extends Fragment implements RoutesPresenter.View {
         routesRecycler.setAdapter(adapter);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

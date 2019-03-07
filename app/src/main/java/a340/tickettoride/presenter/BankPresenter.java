@@ -11,11 +11,11 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 
 public class BankPresenter implements IBankPresenter, ModelObserver {
 
-    private BankPresenterListener view;
+    private View view;
 
-    public BankPresenter(BankPresenterListener listener) {
+    public BankPresenter(View view) {
         ClientModel.getInstance().addObserver(this);
-        view = listener;
+        this.view = view;
     }
 
     @Override
@@ -46,15 +46,17 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
 
     @Override
     public void onModelEvent(ModelChangeType changeType, Object obj) {
-        try {
-            view.updateFaceUpCards((List<TrainCard>) obj);
-        }
-        catch(ClassCastException e) {
-
+        if (changeType == ModelChangeType.DrawableDestinationCardCount) {
+            int count = (int) obj;
+            view.updateDestinationCardCount(count);
+        } else if (changeType == ModelChangeType.FaceUpTrainCardsUpdate) {
+            List<TrainCard> trainCards = (List<TrainCard>)obj;
+            view.updateFaceUpCards(trainCards);
         }
     }
 
-    public interface BankPresenterListener {
+    public interface View {
         void updateFaceUpCards(List<TrainCard> cards);
+        void updateDestinationCardCount(int count);
     }
 }

@@ -39,7 +39,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         SummaryFragment.SummaryFragmentListener,
         HandFragment.OnFragmentInteractionListener,
         RoutesFragment.OnFragmentInteractionListener,
-        AllPlayersFragment.OnFragmentInteractionListener,
+        PlayerInfoFragment.OnFragmentInteractionListener,
         ChatListFragment.OnListFragmentInteractionListener,
         MapPresenter.View{
     private static final int LINE_WIDTH = 15;
@@ -449,7 +449,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public Set<DestinationCard> getSelectedDestinationCards() {
+    public List<DestinationCard> getSelectedDestinationCards() {
         return destCardAdapter.getSelectedDestCards();
     }
 
