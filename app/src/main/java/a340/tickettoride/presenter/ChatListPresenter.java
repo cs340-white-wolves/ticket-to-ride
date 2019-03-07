@@ -9,9 +9,9 @@ import a340.tickettoride.presenter.interfaces.IChatListPresenter;
 import cs340.TicketToRide.model.game.ChatMessage;
 
 public class ChatListPresenter implements IChatListPresenter, ModelObserver {
-    private ChatListPresenterListener listener;
+    private View listener;
 
-    public ChatListPresenter(ChatListPresenterListener listener) {
+    public ChatListPresenter(View listener) {
         this.listener = listener;
     }
 
@@ -33,7 +33,7 @@ public class ChatListPresenter implements IChatListPresenter, ModelObserver {
         }
     }
 
-    public interface ChatListPresenterListener {
+    public interface View {
         void updateChatMessages(List<ChatMessage> messages);
     }
 }
