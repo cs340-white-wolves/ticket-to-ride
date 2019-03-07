@@ -21,6 +21,7 @@
     <color name="Purple">#FFFF00FF</color>
     <color name="Gray">#FF888888</color>
     <color name="ErrorRedBackground">#FF9494</color>
+    <color name="BrightGreen">#119233</color>
 
 
 </resources>

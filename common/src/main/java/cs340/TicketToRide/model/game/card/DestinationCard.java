@@ -17,6 +17,8 @@ public class DestinationCard {
         this.points = points;
     }
 
+
+
     private static final String[][] destCardCombos = {
             {"Denver", "El Paso", "4"},
             {"Kansas City", "Houston", "5"},
@@ -97,4 +99,18 @@ public class DestinationCard {
     public int hashCode() {
         return points * (city1.hashCode() + city2.hashCode());
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) {return false;}
+        if (o == this) {return true;}
+        if(o.getClass() != getClass()) {return false;}
+
+        DestinationCard other = (DestinationCard) o;
+
+        return (this.getCity1().getName().equals(other.getCity1().getName()) &&
+                this.getCity2().getName().equals(other.getCity2().getName()));
+    }
+
+
 }

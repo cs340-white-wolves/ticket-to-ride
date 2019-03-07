@@ -7,9 +7,9 @@
     tools:context=".fragment.right.RoutesFragment">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/player_routes_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/player_routes_recycler"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

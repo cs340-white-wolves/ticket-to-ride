@@ -17,7 +17,6 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 
 public class BankFragment extends Fragment implements BankPresenter.View {
 
-
     private IBankPresenter presenter;
     private ImageView[] faceUpCardSlots = new ImageView[5];
     private TextView drawPile;
@@ -46,7 +45,6 @@ public class BankFragment extends Fragment implements BankPresenter.View {
             faceUpCardSlots[i].setTag(i);
         }
     }
-
 
     private int getCardResource(TrainCard.Color color) {
         int resourceId;
