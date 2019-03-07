@@ -232,6 +232,11 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         notifyObservers(ModelChangeType.UpdatePlayerHand, activeGame.getPlayerById(playerId));
     }
 
+    @Override
+    public void onSendChatFail(Exception exception) {
+
+    }
+
     public void setPlayerId(ID playerId) {
         this.playerId = playerId;
     }

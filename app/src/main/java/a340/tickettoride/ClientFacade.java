@@ -28,6 +28,7 @@ public class ClientFacade implements IClient {
 
     @Override
     public void chatMessageReceived(ChatMessage message) {
+        model.onChatMessageReceived(message);
         Log.i("ClientFacade", "Got chat message!");
     }
 

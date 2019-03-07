@@ -6,6 +6,8 @@ import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.model.ClientCommandQueue;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.card.Deck;
+import cs340.TicketToRide.model.game.card.DestinationCard;
 
 public class ClientProxy implements IClient {
     public ClientCommandQueue queue = new ClientCommandQueue();
@@ -34,5 +36,10 @@ public class ClientProxy implements IClient {
           new Object[]{players}
         );
         queue.add(playersUpdated);
+    }
+
+    @Override
+    public void destCardDeckChanged(Deck<DestinationCard> destCardDeck) {
+
     }
 }
