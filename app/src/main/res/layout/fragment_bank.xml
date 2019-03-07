@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayout"
-    android:layout_width="100dp"
+    android:layout_width="200dp"
     android:layout_height="match_parent"
     android:background="@color/LighterLightBrown"
     android:fitsSystemWindows="true"
@@ -12,20 +12,22 @@
 
     <ImageView
         android:id="@+id/card1"
-        android:layout_width="0dp"
+        android:layout_width="90dp"
         android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:contentDescription="@string/train_card_description"
         android:scaleType="fitCenter"
         android:src="@drawable/green_car"
         app:layout_constraintBottom_toTopOf="@+id/card2"
-        app:layout_constraintEnd_toEndOf="@+id/drawPile"
-        app:layout_constraintStart_toStartOf="@+id/drawPile"
-        app:layout_constraintTop_toBottomOf="@+id/drawPile"
-        app:layout_constraintVertical_chainStyle="spread" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/card2"
-        android:layout_width="0dp"
+        android:layout_width="90dp"
         android:layout_height="0dp"
         android:contentDescription="@string/train_card_description"
         android:scaleType="fitCenter"
@@ -37,7 +39,7 @@
 
     <ImageView
         android:id="@+id/card3"
-        android:layout_width="0dp"
+        android:layout_width="90dp"
         android:layout_height="0dp"
         android:contentDescription="@string/train_card_description"
         android:scaleType="fitCenter"
@@ -49,7 +51,7 @@
 
     <ImageView
         android:id="@+id/card4"
-        android:layout_width="0dp"
+        android:layout_width="90dp"
         android:layout_height="0dp"
         android:contentDescription="@string/train_card_description"
         android:scaleType="fitCenter"
@@ -61,9 +63,8 @@
 
     <ImageView
         android:id="@+id/card5"
-        android:layout_width="0dp"
+        android:layout_width="90dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:contentDescription="@string/train_card_description"
         android:src="@drawable/locomotive"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -72,20 +73,75 @@
         app:layout_constraintTop_toBottomOf="@+id/card4" />
 
     <TextView
-        android:id="@+id/drawPile"
-        android:layout_width="90dp"
-        android:layout_height="0dp"
+        android:id="@+id/textView2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/shangiri"
+        android:text="@string/number_placeholder"
+        android:textAlignment="center"
+        android:textColor="@color/Red"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/card1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/shangiri"
+        android:text="@string/number_placeholder"
+        android:textAlignment="center"
+        android:textColor="@color/Red"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/trainCardLabel" />
+
+    <TextView
+        android:id="@+id/trainCardLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/vacer"
+        android:text="@string/train_cards_remaining"
+        android:textColor="@color/DarkBrown"
+        app:layout_constraintEnd_toEndOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/destCardLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/vacer"
+        android:text="@string/destination_cards_remaining"
+        android:textAlignment="center"
+        android:textColor="@color/DarkBrown"
+        app:layout_constraintEnd_toEndOf="@+id/textView4"
+        app:layout_constraintStart_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
+        android:id="@+id/drawPile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:background="@color/DarkBrown"
         android:fontFamily="@font/shangiri"
-        android:paddingTop="5dp"
-        android:paddingBottom="8dp"
+        android:padding="8dp"
         android:text="@string/draw_pile"
         android:textAlignment="center"
         android:textColor="@color/Gold"
-        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/card4"
+        app:layout_constraintTop_toBottomOf="@+id/destCardLabel" />
 
 </android.support.constraint.ConstraintLayout>
