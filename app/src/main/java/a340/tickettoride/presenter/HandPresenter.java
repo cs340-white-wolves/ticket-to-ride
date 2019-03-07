@@ -2,10 +2,28 @@ package a340.tickettoride.presenter;
 
 import java.util.List;
 
+import a340.tickettoride.observerable.ModelChangeType;
+import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IHandPresenter;
+import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.card.TrainCard;
 
-public class HandPresenter implements IHandPresenter {
+public class HandPresenter implements IHandPresenter, ModelObserver {
+
+    private View view;
+
+    public HandPresenter(View view) {
+        this.view = view;
+    }
+
+    @Override
+    public void onModelEvent(ModelChangeType changeType, Object obj) {
+        if (changeType == ModelChangeType.UpdatePlayerHand) {
+            Player player = (Player) obj;
+            view.updatePlayerHandDisplay(player.getTrainCards());
+        }
+    }
+
     public interface View {
         void updatePlayerHandDisplay(List<TrainCard> cards);
     }

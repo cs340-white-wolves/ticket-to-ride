@@ -4,12 +4,17 @@ import android.util.Log;
 
 import java.util.List;
 
+import a340.tickettoride.model.ClientModel;
+import a340.tickettoride.model.IClientModel;
 import cs340.TicketToRide.IClient;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.card.Deck;
+import cs340.TicketToRide.model.game.card.DestinationCard;
 
 public class ClientFacade implements IClient {
     private static ClientFacade singleton;
+    private IClientModel model = ClientModel.getInstance();
 
     private ClientFacade() {
     }
@@ -28,7 +33,12 @@ public class ClientFacade implements IClient {
 
     @Override
     public void playersUpdated(List<Player> players) {
+        model.updatePlayers(players);
+    }
 
+    @Override
+    public void destCardDeckChanged(Deck<DestinationCard> destCardDeck) {
+        model.updateGameDestCardDeck(destCardDeck);
     }
 
 }

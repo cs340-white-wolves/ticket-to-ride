@@ -1,9 +1,7 @@
 package cs340.TicketToRide;
 
 import java.util.List;
-import java.util.Set;
 
-import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
@@ -14,7 +12,9 @@ import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.service.CreateGameService;
+import cs340.TicketToRide.service.DiscardDestCardService;
 import cs340.TicketToRide.service.QueueService;
 import cs340.TicketToRide.service.GamesService;
 import cs340.TicketToRide.service.JoinGameService;
@@ -56,6 +56,11 @@ public class ServerFacade implements IServer {
 
     public Commands getQueuedCommands(AuthToken token, ID playerId, ID gameId, int index) {
         return new QueueService().getQueuedCommands(token, playerId, gameId, index);
+    }
+
+    @Override
+    public void discardDestCards(List<DestinationCard> cards, AuthToken token, ID gameId, ID playerId) {
+        new DiscardDestCardService().discardDestCards(cards, token, gameId, playerId);
     }
 
     public Games getAvailableGames(AuthToken token) {

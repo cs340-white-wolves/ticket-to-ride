@@ -8,11 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
 import java.util.Set;
 
 import a340.tickettoride.R;
-import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 
 public class PlayerRoutesAdapter extends RecyclerView.Adapter<PlayerRoutesAdapter.PlayerRouteView> {

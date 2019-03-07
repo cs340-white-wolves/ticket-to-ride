@@ -19,6 +19,8 @@ import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.card.Deck;
+import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.utility.ID;
 
 public class ClientModel extends ModelObservable implements IClientModel, Poller.Listener {
@@ -200,6 +202,34 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     public ID getPlayerId() {
         return playerId;
+    }
+
+    @Override
+    public Player getPlayerFromGame() {
+        for (Player player : activeGame.getPlayers()) {
+            if (player.getId().equals(playerId)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void onDiscardDestCardsFail(Exception exception) {
+
+    }
+
+    @Override
+    public void updateGameDestCardDeck(Deck<DestinationCard> destCardDeck) {
+        activeGame.setDestinationCardDeck(destCardDeck);
+        notifyObservers(ModelChangeType.DrawableDestinationCardCount, destCardDeck.size());
+    }
+
+    @Override
+    public void updatePlayers(List<Player> players) {
+        activeGame.setPlayers(players);
+        notifyObservers(ModelChangeType.UpdatePlayers, players);
+        notifyObservers(ModelChangeType.UpdatePlayerHand, activeGame.getPlayerById(playerId));
     }
 
     public void setPlayerId(ID playerId) {

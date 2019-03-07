@@ -81,7 +81,7 @@ public class Game {
         return true;
     }
 
-    public Set<DestinationCard> getPlayersCompletedDestCards(ID playerId) {
+    public Set<DestinationCard> getPlayerCompletedDestCards(ID playerId) {
         Player player = getPlayerById(playerId);
         Set<DestinationCard> completedCards = new HashSet<>();
         for (DestinationCard card : player.getDestinationCards()) {
@@ -101,6 +101,7 @@ public class Game {
     private boolean pathOwnedByPlayer(ID playerId, City start, City target) {
         Set<Route> connectedRoutes = getRoutesFromCity(start);
 
+        // todo: check if city already visited
         for (Route connectedRoute : connectedRoutes) {
             if (connectedRoute.occupiedBy(playerId)) {
                 City intermediate = connectedRoute.getOtherCity(start);
@@ -227,5 +228,57 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    public void addCardsToDestCardDeck(List<DestinationCard> cards) {
+        destinationCardDeck.addAll(cards);
+    }
+
+    public Deck<DestinationCard> getDestCardDeck() {
+        return destinationCardDeck;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public void setGameID(ID gameID) {
+        this.gameID = gameID;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+
+    public List<TrainCard> getDiscardedTrainCards() {
+        return discardedTrainCards;
+    }
+
+    public void setDiscardedTrainCards(List<TrainCard> discardedTrainCards) {
+        this.discardedTrainCards = discardedTrainCards;
+    }
+
+    public List<TrainCard> getFaceUpTrainCards() {
+        return faceUpTrainCards;
+    }
+
+    public void setFaceUpTrainCards(List<TrainCard> faceUpTrainCards) {
+        this.faceUpTrainCards = faceUpTrainCards;
+    }
+
+    public Deck<TrainCard> getTrainCardDeck() {
+        return trainCardDeck;
+    }
+
+    public void setTrainCardDeck(Deck<TrainCard> trainCardDeck) {
+        this.trainCardDeck = trainCardDeck;
+    }
+
+    public Deck<DestinationCard> getDestinationCardDeck() {
+        return destinationCardDeck;
+    }
+
+    public void setDestinationCardDeck(Deck<DestinationCard> destinationCardDeck) {
+        this.destinationCardDeck = destinationCardDeck;
     }
 }

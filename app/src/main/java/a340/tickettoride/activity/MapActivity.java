@@ -38,13 +38,7 @@ import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.*;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
-        SummaryFragment.SummaryFragmentListener,
-        HandFragment.OnFragmentInteractionListener,
-        RoutesFragment.OnFragmentInteractionListener,
-        AllPlayersFragment.OnFragmentInteractionListener,
-        ChatListFragment.OnListFragmentInteractionListener,
-        MapPresenter.View{
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, MapPresenter.View {
     private static final int LINE_WIDTH = 15;
     private static final int LINE_BORDER_WIDTH = 17;
     private static final int CIRCLE_RADIUS = 35000;
@@ -102,7 +96,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         initPlayerColorValues();
         lineRouteManager = new HashMap<>();
         cityMarkers = new HashSet<>();
-        presenter = new MapPresenter();
+        presenter = new MapPresenter(this);
         board = new Board();
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -457,7 +451,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public Set<DestinationCard> getSelectedDestinationCards() {
+    public List<DestinationCard> getSelectedDestinationCards() {
         return destCardAdapter.getSelectedDestCards();
     }
 
@@ -470,17 +464,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return (int) (px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
     private void displayText(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onListFragmentInteraction(ChatMessage chatMessage) {
-
-    }
 }
