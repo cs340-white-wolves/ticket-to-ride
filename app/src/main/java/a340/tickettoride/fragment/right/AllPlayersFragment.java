@@ -1,12 +1,18 @@
 package a340.tickettoride.fragment.right;
 
+import android.app.ActionBar;
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import a340.tickettoride.R;
 
@@ -66,7 +72,61 @@ public class AllPlayersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_all_players, container, false);
+        View inflate = inflater.inflate(R.layout.fragment_all_players, container, false);
+
+        TableLayout table = inflate.findViewById(R.id.playerInfoTable);
+
+        TableLayout.LayoutParams lp_row = new TableLayout.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT);
+        TableRow.LayoutParams lp_text = new TableRow.LayoutParams(0,
+                TableRow.LayoutParams.WRAP_CONTENT, 1);
+
+
+        TableRow row = new TableRow(getContext());
+        row.setWeightSum(5);
+        row.setLayoutParams(lp_row);
+        row.setPadding(0, 0, 0, 10);
+
+        String s1 = "player_one";
+        String s2 = "100";
+        String s3 = "30";
+        String s4 = "10";
+        String s5 = "3";
+
+        TextView player = new TextView(getContext());
+        player.setText(s1);
+        player.setLayoutParams(lp_text);
+        player.setTextColor(getResources().getColor(R.color.Red));
+        row.addView(player);
+
+        TextView points = new TextView(getContext());
+        points.setText(s2);
+        points.setLayoutParams(lp_text);
+        points.setTextColor(getResources().getColor(R.color.Red));
+        row.addView(points);
+
+        TextView trains = new TextView(getContext());
+        trains.setText(s3);
+        trains.setLayoutParams(lp_text);
+        trains.setTextColor(getResources().getColor(R.color.Red));
+        row.addView(trains);
+
+        TextView cards = new TextView(getContext());
+        cards.setText(s4);
+        cards.setLayoutParams(lp_text);
+        cards.setTextColor(getResources().getColor(R.color.Red));
+        row.addView(cards);
+
+        TextView routes = new TextView(getContext());
+        routes.setText(s5);
+        routes.setLayoutParams(lp_text);
+        routes.setTextColor(getResources().getColor(R.color.Red));
+        row.addView(routes);
+
+        table.addView(row);
+
+        return inflate;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
