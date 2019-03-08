@@ -59,13 +59,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private SupportMapFragment mapFragment;
     private Set<Marker> cityMarkers;
     private Map<Route, List<Polyline>> lineRouteManager;
-    private Board board;
     private RecyclerView playerTurnRecycler;
     private DestCardAdapter destCardAdapter;
     private PlaceTrainsAdapter placeTrainsAdapter;
     private DrawerLayout drawerLayout;
-
-
+    private Button routesBtn;
+    private Button placeTrainBtn;
+    private Button drawCardsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +96,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         lineRouteManager = new HashMap<>();
         cityMarkers = new HashSet<>();
         presenter = new MapPresenter(this);
-        board = new Board();
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -106,7 +105,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void initButtons() {
-        Button routesBtn = findViewById(R.id.drawRoutesButton);
+        routesBtn = findViewById(R.id.drawRoutesButton);
+        placeTrainBtn = findViewById(R.id.placeTrainsButton);
+        drawCardsBtn = findViewById(R.id.drawCardsButton);
+        disableButtons();
+
         routesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,24 +117,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        Button placeTrainBtn = findViewById(R.id.placeTrainsButton);
         placeTrainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (Route route : lineRouteManager.keySet()) {
-                    showRouteIsClaimed(route);
-                    initPlaceTrainDialog();
-                }
+                initPlaceTrainDialog();
             }
         });
-        Button drawCardsBtn = findViewById(R.id.drawCardsButton);
         drawCardsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 drawerLayout.openDrawer(GravityCompat.START);
-                //TODO: disable the other buttons so that a player cannot take multiple actions once they draw a card
             }
         });
+    }
+
+    private void enableButtons() {
+        drawCardsBtn.setEnabled(true);
+        placeTrainBtn.setEnabled(true);
+        routesBtn.setEnabled(true);
+    }
+
+    private void disableButtons() {
+        drawCardsBtn.setEnabled(false);
+        placeTrainBtn.setEnabled(false);
+        routesBtn.setEnabled(false);
     }
 
     private void initDestCardDialog() {
@@ -169,9 +178,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .create();
         dialog.show();
     }
-
-
-
 
     private void initPlaceTrainDialog() {
         List<Route> routes = presenter.getPossibleRoutesToClaim();
@@ -255,7 +261,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void displayCities() {
-        Set<City> cities = board.getCities();
+        Set<City> cities = presenter.getCities();
         if (citiesDisplayed()) {
             return;
         }
@@ -317,7 +323,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void drawRoutes() {
-        Set<Route> routes = board.getRoutes();
+        Set<Route> routes = presenter.getRoutes();
         for (Route route : routes) {
             drawRoute(route);
         }

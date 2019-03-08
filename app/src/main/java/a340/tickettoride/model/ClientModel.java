@@ -192,6 +192,11 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         notifyObservers(ModelChangeType.GameStarted, null);
     }
 
+    @Override
+    public boolean activePlayerTurn() {
+        return activeGame.isPlayerTurn(playerId);
+    }
+
     public Game getActiveGame() {
         return activeGame;
     }

@@ -16,5 +16,6 @@ public interface IMapPresenter {
     List<DestinationCard> getPlayerDestCards();
     void discardDestCards();
     void placeTrains();
-//    Set<City> getActiveGameCities();
+    Set<City> getCities();
+    Set<Route> getRoutes();
 }

@@ -118,6 +118,11 @@ public class Game {
         return false;
     }
 
+    public boolean isPlayerTurn(ID playerId) {
+        Player player = getPlayerById(playerId);
+        return currentPlayerTurnIdx == players.indexOf(player);
+    }
+
     private Set<Route> getRoutesFromCity(City city) {
         Set<Route> connectedRoutes = new HashSet<>();
         for (Route route : board.getRoutes()) {

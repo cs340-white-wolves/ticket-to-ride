@@ -56,6 +56,16 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     @Override
+    public Set<City> getCities() {
+        return model.getActiveGame().getBoard().getCities();
+    }
+
+    @Override
+    public Set<Route> getRoutes() {
+        return model.getActiveGame().getBoard().getRoutes();
+    }
+
+    @Override
     public List<Player> getPlayers() {
         return model.getActiveGame().getPlayers();
     }
