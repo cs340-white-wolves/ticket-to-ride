@@ -14,6 +14,7 @@ import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.City;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.utility.ID;
 
 public class MapPresenter implements IMapPresenter, ModelObserver {
     private View view;
@@ -44,6 +45,22 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         }
 
         ServiceFacade.getInstance().discardDestCards(discardedCards);
+    }
+
+    @Override
+    public List<Player> getPlayers() {
+        return model.getActiveGame().getPlayers();
+    }
+
+    @Override
+    public Player getPlayerById(ID playerId) {
+        return model.getActiveGame().getPlayerById(playerId);
+    }
+
+    @Override
+    public List<Route> getPossibleRoutesToClaim() {
+        // todo: implement this
+        return new ArrayList<>();
     }
 
     public interface View {

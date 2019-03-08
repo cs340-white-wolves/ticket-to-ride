@@ -66,7 +66,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private DrawerLayout drawerLayout;
 
 
-    private List<Player> players = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,13 +170,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void initPlaceTrainDialog() {
-        List<Route> routes = new ArrayList<>();
+        List<Route> routes = presenter.getPossibleRoutesToClaim();
 
-        Route route = new Route(new City("Sandy", "sd", 20, 10), new City("Salt Lake", "sd", 20, 10), coalRed, 0);
-        routes.add(route);
-
-        route = new Route(new City("Provo", "sd", 20, 10), new City("American Fork", "sd", 20, 10), coalRed, 0);
-        routes.add(route);
+//        Route route = new Route(new City("Sandy", "sd", 20, 10), new City("Salt Lake", "sd", 20, 10), coalRed, 0);
+//        routes.add(route);
+//
+//        route = new Route(new City("Provo", "sd", 20, 10), new City("American Fork", "sd", 20, 10), coalRed, 0);
+//        routes.add(route);
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_place_trains, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.place_trains_recycler);
@@ -235,16 +234,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void initTurnTracker() {
-        players.add(new Player(new User(new Username("nate"), new Password("123"))));
-        players.add(new Player(new User(new Username("jake"), new Password("123"))));
-        players.add(new Player(new User(new Username("kate"), new Password("123"))));
-        players.add(new Player(new User(new Username("sara"), new Password("123"))));
-        players.add(new Player(new User(new Username("dave"), new Password("123"))));
-        players.get(0).setColor(Player.Color.black);
-        players.get(1).setColor(Player.Color.blue);
-        players.get(2).setColor(Player.Color.red);
-        players.get(3).setColor(Player.Color.green);
-        players.get(4).setColor(Player.Color.yellow);
+        List<Player> players = presenter.getPlayers();
         TurnTrackerAdapter adapter = new TurnTrackerAdapter(players, this);
         playerTurnRecycler = findViewById(R.id.player_turn_recycler);
         playerTurnRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -429,9 +419,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void showRouteIsClaimed(final Route route) {
-        Player player = players.get(0);
-        route.occupy(player.getId()); // this is just for now
         ID playerId = route.getOccupierId();
+        Player player = presenter.getPlayerById(playerId);
         if (playerId == null) {
             return;
         }

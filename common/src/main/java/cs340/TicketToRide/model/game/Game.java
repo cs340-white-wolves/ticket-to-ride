@@ -28,6 +28,7 @@ public class Game {
     private List<TrainCard> faceUpTrainCards;
     private Deck<TrainCard> trainCardDeck;
     private Deck<DestinationCard> destinationCardDeck;
+    private int currentPlayerTurnIdx = 0;
 
     public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);
@@ -281,5 +282,20 @@ public class Game {
 
     public void setDestinationCardDeck(Deck<DestinationCard> destinationCardDeck) {
         this.destinationCardDeck = destinationCardDeck;
+    }
+
+    public int getCurrentPlayerTurnIdx() {
+        return currentPlayerTurnIdx;
+    }
+
+    public void setCurrentPlayerTurnIdx(int currentPlayerTurnIdx) {
+        this.currentPlayerTurnIdx = currentPlayerTurnIdx;
+    }
+
+    public void setNextPlayerTurn() {
+        this.currentPlayerTurnIdx++;
+        if (currentPlayerTurnIdx == players.size()) {
+            currentPlayerTurnIdx = 0;
+        }
     }
 }

@@ -26,7 +26,6 @@ import cs340.TicketToRide.utility.ID;
 public class ClientModel extends ModelObservable implements IClientModel, Poller.Listener {
     private Poller poller = new Poller(this);
     private static ClientModel singleton;
-
     private User loggedInUser;
     private AuthToken authToken;
     private Game activeGame;
