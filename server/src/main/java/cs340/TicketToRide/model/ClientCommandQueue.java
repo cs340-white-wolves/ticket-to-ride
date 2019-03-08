@@ -17,7 +17,7 @@ public class ClientCommandQueue {
     public Commands getStartingFrom(int index) {
         int size = commands.size();
 
-        Commands cmds = new Commands();
+        Commands cmds = new Commands(size - 1);
 
         for (int i = index + 1; i < size; i++) {
             cmds.add(commands.get(i), 1);

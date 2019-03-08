@@ -28,6 +28,10 @@ public class Command implements ICommand {
     public Command(InputStreamReader inputStreamReader) {
         Command tempCommand = gson.fromJson(inputStreamReader, Command.class);
 
+        populateParameters(tempCommand);
+    }
+
+    private void populateParameters(Command tempCommand) {
         methodName = tempCommand.getMethodName();
         parameterTypeNames = tempCommand.getParameterTypeNames();
         parametersAsJsonStrings = tempCommand.getParametersAsJsonStrings();
@@ -91,6 +95,10 @@ public class Command implements ICommand {
 
     //Commands
     public Object execute(Object target) {
+        if (parameters == null) {
+            populateParameters(this);
+        }
+
         Object result = null;
 
         try {

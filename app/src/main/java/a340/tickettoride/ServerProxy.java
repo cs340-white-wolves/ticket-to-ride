@@ -149,7 +149,7 @@ public class ServerProxy implements IServer {
                 new Object[]{token, gameId, message}
         );
 
-        Response response = communicator.sendCommand(command);
+        communicator.sendCommand(command);
     }
 
     @Override

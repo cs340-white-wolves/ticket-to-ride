@@ -67,7 +67,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
         for (Command cmd : queuedCommands.getAll()) {
             // make sure we have not executed the command before
-            if (startIndex > lastExecutedCommandIndex) {
+            if (startIndex >= lastExecutedCommandIndex) {
                 cmd.execute(ClientFacade.getInstance());
             }
             startIndex++;
