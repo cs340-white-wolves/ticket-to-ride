@@ -33,6 +33,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         return null;
     }
 
+    @Override
     public void discardDestCards() {
         List<DestinationCard> selectedCards = view.getSelectedDestinationCards();
         List<DestinationCard> discardedCards = new ArrayList<>();
@@ -45,6 +46,13 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         }
 
         ServiceFacade.getInstance().discardDestCards(discardedCards);
+    }
+
+    @Override
+    public void placeTrains() {
+        Route route = view.getSelectedRoute();
+        ServiceFacade.getInstance().claimRoute(route);
+        // todo: implement this
     }
 
     @Override
@@ -61,6 +69,11 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     public List<Route> getPossibleRoutesToClaim() {
         // todo: implement this
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<DestinationCard> getPlayerDestCards() {
+        return model.getPlayerFromGame().getDestinationCards();
     }
 
     public interface View {

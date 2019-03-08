@@ -135,18 +135,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void initDestCardDialog() {
-        List<DestinationCard> cards = new ArrayList<>();
-
-        cards.add(new DestinationCard(
-                new City("SLC", "slc", 10, -10),
-                new City("SLC", "slc", 10, -10),
-                10
-        ));
-        cards.add(new DestinationCard(
-                new City("dal", "slc", 10, -10),
-                new City("dal", "slc", 10, -10),
-                10
-        ));
+        List<DestinationCard> cards = presenter.getPlayerDestCards();
+//        List<DestinationCard> cards = new ArrayList<>();
+//
+//        cards.add(new DestinationCard(
+//                new City("SLC", "slc", 10, -10),
+//                new City("SLC", "slc", 10, -10),
+//                10
+//        ));
+//        cards.add(new DestinationCard(
+//                new City("dal", "slc", 10, -10),
+//                new City("dal", "slc", 10, -10),
+//                10
+//        ));
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_route, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
@@ -162,12 +163,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        displayText("Selected OK");
+                        presenter.discardDestCards();
                     }
                 })
                 .create();
         dialog.show();
     }
+
+
+
 
     private void initPlaceTrainDialog() {
         List<Route> routes = presenter.getPossibleRoutesToClaim();
@@ -192,7 +196,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        displayText("Selected OK");
+                        presenter.placeTrains();
                     }
                 })
                 .create();
