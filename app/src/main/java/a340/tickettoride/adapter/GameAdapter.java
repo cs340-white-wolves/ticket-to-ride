@@ -1,4 +1,4 @@
-package a340.tickettoride.activity;
+package a340.tickettoride.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
@@ -11,11 +11,12 @@ import android.widget.TextView;
 import java.util.List;
 
 import a340.tickettoride.R;
-import a340.tickettoride.presenter.IJoinGamePresenter;
+import a340.tickettoride.activity.util.GameDiff;
+import a340.tickettoride.presenter.interfaces.IJoinGamePresenter;
 import cs340.TicketToRide.model.game.Game;
 
 
-class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameView> {
+public class GameAdapter extends RecyclerView.Adapter<GameAdapter.GameView> {
 
     private List<Game> mGames;
     private IJoinGamePresenter presenter;

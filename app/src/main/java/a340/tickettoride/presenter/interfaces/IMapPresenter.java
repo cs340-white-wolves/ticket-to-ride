@@ -1,4 +1,4 @@
-package a340.tickettoride.presenter;
+package a340.tickettoride.presenter.interfaces;
 
 import java.util.Set;
 

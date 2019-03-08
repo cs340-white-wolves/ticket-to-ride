@@ -1,5 +1,9 @@
 package cs340.TicketToRide.model.game.card;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.board.City;
 
 public class DestinationCard {
@@ -11,6 +15,56 @@ public class DestinationCard {
         this.city1 = city1;
         this.city2 = city2;
         this.points = points;
+    }
+
+    private static final String[][] destCardCombos = {
+            {"Denver", "El Paso", "4"},
+            {"Kansas City", "Houston", "5"},
+            {"New York", "Atlanta", "6"},
+            {"Chicago", "New Orleans", "7"},
+            {"Calgary", "Salt Lake City", "7"},
+            {"Helena", "Los Angeles", "8"},
+            {"Duluth", "Houston", "8"},
+            {"Sault Ste. Marie", "Nashville", "8"},
+            {"Montreal", "Atlanta", "9"},
+            {"Sault Ste. Marie", "Oklahoma City", "9"},
+            {"Seattle", "Los Angeles", "9"},
+            {"Chicago", "Santa Fe", "9"},
+            {"Duluth", "El Paso", "10"},
+            {"Toronto", "Miami", "10"},
+            {"Portland", "Phoenix", "11"},
+            {"Dallas", "New York", "11"},
+            {"Denver", "Pittsburgh", "11"},
+            {"Winnipeg", "Little Rock", "11"},
+            {"Winnipeg", "Houston", "12"},
+            {"Boston", "Miami", "12"},
+            {"Vancouver", "Santa Fe", "13"},
+            {"Calgary", "Phoenix", "13"},
+            {"Montreal", "New Orleans", "13"},
+            {"Los Angeles", "Chicago", "16"},
+            {"San Francisco", "Atlanta", "17"},
+            {"Portland", "Nashville", "17"},
+            {"Vancouver", "Montreal", "20"},
+            {"Los Angeles", "Miami", "20"},
+            {"Los Angeles", "New York", "21"},
+            {"Seattle", "New York", "22"},
+    };
+
+    public static Deck<DestinationCard> createDeck(Game game) {
+        List<DestinationCard> cards = new ArrayList<>();
+        for (String[] combo : destCardCombos) {
+            City city1 = game.getCityByName(combo[0]);
+            City city2 = game.getCityByName(combo[1]);
+            int points = Integer.parseInt(combo[2]);
+            if (city1 == null) {
+                throw new RuntimeException("This City doesn't exist: " + combo[0]);
+            }
+            if (city2 == null) {
+                throw new RuntimeException("This City doesn't exist: " + combo[1]);
+            }
+            cards.add(new DestinationCard(city1, city2, points));
+        }
+        return new Deck<>(cards);
     }
 
     public City getCity1() {
@@ -38,6 +92,12 @@ public class DestinationCard {
     }
 
     public String toString() {
-        return city1.getName() + ", " + city2.getName();
+        return city1.getName() + " (" + city1.getCode() + "), " +
+                city2.getName() + " (" + city2.getCode() + ")";
+    }
+
+    @Override
+    public int hashCode() {
+        return points * (city1.hashCode() + city2.hashCode());
     }
 }

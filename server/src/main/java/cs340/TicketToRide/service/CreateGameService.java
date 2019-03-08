@@ -2,6 +2,7 @@ package cs340.TicketToRide.service;
 
 import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.model.AuthToken;
+import cs340.TicketToRide.model.ClientProxyManager;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.IServerModel;
 import cs340.TicketToRide.model.game.Player;
@@ -33,6 +34,8 @@ public class CreateGameService {
         if (!game.addPlayer(player)) {
             throw new RuntimeException("Error adding player to game");
         }
+
+        ClientProxyManager.getInstance().create(player.getId());
 
         return game;
     }

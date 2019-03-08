@@ -1,11 +1,9 @@
 package a340.tickettoride.presenter;
 
-import java.util.Observable;
-import java.util.Observer;
-
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
+import a340.tickettoride.presenter.interfaces.ILobbyPresenter;
 
 public class LobbyPresenter implements ILobbyPresenter, ModelObserver {
     private View view;

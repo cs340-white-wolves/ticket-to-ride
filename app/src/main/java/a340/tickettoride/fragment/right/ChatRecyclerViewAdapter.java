@@ -7,27 +7,28 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import a340.tickettoride.R;
-import a340.tickettoride.fragment.right.ChatListFragment.OnListFragmentInteractionListener;
 import cs340.TicketToRide.model.game.ChatMessage;
 
+import java.util.ArrayList;
 import java.util.List;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link ChatMessage} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- */
+
 public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.ViewHolder> {
 
-    private final OnListFragmentInteractionListener mListener;
     private final List<ChatMessage> mMessages;
 
-    public ChatRecyclerViewAdapter(List<ChatMessage> messages, OnListFragmentInteractionListener listener) {
-        mMessages = messages;
-        mListener = listener;
+    public ChatRecyclerViewAdapter() {
+        mMessages = new ArrayList<>();
     }
 
     public void addMessage(ChatMessage message) {
-        mMessages.add(new ChatMessage("test", "testing"));
+        mMessages.add(message);
+        notifyDataSetChanged();
+    }
+
+    public void setMessages(List<ChatMessage> messages) {
+        mMessages.clear();
+        mMessages.addAll(messages);
         notifyDataSetChanged();
     }
 
@@ -41,19 +42,8 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mChatMessage = mMessages.get(position);
-        holder.mPlayerName.setText(mMessages.get(position).getUsername());
+        holder.mPlayerName.setText(mMessages.get(position).getUsername().toString());
         holder.mMessage.setText(mMessages.get(position).getMessage());
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mChatMessage);
-                }
-            }
-        });
     }
 
     @Override

@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.CreateGamePresenter;
-import a340.tickettoride.presenter.ICreateGamePresenter;
+import a340.tickettoride.presenter.interfaces.ICreateGamePresenter;
 
 public class CreateGameActivity extends AppCompatActivity implements CreateGamePresenter.View {
     private ICreateGamePresenter presenter;

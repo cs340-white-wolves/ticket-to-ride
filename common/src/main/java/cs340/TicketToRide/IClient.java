@@ -1,8 +1,15 @@
 package cs340.TicketToRide;
 
-import cs340.TicketToRide.utility.ID;
+import java.util.List;
+
+import cs340.TicketToRide.model.game.ChatMessage;
+import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.card.Deck;
+import cs340.TicketToRide.model.game.card.DestinationCard;
 
 public interface IClient {
-    void updatePlayerCount(ID gameId, int count);
-    void updateGameList();
+    void chatMessageReceived(ChatMessage message);
+    void playersUpdated(List<Player> players);
+    void destCardDeckChanged(Deck<DestinationCard> destCardDeck);
+    void startGame();
 }

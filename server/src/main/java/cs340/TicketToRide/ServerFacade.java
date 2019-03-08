@@ -1,14 +1,15 @@
 package cs340.TicketToRide;
 
+import java.util.List;
+
+import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
-import cs340.TicketToRide.model.AuthToken;
+import cs340.TicketToRide.model.*;
+import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
-import cs340.TicketToRide.model.Games;
-import cs340.TicketToRide.service.CreateGameService;
-import cs340.TicketToRide.service.GamesService;
-import cs340.TicketToRide.service.JoinGameService;
-import cs340.TicketToRide.service.LoginService;
-import cs340.TicketToRide.service.RegisterService;
+import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.service.*;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
@@ -19,26 +20,46 @@ public class ServerFacade implements IServer {
 
     private ServerFacade() {
     }
+
     public static ServerFacade getInstance() {
         if (singleton == null) {
             singleton = new ServerFacade();
         }
         return singleton;
     }
+
     public LoginRegisterResponse login(Username username, Password password) {
         return new LoginService().login(username, password);
     }
+
     public LoginRegisterResponse register(Username username, Password password) {
         return new RegisterService().register(username, password);
     }
+
     public Game createGame(AuthToken token, int numPlayers) {
         return new CreateGameService().createGame(token, numPlayers);
     }
+
     public Game joinGame(AuthToken token, ID gameId) {
         return new JoinGameService().joinGame(token, gameId);
     }
+
+    public Commands getQueuedCommands(AuthToken token, ID playerId, ID gameId, int index) {
+        return new QueueService().getQueuedCommands(token, playerId, gameId, index);
+    }
+
+    @Override
+    public void discardDestCards(List<DestinationCard> cards, AuthToken token, ID gameId, ID playerId) {
+        new DiscardDestCardService().discardDestCards(cards, token, gameId, playerId);
+    }
+
     public Games getAvailableGames(AuthToken token) {
         return new GamesService().getAvailableGames(token);
+    }
+
+    @Override
+    public void sendChat(AuthToken token, ID gameId, ChatMessage message) {
+        new SendChatService().sendChat(token, gameId, message);
     }
 
 }

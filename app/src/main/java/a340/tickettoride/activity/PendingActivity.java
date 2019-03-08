@@ -1,5 +1,6 @@
 package a340.tickettoride.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,11 +8,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.StringWriter;
+import java.util.List;
 import java.util.Set;
 
 import a340.tickettoride.R;
-import a340.tickettoride.presenter.IPendingPresenter;
 import a340.tickettoride.presenter.PendingPresenter;
+import a340.tickettoride.presenter.interfaces.IPendingPresenter;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 
@@ -53,7 +55,7 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
     }
 
     @Override
-    public void onUpdatePlayers(Set<Player> players) {
+    public void onUpdatePlayers(List<Player> players) {
         Log.i("JoinGame", "got player list");
 
         StringWriter sw = new StringWriter();
@@ -91,7 +93,9 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                showMessage("Game is starting");
+                showMessage("Starting game!");
+                Intent intent = new Intent(PendingActivity.this, MapActivity.class);
+                startActivity(intent);
             }
         });
     }
