@@ -18,4 +18,5 @@ public interface IMapPresenter {
     void placeTrains();
     Set<City> getCities();
     Set<Route> getRoutes();
+    void advanceTurn();
 }

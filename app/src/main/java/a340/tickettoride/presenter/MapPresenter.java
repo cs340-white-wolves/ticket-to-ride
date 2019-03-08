@@ -66,6 +66,16 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     @Override
+    public void advanceTurn() {
+        view.displayNextPlayersTurn();
+        if (model.activePlayerTurn()) {
+            view.enableButtons();
+        } else {
+            view.disableButtons();
+        }
+    }
+
+    @Override
     public List<Player> getPlayers() {
         return model.getActiveGame().getPlayers();
     }
@@ -91,5 +101,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         void showRouteIsClaimed(Route route);
         List<DestinationCard> getSelectedDestinationCards();
         Route getSelectedRoute();
+        void enableButtons();
+        void disableButtons();
     }
 }
