@@ -33,7 +33,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     private Games lobbyGameList;
     private ID playerId;
     private List<ChatMessage> chatMessages = new ArrayList<>();
-    private int lastExecutedCommandIndex = 0;
+    private int lastExecutedCommandIndex = -1;
 
     private ClientModel() {
         Log.i("ClientModel", "I'm alive!");
@@ -186,6 +186,11 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     public User getLoggedInUser() {
         return loggedInUser;
+    }
+
+    @Override
+    public void onGameStart() {
+        notifyObservers(ModelChangeType.GameStarted, null);
     }
 
     public Game getActiveGame() {
