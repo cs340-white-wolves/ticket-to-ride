@@ -58,11 +58,12 @@ public class Poller {
                     IClientModel model = ClientModel.getInstance();
                     IServer server = ServerProxy.getInstance();
                     int currentIndex = model.getLastExecutedCommandIndex();
+                    int nextIndex = currentIndex + 1;
                     Commands queuedCommands = server.getQueuedCommands(
                             model.getAuthToken(),
                             model.getPlayerId(),
                             model.getActiveGame().getGameID(),
-                            currentIndex);
+                            nextIndex);
                     Log.i("Poller", "Got " + queuedCommands.getAll().size() + " commands");
                     listener.onPollComplete(queuedCommands);
                 }

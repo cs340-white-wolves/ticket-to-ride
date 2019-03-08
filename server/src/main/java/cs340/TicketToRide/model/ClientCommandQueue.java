@@ -14,7 +14,7 @@ public class ClientCommandQueue {
         commands.add(cmd);
     }
 
-    public Commands getAfter(int index) {
+    public Commands getStartingFrom(int index) {
         int size = commands.size();
 
         Commands cmds = new Commands();
