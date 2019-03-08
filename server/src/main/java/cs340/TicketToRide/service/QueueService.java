@@ -40,6 +40,6 @@ public class QueueService {
         return ClientProxyManager.getInstance()
                 .get(playerId)
                 .getQueue()
-                .getAfter(index);
+                .getStartingFrom(index);
     }
 }

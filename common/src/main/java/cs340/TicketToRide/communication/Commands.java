@@ -6,7 +6,7 @@ import java.util.List;
 public class Commands {
     private List<Command> commands;
 
-    private int startIndex = Integer.MAX_VALUE;
+    private int startIndex = 0;
     private int endIndex = 0;
 
     public Commands() {

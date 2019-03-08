@@ -34,7 +34,9 @@ public class SendChatService {
         List<Player> players = game.getPlayers();
 
         for (Player player : players) {
-            ClientProxyManager.getInstance().get(player.getId()).chatMessageReceived(message);
+            ClientProxyManager.getInstance()
+                    .get(player.getId())
+                    .chatMessageReceived(message);
         }
     }
 }

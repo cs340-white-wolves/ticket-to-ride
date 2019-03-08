@@ -8,6 +8,7 @@ import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
+import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
@@ -22,6 +23,7 @@ public interface IServer {
     void sendChat(AuthToken token, ID gameId, ChatMessage message);
     Commands getQueuedCommands(AuthToken token, ID playerId, ID gameId, int index);
     void discardDestCards(List<DestinationCard> cards, AuthToken token, ID gameId, ID playerId);
+    void claimRoute(Route route, AuthToken token, ID gameID, ID playerId);
     /*
         SendChat
         getDestCards? they get automatically
