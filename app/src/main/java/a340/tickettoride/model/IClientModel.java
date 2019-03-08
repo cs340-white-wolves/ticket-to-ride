@@ -31,4 +31,5 @@ public interface IClientModel {
     void onSendChatFail(Exception exception);
     User getLoggedInUser();
     void onGameStart();
+    boolean activePlayerTurn();
 }

@@ -14,6 +14,7 @@ import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.City;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.utility.ID;
 
 public class MapPresenter implements IMapPresenter, ModelObserver {
     private View view;
@@ -32,6 +33,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         return null;
     }
 
+    @Override
     public void discardDestCards() {
         List<DestinationCard> selectedCards = view.getSelectedDestinationCards();
         List<DestinationCard> discardedCards = new ArrayList<>();
@@ -46,10 +48,60 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         ServiceFacade.getInstance().discardDestCards(discardedCards);
     }
 
+    @Override
+    public void placeTrains() {
+        Route route = view.getSelectedRoute();
+        ServiceFacade.getInstance().claimRoute(route);
+        // todo: implement this
+    }
+
+    @Override
+    public Set<City> getCities() {
+        return model.getActiveGame().getBoard().getCities();
+    }
+
+    @Override
+    public Set<Route> getRoutes() {
+        return model.getActiveGame().getBoard().getRoutes();
+    }
+
+    @Override
+    public void advanceTurn() {
+        view.displayNextPlayersTurn();
+        if (model.activePlayerTurn()) {
+            view.enableButtons();
+        } else {
+            view.disableButtons();
+        }
+    }
+
+    @Override
+    public List<Player> getPlayers() {
+        return model.getActiveGame().getPlayers();
+    }
+
+    @Override
+    public Player getPlayerById(ID playerId) {
+        return model.getActiveGame().getPlayerById(playerId);
+    }
+
+    @Override
+    public List<Route> getPossibleRoutesToClaim() {
+        // todo: implement this
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<DestinationCard> getPlayerDestCards() {
+        return model.getPlayerFromGame().getDestinationCards();
+    }
+
     public interface View {
         void displayNextPlayersTurn();
         void showRouteIsClaimed(Route route);
         List<DestinationCard> getSelectedDestinationCards();
         Route getSelectedRoute();
+        void enableButtons();
+        void disableButtons();
     }
 }

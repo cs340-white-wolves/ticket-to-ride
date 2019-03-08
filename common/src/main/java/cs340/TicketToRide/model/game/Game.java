@@ -28,6 +28,7 @@ public class Game {
     private List<TrainCard> faceUpTrainCards;
     private Deck<TrainCard> trainCardDeck;
     private Deck<DestinationCard> destinationCardDeck;
+    private int currentPlayerTurnIdx = 0;
 
     public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);
@@ -96,13 +97,14 @@ public class Game {
     private boolean playerCompletedDestCard(ID playerId, DestinationCard card) {
         City start = card.getCity1();
         City end = card.getCity2();
-        return pathOwnedByPlayer(playerId, start, end);
+        List<City> visitedCities = new ArrayList<>();
+        return pathOwnedByPlayer(playerId, start, end, visitedCities);
     }
 
-    private boolean pathOwnedByPlayer(ID playerId, City start, City target) {
+    private boolean pathOwnedByPlayer(ID playerId, City start, City target, List<City> visitedCities) {
         Set<Route> connectedRoutes = getRoutesFromCity(start);
+        visitedCities.add(start);
 
-        // todo: check if city already visited
         for (Route connectedRoute : connectedRoutes) {
             if (connectedRoute.occupiedBy(playerId)) {
                 City intermediate = connectedRoute.getOtherCity(start);
@@ -110,11 +112,18 @@ public class Game {
                     return true;
                 }
 
-                return pathOwnedByPlayer(playerId, intermediate, target);
+                if (!visitedCities.contains(intermediate)) {
+                    return pathOwnedByPlayer(playerId, intermediate, target, visitedCities);
+                }
             }
         }
 
         return false;
+    }
+
+    public boolean isPlayerTurn(ID playerId) {
+        Player player = getPlayerById(playerId);
+        return currentPlayerTurnIdx == players.indexOf(player);
     }
 
     private Set<Route> getRoutesFromCity(City city) {
@@ -281,5 +290,20 @@ public class Game {
 
     public void setDestinationCardDeck(Deck<DestinationCard> destinationCardDeck) {
         this.destinationCardDeck = destinationCardDeck;
+    }
+
+    public int getCurrentPlayerTurnIdx() {
+        return currentPlayerTurnIdx;
+    }
+
+    public void setCurrentPlayerTurnIdx(int currentPlayerTurnIdx) {
+        this.currentPlayerTurnIdx = currentPlayerTurnIdx;
+    }
+
+    public void setNextPlayerTurn() {
+        this.currentPlayerTurnIdx++;
+        if (currentPlayerTurnIdx == players.size()) {
+            currentPlayerTurnIdx = 0;
+        }
     }
 }
