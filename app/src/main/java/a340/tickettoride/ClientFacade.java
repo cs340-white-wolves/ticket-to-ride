@@ -42,4 +42,9 @@ public class ClientFacade implements IClient {
         model.updateGameDestCardDeck(destCardDeck);
     }
 
+    @Override
+    public void startGame() {
+        model.onGameStart();
+    }
+
 }

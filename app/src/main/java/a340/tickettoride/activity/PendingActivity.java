@@ -1,5 +1,6 @@
 package a340.tickettoride.activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -92,7 +93,9 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                showMessage("Game is starting");
+                showMessage("Starting game!");
+                Intent intent = new Intent(PendingActivity.this, MapActivity.class);
+                startActivity(intent);
             }
         });
     }

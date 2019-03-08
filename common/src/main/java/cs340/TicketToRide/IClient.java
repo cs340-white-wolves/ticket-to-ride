@@ -10,6 +10,6 @@ import cs340.TicketToRide.model.game.card.DestinationCard;
 public interface IClient {
     void chatMessageReceived(ChatMessage message);
     void playersUpdated(List<Player> players);
-
     void destCardDeckChanged(Deck<DestinationCard> destCardDeck);
+    void startGame();
 }

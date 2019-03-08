@@ -1,7 +1,6 @@
 package a340.tickettoride.presenter;
 
 import java.util.List;
-import java.util.Set;
 
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
@@ -41,6 +40,10 @@ public class PendingPresenter implements IPendingPresenter, ModelObserver {
 
             view.onUpdateGame(activeGame);
             view.onUpdatePlayers(activeGame.getPlayers());
+        }
+
+        if (changeType == ModelChangeType.GameStarted) {
+            view.onGameStarting();
         }
     }
 

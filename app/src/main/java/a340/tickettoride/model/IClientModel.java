@@ -30,4 +30,5 @@ public interface IClientModel {
     void updatePlayers(List<Player> players);
     void onSendChatFail(Exception exception);
     User getLoggedInUser();
+    void onGameStart();
 }
