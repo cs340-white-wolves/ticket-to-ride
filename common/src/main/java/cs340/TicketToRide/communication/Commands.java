@@ -10,7 +10,7 @@ public class Commands {
     private int endIndex = 0;
 
     public Commands(int endIndex) {
-        commands = new ArrayList<Command>();
+        commands = new ArrayList<>();
         this.endIndex = endIndex;
     }
 

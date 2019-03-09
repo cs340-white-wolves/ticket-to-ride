@@ -20,7 +20,7 @@ public class ClientCommandQueue {
         Commands cmds = new Commands(size - 1);
 
         for (int i = index + 1; i < size; i++) {
-            cmds.add(commands.get(i), 1);
+            cmds.add(commands.get(i), i);
         }
 
         return cmds;
