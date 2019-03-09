@@ -62,13 +62,8 @@ public class BankFragment extends Fragment implements BankPresenter.View {
         numDestCards = view.findViewById(R.id.numDestCards);
         numTrainCards = view.findViewById(R.id.numTrainCards);
 
-        int num = presenter.getNumDestCards();
-        int othernum = presenter.getNumTrainCards();
-        Log.i("BankFragment", "num dest card: " + num);
-        Log.i("BankFragment", "num train card: " + othernum);
-
-//        numTrainCards.setText(presenter.getNumTrainCards());
-//        numDestCards.setText(presenter.getNumDestCards());
+        numTrainCards.setText(String.valueOf(presenter.getNumTrainCards()));
+        numDestCards.setText(String.valueOf(presenter.getNumDestCards()));
 
         faceUpCardSlots[0] = view.findViewById(R.id.card1);
         faceUpCardSlots[1] = view.findViewById(R.id.card2);
