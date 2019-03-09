@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.ChatListPresenter;
 import a340.tickettoride.presenter.interfaces.IChatListPresenter;
@@ -56,6 +58,7 @@ public class ChatListFragment extends Fragment implements ChatListPresenter.View
             mLinearLayoutManager.setStackFromEnd(true);
 
             mChatRecyclerAdapter = new ChatRecyclerViewAdapter();
+            setMessages(presenter.getChatMessages());
 
             mRecyclerView = (RecyclerView) view;
             mRecyclerView.setLayoutManager(mLinearLayoutManager);
@@ -66,15 +69,19 @@ public class ChatListFragment extends Fragment implements ChatListPresenter.View
     }
 
     @Override
-    public void addChatMessage(final ChatMessage message) {
+    public void setChatMsgsFromPoller(final List<ChatMessage> messages) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mChatRecyclerAdapter.addMessage(message);
-                mLinearLayoutManager.scrollToPosition(mChatRecyclerAdapter.getItemCount() - 1);
+                setMessages(messages);
             }
         });
 
+    }
+
+    private void setMessages(List<ChatMessage> messages) {
+        mChatRecyclerAdapter.setMessages(messages);
+        mLinearLayoutManager.scrollToPosition(mChatRecyclerAdapter.getItemCount() - 1);
     }
 
 }

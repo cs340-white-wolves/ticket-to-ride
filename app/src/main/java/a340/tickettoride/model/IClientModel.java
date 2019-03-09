@@ -32,4 +32,5 @@ public interface IClientModel {
     User getLoggedInUser();
     void onGameStart();
     boolean activePlayerTurn();
+    List<ChatMessage> getChatMessages();
 }

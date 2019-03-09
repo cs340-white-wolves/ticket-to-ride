@@ -69,7 +69,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
                 cmd.execute(ClientFacade.getInstance());
             }
             else {
-
+                Log.i("ClientModel", "Skipping commands for some reason!!");
             }
             startIndex++;
         }
@@ -143,7 +143,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     @Override
     public void onChatMessageReceived(ChatMessage message) {
         chatMessages.add(message);
-        notifyObservers(ModelChangeType.ChatMessageReceived, message);
+        notifyObservers(ModelChangeType.ChatMessageReceived, chatMessages);
     }
 
     private void startGameListPoller() {
@@ -253,5 +253,9 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     public int getLastExecutedCommandIndex() {
         return lastExecutedCommandIndex;
+    }
+
+    public List<ChatMessage> getChatMessages() {
+        return chatMessages;
     }
 }
