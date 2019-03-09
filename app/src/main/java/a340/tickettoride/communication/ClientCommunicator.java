@@ -34,7 +34,6 @@ public class ClientCommunicator {
     }
 
     public Response sendCommand(ICommand commandToSend) {
-        Log.d("Comm", "in send command");
         final String TARGET_RECIPIENT = "http://10.0.2.2:8080/command";
         Response result = null;
         HttpURLConnection connection;
@@ -50,13 +49,11 @@ public class ClientCommunicator {
 
 
         } catch (IOException e) {
-            Log.d("Comm", "IO here");
             System.out.println(e.getMessage());
             e.printStackTrace();
             result = new Response(e);
         }
 
-        Log.d("Comm", "about to result");
         return result;
     }
 

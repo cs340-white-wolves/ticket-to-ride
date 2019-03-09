@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -68,8 +69,16 @@ public class ChatListFragment extends Fragment implements ChatListPresenter.View
 
 
     @Override
-    public void updateChatMessages(List<ChatMessage> messages) {
-        mChatRecyclerViewAdapter.setMessages(messages);
+    public void updateChatMessages(final List<ChatMessage> messages) {
+        Log.i("ChatListFragment", "Got chat messages: " + messages.size());
+
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mChatRecyclerViewAdapter.addMessages(messages);
+            }
+        });
+
     }
 
 }
