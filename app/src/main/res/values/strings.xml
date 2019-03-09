@@ -54,7 +54,7 @@
     <string name="username">username</string>
     <string name="player_info_player_heading">Player</string>
     <string name="player_info_points_heading">Points</string>
-    <string name="player_info_trains_heading"># of Trains</string>
-    <string name="player_info_cards_heading"># of Cards</string>
-    <string name="player_info_routes_heading"># of Routes</string>
+    <string name="player_info_trains_heading">Trains</string>
+    <string name="player_info_cards_heading">Cards</string>
+    <string name="player_info_routes_heading">Routes</string>
 </resources>
