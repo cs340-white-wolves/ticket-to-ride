@@ -37,19 +37,22 @@
 
         <activity android:name=".activity.MainActivity"
             android:screenOrientation="landscape">
-        </activity>
-        <activity android:name=".activity.MapActivity"
-            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LobbyActivity" />
-        <activity android:name=".activity.CreateGameActivity" />
-        <activity android:name=".activity.JoinGameActivity" />
-        <activity android:name=".activity.PendingActivity" />
+        <activity android:name=".activity.MapActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".activity.LobbyActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".activity.CreateGameActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".activity.JoinGameActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".activity.PendingActivity"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

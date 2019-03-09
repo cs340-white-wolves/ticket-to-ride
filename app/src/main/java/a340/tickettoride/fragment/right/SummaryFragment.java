@@ -28,6 +28,7 @@ public class SummaryFragment extends Fragment {
         View inflate = inflater.inflate(R.layout.fragment_summary, container, false);
 
         mViewPager = inflate.findViewById(R.id.summary_container);
+        mViewPager.setOffscreenPageLimit(4);
 
         setupViewPager(mViewPager);
 

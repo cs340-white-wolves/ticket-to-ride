@@ -14,13 +14,13 @@ public class ClientCommandQueue {
         commands.add(cmd);
     }
 
-    public Commands getAfter(int index) {
+    public Commands getStartingFrom(int index) {
         int size = commands.size();
 
-        Commands cmds = new Commands();
+        Commands cmds = new Commands(index, size - 1);
 
         for (int i = index + 1; i < size; i++) {
-            cmds.add(commands.get(i), 1);
+            cmds.add(commands.get(i), i);
         }
 
         return cmds;

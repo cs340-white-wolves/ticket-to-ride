@@ -16,6 +16,8 @@ import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.City;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
+import cs340.TicketToRide.utility.ID;
 
 public class RoutesPresenter implements IRoutesPresenter, ModelObserver {
 
@@ -70,7 +72,15 @@ public class RoutesPresenter implements IRoutesPresenter, ModelObserver {
         }
     }
 
+    @Override
+    public DestinationCards getPlayerDestCards() {
+        Game game = model.getActiveGame();
+        ID playerId = model.getPlayerId();
+        Player player = game.getPlayerById(playerId);
+        return player.getDestinationCards();
+    }
+
     public interface View {
-        void updatePlayerDestCardDisplay(Set<DestinationCard> completedCards, List<DestinationCard> allCards);
+        void updatePlayerDestCardDisplay(Set<DestinationCard> completedCards, DestinationCards allCards);
     }
 }

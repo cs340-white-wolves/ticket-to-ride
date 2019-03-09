@@ -17,17 +17,18 @@ import java.util.Set;
 
 import a340.tickettoride.R;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 
 public class DestCardAdapter extends RecyclerView.Adapter<DestCardAdapter.DestCardView> {
-    private List<DestinationCard> cards;
-    private List<DestinationCard> selectedCards;
+    private DestinationCards cards;
+    private DestinationCards selectedCards;
     private Map<View, DestinationCard> viewCards;
     private Context context;
 
-    public DestCardAdapter(List<DestinationCard> cards, Context context) {
+    public DestCardAdapter(DestinationCards cards, Context context) {
         this.cards = cards;
         viewCards = new HashMap<>();
-        selectedCards = new ArrayList<>();
+        selectedCards = new DestinationCards();
         this.context = context;
     }
 
@@ -54,7 +55,7 @@ public class DestCardAdapter extends RecyclerView.Adapter<DestCardAdapter.DestCa
         });
     }
 
-    public List<DestinationCard> getSelectedDestCards() {
+    public DestinationCards getSelectedDestCards() {
         return selectedCards;
     }
 

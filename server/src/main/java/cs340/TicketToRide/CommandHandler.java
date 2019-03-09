@@ -38,7 +38,7 @@ public class CommandHandler implements HttpHandler{
             if (obj instanceof Exception) {
                 response = new Response((Exception) obj);
             } else {
-                response = new Response(obj, obj.getClass().getName());
+                response = new Response(obj);
             }
             String jsonStr = gson.toJson(response);
 

@@ -17,10 +17,11 @@ import cs340.TicketToRide.model.game.ChatMessage;
 
 public class ChatListFragment extends Fragment implements ChatListPresenter.View {
 
-    private ChatRecyclerViewAdapter mChatRecyclerViewAdapter;
+    private ChatRecyclerViewAdapter mChatRecyclerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
 
     private IChatListPresenter presenter;
+    private RecyclerView mRecyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -56,20 +57,31 @@ public class ChatListFragment extends Fragment implements ChatListPresenter.View
             mLinearLayoutManager = new LinearLayoutManager(context);
             mLinearLayoutManager.setStackFromEnd(true);
 
-            mChatRecyclerViewAdapter = new ChatRecyclerViewAdapter();
+            mChatRecyclerAdapter = new ChatRecyclerViewAdapter();
+            setMessages(presenter.getChatMessages());
 
-            RecyclerView recyclerView = (RecyclerView) view;
-            recyclerView.setLayoutManager(mLinearLayoutManager);
-            recyclerView.setAdapter(mChatRecyclerViewAdapter);
+            mRecyclerView = (RecyclerView) view;
+            mRecyclerView.setLayoutManager(mLinearLayoutManager);
+            mRecyclerView.setAdapter(mChatRecyclerAdapter);
         }
 
         return view;
     }
 
-
     @Override
-    public void updateChatMessages(List<ChatMessage> messages) {
-        mChatRecyclerViewAdapter.setMessages(messages);
+    public void setChatMsgsFromPoller(final List<ChatMessage> messages) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                setMessages(messages);
+            }
+        });
+
+    }
+
+    private void setMessages(List<ChatMessage> messages) {
+        mChatRecyclerAdapter.setMessages(messages);
+        mLinearLayoutManager.scrollToPosition(mChatRecyclerAdapter.getItemCount() - 1);
     }
 
 }

@@ -9,26 +9,28 @@ import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.model.game.card.TrainCards;
 
 public class BankPresenter implements IBankPresenter, ModelObserver {
 
     private View view;
+    private IClientModel model = ClientModel.getInstance();
 
     public BankPresenter(View view) {
         ClientModel.getInstance().addObserver(this);
         this.view = view;
     }
 
+    @Override
+    public TrainCards getCurrentFaceUpCards() {
 
-    public List<TrainCard> getCurrentFaceUpCards() {
+        TrainCards list = model.getActiveGame().getFaceUpTrainCards();
 
-        List<TrainCard> list = new ArrayList<>(5);
-
-        list.add(new TrainCard(TrainCard.Color.cabooseGreen));
-        list.add(new TrainCard(TrainCard.Color.freightOrange));
-        list.add(new TrainCard(TrainCard.Color.hopperBlack));
-        list.add(new TrainCard(TrainCard.Color.passengerWhite));
-        list.add(new TrainCard(TrainCard.Color.locomotive));
+//        list.add(new TrainCard(TrainCard.Color.cabooseGreen));
+//        list.add(new TrainCard(TrainCard.Color.freightOrange));
+//        list.add(new TrainCard(TrainCard.Color.hopperBlack));
+//        list.add(new TrainCard(TrainCard.Color.passengerWhite));
+//        list.add(new TrainCard(TrainCard.Color.locomotive));
 
         return list;
     }
@@ -44,6 +46,26 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
         return null;
     }
 
+    @Override
+    public int getNumTrainCards() {
+        return model.getActiveGame().getTrainCardDeck().size();
+    }
+
+    @Override
+    public int getNumDestCards() {
+        return model.getActiveGame().getDestCardDeck().size();
+    }
+
+    @Override
+    public void startObserving() {
+        ClientModel.getInstance().addObserver(this);
+    }
+
+    @Override
+    public void stopObserving() {
+        ClientModel.getInstance().deleteObserver(this);
+    }
+
 
     @Override
     public void onModelEvent(ModelChangeType changeType, Object obj) {
@@ -56,14 +78,14 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
             view.updateDrawableTrainCardCount(count);
 
         } else if (changeType == ModelChangeType.FaceUpTrainCardsUpdate) {
-            List<TrainCard> trainCards = (List<TrainCard>)obj;
+            TrainCards trainCards = (TrainCards) obj;
             view.updateFaceUpCards(trainCards);
         }
 
     }
 
     public interface View {
-        void updateFaceUpCards(List<TrainCard> cards);
+        void updateFaceUpCards(TrainCards cards);
         void updateDestinationCardCount(int count);
         void updateDrawableTrainCardCount(int count);
     }

@@ -8,7 +8,9 @@ import cs340.TicketToRide.model.*;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.service.*;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
@@ -49,8 +51,13 @@ public class ServerFacade implements IServer {
     }
 
     @Override
-    public void discardDestCards(List<DestinationCard> cards, AuthToken token, ID gameId, ID playerId) {
+    public void discardDestCards(DestinationCards cards, AuthToken token, ID gameId, ID playerId) {
         new DiscardDestCardService().discardDestCards(cards, token, gameId, playerId);
+    }
+
+    @Override
+    public void claimRoute(Route route, AuthToken token, ID gameID, ID playerId) {
+
     }
 
     public Games getAvailableGames(AuthToken token) {

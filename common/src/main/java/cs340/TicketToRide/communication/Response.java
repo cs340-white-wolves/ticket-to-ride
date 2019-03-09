@@ -12,9 +12,13 @@ public class Response {
     private String errMessage;
     private transient Gson gson = new Gson();
 
-    public Response(Object object, String className) {
+    public Response(Object object) {
+        if (object == null) {
+            object = "";
+        }
+
         setJsonString(object);
-        setClassName(className);
+        setClassName(object.getClass().getName());
     }
 
     public Response(Exception exception) {
@@ -46,9 +50,6 @@ public class Response {
     }
 
     public void setJsonString(Object object) {
-        if (object == null) {
-            throw new IllegalArgumentException();
-        }
         gson = new Gson();
         this.jsonString = gson.toJson(object);
     }

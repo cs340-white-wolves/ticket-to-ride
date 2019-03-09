@@ -52,5 +52,11 @@
     <string name="number_placeholder">42</string>
     <string name="train_cards_remaining">Train Cards\nRemaining</string>
     <string name="destination_cards_remaining">Destination\nCards Remaining</string>
+    <string name="username">username</string>
+    <string name="player_info_player_heading">Player</string>
+    <string name="player_info_points_heading">Points</string>
+    <string name="player_info_trains_heading"># of Trains</string>
+    <string name="player_info_cards_heading"># of Cards</string>
+    <string name="player_info_routes_heading"># of Routes</string>
 
 </resources>

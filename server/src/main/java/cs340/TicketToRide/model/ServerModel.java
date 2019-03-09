@@ -10,6 +10,7 @@ import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.exception.NotUniqueException;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Username;
 
@@ -117,7 +118,7 @@ public class ServerModel implements IServerModel {
 
         game.setup();
 
-        List<Player> players = game.getPlayers();
+        Players players = game.getPlayers();
 
         // Set updates
         for (Player player : players) {

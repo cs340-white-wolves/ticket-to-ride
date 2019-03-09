@@ -2,6 +2,7 @@ package a340.tickettoride.fragment.left;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,19 +12,40 @@ import android.widget.Toast;
 import java.util.List;
 
 import a340.tickettoride.R;
-import a340.tickettoride.observerable.ModelChangeType;
-import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.BankPresenter;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.model.game.card.TrainCards;
 
-public class BankFragment extends Fragment implements BankPresenter.View{
+import static cs340.TicketToRide.model.game.Game.MAX_FACE_UP;
+
+public class BankFragment extends Fragment implements BankPresenter.View {
+
 
     private IBankPresenter presenter;
     private ImageView[] faceUpCardSlots = new ImageView[5];
     private TextView drawPile;
     private TextView trainCardCount;
     private TextView destinationCardCount;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        presenter.startObserving();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        presenter.stopObserving();
+    }
+
+    public BankFragment() {
+
+    }
+
 
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,6 +55,7 @@ public class BankFragment extends Fragment implements BankPresenter.View{
         presenter = new BankPresenter(this);
         bindViews(newView);
         setClickListeners();
+        updateFaceUpCards(presenter.getCurrentFaceUpCards());
         return newView;
     }
 
@@ -40,6 +63,9 @@ public class BankFragment extends Fragment implements BankPresenter.View{
         drawPile = view.findViewById(R.id.drawPile);
         trainCardCount = view.findViewById(R.id.trainCardCount);
         destinationCardCount = view.findViewById(R.id.destCardCount);
+
+        trainCardCount.setText(String.valueOf(presenter.getNumTrainCards()));
+        destinationCardCount.setText(String.valueOf(presenter.getNumDestCards()));
 
         faceUpCardSlots[0] = view.findViewById(R.id.card1);
         faceUpCardSlots[1] = view.findViewById(R.id.card2);
@@ -51,6 +77,7 @@ public class BankFragment extends Fragment implements BankPresenter.View{
             faceUpCardSlots[i].setTag(i);
         }
     }
+
 
     private int getCardResource(TrainCard.Color color) {
         int resourceId;
@@ -103,8 +130,12 @@ public class BankFragment extends Fragment implements BankPresenter.View{
 
 
     @Override
-    public void updateFaceUpCards(List<TrainCard> cards) {
-        for (int i=0; i < 5; i++) {
+    public void updateFaceUpCards(TrainCards cards) {
+        for (int i=0; i < MAX_FACE_UP; i++) {
+            if (i >= cards.size()) {
+                // set slot to be empty
+            }
+            TrainCard card = cards.get(i);
             faceUpCardSlots[i]
                     .setImageDrawable(getResources()
                             .getDrawable(getCardResource(cards.get(i).getColor()),null));
@@ -112,14 +143,25 @@ public class BankFragment extends Fragment implements BankPresenter.View{
     }
 
     @Override
-    public void updateDestinationCardCount(int count) {
-        destinationCardCount.setText(Integer.toString(count));
+    public void updateDestinationCardCount(final int count) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                destinationCardCount.setText(Integer.toString(count));;
+            }
+        });
+
     }
 
     @Override
     public void updateDrawableTrainCardCount(int count) {
-        trainCardCount.setText(count);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                trainCardCount.setText(Integer.toString(count));
+            }
+        });
     }
 
-
+    }
 }

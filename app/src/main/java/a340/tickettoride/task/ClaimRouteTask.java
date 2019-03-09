@@ -9,19 +9,18 @@ import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
 import cs340.TicketToRide.IServer;
 import cs340.TicketToRide.model.AuthToken;
-import cs340.TicketToRide.model.game.Game;
+import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
-import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
-public class DiscardDestCardTask extends AsyncTask<Void, Integer, Void> {
+public class ClaimRouteTask extends AsyncTask<Void, Integer, Void> {
 
     private IClientModel model = ClientModel.getInstance();
-    private DestinationCards discardedCards;
+    private Route route;
     private Exception exception;
 
-    public DiscardDestCardTask(DestinationCards discardedCards) {
-        this.discardedCards = discardedCards;
+    public ClaimRouteTask(Route route) {
+        this.route = route;
     }
 
     @Override
@@ -32,7 +31,7 @@ public class DiscardDestCardTask extends AsyncTask<Void, Integer, Void> {
         ID playerId = model.getPlayerId();
 
         try {
-            server.discardDestCards(discardedCards, token, gameID, playerId);
+            server.claimRoute(route, token, gameID, playerId);
         } catch (Exception e) {
             exception = e;
         }

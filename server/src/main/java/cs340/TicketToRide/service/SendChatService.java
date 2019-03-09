@@ -11,6 +11,7 @@ import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.utility.ID;
 
 public class SendChatService {
@@ -31,10 +32,12 @@ public class SendChatService {
             throw new RuntimeException("Game does not exist");
         }
 
-        List<Player> players = game.getPlayers();
+        Players players = game.getPlayers();
 
         for (Player player : players) {
-            ClientProxyManager.getInstance().get(player.getId()).chatMessageReceived(message);
+            ClientProxyManager.getInstance()
+                    .get(player.getId())
+                    .chatMessageReceived(message);
         }
     }
 }

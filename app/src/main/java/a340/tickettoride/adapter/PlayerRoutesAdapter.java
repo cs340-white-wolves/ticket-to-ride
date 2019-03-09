@@ -9,20 +9,33 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import a340.tickettoride.R;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 
 public class PlayerRoutesAdapter extends RecyclerView.Adapter<PlayerRoutesAdapter.PlayerRouteView> {
-    private DestinationCard[] cards;
+    private DestinationCards cards;
     private Set<DestinationCard> completedCards;
     private Context context;
 
-    public PlayerRoutesAdapter(Set<DestinationCard> completedCards, DestinationCard[] cards, Context context) {
+    public PlayerRoutesAdapter(Context context) {
+        setContext(context);
+        completedCards = new HashSet<>();
+    }
+
+    public void setCards(DestinationCards cards) {
         this.cards = cards;
-        this.context = context;
+    }
+
+    public void setCompletedCards(Set<DestinationCard> completedCards) {
         this.completedCards = completedCards;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     @NonNull
@@ -35,7 +48,7 @@ public class PlayerRoutesAdapter extends RecyclerView.Adapter<PlayerRoutesAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PlayerRouteView playerRouteView, int index) {
-        DestinationCard card = cards[index];
+        DestinationCard card = cards.get(index);
         playerRouteView.textView.setText(card.toString());
         if (completedCards.contains(card)) {
             playerRouteView.textView.setTextColor(Color.GREEN);
@@ -46,7 +59,7 @@ public class PlayerRoutesAdapter extends RecyclerView.Adapter<PlayerRoutesAdapte
 
     @Override
     public int getItemCount() {
-        return cards.length;
+        return cards.size();
     }
 
     static class PlayerRouteView extends RecyclerView.ViewHolder {

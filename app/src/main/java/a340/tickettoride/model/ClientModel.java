@@ -19,15 +19,15 @@ import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
-import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public class ClientModel extends ModelObservable implements IClientModel, Poller.Listener {
     private Poller poller = new Poller(this);
     private static ClientModel singleton;
-
     private User loggedInUser;
     private AuthToken authToken;
     private Game activeGame;
@@ -38,8 +38,6 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     private ClientModel() {
         Log.i("ClientModel", "I'm alive!");
-
-        chatMessages.addAll(ChatMessage.TEST_CHATS);//TODO: remove this hardcoded test
     }
 
     @Override
@@ -69,8 +67,10 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
         for (Command cmd : queuedCommands.getAll()) {
             // make sure we have not executed the command before
-            if (startIndex > lastExecutedCommandIndex) {
+            if (startIndex >= lastExecutedCommandIndex) {
                 cmd.execute(ClientFacade.getInstance());
+            } else {
+                Log.i("ClientModel", "Skipping commands for some reason!!");
             }
             startIndex++;
         }
@@ -94,7 +94,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
         if (game.hasTargetNumPlayers()) {
             stopPoller();
-            startGameCommandPoller();
+            notifyObservers(ModelChangeType.StartMap, null);
         }
     }
 
@@ -110,7 +110,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
     private void setActivePlayerId(Game game) {
-        List<Player> players = game.getPlayers();
+        Players players = game.getPlayers();
 
         for (Player player : players) {
             if (player.getUser().equals(getLoggedInUser())) {
@@ -151,7 +151,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         poller.runUpdateGameList();
     }
 
-    private void startGameCommandPoller () {
+    public void startGameCommandPoller() {
         poller.runGetGameCommands();
     }
 
@@ -191,7 +191,13 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     @Override
     public void onGameStart() {
+        Log.i("ClientModel", "->startGame()");
         notifyObservers(ModelChangeType.GameStarted, null);
+    }
+
+    @Override
+    public boolean activePlayerTurn() {
+        return activeGame.isPlayerTurn(playerId);
     }
 
     public Game getActiveGame() {
@@ -226,7 +232,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
     @Override
-    public void updateGameDestCardDeck(Deck<DestinationCard> destCardDeck) {
+    public void updateGameDestCardDeck(DestinationCards destCardDeck) {
         activeGame.setDestinationCardDeck(destCardDeck);
         notifyObservers(ModelChangeType.DrawableDestinationCardCount, destCardDeck.size());
     }
@@ -248,7 +254,8 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
     @Override
-    public void updatePlayers(List<Player> players) {
+    public void updatePlayers(Players players) {
+        Log.i("ClientModel", "->updatePlayers()");
         activeGame.setPlayers(players);
         notifyObservers(ModelChangeType.UpdatePlayers, players);
         notifyObservers(ModelChangeType.UpdatePlayerHand, activeGame.getPlayerById(playerId));
@@ -265,5 +272,9 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     public int getLastExecutedCommandIndex() {
         return lastExecutedCommandIndex;
+    }
+
+    public List<ChatMessage> getChatMessages() {
+        return chatMessages;
     }
 }

@@ -6,11 +6,13 @@ import java.util.List;
 public class Commands {
     private List<Command> commands;
 
-    private int startIndex = Integer.MAX_VALUE;
+    private int startIndex = 0;
     private int endIndex = 0;
 
-    public Commands() {
+    public Commands(int startIndex, int endIndex) {
         commands = new ArrayList<Command>();
+        this.startIndex = startIndex;
+        this.endIndex = endIndex;
     }
 
     public void add(Command cmd, int index) {

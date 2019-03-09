@@ -6,7 +6,9 @@ import java.util.Objects;
 
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 
 public class Player {
@@ -18,8 +20,8 @@ public class Player {
     private User user;
     private int score;
     private int numTrains;
-    private List<TrainCard> trainCards = new ArrayList<>();
-    private List<DestinationCard> destinationCards = new ArrayList<>();
+    private TrainCards trainCards = new TrainCards();
+    private DestinationCards destinationCards = new DestinationCards();
     private Color color;
     private ID id;
 
@@ -57,19 +59,19 @@ public class Player {
         this.numTrains = numTrains;
     }
 
-    public List<TrainCard> getTrainCards() {
+    public TrainCards getTrainCards() {
         return trainCards;
     }
 
-    public void setTrainCards(List<TrainCard> trainCards) {
+    public void setTrainCards(TrainCards trainCards) {
         this.trainCards = trainCards;
     }
 
-    public List<DestinationCard> getDestinationCards() {
+    public DestinationCards getDestinationCards() {
         return destinationCards;
     }
 
-    public void setDestinationCards(List<DestinationCard> destinationCards) {
+    public void setDestinationCards(DestinationCards destinationCards) {
         this.destinationCards = destinationCards;
     }
 
