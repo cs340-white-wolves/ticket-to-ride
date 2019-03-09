@@ -2,14 +2,12 @@ package a340.tickettoride.fragment.left;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.List;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.BankPresenter;
@@ -21,7 +19,6 @@ import static cs340.TicketToRide.model.game.Game.MAX_FACE_UP;
 
 public class BankFragment extends Fragment implements BankPresenter.View {
 
-
     private IBankPresenter presenter;
     private ImageView[] faceUpCardSlots = new ImageView[5];
     private TextView drawPile;
@@ -31,27 +28,20 @@ public class BankFragment extends Fragment implements BankPresenter.View {
     @Override
     public void onResume() {
         super.onResume();
-
         presenter.startObserving();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-
         presenter.stopObserving();
     }
-
-    public BankFragment() {
-
-    }
-
 
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container,
                                           Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        android.view.View newView = inflater.inflate(R.layout.fragment_bank, container, false);
+        View newView = inflater.inflate(R.layout.fragment_bank, container, false);
         presenter = new BankPresenter(this);
         bindViews(newView);
         setClickListeners();
@@ -128,14 +118,15 @@ public class BankFragment extends Fragment implements BankPresenter.View {
         }
     }
 
-
     @Override
     public void updateFaceUpCards(TrainCards cards) {
         for (int i=0; i < MAX_FACE_UP; i++) {
             if (i >= cards.size()) {
-                // set slot to be empty
+                faceUpCardSlots[i].setVisibility(View.INVISIBLE);
+                faceUpCardSlots[i].setEnabled(false);
             }
             TrainCard card = cards.get(i);
+            faceUpCardSlots[i].setEnabled(true);
             faceUpCardSlots[i]
                     .setImageDrawable(getResources()
                             .getDrawable(getCardResource(cards.get(i).getColor()),null));
@@ -154,7 +145,7 @@ public class BankFragment extends Fragment implements BankPresenter.View {
     }
 
     @Override
-    public void updateDrawableTrainCardCount(int count) {
+    public void updateDrawableTrainCardCount(final int count) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -163,5 +154,4 @@ public class BankFragment extends Fragment implements BankPresenter.View {
         });
     }
 
-    }
 }
