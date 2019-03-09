@@ -147,11 +147,11 @@ public class BankFragment extends Fragment implements BankPresenter.View {
 
     @Override
     public void updateDestinationCardCount(final int count) {
-//        getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                numDestCards.setText(count);
-//            }
-//        });
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                numDestCards.setText(String.valueOf(count));
+            }
+        });
     }
 }
