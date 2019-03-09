@@ -7,7 +7,7 @@
     tools:context=".fragment.right.PlayerInfoFragment">
 
     <TextView
-        android:id="@+id/player_name"
+        android:id="@+id/all_players_player_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -17,12 +17,12 @@
         android:fontFamily="@font/shangiri"
         android:ems="10"
         android:text="@string/player_info_player_heading"
-        app:layout_constraintEnd_toStartOf="@+id/num_of_points"
+        app:layout_constraintEnd_toStartOf="@+id/all_players_num_of_points"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/num_of_points"
+        android:id="@+id/all_players_num_of_points"
         android:layout_width="@dimen/all_player_column_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -31,11 +31,11 @@
         android:fontFamily="@font/shangiri"
         android:ems="10"
         android:text="@string/player_info_points_heading"
-        app:layout_constraintEnd_toStartOf="@+id/num_of_trains"
+        app:layout_constraintEnd_toStartOf="@+id/all_players_num_of_trains"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/num_of_trains"
+        android:id="@+id/all_players_num_of_trains"
         android:layout_width="@dimen/all_player_column_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -44,11 +44,11 @@
         android:fontFamily="@font/shangiri"
         android:ems="10"
         android:text="@string/player_info_trains_heading"
-        app:layout_constraintEnd_toStartOf="@+id/num_of_cards"
+        app:layout_constraintEnd_toStartOf="@+id/all_players_num_of_cards"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/num_of_cards"
+        android:id="@+id/all_players_num_of_cards"
         android:layout_width="@dimen/all_player_column_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -57,11 +57,11 @@
         android:fontFamily="@font/shangiri"
         android:ems="10"
         android:text="@string/player_info_cards_heading"
-        app:layout_constraintEnd_toStartOf="@+id/num_of_routes"
+        app:layout_constraintEnd_toStartOf="@+id/all_players_num_of_routes"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/num_of_routes"
+        android:id="@+id/all_players_num_of_routes"
         android:layout_width="@dimen/all_player_column_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
