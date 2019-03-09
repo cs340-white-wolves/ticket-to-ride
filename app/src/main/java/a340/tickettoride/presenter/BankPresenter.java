@@ -1,9 +1,7 @@
 package a340.tickettoride.presenter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import a340.tickettoride.model.ClientModel;
+import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
@@ -13,22 +11,22 @@ import cs340.TicketToRide.model.game.card.TrainCards;
 public class BankPresenter implements IBankPresenter, ModelObserver {
 
     private View view;
+    private IClientModel model = ClientModel.getInstance();
 
     public BankPresenter(View view) {
-        ClientModel.getInstance().addObserver(this);
         this.view = view;
     }
 
     @Override
     public TrainCards getCurrentFaceUpCards() {
 
-        TrainCards list = new TrainCards();
+        TrainCards list = model.getActiveGame().getFaceUpTrainCards();
 
-        list.add(new TrainCard(TrainCard.Color.cabooseGreen));
-        list.add(new TrainCard(TrainCard.Color.freightOrange));
-        list.add(new TrainCard(TrainCard.Color.hopperBlack));
-        list.add(new TrainCard(TrainCard.Color.passengerWhite));
-        list.add(new TrainCard(TrainCard.Color.locomotive));
+//        list.add(new TrainCard(TrainCard.Color.cabooseGreen));
+//        list.add(new TrainCard(TrainCard.Color.freightOrange));
+//        list.add(new TrainCard(TrainCard.Color.hopperBlack));
+//        list.add(new TrainCard(TrainCard.Color.passengerWhite));
+//        list.add(new TrainCard(TrainCard.Color.locomotive));
 
         return list;
     }
@@ -42,6 +40,26 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
     @Override
     public TrainCard pickUpTrainCard(int index) {
         return null;
+    }
+
+    @Override
+    public int getNumTrainCards() {
+        return model.getActiveGame().getTrainCardDeck().size();
+    }
+
+    @Override
+    public int getNumDestCards() {
+        return model.getActiveGame().getDestCardDeck().size();
+    }
+
+    @Override
+    public void startObserving() {
+        ClientModel.getInstance().addObserver(this);
+    }
+
+    @Override
+    public void stopObserving() {
+        ClientModel.getInstance().deleteObserver(this);
     }
 
 
