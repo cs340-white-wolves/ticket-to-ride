@@ -9,6 +9,7 @@ import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 
 public class ClientProxy implements IClient {
     public ClientCommandQueue queue = new ClientCommandQueue();
@@ -40,7 +41,7 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public void destCardDeckChanged(Deck<DestinationCard> destCardDeck) {
+    public void destCardDeckChanged(DestinationCards destCardDeck) {
 
     }
 

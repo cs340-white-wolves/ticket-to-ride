@@ -17,6 +17,7 @@ import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
@@ -80,7 +81,7 @@ public class ServiceFacade {
         task.execute();
     }
 
-    public void discardDestCards(List<DestinationCard> discardedCards) {
+    public void discardDestCards(DestinationCards discardedCards) {
         DiscardDestCardTask task = new DiscardDestCardTask(discardedCards);
         task.execute();
     }

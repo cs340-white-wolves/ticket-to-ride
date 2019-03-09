@@ -17,6 +17,7 @@ import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.City;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public class MapPresenter implements IMapPresenter, ModelObserver {
@@ -51,10 +52,10 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
 
     @Override
     public void discardDestCards() {
-        List<DestinationCard> selectedCards = view.getSelectedDestinationCards();
-        List<DestinationCard> discardedCards = new ArrayList<>();
+        DestinationCards selectedCards = view.getSelectedDestinationCards();
+        DestinationCards discardedCards = new DestinationCards();
         Player player = model.getPlayerFromGame();
-        List<DestinationCard> allCards = player.getDestinationCards();
+        DestinationCards allCards = player.getDestinationCards();
         for (DestinationCard card : allCards) {
             if (!selectedCards.contains(card)) {
                 discardedCards.add(card);
@@ -113,14 +114,14 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     @Override
-    public List<DestinationCard> getPlayerDestCards() {
+    public DestinationCards getPlayerDestCards() {
         return model.getPlayerFromGame().getDestinationCards();
     }
 
     public interface View {
         void displayNextPlayersTurn();
         void showRouteIsClaimed(Route route);
-        List<DestinationCard> getSelectedDestinationCards();
+        DestinationCards getSelectedDestinationCards();
         Route getSelectedRoute();
         void enableButtons();
         void disableButtons();

@@ -23,8 +23,8 @@ public class TrainCard {
         return this.color;
     }
 
-    public static Deck<TrainCard> createDeck() {
-        List<TrainCard> cards = new ArrayList<>();
+    public static TrainCards createDeck() {
+        TrainCards cards = new TrainCards();
 
         for (int i = 0; i < NUM_NORMAL_CARDS; i++) {
             cards.add(new TrainCard(Color.passengerWhite));
@@ -41,6 +41,8 @@ public class TrainCard {
             cards.add(new TrainCard(Color.locomotive));
         }
 
-        return new Deck<TrainCard>(cards);
+        cards.shuffle();
+
+        return cards;
     }
 }

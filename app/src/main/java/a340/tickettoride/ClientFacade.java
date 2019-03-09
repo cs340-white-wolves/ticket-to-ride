@@ -12,6 +12,7 @@ import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 
 public class ClientFacade implements IClient {
     private static ClientFacade singleton;
@@ -39,7 +40,7 @@ public class ClientFacade implements IClient {
     }
 
     @Override
-    public void destCardDeckChanged(Deck<DestinationCard> destCardDeck) {
+    public void destCardDeckChanged(DestinationCards destCardDeck) {
         model.updateGameDestCardDeck(destCardDeck);
     }
 

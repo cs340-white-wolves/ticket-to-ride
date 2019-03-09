@@ -11,15 +11,16 @@ import cs340.TicketToRide.IServer;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public class DiscardDestCardTask extends AsyncTask<Void, Integer, Void> {
 
     private IClientModel model = ClientModel.getInstance();
-    private List<DestinationCard> discardedCards;
+    private DestinationCards discardedCards;
     private Exception exception;
 
-    public DiscardDestCardTask(List<DestinationCard> discardedCards) {
+    public DiscardDestCardTask(DestinationCards discardedCards) {
         this.discardedCards = discardedCards;
     }
 

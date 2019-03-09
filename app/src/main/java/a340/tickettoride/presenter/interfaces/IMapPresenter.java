@@ -9,6 +9,7 @@ import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.City;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public interface IMapPresenter {
@@ -17,7 +18,7 @@ public interface IMapPresenter {
     Players getPlayers();
     Player getPlayerById(ID playerId);
     List<Route> getPossibleRoutesToClaim();
-    List<DestinationCard> getPlayerDestCards();
+    DestinationCards getPlayerDestCards();
     void discardDestCards();
     void placeTrains();
     Set<City> getCities();

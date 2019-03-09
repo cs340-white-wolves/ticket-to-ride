@@ -18,6 +18,7 @@ import a340.tickettoride.adapter.PlayerRoutesAdapter;
 import a340.tickettoride.presenter.RoutesPresenter;
 import a340.tickettoride.presenter.interfaces.IRoutesPresenter;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 
 public class RoutesFragment extends Fragment implements RoutesPresenter.View {
     private View view;
@@ -36,7 +37,7 @@ public class RoutesFragment extends Fragment implements RoutesPresenter.View {
     }
 
     @Override
-    public void updatePlayerDestCardDisplay(Set<DestinationCard> completedCards, List<DestinationCard> cards) {
+    public void updatePlayerDestCardDisplay(Set<DestinationCard> completedCards, DestinationCards cards) {
         PlayerRoutesAdapter adapter = new PlayerRoutesAdapter(completedCards,
                 cards.toArray(new DestinationCard[0]), getActivity());
 

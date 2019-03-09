@@ -11,6 +11,7 @@ import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public interface IClientModel {
@@ -27,7 +28,7 @@ public interface IClientModel {
     ID getPlayerId();
     Player getPlayerFromGame();
     void onDiscardDestCardsFail(Exception exception);
-    void updateGameDestCardDeck(Deck<DestinationCard> destCardDeck);
+    void updateGameDestCardDeck(DestinationCards destCardDeck);
     void updatePlayers(Players players);
     void onSendChatFail(Exception exception);
     User getLoggedInUser();

@@ -7,6 +7,7 @@ import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IHandPresenter;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.model.game.card.TrainCards;
 
 public class HandPresenter implements IHandPresenter, ModelObserver {
 
@@ -25,6 +26,6 @@ public class HandPresenter implements IHandPresenter, ModelObserver {
     }
 
     public interface View {
-        void updatePlayerHandDisplay(List<TrainCard> cards);
+        void updatePlayerHandDisplay(TrainCards cards);
     }
 }
