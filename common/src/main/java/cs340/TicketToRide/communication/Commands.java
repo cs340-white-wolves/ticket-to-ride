@@ -9,8 +9,9 @@ public class Commands {
     private int startIndex = 0;
     private int endIndex = 0;
 
-    public Commands(int endIndex) {
+    public Commands(int startIndex, int endIndex) {
         commands = new ArrayList<Command>();
+        this.startIndex = startIndex;
         this.endIndex = endIndex;
     }
 

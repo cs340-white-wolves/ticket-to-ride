@@ -28,12 +28,12 @@ public class ChatListPresenter implements IChatListPresenter, ModelObserver {
     @Override
     public void onModelEvent(ModelChangeType changeType, Object obj) {
         if (changeType == ModelChangeType.ChatMessageReceived) {
-            List<ChatMessage> msgs = (List<ChatMessage>) obj;
-            listener.updateChatMessages(msgs);
+            ChatMessage message = (ChatMessage) obj;
+            listener.addChatMessage(message);
         }
     }
 
     public interface View {
-        void updateChatMessages(List<ChatMessage> messages);
+        void addChatMessage(ChatMessage message);
     }
 }

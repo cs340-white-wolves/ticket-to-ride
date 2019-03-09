@@ -67,15 +67,12 @@ public class ChatListFragment extends Fragment implements ChatListPresenter.View
         return view;
     }
 
-
     @Override
-    public void updateChatMessages(final List<ChatMessage> messages) {
-        Log.i("ChatListFragment", "Got chat messages: " + messages.size());
-
+    public void addChatMessage(final ChatMessage message) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mChatRecyclerViewAdapter.addMessages(messages);
+                mChatRecyclerViewAdapter.addMessage(message);
             }
         });
 
