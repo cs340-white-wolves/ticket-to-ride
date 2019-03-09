@@ -17,6 +17,7 @@ import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
@@ -165,7 +166,7 @@ public class ServerProxy implements IServer {
     }
 
     @Override
-    public void discardDestCards(List<DestinationCard> cards, AuthToken token, ID gameId, ID playerId) {
+    public void discardDestCards(DestinationCards cards, AuthToken token, ID gameId, ID playerId) {
         ICommand command = new Command(
                 "discardDestCards",
                 new String[]{cards.getClass().getName(), AuthToken.class.getName(),

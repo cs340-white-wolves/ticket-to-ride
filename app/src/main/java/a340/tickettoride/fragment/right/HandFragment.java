@@ -17,6 +17,7 @@ import a340.tickettoride.R;
 import a340.tickettoride.presenter.HandPresenter;
 import a340.tickettoride.presenter.interfaces.IHandPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.model.game.card.TrainCards;
 
 import static cs340.TicketToRide.model.game.card.TrainCard.Color.*;
 
@@ -30,7 +31,7 @@ public class HandFragment extends Fragment implements HandPresenter.View {
         // Required empty public constructor
     }
 
-    public void updatePlayerHandDisplay(List<TrainCard> trainCards) {
+    public void updatePlayerHandDisplay(TrainCards trainCards) {
         Map<TrainCard.Color, Integer> colorCounts = new HashMap<>();
         colorCounts.put(coalRed, 0);
         colorCounts.put(passengerWhite, 0);

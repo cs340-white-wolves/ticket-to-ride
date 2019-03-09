@@ -6,6 +6,7 @@ import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IPlayerInfoPresenter;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.Players;
 
 public class PlayerInfoPresenter implements IPlayerInfoPresenter, ModelObserver {
     private View view;
@@ -17,12 +18,12 @@ public class PlayerInfoPresenter implements IPlayerInfoPresenter, ModelObserver 
     @Override
     public void onModelEvent(ModelChangeType changeType, Object obj) {
         if (changeType == ModelChangeType.UpdatePlayers) {
-            List<Player> players = (List<Player>) obj;
+            Players players = (Players) obj;
             view.updateAllPlayers(players);
         }
     }
 
     public interface View {
-        void updateAllPlayers(List<Player> players);
+        void updateAllPlayers(Players players);
     }
 }

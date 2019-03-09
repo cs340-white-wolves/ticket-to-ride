@@ -2,6 +2,7 @@ package cs340.TicketToRide.model.game.card;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.board.City;
@@ -50,8 +51,8 @@ public class DestinationCard {
             {"Seattle", "New York", "22"},
     };
 
-    public static Deck<DestinationCard> createDeck(Game game) {
-        List<DestinationCard> cards = new ArrayList<>();
+    public static DestinationCards createDeck(Game game) {
+        DestinationCards cards = new DestinationCards();
         for (String[] combo : destCardCombos) {
             City city1 = game.getCityByName(combo[0]);
             City city2 = game.getCityByName(combo[1]);
@@ -64,7 +65,10 @@ public class DestinationCard {
             }
             cards.add(new DestinationCard(city1, city2, points));
         }
-        return new Deck<>(cards);
+
+        cards.shuffle();
+
+        return cards;
     }
 
     public City getCity1() {
@@ -99,5 +103,15 @@ public class DestinationCard {
     @Override
     public int hashCode() {
         return points * (city1.hashCode() + city2.hashCode());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DestinationCard that = (DestinationCard) o;
+        return points == that.points &&
+                Objects.equals(city1, that.city1) &&
+                Objects.equals(city2, that.city2);
     }
 }

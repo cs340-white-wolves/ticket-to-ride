@@ -14,6 +14,7 @@ import a340.tickettoride.R;
 import a340.tickettoride.presenter.BankPresenter;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.model.game.card.TrainCards;
 
 public class BankFragment extends Fragment implements BankPresenter.View {
 
@@ -99,7 +100,7 @@ public class BankFragment extends Fragment implements BankPresenter.View {
 
 
     @Override
-    public void updateFaceUpCards(List<TrainCard> cards) {
+    public void updateFaceUpCards(TrainCards cards) {
         for (int i=0; i < 5; i++) {
             faceUpCardSlots[i]
                     .setImageDrawable(getResources()

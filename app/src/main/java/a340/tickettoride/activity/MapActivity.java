@@ -35,6 +35,7 @@ import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.*;
 import cs340.TicketToRide.model.game.board.*;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.*;
 
@@ -67,11 +68,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Button placeTrainBtn;
     private Button drawCardsBtn;
 
+    public MapActivity() {
+        presenter = new MapPresenter(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        presenter.startObserving();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        presenter.stopObserving();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         init();
+        presenter.startPoller();
     }
 
     @Override
@@ -95,7 +115,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         initPlayerColorValues();
         lineRouteManager = new HashMap<>();
         cityMarkers = new HashSet<>();
-        presenter = new MapPresenter(this);
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -143,20 +162,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         routesBtn.setEnabled(false);
     }
 
+    @Override
+    public void chooseDestCard() {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                initDestCardDialog();
+            }
+        });
+    }
+
     private void initDestCardDialog() {
-        List<DestinationCard> cards = presenter.getPlayerDestCards();
-//        List<DestinationCard> cards = new ArrayList<>();
-//
-//        cards.add(new DestinationCard(
-//                new City("SLC", "slc", 10, -10),
-//                new City("SLC", "slc", 10, -10),
-//                10
-//        ));
-//        cards.add(new DestinationCard(
-//                new City("dal", "slc", 10, -10),
-//                new City("dal", "slc", 10, -10),
-//                10
-//        ));
+        DestinationCards cards = presenter.getPlayerDestCards();
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_route, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
@@ -164,18 +181,36 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(destCardAdapter);
 
-        AlertDialog dialog = new AlertDialog.Builder(
+        final int minCards = 2;// TODO: 2 will become 1
+
+        final AlertDialog dialog = new AlertDialog.Builder(
                 MapActivity.this)
                 .setView(view)
                 .setTitle("Destination Card")
-                .setMessage("Select at least 2 destination cards to keep")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        presenter.discardDestCards();
-                    }
-                })
+                .setMessage("Select at least " + minCards + " destination cards to keep")
+                .setCancelable(false)
+                .setPositiveButton("OK", null)
                 .create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (destCardAdapter.getSelectedDestCards().size() >= minCards) {
+                            presenter.discardDestCards();
+                            dialog.dismiss();
+                        }
+                        else {
+                            displayText("You must select at least " + minCards + " cards.");
+                        }
+                    }
+                });
+            }
+        });
+
         dialog.show();
     }
 
@@ -244,7 +279,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void initTurnTracker() {
-        List<Player> players = presenter.getPlayers();
+        Players players = presenter.getPlayers();
         TurnTrackerAdapter adapter = new TurnTrackerAdapter(players, this);
         playerTurnRecycler = findViewById(R.id.player_turn_recycler);
         playerTurnRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -327,7 +362,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         for (Route route : routes) {
             drawRoute(route);
         }
-     }
+    }
 
     private void drawRoute(final Route route) {
         final LatLng latLng1 = new LatLng(route.getCity1Lat(), route.getCity1Lng());
@@ -450,7 +485,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public List<DestinationCard> getSelectedDestinationCards() {
+    public DestinationCards getSelectedDestinationCards() {
         return destCardAdapter.getSelectedDestCards();
     }
 
@@ -459,7 +494,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return placeTrainsAdapter.getSelectedRoute();
     }
 
-    private int convertPixelsToDp(float px){
+    private int convertPixelsToDp(float px) {
         return (int) (px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 

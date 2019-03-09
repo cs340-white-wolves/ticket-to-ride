@@ -12,10 +12,11 @@ import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public class DiscardDestCardService {
-    public void discardDestCards(List<DestinationCard> discardCards, AuthToken token, ID gameId, ID playerId) {
+    public void discardDestCards(DestinationCards discardCards, AuthToken token, ID gameId, ID playerId) {
         IServerModel model = ServerModel.getInstance();
         User user = model.getUserByAuthToken(token);
         if (user == null) {
@@ -36,7 +37,7 @@ public class DiscardDestCardService {
             throw new RuntimeException("Player does not belong to user");
         }
 
-        List<DestinationCard> allCards = player.getDestinationCards();
+        DestinationCards allCards = player.getDestinationCards();
         if (!allCards.containsAll(discardCards)) {
             throw new RuntimeException("Player does not own these cards");
         }

@@ -13,6 +13,7 @@ import java.util.List;
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.PlayerInfoPresenter;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.Players;
 
 
 public class PlayerInfoFragment extends Fragment implements PlayerInfoPresenter.View {
@@ -29,7 +30,7 @@ public class PlayerInfoFragment extends Fragment implements PlayerInfoPresenter.
     }
 
     @Override
-    public void updateAllPlayers(List<Player> players) {
+    public void updateAllPlayers(Players players) {
 
     }
 }

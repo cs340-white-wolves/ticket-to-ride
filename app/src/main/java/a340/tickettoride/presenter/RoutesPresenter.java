@@ -12,6 +12,7 @@ import cs340.TicketToRide.IClient;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 
 public class RoutesPresenter implements IRoutesPresenter, ModelObserver {
 
@@ -33,6 +34,6 @@ public class RoutesPresenter implements IRoutesPresenter, ModelObserver {
     }
 
     public interface View {
-        void updatePlayerDestCardDisplay(Set<DestinationCard> completedCards, List<DestinationCard> allCards);
+        void updatePlayerDestCardDisplay(Set<DestinationCard> completedCards, DestinationCards allCards);
     }
 }

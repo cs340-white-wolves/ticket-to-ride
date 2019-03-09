@@ -8,6 +8,7 @@ import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.model.game.card.TrainCards;
 
 public class BankPresenter implements IBankPresenter, ModelObserver {
 
@@ -19,9 +20,9 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
     }
 
     @Override
-    public List<TrainCard> getCurrentFaceUpCards() {
+    public TrainCards getCurrentFaceUpCards() {
 
-        List<TrainCard> list = new ArrayList<>(5);
+        TrainCards list = new TrainCards();
 
         list.add(new TrainCard(TrainCard.Color.cabooseGreen));
         list.add(new TrainCard(TrainCard.Color.freightOrange));
@@ -50,13 +51,13 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
             int count = (int) obj;
             view.updateDestinationCardCount(count);
         } else if (changeType == ModelChangeType.FaceUpTrainCardsUpdate) {
-            List<TrainCard> trainCards = (List<TrainCard>)obj;
+            TrainCards trainCards = (TrainCards) obj;
             view.updateFaceUpCards(trainCards);
         }
     }
 
     public interface View {
-        void updateFaceUpCards(List<TrainCard> cards);
+        void updateFaceUpCards(TrainCards cards);
         void updateDestinationCardCount(int count);
     }
 }

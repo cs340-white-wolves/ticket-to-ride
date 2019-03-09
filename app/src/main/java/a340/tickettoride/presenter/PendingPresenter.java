@@ -8,6 +8,7 @@ import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IPendingPresenter;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.Players;
 
 public class PendingPresenter implements IPendingPresenter, ModelObserver {
     private View view;
@@ -42,13 +43,13 @@ public class PendingPresenter implements IPendingPresenter, ModelObserver {
             view.onUpdatePlayers(activeGame.getPlayers());
         }
 
-        if (changeType == ModelChangeType.GameStarted) {
+        if (changeType == ModelChangeType.StartMap) {
             view.onGameStarting();
         }
     }
 
     public interface View {
-        void onUpdatePlayers(List<Player> players);
+        void onUpdatePlayers(Players players);
         void onUpdateGame(Game game);
         void onGameStarting();
     }

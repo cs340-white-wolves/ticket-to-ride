@@ -11,7 +11,9 @@ import cs340.TicketToRide.model.game.board.City;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Username;
 
@@ -20,23 +22,23 @@ public class Game {
     public static final int MAX_PLAYERS = 5;
 
     private int targetNumPlayers;
-    private List<Player> players;
+    private Players players;
     private ID gameID;
     private Username creator;
     private Board board;
-    private List<TrainCard> discardedTrainCards;
-    private List<TrainCard> faceUpTrainCards;
-    private Deck<TrainCard> trainCardDeck;
-    private Deck<DestinationCard> destinationCardDeck;
+    private TrainCards discardedTrainCards;
+    private TrainCards faceUpTrainCards;
+    private TrainCards trainCardDeck;
+    private DestinationCards destinationCardDeck;
     private int currentPlayerTurnIdx = 0;
 
     public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);
-        players = new ArrayList<>();
+        players = new Players();
         gameID = ID.generateID();
         board = new Board();
-        discardedTrainCards = new ArrayList<>();
-        faceUpTrainCards = new ArrayList<>();
+        discardedTrainCards = new TrainCards();
+        faceUpTrainCards = new TrainCards();
         trainCardDeck = TrainCard.createDeck();
         destinationCardDeck = DestinationCard.createDeck(this);
         setCreator(creator);
@@ -67,7 +69,7 @@ public class Game {
         return players.add(player);
     }
 
-    public List<Player> getPlayers() {
+    public Players getPlayers() {
         return players;
     }
 
@@ -210,7 +212,7 @@ public class Game {
     }
 
     public void setup() {
-        List<Player> players = getPlayers();
+        Players players = getPlayers();
 
         // Possible colors
         Player.Color[] values = Player.Color.values();
@@ -240,15 +242,15 @@ public class Game {
         return board;
     }
 
-    public void addCardsToDestCardDeck(List<DestinationCard> cards) {
+    public void addCardsToDestCardDeck(DestinationCards cards) {
         destinationCardDeck.addAll(cards);
     }
 
-    public Deck<DestinationCard> getDestCardDeck() {
+    public DestinationCards getDestCardDeck() {
         return destinationCardDeck;
     }
 
-    public void setPlayers(List<Player> players) {
+    public void setPlayers(Players players) {
         this.players = players;
     }
 
@@ -260,35 +262,31 @@ public class Game {
         this.board = board;
     }
 
-    public List<TrainCard> getDiscardedTrainCards() {
+    public TrainCards getDiscardedTrainCards() {
         return discardedTrainCards;
     }
 
-    public void setDiscardedTrainCards(List<TrainCard> discardedTrainCards) {
+    public void setDiscardedTrainCards(TrainCards discardedTrainCards) {
         this.discardedTrainCards = discardedTrainCards;
     }
 
-    public List<TrainCard> getFaceUpTrainCards() {
+    public TrainCards getFaceUpTrainCards() {
         return faceUpTrainCards;
     }
 
-    public void setFaceUpTrainCards(List<TrainCard> faceUpTrainCards) {
+    public void setFaceUpTrainCards(TrainCards faceUpTrainCards) {
         this.faceUpTrainCards = faceUpTrainCards;
     }
 
-    public Deck<TrainCard> getTrainCardDeck() {
+    public TrainCards getTrainCardDeck() {
         return trainCardDeck;
     }
 
-    public void setTrainCardDeck(Deck<TrainCard> trainCardDeck) {
-        this.trainCardDeck = trainCardDeck;
-    }
-
-    public Deck<DestinationCard> getDestinationCardDeck() {
+    public DestinationCards getDestinationCardDeck() {
         return destinationCardDeck;
     }
 
-    public void setDestinationCardDeck(Deck<DestinationCard> destinationCardDeck) {
+    public void setDestinationCardDeck(DestinationCards destinationCardDeck) {
         this.destinationCardDeck = destinationCardDeck;
     }
 

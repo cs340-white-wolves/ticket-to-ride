@@ -1,5 +1,7 @@
 package cs340.TicketToRide.model.game.board;
 
+import java.util.Objects;
+
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.Graph;
 import cs340.TicketToRide.utility.ID;
@@ -224,5 +226,17 @@ public class Route {
 
     public boolean occupiedBy(ID playerId) {
         return playerId.equals(occupierId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Route route = (Route) o;
+        return length == route.length &&
+                priority == route.priority &&
+                Objects.equals(city1, route.city1) &&
+                Objects.equals(city2, route.city2) &&
+                color == route.color;
     }
 }

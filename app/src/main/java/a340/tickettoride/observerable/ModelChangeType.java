@@ -14,5 +14,7 @@ public enum ModelChangeType {
     DiscardedTrainCardCount,
     DrawableDestinationCardCount,
     FailureException,
-    GameStarted, AuthenticateSuccess
+    GameStarted,
+    StartMap,
+    AuthenticateSuccess
 }
