@@ -26,7 +26,9 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
 
     @Override
     public void onModelEvent(ModelChangeType changeType, Object obj) {
-
+        if (changeType == ModelChangeType.GameStarted) {
+            view.chooseDestCard();
+        }
     }
 
     public Set<City> getActiveGameCities() {
@@ -103,5 +105,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         Route getSelectedRoute();
         void enableButtons();
         void disableButtons();
+        void chooseDestCard();
     }
 }

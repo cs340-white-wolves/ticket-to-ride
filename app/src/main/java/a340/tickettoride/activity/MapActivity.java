@@ -143,20 +143,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         routesBtn.setEnabled(false);
     }
 
+    @Override
+    public void chooseDestCard() {
+        initDestCardDialog();
+    }
+
     private void initDestCardDialog() {
         List<DestinationCard> cards = presenter.getPlayerDestCards();
-//        List<DestinationCard> cards = new ArrayList<>();
-//
-//        cards.add(new DestinationCard(
-//                new City("SLC", "slc", 10, -10),
-//                new City("SLC", "slc", 10, -10),
-//                10
-//        ));
-//        cards.add(new DestinationCard(
-//                new City("dal", "slc", 10, -10),
-//                new City("dal", "slc", 10, -10),
-//                10
-//        ));
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_route, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
