@@ -2,6 +2,7 @@ package a340.tickettoride.fragment.left;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -41,12 +42,15 @@ public class BankFragment extends Fragment implements BankPresenter.View {
         presenter.stopObserving();
     }
 
+    public BankFragment() {
+        presenter = new BankPresenter(this);
+    }
+
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container,
                                           Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         android.view.View newView = inflater.inflate(R.layout.fragment_bank, container, false);
-        presenter = new BankPresenter(this);
         bindViews(newView);
         setClickListeners();
         updateFaceUpCards(presenter.getCurrentFaceUpCards());
@@ -57,6 +61,11 @@ public class BankFragment extends Fragment implements BankPresenter.View {
         drawPile = view.findViewById(R.id.drawPile);
         numDestCards = view.findViewById(R.id.numDestCards);
         numTrainCards = view.findViewById(R.id.numTrainCards);
+
+        int num = presenter.getNumDestCards();
+        int othernum = presenter.getNumTrainCards();
+        Log.i("BankFragment", "num dest card: " + num);
+        Log.i("BankFragment", "num train card: " + othernum);
 
 //        numTrainCards.setText(presenter.getNumTrainCards());
 //        numDestCards.setText(presenter.getNumDestCards());
@@ -138,11 +147,11 @@ public class BankFragment extends Fragment implements BankPresenter.View {
 
     @Override
     public void updateDestinationCardCount(final int count) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                numDestCards.setText(count);
-            }
-        });
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                numDestCards.setText(count);
+//            }
+//        });
     }
 }
