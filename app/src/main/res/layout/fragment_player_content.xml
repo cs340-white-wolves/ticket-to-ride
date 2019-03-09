@@ -3,86 +3,73 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".fragment.right.PlayerInfoFragment">
 
     <TextView
-        android:id="@+id/player_name"
+        android:id="@+id/player_info_player_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:textColor="@color/Red"
-        android:fontFamily="@font/shangiri"
+        android:fontFamily="@font/vacer"
+        android:textColor="@color/Black"
         android:ems="10"
         android:text="@string/player_info_player_heading"
-        app:layout_constraintEnd_toStartOf="@+id/num_of_points"
+        app:layout_constraintEnd_toStartOf="@+id/player_info_player_points"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/num_of_points"
+        android:id="@+id/player_info_player_points"
         android:layout_width="@dimen/all_player_column_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:textColor="@color/Red"
-        android:fontFamily="@font/shangiri"
+        android:fontFamily="@font/vacer"
+        android:textColor="@color/Black"
         android:ems="10"
         android:text="@string/player_info_points_heading"
-        app:layout_constraintEnd_toStartOf="@+id/num_of_trains"
+        app:layout_constraintEnd_toStartOf="@+id/player_info_player_num_trains"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/num_of_trains"
+        android:id="@+id/player_info_player_num_trains"
         android:layout_width="@dimen/all_player_column_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:textColor="@color/Red"
-        android:fontFamily="@font/shangiri"
+        android:fontFamily="@font/vacer"
+        android:textColor="@color/Black"
         android:ems="10"
         android:text="@string/player_info_trains_heading"
-        app:layout_constraintEnd_toStartOf="@+id/num_of_cards"
+        app:layout_constraintEnd_toStartOf="@+id/player_info_player_num_cards"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/num_of_cards"
+        android:id="@+id/player_info_player_num_cards"
         android:layout_width="@dimen/all_player_column_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:textColor="@color/Red"
-        android:fontFamily="@font/shangiri"
+        android:fontFamily="@font/vacer"
+        android:textColor="@color/Black"
         android:ems="10"
         android:text="@string/player_info_cards_heading"
-        app:layout_constraintEnd_toStartOf="@+id/num_of_routes"
+        app:layout_constraintEnd_toStartOf="@+id/player_info_player_num_routes"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/num_of_routes"
+        android:id="@+id/player_info_player_num_routes"
         android:layout_width="@dimen/all_player_column_width"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:textColor="@color/Red"
-        android:fontFamily="@font/shangiri"
+        android:fontFamily="@font/vacer"
+        android:textColor="@color/Black"
         android:ems="10"
         android:text="@string/player_info_routes_heading"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/player_info_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="36dp"
-        app:layoutManager="LinearLayoutManager"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:context=".fragment.right.PlayerInfoFragment"
-        tools:listitem="@layout/fragment_player_content" />
 </android.support.constraint.ConstraintLayout>
