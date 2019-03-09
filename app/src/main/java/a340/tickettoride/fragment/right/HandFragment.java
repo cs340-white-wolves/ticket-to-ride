@@ -31,8 +31,20 @@ public class HandFragment extends Fragment implements HandPresenter.View {
         // Required empty public constructor
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.startObserving();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.stopObserving();
+    }
+
     public void updatePlayerHandDisplay(TrainCards trainCards) {
-        Map<TrainCard.Color, Integer> colorCounts = new HashMap<>();
+        final Map<TrainCard.Color, Integer> colorCounts = new HashMap<>();
         colorCounts.put(coalRed, 0);
         colorCounts.put(passengerWhite, 0);
         colorCounts.put(reeferYellow, 0);
@@ -48,15 +60,21 @@ public class HandFragment extends Fragment implements HandPresenter.View {
             Integer count = colorCounts.get(color);
             colorCounts.put(color, count == null ? 0 : count + 1);
         }
-        ((TextView)view.findViewById(R.id.num_red)).setText(colorCounts.get(coalRed));
-        ((TextView)view.findViewById(R.id.num_white)).setText(colorCounts.get(passengerWhite));
-        ((TextView)view.findViewById(R.id.num_orange)).setText(colorCounts.get(freightOrange));
-        ((TextView)view.findViewById(R.id.num_yellow)).setText(colorCounts.get(reeferYellow));
-        ((TextView)view.findViewById(R.id.num_green)).setText(colorCounts.get(cabooseGreen));
-        ((TextView)view.findViewById(R.id.num_purple)).setText(colorCounts.get(boxPurple));
-        ((TextView)view.findViewById(R.id.num_blue)).setText(colorCounts.get(tankerBlue));
-        ((TextView)view.findViewById(R.id.num_black)).setText(colorCounts.get(hopperBlack));
-        ((TextView)view.findViewById(R.id.num_locomotive)).setText(colorCounts.get(locomotive));
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((TextView)view.findViewById(R.id.num_red)).setText(String.valueOf(colorCounts.get(coalRed)));
+                ((TextView)view.findViewById(R.id.num_white)).setText(String.valueOf(colorCounts.get(passengerWhite)));
+                ((TextView)view.findViewById(R.id.num_orange)).setText(String.valueOf(colorCounts.get(freightOrange)));
+                ((TextView)view.findViewById(R.id.num_yellow)).setText(String.valueOf(colorCounts.get(reeferYellow)));
+                ((TextView)view.findViewById(R.id.num_green)).setText(String.valueOf(colorCounts.get(cabooseGreen)));
+                ((TextView)view.findViewById(R.id.num_purple)).setText(String.valueOf(colorCounts.get(boxPurple)));
+                ((TextView)view.findViewById(R.id.num_blue)).setText(String.valueOf(colorCounts.get(tankerBlue)));
+                ((TextView)view.findViewById(R.id.num_black)).setText(String.valueOf(colorCounts.get(hopperBlack)));
+                ((TextView)view.findViewById(R.id.num_locomotive)).setText(String.valueOf(colorCounts.get(locomotive)));
+            }
+        });
+
     }
 
     @Override

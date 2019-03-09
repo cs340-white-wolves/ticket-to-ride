@@ -2,6 +2,7 @@ package a340.tickettoride.presenter;
 
 import java.util.List;
 
+import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IHandPresenter;
@@ -23,6 +24,16 @@ public class HandPresenter implements IHandPresenter, ModelObserver {
             Player player = (Player) obj;
             view.updatePlayerHandDisplay(player.getTrainCards());
         }
+    }
+
+    @Override
+    public void startObserving() {
+        ClientModel.getInstance().addObserver(this);
+    }
+
+    @Override
+    public void stopObserving() {
+        ClientModel.getInstance().addObserver(this);
     }
 
     public interface View {
