@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import a340.tickettoride.model.ClientModel;
+import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
@@ -18,7 +19,7 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
         this.view = view;
     }
 
-    @Override
+
     public List<TrainCard> getCurrentFaceUpCards() {
 
         List<TrainCard> list = new ArrayList<>(5);
@@ -34,7 +35,7 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
 
     @Override
     public TrainCard drawTrainCard() {
-        TrainCard card = new TrainCard(null);
+
         return new TrainCard(TrainCard.Color.tankerBlue);
     }
 
@@ -49,14 +50,21 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
         if (changeType == ModelChangeType.DrawableDestinationCardCount) {
             int count = (int) obj;
             view.updateDestinationCardCount(count);
+
+        } else if (changeType == ModelChangeType.DrawableTrainCardCount) {
+            int count = (int) obj;
+            view.updateDrawableTrainCardCount(count);
+
         } else if (changeType == ModelChangeType.FaceUpTrainCardsUpdate) {
             List<TrainCard> trainCards = (List<TrainCard>)obj;
             view.updateFaceUpCards(trainCards);
         }
+
     }
 
     public interface View {
         void updateFaceUpCards(List<TrainCard> cards);
         void updateDestinationCardCount(int count);
+        void updateDrawableTrainCardCount(int count);
     }
 }

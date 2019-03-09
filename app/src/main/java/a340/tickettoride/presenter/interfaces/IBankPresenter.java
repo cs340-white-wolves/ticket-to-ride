@@ -6,9 +6,6 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 
 public interface IBankPresenter {
 
-    //Get all the current face up cards for initializtion
-    List<TrainCard> getCurrentFaceUpCards();
-
     //Return a train card that is drawn off of the face down deck
     TrainCard drawTrainCard();
 

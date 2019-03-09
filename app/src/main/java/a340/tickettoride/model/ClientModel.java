@@ -21,6 +21,7 @@ import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.ID;
 
 public class ClientModel extends ModelObservable implements IClientModel, Poller.Listener {
@@ -228,6 +229,22 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     public void updateGameDestCardDeck(Deck<DestinationCard> destCardDeck) {
         activeGame.setDestinationCardDeck(destCardDeck);
         notifyObservers(ModelChangeType.DrawableDestinationCardCount, destCardDeck.size());
+    }
+
+//    @Override
+//    public void updatePlayerDestHand(List<DestinationCard> destinationCards) {
+//        Player player = activeGame.getPlayerById(this.playerId);
+//
+//        player.setDestinationCards(destinationCards);
+//        notifyObservers(ModelChangeType.);
+//
+//    }
+
+    @Override
+    public void updateFaceUpTrainCards(List<TrainCard> faceUpCards) {
+        this.activeGame.setFaceUpTrainCards(faceUpCards);
+        notifyObservers(ModelChangeType.FaceUpTrainCardsUpdate, activeGame.getFaceUpTrainCards());
+        notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getTrainCardDeck().size());
     }
 
     @Override

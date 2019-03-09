@@ -10,6 +10,7 @@ import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.ID;
 
 public interface IClientModel {
@@ -31,4 +32,5 @@ public interface IClientModel {
     void onSendChatFail(Exception exception);
     User getLoggedInUser();
     void onGameStart();
+    void updateFaceUpTrainCards(List<TrainCard> faceUpCards);
 }

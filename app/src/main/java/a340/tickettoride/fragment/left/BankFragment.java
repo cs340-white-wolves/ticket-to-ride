@@ -11,15 +11,19 @@ import android.widget.Toast;
 import java.util.List;
 
 import a340.tickettoride.R;
+import a340.tickettoride.observerable.ModelChangeType;
+import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.BankPresenter;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
 
-public class BankFragment extends Fragment implements BankPresenter.View {
+public class BankFragment extends Fragment implements BankPresenter.View{
 
     private IBankPresenter presenter;
     private ImageView[] faceUpCardSlots = new ImageView[5];
     private TextView drawPile;
+    private TextView trainCardCount;
+    private TextView destinationCardCount;
 
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,12 +33,14 @@ public class BankFragment extends Fragment implements BankPresenter.View {
         presenter = new BankPresenter(this);
         bindViews(newView);
         setClickListeners();
-        updateFaceUpCards(presenter.getCurrentFaceUpCards());
         return newView;
     }
 
     private void bindViews(android.view.View view) {
         drawPile = view.findViewById(R.id.drawPile);
+        trainCardCount = view.findViewById(R.id.trainCardCount);
+        destinationCardCount = view.findViewById(R.id.destCardCount);
+
         faceUpCardSlots[0] = view.findViewById(R.id.card1);
         faceUpCardSlots[1] = view.findViewById(R.id.card2);
         faceUpCardSlots[2] = view.findViewById(R.id.card3);
@@ -107,6 +113,13 @@ public class BankFragment extends Fragment implements BankPresenter.View {
 
     @Override
     public void updateDestinationCardCount(int count) {
-
+        destinationCardCount.setText(Integer.toString(count));
     }
+
+    @Override
+    public void updateDrawableTrainCardCount(int count) {
+        trainCardCount.setText(count);
+    }
+
+
 }
