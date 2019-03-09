@@ -4,6 +4,7 @@ import java.util.List;
 
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
+import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
@@ -27,4 +28,7 @@ public interface IClientModel {
     void onDiscardDestCardsFail(Exception exception);
     void updateGameDestCardDeck(Deck<DestinationCard> destCardDeck);
     void updatePlayers(List<Player> players);
+    void onSendChatFail(Exception exception);
+    User getLoggedInUser();
+    void onGameStart();
 }

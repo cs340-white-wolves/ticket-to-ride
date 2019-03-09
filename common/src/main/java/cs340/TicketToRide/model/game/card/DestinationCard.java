@@ -58,8 +58,11 @@ public class DestinationCard {
             City city1 = game.getCityByName(combo[0]);
             City city2 = game.getCityByName(combo[1]);
             int points = Integer.parseInt(combo[2]);
-            if (city1 == null || city2 == null) {
-                throw new RuntimeException("This City doesn't exist");
+            if (city1 == null) {
+                throw new RuntimeException("This City doesn't exist: " + combo[0]);
+            }
+            if (city2 == null) {
+                throw new RuntimeException("This City doesn't exist: " + combo[1]);
             }
             cards.add(new DestinationCard(city1, city2, points));
         }

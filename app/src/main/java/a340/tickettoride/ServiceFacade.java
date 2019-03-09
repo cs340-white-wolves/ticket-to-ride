@@ -10,6 +10,7 @@ import a340.tickettoride.task.CreateGameTask;
 import a340.tickettoride.task.JoinGameTask;
 import a340.tickettoride.task.LoginTask;
 import a340.tickettoride.task.RegisterTask;
+import a340.tickettoride.task.SendChatTask;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.card.DestinationCard;
@@ -71,11 +72,10 @@ public class ServiceFacade {
 
     }
 
-    public void sendChatMessage(String message) {
+    public void sendChatMessage(ChatMessage message) {
         Log.i("ServiceFacade", "Got Chat: " + message);
-        IClientModel model = ClientModel.getInstance();
-        model.onChatMessageReceived(new ChatMessage("test", message));
-        // TODO: actually send the message.
+        SendChatTask task = new SendChatTask(message);
+        task.execute();
     }
 
     public void discardDestCards(List<DestinationCard> discardedCards) {

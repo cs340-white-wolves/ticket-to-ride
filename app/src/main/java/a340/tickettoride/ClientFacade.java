@@ -28,6 +28,7 @@ public class ClientFacade implements IClient {
 
     @Override
     public void chatMessageReceived(ChatMessage message) {
+        model.onChatMessageReceived(message);
         Log.i("ClientFacade", "Got chat message!");
     }
 
@@ -39,6 +40,11 @@ public class ClientFacade implements IClient {
     @Override
     public void destCardDeckChanged(Deck<DestinationCard> destCardDeck) {
         model.updateGameDestCardDeck(destCardDeck);
+    }
+
+    @Override
+    public void startGame() {
+        model.onGameStart();
     }
 
 }

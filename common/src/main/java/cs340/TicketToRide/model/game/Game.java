@@ -33,6 +33,7 @@ public class Game {
         setTargetNumPlayers(targetNumPlayers);
         players = new ArrayList<>();
         gameID = ID.generateID();
+        board = new Board();
         discardedTrainCards = new ArrayList<>();
         faceUpTrainCards = new ArrayList<>();
         trainCardDeck = TrainCard.createDeck();

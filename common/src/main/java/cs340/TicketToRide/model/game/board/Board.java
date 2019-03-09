@@ -37,7 +37,7 @@ public class Board {
         City omaha = new City("Omaha", "OMA", 41.2565, -95.9345);
         City kansasCity = new City("Kansas City", "KC", 39.0997, -94.5786);
         City oklahomaCity = new City("Oklahoma City", "OKC", 35.4676, -97.5164);
-        City dallas = new City("DFW", "DAL", 32.7767, -96.7970);
+        City dallas = new City("Dallas", "DAL", 32.7767, -96.7970);
         City houston = new City("Houston", "HOU", 29.7604, -95.3698);
         City newOrleans = new City("New Orleans", "NOL", 29.9511, -90.0715);
         City littleRock = new City("Little Rock", "LIT", 34.7465, -92.2896);

@@ -4,22 +4,12 @@ import java.util.List;
 
 import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
-import cs340.TicketToRide.model.AuthToken;
-import cs340.TicketToRide.model.ClientProxyManager;
-import cs340.TicketToRide.model.IServerModel;
-import cs340.TicketToRide.model.ServerModel;
+import cs340.TicketToRide.model.*;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
-import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.card.DestinationCard;
-import cs340.TicketToRide.service.CreateGameService;
-import cs340.TicketToRide.service.DiscardDestCardService;
-import cs340.TicketToRide.service.QueueService;
-import cs340.TicketToRide.service.GamesService;
-import cs340.TicketToRide.service.JoinGameService;
-import cs340.TicketToRide.service.LoginService;
-import cs340.TicketToRide.service.RegisterService;
+import cs340.TicketToRide.service.*;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
@@ -69,16 +59,7 @@ public class ServerFacade implements IServer {
 
     @Override
     public void sendChat(AuthToken token, ID gameId, ChatMessage message) {
-        IServerModel model = ServerModel.getInstance();
-
-        Game game = model.getGameByID(gameId);
-
-        List<Player> players = game.getPlayers();
-
-        for (Player player : players) {
-            ClientProxyManager.getInstance().get(player.getId()).chatMessageReceived(message);
-        }
-
+        new SendChatService().sendChat(token, gameId, message);
     }
 
 }

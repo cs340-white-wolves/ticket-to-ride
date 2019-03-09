@@ -42,7 +42,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mChatMessage = mMessages.get(position);
-        holder.mPlayerName.setText(mMessages.get(position).getUsername());
+        holder.mPlayerName.setText(mMessages.get(position).getUsername().toString());
         holder.mMessage.setText(mMessages.get(position).getMessage());
     }
 

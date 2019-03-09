@@ -123,6 +123,7 @@ public class ServerModel implements IServerModel {
         for (Player player : players) {
             IClient clientProxy = proxyManager.get(player.getId());
             clientProxy.playersUpdated(players);
+            clientProxy.startGame();
         }
     }
 
