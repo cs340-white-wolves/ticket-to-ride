@@ -20,6 +20,7 @@ import cs340.TicketToRide.utility.Username;
 public class Game {
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 5;
+    public static final int MAX_FACE_UP = 5;
 
     private int targetNumPlayers;
     private Players players;
@@ -236,6 +237,12 @@ public class Game {
             player.setScore(0);
             player.setNumTrains(45);
         }
+
+        // Set the 5 face up train cards
+        for (int i = 0; i < MAX_FACE_UP; i++) {
+            TrainCard trainCard = trainCardDeck.drawFromTop();
+            faceUpTrainCards.add(trainCard);
+        }
     }
 
     public Board getBoard() {
@@ -280,10 +287,6 @@ public class Game {
 
     public TrainCards getTrainCardDeck() {
         return trainCardDeck;
-    }
-
-    public DestinationCards getDestinationCardDeck() {
-        return destinationCardDeck;
     }
 
     public void setDestinationCardDeck(DestinationCards destinationCardDeck) {

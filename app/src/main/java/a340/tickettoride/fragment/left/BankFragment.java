@@ -16,6 +16,8 @@ import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 
+import static cs340.TicketToRide.model.game.Game.MAX_FACE_UP;
+
 public class BankFragment extends Fragment implements BankPresenter.View {
 
 
@@ -23,13 +25,27 @@ public class BankFragment extends Fragment implements BankPresenter.View {
     private ImageView[] faceUpCardSlots = new ImageView[5];
     private TextView drawPile;
     private TextView numDestCards;
+    private TextView numTrainCards;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        presenter.startObserving();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        presenter.stopObserving();
+    }
 
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container,
                                           Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         android.view.View newView = inflater.inflate(R.layout.fragment_bank, container, false);
-        numDestCards = newView.findViewById(R.id.numDestCards);
         presenter = new BankPresenter(this);
         bindViews(newView);
         setClickListeners();
@@ -39,6 +55,12 @@ public class BankFragment extends Fragment implements BankPresenter.View {
 
     private void bindViews(android.view.View view) {
         drawPile = view.findViewById(R.id.drawPile);
+        numDestCards = view.findViewById(R.id.numDestCards);
+        numTrainCards = view.findViewById(R.id.numTrainCards);
+
+//        numTrainCards.setText(presenter.getNumTrainCards());
+//        numDestCards.setText(presenter.getNumDestCards());
+
         faceUpCardSlots[0] = view.findViewById(R.id.card1);
         faceUpCardSlots[1] = view.findViewById(R.id.card2);
         faceUpCardSlots[2] = view.findViewById(R.id.card3);
@@ -103,15 +125,24 @@ public class BankFragment extends Fragment implements BankPresenter.View {
 
     @Override
     public void updateFaceUpCards(TrainCards cards) {
-        for (int i=0; i < 5; i++) {
+        for (int i=0; i < MAX_FACE_UP; i++) {
+            if (i >= cards.size()) {
+                // set slot to be empty
+            }
+            TrainCard card = cards.get(i);
             faceUpCardSlots[i]
                     .setImageDrawable(getResources()
-                            .getDrawable(getCardResource(cards.get(i).getColor()),null));
+                            .getDrawable(getCardResource(card.getColor()),null));
         }
     }
 
     @Override
-    public void updateDestinationCardCount(int count) {
-        numDestCards.setText(count);
+    public void updateDestinationCardCount(final int count) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                numDestCards.setText(count);
+            }
+        });
     }
 }

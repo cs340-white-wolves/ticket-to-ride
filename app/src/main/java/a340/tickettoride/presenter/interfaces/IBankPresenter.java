@@ -16,4 +16,10 @@ public interface IBankPresenter {
     //Pick up a train card and replace it with one from the deck
     TrainCard pickUpTrainCard(int index);
 
+    int getNumTrainCards();
+
+    int getNumDestCards();
+    void startObserving();
+    void stopObserving();
+
 }
