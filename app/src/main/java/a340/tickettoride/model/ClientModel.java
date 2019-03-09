@@ -68,6 +68,9 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
             if (startIndex >= lastExecutedCommandIndex) {
                 cmd.execute(ClientFacade.getInstance());
             }
+            else {
+
+            }
             startIndex++;
         }
 
@@ -140,7 +143,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     @Override
     public void onChatMessageReceived(ChatMessage message) {
         chatMessages.add(message);
-        notifyObservers(ModelChangeType.ChatMessageReceived, chatMessages);
+        notifyObservers(ModelChangeType.ChatMessageReceived, message);
     }
 
     private void startGameListPoller() {
