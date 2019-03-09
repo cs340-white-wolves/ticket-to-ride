@@ -42,7 +42,12 @@ public class ClientProxy implements IClient {
 
     @Override
     public void destCardDeckChanged(DestinationCards destCardDeck) {
-
+        Command destCardDeckChanged = new Command(
+                "destCardDeckChanged",
+                new String[]{DestinationCards.class.getName()},
+                new Object[]{destCardDeck}
+        );
+        queue.add(destCardDeckChanged);
     }
 
     @Override

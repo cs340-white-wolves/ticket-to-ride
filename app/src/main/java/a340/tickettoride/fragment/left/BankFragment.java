@@ -22,12 +22,14 @@ public class BankFragment extends Fragment implements BankPresenter.View {
     private IBankPresenter presenter;
     private ImageView[] faceUpCardSlots = new ImageView[5];
     private TextView drawPile;
+    private TextView numDestCards;
 
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container,
                                           Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         android.view.View newView = inflater.inflate(R.layout.fragment_bank, container, false);
+        numDestCards = newView.findViewById(R.id.numDestCards);
         presenter = new BankPresenter(this);
         bindViews(newView);
         setClickListeners();
@@ -110,6 +112,6 @@ public class BankFragment extends Fragment implements BankPresenter.View {
 
     @Override
     public void updateDestinationCardCount(int count) {
-
+        numDestCards.setText(count);
     }
 }
