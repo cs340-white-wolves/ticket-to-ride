@@ -36,8 +36,6 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     private ClientModel() {
         Log.i("ClientModel", "I'm alive!");
-
-        chatMessages.addAll(ChatMessage.TEST_CHATS);//TODO: remove this hardcoded test
     }
 
     @Override

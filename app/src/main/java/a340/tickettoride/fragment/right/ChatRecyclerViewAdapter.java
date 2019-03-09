@@ -26,6 +26,11 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         notifyDataSetChanged();
     }
 
+    public void addMessages(List<ChatMessage> messages) {
+        mMessages.addAll(messages);
+        notifyDataSetChanged();
+    }
+
     public void setMessages(List<ChatMessage> messages) {
         mMessages.clear();
         mMessages.addAll(messages);

@@ -76,7 +76,6 @@ public class ServiceFacade {
     }
 
     public void sendChatMessage(ChatMessage message) {
-        Log.i("ServiceFacade", "Got Chat: " + message);
         SendChatTask task = new SendChatTask(message);
         task.execute();
     }
