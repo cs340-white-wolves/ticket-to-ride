@@ -14,13 +14,14 @@ import java.util.List;
 import a340.tickettoride.R;
 import a340.tickettoride.activity.MapActivity;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.Players;
 
 public class TurnTrackerAdapter extends RecyclerView.Adapter<TurnTrackerAdapter.PlayerTurnView> {
 
-    private List<Player> players;
+    private Players players;
     private Context context;
     private int activePlayerIndex;
-    public TurnTrackerAdapter(List<Player> players, Context context) {
+    public TurnTrackerAdapter(Players players, Context context) {
         this.players = players;
         this.context = context;
         this.activePlayerIndex = 0;

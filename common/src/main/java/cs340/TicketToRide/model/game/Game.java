@@ -20,7 +20,7 @@ public class Game {
     public static final int MAX_PLAYERS = 5;
 
     private int targetNumPlayers;
-    private List<Player> players;
+    private Players players;
     private ID gameID;
     private Username creator;
     private Board board;
@@ -32,7 +32,7 @@ public class Game {
 
     public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);
-        players = new ArrayList<>();
+        players = new Players();
         gameID = ID.generateID();
         board = new Board();
         discardedTrainCards = new ArrayList<>();
@@ -67,7 +67,7 @@ public class Game {
         return players.add(player);
     }
 
-    public List<Player> getPlayers() {
+    public Players getPlayers() {
         return players;
     }
 
@@ -210,7 +210,7 @@ public class Game {
     }
 
     public void setup() {
-        List<Player> players = getPlayers();
+        Players players = getPlayers();
 
         // Possible colors
         Player.Color[] values = Player.Color.values();
@@ -248,7 +248,7 @@ public class Game {
         return destinationCardDeck;
     }
 
-    public void setPlayers(List<Player> players) {
+    public void setPlayers(Players players) {
         this.players = players;
     }
 

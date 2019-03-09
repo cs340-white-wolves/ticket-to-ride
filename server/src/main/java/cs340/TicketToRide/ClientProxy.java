@@ -6,6 +6,7 @@ import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.model.ClientCommandQueue;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 
@@ -29,7 +30,7 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public void playersUpdated(List<Player> players) {
+    public void playersUpdated(Players players) {
         Command playersUpdated = new Command(
           "playersUpdated",
           new String[]{players.getClass().getName()},

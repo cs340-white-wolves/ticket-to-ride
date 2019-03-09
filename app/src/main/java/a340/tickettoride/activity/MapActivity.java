@@ -67,11 +67,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Button placeTrainBtn;
     private Button drawCardsBtn;
 
+    public MapActivity() {
+        presenter = new MapPresenter(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        presenter.startObserving();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        presenter.stopObserving();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         init();
+        presenter.startPoller();
     }
 
     @Override
@@ -95,7 +114,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         initPlayerColorValues();
         lineRouteManager = new HashMap<>();
         cityMarkers = new HashSet<>();
-        presenter = new MapPresenter(this);
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -145,7 +163,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void chooseDestCard() {
-        initDestCardDialog();
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                initDestCardDialog();
+            }
+        });
     }
 
     private void initDestCardDialog() {
@@ -237,7 +260,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void initTurnTracker() {
-        List<Player> players = presenter.getPlayers();
+        Players players = presenter.getPlayers();
         TurnTrackerAdapter adapter = new TurnTrackerAdapter(players, this);
         playerTurnRecycler = findViewById(R.id.player_turn_recycler);
         playerTurnRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -320,7 +343,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         for (Route route : routes) {
             drawRoute(route);
         }
-     }
+    }
 
     private void drawRoute(final Route route) {
         final LatLng latLng1 = new LatLng(route.getCity1Lat(), route.getCity1Lng());
@@ -452,7 +475,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return placeTrainsAdapter.getSelectedRoute();
     }
 
-    private int convertPixelsToDp(float px){
+    private int convertPixelsToDp(float px) {
         return (int) (px / ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 

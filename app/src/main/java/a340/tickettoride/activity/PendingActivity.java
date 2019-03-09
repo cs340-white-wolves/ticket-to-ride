@@ -16,6 +16,7 @@ import a340.tickettoride.presenter.PendingPresenter;
 import a340.tickettoride.presenter.interfaces.IPendingPresenter;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.Players;
 
 public class PendingActivity extends AppCompatActivity implements PendingPresenter.View {
     private IPendingPresenter presenter;
@@ -55,7 +56,7 @@ public class PendingActivity extends AppCompatActivity implements PendingPresent
     }
 
     @Override
-    public void onUpdatePlayers(List<Player> players) {
+    public void onUpdatePlayers(Players players) {
         Log.i("JoinGame", "got player list");
 
         StringWriter sw = new StringWriter();

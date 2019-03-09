@@ -9,6 +9,7 @@ import a340.tickettoride.model.IClientModel;
 import cs340.TicketToRide.IClient;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 
@@ -33,7 +34,7 @@ public class ClientFacade implements IClient {
     }
 
     @Override
-    public void playersUpdated(List<Player> players) {
+    public void playersUpdated(Players players) {
         model.updatePlayers(players);
     }
 
