@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import a340.tickettoride.R;
@@ -21,9 +22,7 @@ public class PlayerInfoFragment extends Fragment implements PlayerInfoPresenter.
     private IPlayerInfoPresenter presenter;
     private RecyclerView mRecyclerView;
 
-    public PlayerInfoFragment() {
-        presenter = new PlayerInfoPresenter(this);
-    }
+    public PlayerInfoFragment() { }
 
     @Override
     public void onResume() {
@@ -40,11 +39,12 @@ public class PlayerInfoFragment extends Fragment implements PlayerInfoPresenter.
     }
 
     @Override
-    public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                           Bundle savedInstanceState) {
-        android.view.View view = inflater.inflate(R.layout.fragment_all_players, container, false);
+        View view = inflater.inflate(R.layout.fragment_all_players, container, false);
 
         mRecyclerView = view.findViewById(R.id.player_info_recycler_view);
+        presenter = new PlayerInfoPresenter(this);
 
         // Set the adapter
         if (mRecyclerView != null) {
@@ -64,6 +64,6 @@ public class PlayerInfoFragment extends Fragment implements PlayerInfoPresenter.
 
     @Override
     public void updateAllPlayers(Players players) {
-        mPlayerRecyclerAdapter.setPlayers(presenter.getPlayers());
+        mPlayerRecyclerAdapter.setPlayers(players);
     }
 }

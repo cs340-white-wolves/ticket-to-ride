@@ -13,6 +13,7 @@ public class PlayerInfoPresenter implements IPlayerInfoPresenter, ModelObserver 
     public PlayerInfoPresenter(View view) {
         this.view = view;
         model = ClientModel.getInstance();
+        model.addObserver(this);
     }
 
     @Override

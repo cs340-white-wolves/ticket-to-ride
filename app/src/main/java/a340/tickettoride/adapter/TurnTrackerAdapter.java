@@ -67,6 +67,7 @@ public class TurnTrackerAdapter extends RecyclerView.Adapter<TurnTrackerAdapter.
         if (activePlayerIndex == getItemCount()) {
             activePlayerIndex = 0;
         }
+        notifyDataSetChanged();
     }
 
     //This class is the layout/view for each individual list item

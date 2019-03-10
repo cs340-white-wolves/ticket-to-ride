@@ -1,13 +1,9 @@
 package cs340.TicketToRide.model.game;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import cs340.TicketToRide.model.User;
-import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
-import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 

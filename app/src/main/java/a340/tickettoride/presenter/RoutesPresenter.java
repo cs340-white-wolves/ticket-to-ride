@@ -27,39 +27,8 @@ public class RoutesPresenter implements IRoutesPresenter, ModelObserver {
 
     public RoutesPresenter(View view) {
         this.view = view;
+        ClientModel.getInstance().addObserver(this);
     }
-
-    public List<DestinationCard> getAllRoutes() {
-        List<DestinationCard> playersCards = new ArrayList<>();
-
-        DestinationCard card = new DestinationCard(new City("Vancouver", "VAN", 50.2827,-123.1207), new City("Seattle", "SEA", 47.6062, -122.3321), 3);
-        DestinationCard card1 = new DestinationCard(new City("Portland", "POR", 45.0, -122.6587), new City("Seattle", "SEA", 47.6062, -122.3321), 3);
-        DestinationCard card2 = new DestinationCard(new City("San Francisco", "SFO", 37.7749, -122.4194), new City("Seattle", "SEA", 47.6062, -122.3321), 3);
-        DestinationCard card3 = new DestinationCard(new City("Los Angeles", "LA", 34.0522, -118.2437), new City("Seattle", "SEA", 47.6062, -122.3321), 3);
-        DestinationCard card4 = new DestinationCard(new City("Phoenix", "PHX", 35.1983, -111.6513), new City("Seattle", "SEA", 47.6062, -122.3321), 3);
-
-        playersCards.add(card);
-        playersCards.add(card1);
-        playersCards.add(card2);
-        playersCards.add(card3);
-        playersCards.add(card4);
-
-        return playersCards;
-    }
-
-    public Set<DestinationCard> getCompletedRoutes() {
-        Set<DestinationCard> playersCards = new HashSet<>();
-
-        DestinationCard card = new DestinationCard(new City("Vancouver", "VAN", 50.2827,-123.1207), new City("Seattle", "SEA", 47.6062, -122.3321), 3);
-        DestinationCard card1 = new DestinationCard(new City("Portland", "POR", 45.0, -122.6587), new City("Seattle", "SEA", 47.6062, -122.3321), 3);
-
-        playersCards.add(card);
-        playersCards.add(card1);
-
-        return playersCards;
-    }
-
-
 
 
     @Override
@@ -82,5 +51,15 @@ public class RoutesPresenter implements IRoutesPresenter, ModelObserver {
 
     public interface View {
         void updatePlayerDestCardDisplay(Set<DestinationCard> completedCards, DestinationCards allCards);
+    }
+
+    @Override
+    public void startObserving() {
+        ClientModel.getInstance().addObserver(this);
+    }
+
+    @Override
+    public void stopObserving() {
+        ClientModel.getInstance().deleteObserver(this);
     }
 }

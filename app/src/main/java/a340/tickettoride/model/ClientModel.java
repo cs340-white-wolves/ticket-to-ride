@@ -27,6 +27,7 @@ import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
+import cs340.TicketToRide.utility.Username;
 
 public class ClientModel extends ModelObservable implements IClientModel, Poller.Listener {
     private Poller poller = new Poller(this);
@@ -158,14 +159,6 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         poller.runGetGameCommands();
     }
 
-    @Override
-    public void updateFaceUpTrainCards(TrainCards faceUpCards) {
-        this.activeGame.setFaceUpTrainCards(faceUpCards);
-        notifyObservers(ModelChangeType.FaceUpTrainCardsUpdate, activeGame.getFaceUpTrainCards());
-        notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getTrainCardDeck().size());
-    }
-
-
     private void stopPoller() {
         poller.stop();
     }
@@ -242,9 +235,6 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     }
 
-
-
-
     @Override
     public void updatePlayers(Players players) {
         Log.i("ClientModel", "->updatePlayers()");
@@ -271,54 +261,117 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
 
+    //=================================Testing Methods===============================
     @Override
     public void updateGameDestCardDeck(DestinationCards destCardDeck) {
         activeGame.setDestinationCardDeck(destCardDeck);
-        notifyObservers(ModelChangeType.DrawableDestinationCardCount, destCardDeck.size());
+        notifyObservers(ModelChangeType.DrawableDestinationCardCount, activeGame.getDestCardDeck().size());
     }
 
-    @Override
-    public void updateActivePlayersPoints() {
-
-    }
-
-    @Override
-    public void updatePlayersTrainCards(TrainCards cards) {
-
-    }
-
-    @Override
-    public void updatePlayersDestCards(DestinationCards cards) {
-
-    }
-
-    @Override
-    public void updateOpponentsTrainCards(TrainCards cards) {
-
-    }
-
-    @Override
-    public void updateOponentsDestCards(DestinationCard cards) {
-
-    }
-
-    @Override
     public void updateTrainCardDeck(TrainCards cards) {
+        activeGame.setFaceUpTrainCards(cards);
+        notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getFaceUpTrainCards().size());
 
     }
 
-    @Override
-    public void claimARoute(ID player, Route claimedRoute) {
-
+    public void updateFaceUpTrainCards(TrainCards faceUpCards) {
+        this.activeGame.setFaceUpTrainCards(faceUpCards);
+        notifyObservers(ModelChangeType.FaceUpTrainCardsUpdate, activeGame.getFaceUpTrainCards());
+        notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getTrainCardDeck().size());
     }
 
-    @Override
-    public void addChatMessage(ID player, String message) {
+    public void claimARoute() {
+            List<Route> routes = new ArrayList<>();
+            routes.addAll(activeGame.getBoard().getRoutes());
+            int index = 0;
 
+            for (Player player: activeGame.getPlayers()) {
+                routes.get(index).occupy(player.getId());
+                notifyObservers(ModelChangeType.RouteClaimed, routes.get(index));
+                index++;
+            }
     }
 
-    @Override
+
     public void advanceTurn() {
-
+        activeGame.setNextPlayerTurn();
+        notifyObservers(ModelChangeType.AdvanceTurn, null);
     }
+
+    public void addChatMessages() {
+        for(Player player: activeGame.getPlayers()) {
+            Username username = player.getUser().getUsername();
+            chatMessages.add(new ChatMessage(username, "Message from " + username.toString()));
+        }
+        notifyObservers(ModelChangeType.ChatMessageReceived, chatMessages);
+    }
+
+    public void updateActivePlayersPoints(int points) {
+        Player player = getPlayerFromGame();
+        player.setScore(points);
+        updatePlayers(activeGame.getPlayers());
+    }
+
+    public void updatePlayersTrainCards(TrainCards cards) {
+        Player player = getPlayerFromGame();
+        player.getTrainCards().addAll(cards);
+        updatePlayers(activeGame.getPlayers());
+    }
+
+    public void removePlayersTrainCards() {
+        Player player = getPlayerFromGame();
+        player.getTrainCards().clear();
+        updatePlayers(activeGame.getPlayers());
+    }
+
+    public void updatePlayersDestCards(DestinationCards cards) {
+        Player player = getPlayerFromGame();
+        player.getDestinationCards().addAll(cards);
+        updatePlayers(activeGame.getPlayers());
+    }
+
+    public void removePlayersDestCards() {
+        Player player = getPlayerFromGame();
+        player.getDestinationCards().clear();
+        updatePlayers(activeGame.getPlayers());
+    }
+
+    public void updateOpponentsTrainCards(TrainCards cards) {
+        Players players = activeGame.getPlayers();
+
+        for(Player player: players) {
+            if (!player.getId().equals(playerId)) {
+                player.setTrainCards(cards);
+            }
+        }
+        updatePlayers(activeGame.getPlayers());
+    }
+
+    public void updateOpponentsDestCards(DestinationCards cards) {
+        Players players = activeGame.getPlayers();
+
+        for(Player player: players) {
+            if (!player.getId().equals(playerId)) {
+                player.getDestinationCards().addAll(cards);
+            }
+        }
+        updatePlayers(activeGame.getPlayers());
+    }
+
+    public void updateOpponentsTrainCars(int number) {
+        Players players = activeGame.getPlayers();
+
+        for(Player player: players) {
+            if (!player.getId().equals(playerId)) {
+                player.setNumTrains(number);
+            }
+        }
+
+        updatePlayers(activeGame.getPlayers());
+    }
+
+
+
+
+
 }

@@ -1,7 +1,5 @@
 package a340.tickettoride.fragment.right;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import a340.tickettoride.R;
@@ -33,12 +29,24 @@ public class RoutesFragment extends Fragment implements RoutesPresenter.View {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        presenter.startObserving();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        presenter.stopObserving();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_routes, container, false);
         adapter = new PlayerRoutesAdapter(getActivity());
-        adapter.setCards(new DestinationCards());
+        adapter.setCards(presenter.getPlayerDestCards());
 
         routesRecycler = view.findViewById(R.id.player_routes_recycler);
         routesRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -51,6 +59,8 @@ public class RoutesFragment extends Fragment implements RoutesPresenter.View {
         adapter.setCards(cards);
         adapter.setCompletedCards(completedCards);
     }
+
+
 
 
 }

@@ -26,6 +26,7 @@ public class Route {
         setLength(length);
         setDoubleRoute(false);
         setPriority(SECONDARY);
+        occupierId = null;
     }
 
     public Route(City city1, City city2, TrainCard.Color color, int length, int priority) {
@@ -35,6 +36,7 @@ public class Route {
         setLength(length);
         setDoubleRoute(true);
         setPriority(priority);
+        occupierId = null;
     }
 
     public double getCity1OffsetLat() {
