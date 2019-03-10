@@ -527,6 +527,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void endTest() {
+
+        displayText("Finished Tests");
         testBtn.setVisibility(View.GONE);
     }
 }

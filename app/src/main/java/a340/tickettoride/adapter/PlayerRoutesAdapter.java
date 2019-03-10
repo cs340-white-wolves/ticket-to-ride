@@ -24,14 +24,18 @@ public class PlayerRoutesAdapter extends RecyclerView.Adapter<PlayerRoutesAdapte
     public PlayerRoutesAdapter(Context context) {
         setContext(context);
         completedCards = new HashSet<>();
+        cards = new DestinationCards();
     }
 
     public void setCards(DestinationCards cards) {
-        this.cards = cards;
+        this.cards.clear();
+        this.cards.addAll(cards);
+        notifyDataSetChanged();
     }
 
     public void setCompletedCards(Set<DestinationCard> completedCards) {
-        this.completedCards = completedCards;
+        this.completedCards.clear();
+        this.completedCards.addAll(completedCards);
     }
 
     public void setContext(Context context) {

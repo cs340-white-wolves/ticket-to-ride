@@ -18,6 +18,7 @@ public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecycl
     public PlayerRecyclerViewAdapter() {
         players = new Players();
     }
+
     public void setPlayers(Players players) {
         this.players.clear();
         this.players.addAll(players);

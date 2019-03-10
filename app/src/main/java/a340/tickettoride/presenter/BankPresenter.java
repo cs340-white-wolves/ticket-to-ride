@@ -17,7 +17,6 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
     private IClientModel model = ClientModel.getInstance();
 
     public BankPresenter(View view) {
-        ClientModel.getInstance().addObserver(this);
         this.view = view;
     }
 

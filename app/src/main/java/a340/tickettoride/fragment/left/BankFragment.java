@@ -124,13 +124,14 @@ public class BankFragment extends Fragment implements BankPresenter.View {
             if (i >= cards.size()) {
                 faceUpCardSlots[i].setVisibility(View.INVISIBLE);
                 faceUpCardSlots[i].setEnabled(false);
+            } else {
+                faceUpCardSlots[i].setVisibility(View.VISIBLE);
+                faceUpCardSlots[i].setEnabled(true);
+                faceUpCardSlots[i]
+                        .setImageDrawable(getResources()
+                                .getDrawable(getCardResource(cards.get(i).getColor()),null));
             }
-            TrainCard card = cards.get(i);
-            faceUpCardSlots[i].setVisibility(View.VISIBLE);
-            faceUpCardSlots[i].setEnabled(true);
-            faceUpCardSlots[i]
-                    .setImageDrawable(getResources()
-                            .getDrawable(getCardResource(cards.get(i).getColor()),null));
+
         }
     }
 
