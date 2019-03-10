@@ -58,11 +58,11 @@ public class ChatListFragment extends Fragment implements ChatListPresenter.View
             mLinearLayoutManager.setStackFromEnd(true);
 
             mChatRecyclerAdapter = new ChatRecyclerViewAdapter();
-            setMessages(presenter.getChatMessages());
 
             mRecyclerView = (RecyclerView) view;
             mRecyclerView.setLayoutManager(mLinearLayoutManager);
             mRecyclerView.setAdapter(mChatRecyclerAdapter);
+            setMessages(presenter.getChatMessages());
         }
 
         return view;
@@ -81,7 +81,8 @@ public class ChatListFragment extends Fragment implements ChatListPresenter.View
 
     private void setMessages(List<ChatMessage> messages) {
         mChatRecyclerAdapter.setMessages(messages);
-        mLinearLayoutManager.scrollToPosition(mChatRecyclerAdapter.getItemCount() - 1);
+        int itemCount = mChatRecyclerAdapter.getItemCount();
+        mRecyclerView.smoothScrollToPosition(itemCount == 0 ? itemCount : itemCount - 1);
     }
 
 }
