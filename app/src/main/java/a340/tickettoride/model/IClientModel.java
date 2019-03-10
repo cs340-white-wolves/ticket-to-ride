@@ -9,6 +9,7 @@ import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
+import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
@@ -30,7 +31,6 @@ public interface IClientModel {
     ID getPlayerId();
     Player getPlayerFromGame();
     void onDiscardDestCardsFail(Exception exception);
-    void updateGameDestCardDeck(DestinationCards destCardDeck);
     void updatePlayers(Players players);
     void onSendChatFail(Exception exception);
     User getLoggedInUser();
@@ -38,5 +38,18 @@ public interface IClientModel {
     boolean activePlayerTurn();
     List<ChatMessage> getChatMessages();
     void startGameCommandPoller();
+
     void updateFaceUpTrainCards(TrainCards faceUpCards);
+    void updateGameDestCardDeck(DestinationCards destCardDeck);
+    void updateActivePlayersPoints();
+    void updatePlayersTrainCards(TrainCards cards);
+    void updatePlayersDestCards(DestinationCards cards);
+    void updateOpponentsTrainCards(TrainCards cards);
+    void updateOponentsDestCards(DestinationCard cards);
+    void updateTrainCardDeck(TrainCards cards);
+    void claimARoute(ID player, Route claimedRoute);
+    void addChatMessage(ID player, String message);
+    void advanceTurn();
+
+
 }

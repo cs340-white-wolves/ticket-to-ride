@@ -20,6 +20,7 @@ import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
+import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
@@ -241,11 +242,8 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     }
 
-    @Override
-    public void updateGameDestCardDeck(DestinationCards destCardDeck) {
-        activeGame.setDestinationCardDeck(destCardDeck);
-        notifyObservers(ModelChangeType.DrawableDestinationCardCount, destCardDeck.size());
-    }
+
+
 
     @Override
     public void updatePlayers(Players players) {
@@ -270,5 +268,57 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     public List<ChatMessage> getChatMessages() {
         return chatMessages;
+    }
+
+
+    @Override
+    public void updateGameDestCardDeck(DestinationCards destCardDeck) {
+        activeGame.setDestinationCardDeck(destCardDeck);
+        notifyObservers(ModelChangeType.DrawableDestinationCardCount, destCardDeck.size());
+    }
+
+    @Override
+    public void updateActivePlayersPoints() {
+
+    }
+
+    @Override
+    public void updatePlayersTrainCards(TrainCards cards) {
+
+    }
+
+    @Override
+    public void updatePlayersDestCards(DestinationCards cards) {
+
+    }
+
+    @Override
+    public void updateOpponentsTrainCards(TrainCards cards) {
+
+    }
+
+    @Override
+    public void updateOponentsDestCards(DestinationCard cards) {
+
+    }
+
+    @Override
+    public void updateTrainCardDeck(TrainCards cards) {
+
+    }
+
+    @Override
+    public void claimARoute(ID player, Route claimedRoute) {
+
+    }
+
+    @Override
+    public void addChatMessage(ID player, String message) {
+
+    }
+
+    @Override
+    public void advanceTurn() {
+
     }
 }

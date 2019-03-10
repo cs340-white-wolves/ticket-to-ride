@@ -38,7 +38,7 @@ public class BankFragment extends Fragment implements BankPresenter.View {
     }
 
     @Override
-    public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                           Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View newView = inflater.inflate(R.layout.fragment_bank, container, false);
@@ -126,6 +126,7 @@ public class BankFragment extends Fragment implements BankPresenter.View {
                 faceUpCardSlots[i].setEnabled(false);
             }
             TrainCard card = cards.get(i);
+            faceUpCardSlots[i].setVisibility(View.VISIBLE);
             faceUpCardSlots[i].setEnabled(true);
             faceUpCardSlots[i]
                     .setImageDrawable(getResources()

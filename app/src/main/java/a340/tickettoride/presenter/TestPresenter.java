@@ -17,21 +17,84 @@ public class TestPresenter implements ITest {
 
     private List<TestCommand> commands = new ArrayList<>();
     private TestCallback view;
+    private static String className = "a340.tickettoride.model.ClientModel";
 
 
     public TestPresenter(TestCallback listener) {
         this.view = listener;
         ClientModel.getInstance().setActiveGame(new Game(2, new Username("Curt")));
-        List<DestinationCard> list = new ArrayList<>();
-        Deck<DestinationCard> cardDeck = new Deck<>(list);
-        cardDeck.addCard(new DestinationCard(new City("Los Angeles", "LA", 34.0522, -118.2437), new City("Seattle", "SEA", 47.6062, -122.3321), 3));
-        cardDeck.addCard(new DestinationCard(new City("Los Angeles", "LA", 34.0522, -118.2437), new City("Seattle", "SEA", 47.6062, -122.3321), 3));
-        Class<?>[] types = new Class<?>[] {cardDeck.getClass()};
-        Object[] parameters = new Object[] {cardDeck};
-
-        commands.add(new TestCommand("Updating Destination Card Deck","a340.tickettoride.model.ClientModel", "updateGameDestCardDeck", types, parameters));
 
     }
+
+    private void createDestinationUpdate() {
+        //Create list of Destination cards
+        List<DestinationCard> list = new ArrayList<>();
+        list.add(new DestinationCard(new City("Los Angeles", "LA", 34.0522, -118.2437), new City("Seattle", "SEA", 47.6062, -122.3321), 3));
+        list.add(new DestinationCard(new City("Los Angeles", "LA", 34.0522, -118.2437), new City("Seattle", "SEA", 47.6062, -122.3321), 3));
+
+        Deck<DestinationCard> cardDeck = new Deck<>(list);
+
+        commands.add(new TestCommand("Updating Destination Card Deck", className, "updateGameDestCardDeck", new Class<?>[] {cardDeck.getClass()}, new Object[] {cardDeck}));
+    }
+
+
+    private void addTrainCards() {
+
+    }
+
+    private void removeTrainCards() {
+
+    }
+
+    private void AddDestinationCards() {
+
+    }
+
+    private void removeDestinationCards() {
+
+    }
+
+
+
+    private void updatePlayerPoints() {
+
+    }
+
+
+
+    private void updateTrainCardsOpponents() {
+
+    }
+
+    private void updateTrainCarsOpponents() {
+
+    }
+
+    private void updateDestCardsOpponents() {
+
+    }
+
+    private void updateFaceupTrainCards() {
+
+    }
+
+    private void updateTrainCardCount() {
+
+    }
+
+    private void addClamiedRoute() {
+
+    }
+
+    private void addchatMessage() {
+
+    }
+
+    private void advancePlayerTurn() {
+
+    }
+
+
 
     @Override
     public void executeCurrentTest() {

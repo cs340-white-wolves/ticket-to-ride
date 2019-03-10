@@ -24,15 +24,7 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
     @Override
     public TrainCards getCurrentFaceUpCards() {
 
-        TrainCards list = model.getActiveGame().getFaceUpTrainCards();
-
-//        list.add(new TrainCard(TrainCard.Color.cabooseGreen));
-//        list.add(new TrainCard(TrainCard.Color.freightOrange));
-//        list.add(new TrainCard(TrainCard.Color.hopperBlack));
-//        list.add(new TrainCard(TrainCard.Color.passengerWhite));
-//        list.add(new TrainCard(TrainCard.Color.locomotive));
-
-        return list;
+        return model.getActiveGame().getFaceUpTrainCards();
     }
 
     @Override
@@ -47,9 +39,7 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
     }
 
     @Override
-    public int getNumTrainCards() {
-        return model.getActiveGame().getTrainCardDeck().size();
-    }
+    public int getNumTrainCards() { return model.getActiveGame().getTrainCardDeck().size(); }
 
     @Override
     public int getNumDestCards() {
