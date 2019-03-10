@@ -98,7 +98,8 @@ public class ChatFragment extends Fragment implements ChatPresenter.View {
 
     private void setMessages(List<ChatMessage> messages) {
         mChatRecyclerAdapter.setMessages(messages);
-        mLinearLayoutManager.scrollToPosition(mChatRecyclerAdapter.getItemCount() - 1);
+        int itemCount = mChatRecyclerAdapter.getItemCount();
+        mRecyclerView.smoothScrollToPosition(itemCount == 0 ? itemCount : itemCount - 1);
     }
 
     @Override
