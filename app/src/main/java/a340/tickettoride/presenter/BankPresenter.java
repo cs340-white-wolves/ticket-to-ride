@@ -1,5 +1,8 @@
 package a340.tickettoride.presenter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
@@ -14,26 +17,19 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
     private IClientModel model = ClientModel.getInstance();
 
     public BankPresenter(View view) {
+        ClientModel.getInstance().addObserver(this);
         this.view = view;
     }
 
     @Override
     public TrainCards getCurrentFaceUpCards() {
 
-        TrainCards list = model.getActiveGame().getFaceUpTrainCards();
-
-//        list.add(new TrainCard(TrainCard.Color.cabooseGreen));
-//        list.add(new TrainCard(TrainCard.Color.freightOrange));
-//        list.add(new TrainCard(TrainCard.Color.hopperBlack));
-//        list.add(new TrainCard(TrainCard.Color.passengerWhite));
-//        list.add(new TrainCard(TrainCard.Color.locomotive));
-
-        return list;
+        return model.getActiveGame().getFaceUpTrainCards();
     }
 
     @Override
     public TrainCard drawTrainCard() {
-        TrainCard card = new TrainCard(null);
+
         return new TrainCard(TrainCard.Color.tankerBlue);
     }
 
@@ -43,9 +39,7 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
     }
 
     @Override
-    public int getNumTrainCards() {
-        return model.getActiveGame().getTrainCardDeck().size();
-    }
+    public int getNumTrainCards() { return model.getActiveGame().getTrainCardDeck().size(); }
 
     @Override
     public int getNumDestCards() {
@@ -68,14 +62,21 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
         if (changeType == ModelChangeType.DrawableDestinationCardCount) {
             int count = (int) obj;
             view.updateDestinationCardCount(count);
+
+        } else if (changeType == ModelChangeType.DrawableTrainCardCount) {
+            int count = (int) obj;
+            view.updateDrawableTrainCardCount(count);
+
         } else if (changeType == ModelChangeType.FaceUpTrainCardsUpdate) {
             TrainCards trainCards = (TrainCards) obj;
             view.updateFaceUpCards(trainCards);
         }
+
     }
 
     public interface View {
         void updateFaceUpCards(TrainCards cards);
         void updateDestinationCardCount(int count);
+        void updateDrawableTrainCardCount(int count);
     }
 }

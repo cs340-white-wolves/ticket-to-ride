@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -21,6 +22,7 @@ import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 
 public class RoutesFragment extends Fragment implements RoutesPresenter.View {
+
     private View view;
     private IRoutesPresenter presenter;
     private RecyclerView routesRecycler;
@@ -36,7 +38,7 @@ public class RoutesFragment extends Fragment implements RoutesPresenter.View {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_routes, container, false);
         adapter = new PlayerRoutesAdapter(getActivity());
-        adapter.setCards(presenter.getPlayerDestCards());
+        adapter.setCards(new DestinationCards());
 
         routesRecycler = view.findViewById(R.id.player_routes_recycler);
         routesRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));

@@ -1,6 +1,7 @@
 package a340.tickettoride.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -50,9 +51,9 @@ public class PlayerRoutesAdapter extends RecyclerView.Adapter<PlayerRoutesAdapte
         DestinationCard card = cards.get(index);
         playerRouteView.textView.setText(card.toString());
         if (completedCards.contains(card)) {
-            playerRouteView.textView.setBackgroundColor(context.getColor(R.color.Green));
+            playerRouteView.textView.setTextColor(Color.GREEN);
         } else {
-            playerRouteView.textView.setBackgroundColor(context.getColor(R.color.Red));
+            playerRouteView.textView.setTextColor(Color.RED);
         }
     }
 

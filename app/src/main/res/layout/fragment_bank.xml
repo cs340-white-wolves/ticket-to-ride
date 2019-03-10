@@ -73,7 +73,7 @@
         app:layout_constraintTop_toBottomOf="@+id/card4" />
 
     <TextView
-        android:id="@+id/numTrainCards"
+        android:id="@+id/trainCardCount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -89,7 +89,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/numDestCards"
+        android:id="@+id/destCardCount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -98,8 +98,8 @@
         android:textAlignment="center"
         android:textColor="@color/Red"
         android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="@+id/numTrainCards"
-        app:layout_constraintStart_toStartOf="@+id/numTrainCards"
+        app:layout_constraintEnd_toEndOf="@+id/trainCardCount"
+        app:layout_constraintStart_toStartOf="@+id/trainCardCount"
         app:layout_constraintTop_toBottomOf="@+id/trainCardLabel" />
 
     <TextView
@@ -109,9 +109,9 @@
         android:fontFamily="@font/vacer"
         android:text="@string/train_cards_remaining"
         android:textColor="@color/DarkBrown"
-        app:layout_constraintEnd_toEndOf="@+id/numTrainCards"
-        app:layout_constraintStart_toStartOf="@+id/numTrainCards"
-        app:layout_constraintTop_toBottomOf="@+id/numTrainCards" />
+        app:layout_constraintEnd_toEndOf="@+id/trainCardCount"
+        app:layout_constraintStart_toStartOf="@+id/trainCardCount"
+        app:layout_constraintTop_toBottomOf="@+id/trainCardCount" />
 
     <TextView
         android:id="@+id/destCardLabel"
@@ -121,9 +121,9 @@
         android:text="@string/destination_cards_remaining"
         android:textAlignment="center"
         android:textColor="@color/DarkBrown"
-        app:layout_constraintEnd_toEndOf="@+id/numDestCards"
-        app:layout_constraintStart_toStartOf="@+id/numDestCards"
-        app:layout_constraintTop_toBottomOf="@+id/numDestCards" />
+        app:layout_constraintEnd_toEndOf="@+id/destCardCount"
+        app:layout_constraintStart_toStartOf="@+id/destCardCount"
+        app:layout_constraintTop_toBottomOf="@+id/destCardCount" />
 
     <TextView
         android:id="@+id/drawPile"

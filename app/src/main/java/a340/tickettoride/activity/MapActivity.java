@@ -29,6 +29,7 @@ import java.util.*;
 import a340.tickettoride.R;
 import a340.tickettoride.adapter.*;
 import a340.tickettoride.fragment.right.*;
+import a340.tickettoride.presenter.TestPresenter;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
 import cs340.TicketToRide.model.User;
@@ -39,7 +40,7 @@ import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.*;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, MapPresenter.View {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, MapPresenter.View, TestPresenter.TestCallback {
     private static final int LINE_WIDTH = 15;
     private static final int LINE_BORDER_WIDTH = 17;
     private static final int CIRCLE_RADIUS = 35000;
@@ -67,6 +68,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Button routesBtn;
     private Button placeTrainBtn;
     private Button drawCardsBtn;
+    private TestPresenter testPresenter;
+    private Button testBtn;
 
     public MapActivity() {
         presenter = new MapPresenter(this);
@@ -113,6 +116,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void init() {
         initTrainColorValues();
         initPlayerColorValues();
+
+        testPresenter = new TestPresenter(this);
+
         lineRouteManager = new HashMap<>();
         cityMarkers = new HashSet<>();
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -121,6 +127,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawerLayout = findViewById(R.id.drawer_layout);
         initTurnTracker();
         initButtons();
+
+
     }
 
     private void initButtons() {
@@ -168,6 +176,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void run() {
                 initDestCardDialog();
+            }
+        });
+
+        testBtn = findViewById(R.id.testButton);
+        testBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                testPresenter.executeCurrentTest();
             }
         });
     }
@@ -502,4 +518,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
+
+
+    @Override
+    public void showTestName(String name) {
+        displayText(name);
+    }
+
+    @Override
+    public void endTest() {
+        testBtn.setVisibility(View.GONE);
+    }
 }

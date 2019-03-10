@@ -2,14 +2,12 @@ package a340.tickettoride.fragment.left;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.List;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.BankPresenter;
@@ -21,36 +19,30 @@ import static cs340.TicketToRide.model.game.Game.MAX_FACE_UP;
 
 public class BankFragment extends Fragment implements BankPresenter.View {
 
-
     private IBankPresenter presenter;
     private ImageView[] faceUpCardSlots = new ImageView[5];
     private TextView drawPile;
-    private TextView numDestCards;
-    private TextView numTrainCards;
+    private TextView trainCardCount;
+    private TextView destinationCardCount;
 
     @Override
     public void onResume() {
         super.onResume();
-
         presenter.startObserving();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-
         presenter.stopObserving();
     }
 
-    public BankFragment() {
-        presenter = new BankPresenter(this);
-    }
-
     @Override
-    public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                           Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        android.view.View newView = inflater.inflate(R.layout.fragment_bank, container, false);
+        View newView = inflater.inflate(R.layout.fragment_bank, container, false);
+        presenter = new BankPresenter(this);
         bindViews(newView);
         setClickListeners();
         updateFaceUpCards(presenter.getCurrentFaceUpCards());
@@ -59,11 +51,11 @@ public class BankFragment extends Fragment implements BankPresenter.View {
 
     private void bindViews(android.view.View view) {
         drawPile = view.findViewById(R.id.drawPile);
-        numDestCards = view.findViewById(R.id.numDestCards);
-        numTrainCards = view.findViewById(R.id.numTrainCards);
+        trainCardCount = view.findViewById(R.id.trainCardCount);
+        destinationCardCount = view.findViewById(R.id.destCardCount);
 
-        numTrainCards.setText(String.valueOf(presenter.getNumTrainCards()));
-        numDestCards.setText(String.valueOf(presenter.getNumDestCards()));
+        trainCardCount.setText(String.valueOf(presenter.getNumTrainCards()));
+        destinationCardCount.setText(String.valueOf(presenter.getNumDestCards()));
 
         faceUpCardSlots[0] = view.findViewById(R.id.card1);
         faceUpCardSlots[1] = view.findViewById(R.id.card2);
@@ -126,17 +118,19 @@ public class BankFragment extends Fragment implements BankPresenter.View {
         }
     }
 
-
     @Override
     public void updateFaceUpCards(TrainCards cards) {
         for (int i=0; i < MAX_FACE_UP; i++) {
             if (i >= cards.size()) {
-                // set slot to be empty
+                faceUpCardSlots[i].setVisibility(View.INVISIBLE);
+                faceUpCardSlots[i].setEnabled(false);
             }
             TrainCard card = cards.get(i);
+            faceUpCardSlots[i].setVisibility(View.VISIBLE);
+            faceUpCardSlots[i].setEnabled(true);
             faceUpCardSlots[i]
                     .setImageDrawable(getResources()
-                            .getDrawable(getCardResource(card.getColor()),null));
+                            .getDrawable(getCardResource(cards.get(i).getColor()),null));
         }
     }
 
@@ -145,8 +139,20 @@ public class BankFragment extends Fragment implements BankPresenter.View {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                numDestCards.setText(String.valueOf(count));
+                destinationCardCount.setText(Integer.toString(count));;
+            }
+        });
+
+    }
+
+    @Override
+    public void updateDrawableTrainCardCount(final int count) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                trainCardCount.setText(Integer.toString(count));
             }
         });
     }
+
 }
