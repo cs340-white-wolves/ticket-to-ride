@@ -55,9 +55,16 @@ public class RoutesFragment extends Fragment implements RoutesPresenter.View {
     }
 
     @Override
-    public void updatePlayerDestCardDisplay(Set<DestinationCard> completedCards, DestinationCards cards) {
-        adapter.setCards(cards);
-        adapter.setCompletedCards(completedCards);
+    public void updatePlayerDestCardDisplay(final Set<DestinationCard> completedCards,
+                                            final DestinationCards cards) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.setCards(cards);
+                adapter.setCompletedCards(completedCards);
+            }
+        });
+
     }
 
 

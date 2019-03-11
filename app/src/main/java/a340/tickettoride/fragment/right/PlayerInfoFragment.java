@@ -63,7 +63,12 @@ public class PlayerInfoFragment extends Fragment implements PlayerInfoPresenter.
     }
 
     @Override
-    public void updateAllPlayers(Players players) {
-        mPlayerRecyclerAdapter.setPlayers(players);
+    public void updateAllPlayers(final Players players) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mPlayerRecyclerAdapter.setPlayers(players);
+            }
+        });
     }
 }

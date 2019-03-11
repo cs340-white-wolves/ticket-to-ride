@@ -159,15 +159,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void enableButtons() {
-        drawCardsBtn.setEnabled(true);
-        placeTrainBtn.setEnabled(true);
-        routesBtn.setEnabled(true);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                drawCardsBtn.setEnabled(true);
+                placeTrainBtn.setEnabled(true);
+                routesBtn.setEnabled(true);
+            }
+        });
+
     }
 
     public void disableButtons() {
-        drawCardsBtn.setEnabled(false);
-        placeTrainBtn.setEnabled(false);
-        routesBtn.setEnabled(false);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                drawCardsBtn.setEnabled(false);
+                placeTrainBtn.setEnabled(false);
+                routesBtn.setEnabled(false);
+            }
+        });
+
     }
 
     @Override
@@ -303,12 +315,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void displayNextPlayersTurn() {
-        TurnTrackerAdapter adapter = (TurnTrackerAdapter) playerTurnRecycler.getAdapter();
-        if (adapter == null) {
-            return;
-        }
-        adapter.setNextActivePlayer();
-        adapter.notifyDataSetChanged();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                TurnTrackerAdapter adapter = (TurnTrackerAdapter) playerTurnRecycler.getAdapter();
+                if (adapter == null) {
+                    return;
+                }
+                adapter.setNextActivePlayer();
+                adapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void displayCities() {
