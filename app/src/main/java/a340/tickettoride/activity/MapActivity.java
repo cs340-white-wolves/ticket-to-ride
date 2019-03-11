@@ -2,7 +2,6 @@ package a340.tickettoride.activity;
 
 import android.content.DialogInterface;
 import android.graphics.*;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -11,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -44,12 +42,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int LINE_WIDTH = 15;
     private static final int LINE_BORDER_WIDTH = 17;
     private static final int CIRCLE_RADIUS = 35000;
-    private static final int ORANGE = 0xFFFF9800;
+    private static final int ORANGE = 0x7FFF9800;
+    public static final int WHITE = 0xFFFFFFFF;
+    public static final int BLACK = 0x7F000000;
+    public static final int BLUE = 0x7F0000FF;
+    public static final int YELLOW = 0x7FFFFF00;
+    public static final int GREEN = 0x7F00FF00;
+    public static final int PURPLE = 0x7FFF00FF;
+    public static final int RED = 0x7FFF0000;
     private static final double CENTER_LAT = 39.8283;
     private static final double CENTER_LNG = -94.5795;
     private static final float ZOOM = 3.65f;
     private static final float BASE_GAP = 17f;
-    private static final float CITY_CODE_TEXT_SIZE = 50f;
+    private static final float CITY_CODE_TEXT_SIZE = 30f;
     private static final int CITY_CODE_SHADOW_RADIUS = 5;
     private static final int CITY_CODE_STROKE_WIDTH = 2;
     private static final double CITY_NAME_LAT_OFFSET = 0.5;
@@ -279,7 +284,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         trainColorValues.put(reeferYellow, YELLOW);
         trainColorValues.put(freightOrange, ORANGE);
         trainColorValues.put(cabooseGreen, GREEN);
-        trainColorValues.put(boxPurple, MAGENTA);
+        trainColorValues.put(boxPurple, PURPLE);
         trainColorValues.put(coalRed, RED);
     }
 
@@ -357,7 +362,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         String name = city.getCode();
         CircleOptions options = new CircleOptions()
                 .center(latLng)
-                .fillColor(RED)
+                .fillColor(Color.RED)
                 .radius(CIRCLE_RADIUS);
 
         latLng = new LatLng(latLng.latitude + CITY_NAME_LAT_OFFSET, latLng.longitude);
@@ -371,12 +376,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public BitmapDescriptor createPureTextIcon(String text) {
         Paint textPaint = new Paint();
         textPaint.setTextSize(CITY_CODE_TEXT_SIZE);
-        textPaint.setColor(WHITE);
+        textPaint.setColor(Color.WHITE);
         textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setStrokeWidth(CITY_CODE_STROKE_WIDTH);
         textPaint.setStrokeCap(Paint.Cap.ROUND);
         textPaint.setFakeBoldText(true);
-        textPaint.setShadowLayer(CITY_CODE_SHADOW_RADIUS, 0, 0, BLACK);
+        textPaint.setShadowLayer(CITY_CODE_SHADOW_RADIUS, 0, 0, Color.BLACK);
 
         float textWidth = textPaint.measureText(text);
         float textHeight = textPaint.getTextSize();
@@ -434,12 +439,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         LatLng start = getRouteStartLocation(route);
         LatLng end = getRouteEndLocation(route);
 
-        final PolylineOptions borderOptions = getBorderPolylineOptions(route, start, end, segmentSize);
+        //final PolylineOptions borderOptions = getBorderPolylineOptions(route, start, end, segmentSize);
         final PolylineOptions routeOptions = getPolylineOptions(route, start, end, segmentSize);
-        Polyline borderLine = map.addPolyline(borderOptions);
+        //Polyline borderLine = map.addPolyline(borderOptions);
         Polyline routeLine = map.addPolyline(routeOptions);
         List<Polyline> lines = new ArrayList<>();
-        lines.add(borderLine);
+        //lines.add(borderLine);
         lines.add(routeLine);
         lineRouteManager.put(route, lines);
     }
@@ -484,7 +489,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 new Dash(segmentSize));
         return new PolylineOptions()
                 .add(first, second)
-                .color(BLACK)
+                .color(Color.BLACK)
                 .width(LINE_BORDER_WIDTH)
                 .pattern(patterns);
     }
