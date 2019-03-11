@@ -113,7 +113,7 @@ public class TestPresenter implements ITest {
         cards.add(new TrainCard(TrainCard.Color.coalRed));
         cards.add(new TrainCard(TrainCard.Color.reeferYellow));
 
-        commands.add(new TestCommand("Changing face up cards to 3", className, "updateFaceUpTrainCards", new Class<?>[] {cards.getClass()}, new Object[] {cards}));
+        commands.add(new TestCommand("Changing face up cards to 3 (Black, Red, Yellow)", className, "updateFaceUpTrainCards", new Class<?>[] {cards.getClass()}, new Object[] {cards}));
     }
 
     private void updateTrainCardCount() {
