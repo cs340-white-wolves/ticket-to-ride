@@ -58,4 +58,5 @@
     <string name="player_info_trains_heading">Trains</string>
     <string name="player_info_cards_heading">Cards</string>
     <string name="player_info_routes_heading">Routes</string>
+    <string name="game_history_sample">Player A did action B</string>
 </resources>
