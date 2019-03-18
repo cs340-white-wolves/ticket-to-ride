@@ -10,6 +10,10 @@ import cs340.TicketToRide.utility.*;
 /**
  * Used to store data in the server side. When the Server performs the operations,
  * it creates, reads, updates, or deletes data stored here in the model.
+ *
+ * @invariant authManager != null
+ * @invariant games != null && games.size() >= 0
+ * @invariant users != null && users.size() >= 0
  */
 public class ServerModel implements IServerModel {
 
@@ -45,6 +49,9 @@ public class ServerModel implements IServerModel {
     /**
      * Singleton factory method.
      * @return static instance of Server Model
+     *
+     * @pre none
+     * @post singleton is initialized to a new ServerModel
      */
     public static ServerModel getInstance() {
         if (singleton == null) {
@@ -57,15 +64,16 @@ public class ServerModel implements IServerModel {
      * Returns the user associated with this auth token.
      *
      * @param token A token associated with a user for authorization purposes
-     * @return user associated with token
+     * @return user associated with token | null
+     *
+     * @pre token != null
+     * @pre token.isValid()
+     * @post retVal is a valid user iff the auth manager contains a user associated with
+     * that token. Otherwise, retVal == null.
      */
     public User getUserByAuthToken(AuthToken token) {
         if (token == null || !token.isValid()) {
             throw new IllegalArgumentException();
-        }
-
-        if (authManager == null) {
-            return null;
         }
 
         return authManager.getUserByAuthToken(token);
@@ -77,6 +85,10 @@ public class ServerModel implements IServerModel {
      *
      * @param game Game to be added to server
      * @return boolean value signifying if add was successful.
+     *
+     * @pre game != null
+     * @pre game.isValid()
+     * @post retVal == true iff games does not already contain the game object
      */
     public boolean addGame(Game game) {
         if (game == null || !game.isValid()) {
@@ -94,7 +106,12 @@ public class ServerModel implements IServerModel {
      * Returns the game object with the given ID.
      *
      * @param gameID Unique ID associated with the game.
-     * @return game object associated with the ID.
+     * @return game object associated with the ID | null.
+     *
+     * @pre gameID != null
+     * @pre gameID.isValid()
+     * @post retVal == valid game iff games contains a game with the associated id. Otherwise,
+     * retVal == null
      */
     public Game getGameByID(ID gameID) {
         if (gameID == null || !gameID.isValid()) {
@@ -108,6 +125,11 @@ public class ServerModel implements IServerModel {
      * Returns the user with the given username; null if it doesn't exist
      * @param username username associated with desired user.
      * @return User with provided username | null
+     *
+     * @pre username != null
+     * @pre username.isValid()
+     * @post retVal == user iff users contains a user with the given username. Otherwise, retVal
+     * == null
      */
     public User getUserByUsername(Username username) {
         if (username == null || !username.isValid()) {
@@ -130,6 +152,15 @@ public class ServerModel implements IServerModel {
      * @param user User to be registered
      * @param token AuthToken to be associated with the User
      * @throws NotUniqueException if The username was already registered
+     *
+     * @pre user != null
+     * @pre user.isValid()
+     * @pre token != null
+     * @pre token.isValid()
+     * @pre !users.contains(user)
+     * @pre !authManager.contains(token)
+     * @post user added to set of users
+     * @post token => user added to authManager (map).
      */
     public void registerUser(User user, AuthToken token) throws NotUniqueException {
         if (user == null || token == null || !user.isValid() || !token.isValid()) {
@@ -155,6 +186,14 @@ public class ServerModel implements IServerModel {
      * @param user User to be logged in
      * @param token Token to be associated with given user.
      * @throws AuthenticationException if the User has not been registered before.
+     *
+     * @pre user != null
+     * @pre user.isValid()
+     * @pre token != null
+     * @pre token.isValid()
+     * @pre users.contains(user)
+     * @pre !authManager.contains(token)
+     * @post token => user added to authManager (map).
      */
     public void loginUser(User user, AuthToken token) throws AuthenticationException {
         if (user == null || token == null || !user.isValid() || !token.isValid()) {
@@ -179,6 +218,13 @@ public class ServerModel implements IServerModel {
      * the Client.
      *
      * @param game Game to be initialized
+     *
+     * @pre game != null
+     * @pre game.isValid()
+     * @pre Client Proxy created for every player in game
+     * @post game will be fully set up & ready to play with cards distributed, colors & turns
+     * assigned, and points initialized
+     * @post Command will be created in Client Proxy to update each player's client
      */
     @Override
     public void setupGame(Game game) {
@@ -199,6 +245,11 @@ public class ServerModel implements IServerModel {
     /**
      * Clears all data on server included registered users, created games, and all auth tokens.
      * Used primarily for testing purposes.
+     *
+     * @pre none
+     * @post authManager.size() == 0
+     * @post games.size() == 0
+     * @post users.size() == 0
      */
     public void clear() {
         authManager.clear();
@@ -209,6 +260,9 @@ public class ServerModel implements IServerModel {
     /**
      * Simple getter for Games Container which holds all created games.
      * @return Games manager object.
+     *
+     * @pre none
+     * @post retVal == valid Games object.
      */
     public Games getGames() {
         return games;
