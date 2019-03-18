@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="a340.tickettoride">
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -22,7 +21,7 @@
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".activity.GameOverActivity"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -35,7 +34,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".activity.MainActivity"
+        <activity
+            android:name=".activity.MainActivity"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,15 +43,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MapActivity"
+        <activity
+            android:name=".activity.MapActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".activity.LobbyActivity"
+        <activity
+            android:name=".activity.LobbyActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".activity.CreateGameActivity"
+        <activity
+            android:name=".activity.CreateGameActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".activity.JoinGameActivity"
+        <activity
+            android:name=".activity.JoinGameActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".activity.PendingActivity"
+        <activity
+            android:name=".activity.PendingActivity"
             android:screenOrientation="landscape" />
     </application>
 
