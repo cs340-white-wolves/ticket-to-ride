@@ -249,7 +249,8 @@ public class Game {
 
     public void setupFaceUpCards() {
 
-        // TODO: UNLIKELY CASE WHERE THE ONLY COMBOS ARE MULTIPLES OF LOCOMOTIVES, COULD CAUSE INFINITE LOOP
+        // TODO: UNLIKELY CASE WHERE THE ONLY CARDS LEFT HAVE 3+ OF LOCOMOTIVES, COULD CAUSE INFINITE LOOP
+        // TODO: PASSED FROM DISCARD TO DRAW DECK TO FACE UP
 
         do {
             if (hasTooManyFaceupLocomotives()) {
@@ -268,6 +269,7 @@ public class Game {
                     faceUpTrainCards.add(trainCard);
                 }
             }
+
         } while (hasTooManyFaceupLocomotives());
     }
 
