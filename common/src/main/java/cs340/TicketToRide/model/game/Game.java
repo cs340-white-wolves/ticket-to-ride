@@ -351,4 +351,13 @@ public class Game {
         }
         return numFaceUpLocomotives > MAX_FACEUP_LOCOMOTIVES;
     }
+
+    public Route getPartnerRoute(Route route) {
+        for (Route possibleRoute : board.getRoutes()) {
+            if (possibleRoute.isDoubleRoute() && route.isPartnerRoute(possibleRoute)) {
+                return possibleRoute;
+            }
+        }
+        return null;
+    }
 }

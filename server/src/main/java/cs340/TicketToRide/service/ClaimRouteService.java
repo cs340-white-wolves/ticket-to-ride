@@ -29,6 +29,7 @@ public class ClaimRouteService {
         }
 
         Game game = model.getGameByID(gameID);
+
         if (game == null) {
             throw new RuntimeException("Invalid game ID");
         }
@@ -39,10 +40,21 @@ public class ClaimRouteService {
             throw new RuntimeException("Player not in game");
         }
 
+        checkPlayerOwnsPartnerRoute(route, playerId, game);
+
         route.occupy(playerId);
         updatePlayerPoints(route, player, game);
 
         sendUpdates(route, game);
+    }
+
+    private void checkPlayerOwnsPartnerRoute(Route route, ID playerId, Game game) {
+        if (route.isDoubleRoute()) {
+            Route partnerRoute = game.getPartnerRoute(route);
+            if (partnerRoute.occupiedBy(playerId)) {
+                throw new RuntimeException("Player already owns the partner route");
+            }
+        }
     }
 
     private void updatePlayerPoints(Route route, Player player, Game game) {
