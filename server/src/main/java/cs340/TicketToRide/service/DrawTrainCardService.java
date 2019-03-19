@@ -44,6 +44,7 @@ public class DrawTrainCardService {
     private void addCardToPlayer(Game game, TrainCard card, Player player) {
         TrainCards trainCardDeck = game.getTrainCardDeck();
         TrainCards faceUpTrainCards = game.getFaceUpTrainCards();
+        boolean faceup;
 
         if (trainCardDeck.size() <= SINGLE_CARD) {
             game.addDiscardedToDrawDeck();
@@ -52,6 +53,7 @@ public class DrawTrainCardService {
         // Some differences if they choose a face up vs a card from the deck
         if (trainCardDeck.contains(card)) {
             trainCardDeck.remove(card);
+            faceup = false;
         } else if (faceUpTrainCards.contains(card)) {
             faceUpTrainCards.remove(card);
             TrainCard newFaceUpCard = trainCardDeck.drawFromTop();
@@ -64,23 +66,28 @@ public class DrawTrainCardService {
                 game.setupFaceUpCards();
             }
 
+            faceup = true;
         } else {
             throw new RuntimeException("Card not in faceup or facedown decks");
         }
 
         player.addTrainCard(card);
-        updateGame(game);
+        updateGame(game, faceup);
 
     }
 
-    private void updateGame(Game game) {
+    private void updateGame(Game game, boolean faceup) {
         ClientProxyManager proxyManager = ClientProxyManager.getInstance();
         // todo: create game hist obj based on faceup
         Players players = game.getPlayers();
         for (Player player : players) {
             IClient client = proxyManager.get(player.getId());
             client.playersUpdated(players);
-            client.faceUpDeckChanged(game.getFaceUpTrainCards());
+
+            if (faceup) {
+                client.faceUpDeckChanged(game.getFaceUpTrainCards());
+            }
+
             client.trainCardDeckChanged(game.getTrainCardDeck());
         }
     }
