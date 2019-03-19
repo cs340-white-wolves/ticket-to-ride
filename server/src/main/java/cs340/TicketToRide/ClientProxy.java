@@ -7,9 +7,11 @@ import cs340.TicketToRide.model.ClientCommandQueue;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
+import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
+import cs340.TicketToRide.model.game.card.TrainCards;
 
 public class ClientProxy implements IClient {
     public ClientCommandQueue queue = new ClientCommandQueue();
@@ -58,5 +60,35 @@ public class ClientProxy implements IClient {
                 new Object[]{}
         );
         queue.add(gameStarted);
+    }
+
+    @Override
+    public void faceUpDeckChanged(TrainCards trainCards) {
+        Command changeFaceUpDeck = new Command(
+                "faceUpDeckChanged",
+                new String[]{TrainCards.class.getName()},
+                new Object[]{trainCards}
+        );
+        queue.add(changeFaceUpDeck);
+    }
+
+    @Override
+    public void trainCardDeckChanged(TrainCards trainCards) {
+        Command changeTrainCardDeck = new Command(
+                "trainCardDeckChanged",
+                new String[]{TrainCards.class.getName()},
+                new Object[]{trainCards}
+        );
+        queue.add(changeTrainCardDeck);
+    }
+
+    @Override
+    public void routeUpdated(Route route) {
+        Command updateRoute = new Command(
+                "routeUpdated",
+                new String[]{Route.class.getName()},
+                new Object[]{route}
+        );
+        queue.add(updateRoute);
     }
 }

@@ -11,11 +11,13 @@ public class DestinationCard {
     private City city1;
     private City city2;
     private int points;
+    private boolean completed;
 
     public DestinationCard(City city1, City city2, int points) {
         this.city1 = city1;
         this.city2 = city2;
         this.points = points;
+        this.completed = false;
     }
 
     private static final String[][] destCardCombos = {
@@ -98,6 +100,14 @@ public class DestinationCard {
     public String toString() {
         return city1.getName() + " (" + city1.getCode() + "), " +
                 city2.getName() + " (" + city2.getCode() + ")";
+    }
+
+    public boolean isCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 
     @Override

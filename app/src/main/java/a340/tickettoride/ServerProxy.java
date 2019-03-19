@@ -18,6 +18,7 @@ import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
+import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
 import cs340.TicketToRide.utility.Username;
@@ -178,7 +179,24 @@ public class ServerProxy implements IServer {
 
     @Override
     public void claimRoute(Route route, AuthToken token, ID gameID, ID playerId) {
+        ICommand command = new Command(
+                "claimRoute",
+                new String[]{Route.class.getName(), AuthToken.class.getName(),
+                        ID.class.getName(), ID.class.getName()},
+                new Object[]{route, token, gameID, playerId}
+        );
+        communicator.sendCommand(command);
+    }
 
+    @Override
+    public void drawTrainCard(TrainCard card, AuthToken token, ID gameId, ID playerId) {
+        ICommand command = new Command(
+                "drawTrainCard",
+                new String[]{TrainCard.class.getName(), AuthToken.class.getName(),
+                        ID.class.getName(), ID.class.getName()},
+                new Object[]{card, token, gameId, playerId}
+        );
+        communicator.sendCommand(command);
     }
 
 }

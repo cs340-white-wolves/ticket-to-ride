@@ -76,7 +76,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     public void placeTrains() {
         Route route = view.getSelectedRoute();
         ServiceFacade.getInstance().claimRoute(route);
-        // todo: implement this
     }
 
     @Override

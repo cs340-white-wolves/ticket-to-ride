@@ -10,9 +10,11 @@ import cs340.TicketToRide.IClient;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
+import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
+import cs340.TicketToRide.model.game.card.TrainCards;
 
 public class ClientFacade implements IClient {
     private static ClientFacade singleton;
@@ -47,6 +49,21 @@ public class ClientFacade implements IClient {
     @Override
     public void startGame() {
         model.onGameStart();
+    }
+
+    @Override
+    public void faceUpDeckChanged(TrainCards trainCards) {
+        model.updateFaceUpTrainCards(trainCards);
+    }
+
+    @Override
+    public void trainCardDeckChanged(TrainCards trainCards) {
+        model.updateTrainCardDeck(trainCards);
+    }
+
+    @Override
+    public void routeUpdated(Route route) {
+        model.updateRoute(route);
     }
 
 }

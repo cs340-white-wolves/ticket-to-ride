@@ -137,7 +137,7 @@ public class TestPresenter implements ITest {
     }
 
     private void addClamiedRoute() {
-        commands.add(new TestCommand("Adding claimed route for each player", className, "claimARoute", new Class<?>[] {}, new Object[] {}));
+        commands.add(new TestCommand("Adding claimed route for each player", className, "updateRoute", new Class<?>[] {}, new Object[] {}));
     }
 
     private void addchatMessage() {
