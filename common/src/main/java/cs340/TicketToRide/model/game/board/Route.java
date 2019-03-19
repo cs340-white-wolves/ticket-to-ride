@@ -241,4 +241,16 @@ public class Route {
                 Objects.equals(city2, route.city2) &&
                 color == route.color;
     }
+
+    public boolean isPartnerRoute(Route route) {
+        if (!this.isDoubleRoute() || !route.isDoubleRoute()) {
+            return false;
+        }
+
+        if (this.equals(route)) {
+            return false;
+        }
+
+        return this.city1 == route.city1 && this.city2 == route.city2;
+    }
 }
