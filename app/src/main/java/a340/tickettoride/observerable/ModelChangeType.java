@@ -16,5 +16,5 @@ public enum ModelChangeType {
     FailureException,
     GameStarted,
     StartMap,
-    AuthenticateSuccess
+    GameHistoryReceived, AuthenticateSuccess
 }
