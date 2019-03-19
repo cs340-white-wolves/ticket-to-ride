@@ -52,10 +52,17 @@ public class DrawTrainCardService {
             player.addTrainCard(card);
             TrainCard newFaceUpCard = trainCardDeck.drawFromTop();
             faceUpTrainCards.add(newFaceUpCard);
+
+            if (game.hasTooManyFaceupLocomotives()) {
+                game.setupFaceUpCards();
+            }
+
             updateGame(game, true);
         } else {
             throw new RuntimeException("Card not in faceup or facedown decks");
         }
+
+        // todo: if cards are getting low, replenish
     }
 
     private void updateGame(Game game, boolean faceUp) {

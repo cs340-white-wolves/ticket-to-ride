@@ -21,6 +21,7 @@ public class Game {
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 5;
     public static final int MAX_FACE_UP = 5;
+    public static final int MAX_FACEUP_LOCOMOTIVES = 2;
 
     private int targetNumPlayers;
     private Players players;
@@ -242,10 +243,32 @@ public class Game {
         }
 
         // Set the 5 face up train cards
-        for (int i = 0; i < MAX_FACE_UP; i++) {
-            TrainCard trainCard = trainCardDeck.drawFromTop();
-            faceUpTrainCards.add(trainCard);
+        setupFaceUpCards();
+
+    }
+
+    public void setupFaceUpCards() {
+        if (trainCardDeck.size() < MAX_FACE_UP) {
+            addDiscardedToDrawDeck();
         }
+
+        do {
+            if (hasTooManyFaceupLocomotives()) {
+                discardedTrainCards.addAll(faceUpTrainCards);
+                faceUpTrainCards.clear();
+            }
+
+            for (int i = 0; i < MAX_FACE_UP; i++) {
+                TrainCard trainCard = trainCardDeck.drawFromTop();
+                faceUpTrainCards.add(trainCard);
+            }
+        } while (hasTooManyFaceupLocomotives());
+    }
+
+    private void addDiscardedToDrawDeck() {
+        discardedTrainCards.shuffle();
+        trainCardDeck.addAll(discardedTrainCards);
+        discardedTrainCards.clear();
     }
 
     public Board getBoard() {
@@ -311,4 +334,13 @@ public class Game {
         }
     }
 
+    public boolean hasTooManyFaceupLocomotives() {
+        int numFaceUpLocomotives = 0;
+        for (TrainCard card : faceUpTrainCards) {
+            if (card.getColor() == TrainCard.Color.locomotive) {
+                numFaceUpLocomotives++;
+            }
+        }
+        return numFaceUpLocomotives > MAX_FACEUP_LOCOMOTIVES;
+    }
 }
