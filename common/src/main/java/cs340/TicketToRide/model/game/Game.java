@@ -248,9 +248,6 @@ public class Game {
     }
 
     public void setupFaceUpCards() {
-        if (trainCardDeck.size() < MAX_FACE_UP) {
-            addDiscardedToDrawDeck();
-        }
 
         // TODO: UNLIKELY CASE WHERE THE ONLY COMBOS ARE MULTIPLES OF LOCOMOTIVES, COULD CAUSE INFINITE LOOP
 
@@ -258,6 +255,10 @@ public class Game {
             if (hasTooManyFaceupLocomotives()) {
                 discardedTrainCards.addAll(faceUpTrainCards);
                 faceUpTrainCards.clear();
+            }
+
+            if (trainCardDeck.size() < MAX_FACE_UP) {
+                addDiscardedToDrawDeck();
             }
 
             for (int i = 0; i < MAX_FACE_UP; i++) {
