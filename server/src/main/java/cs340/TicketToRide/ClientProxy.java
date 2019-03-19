@@ -1,15 +1,10 @@
 package cs340.TicketToRide;
 
-import java.util.List;
-
 import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.model.ClientCommandQueue;
-import cs340.TicketToRide.model.game.ChatMessage;
-import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.Deck;
-import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCards;
 
@@ -21,11 +16,11 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public void chatMessageReceived(ChatMessage message) {
+    public void chatMessageReceived(Message message) {
 
         Command gotChat = new Command(
                 "chatMessageReceived",
-                new String[]{ChatMessage.class.getName()},
+                new String[]{Message.class.getName()},
                 new Object[]{message}
         );
 

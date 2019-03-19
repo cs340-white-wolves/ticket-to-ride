@@ -2,8 +2,6 @@ package a340.tickettoride;
 
 import android.util.Log;
 
-import java.util.List;
-
 import a340.tickettoride.communication.ClientCommunicator;
 import cs340.TicketToRide.IServer;
 import cs340.TicketToRide.communication.Commands;
@@ -12,11 +10,10 @@ import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.communication.Response;
 import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.model.AuthToken;
-import cs340.TicketToRide.model.game.ChatMessage;
+import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.ID;
@@ -144,10 +141,10 @@ public class ServerProxy implements IServer {
     }
 
     @Override
-    public void sendChat(AuthToken token, ID gameId, ChatMessage message) {
+    public void sendChat(AuthToken token, ID gameId, Message message) {
         ICommand command = new Command(
                 "sendChat",
-                new String[]{AuthToken.class.getName(), ID.class.getName(), ChatMessage.class.getName()},
+                new String[]{AuthToken.class.getName(), ID.class.getName(), Message.class.getName()},
                 new Object[]{token, gameId, message}
         );
 

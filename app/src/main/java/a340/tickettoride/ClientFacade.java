@@ -2,17 +2,12 @@ package a340.tickettoride;
 
 import android.util.Log;
 
-import java.util.List;
-
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
 import cs340.TicketToRide.IClient;
-import cs340.TicketToRide.model.game.ChatMessage;
-import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.Deck;
-import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCards;
 
@@ -31,7 +26,7 @@ public class ClientFacade implements IClient {
     }
 
     @Override
-    public void chatMessageReceived(ChatMessage message) {
+    public void chatMessageReceived(Message message) {
         model.onChatMessageReceived(message);
         Log.i("ClientFacade", "Got chat message!");
     }

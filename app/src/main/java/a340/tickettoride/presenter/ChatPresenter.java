@@ -8,7 +8,7 @@ import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IChatPresenter;
-import cs340.TicketToRide.model.game.ChatMessage;
+import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.utility.Username;
 
 public class ChatPresenter implements IChatPresenter, ModelObserver {
@@ -33,12 +33,12 @@ public class ChatPresenter implements IChatPresenter, ModelObserver {
     @Override
     public void onModelEvent(ModelChangeType changeType, Object obj) {
         if (changeType == ModelChangeType.ChatMessageReceived) {
-            List<ChatMessage> messages = (List<ChatMessage>) obj;
+            List<Message> messages = (List<Message>) obj;
             listener.setChatMsgsFromPoller(messages);
         }
     }
 
-    public List<ChatMessage> getChatMessages() {
+    public List<Message> getChatMessages() {
         return model.getChatMessages();
     }
 
@@ -47,13 +47,13 @@ public class ChatPresenter implements IChatPresenter, ModelObserver {
         String input = listener.getMessageInput();
         IClientModel model = ClientModel.getInstance();
         Username username = model.getLoggedInUser().getUsername();
-        ChatMessage message = new ChatMessage(username, input);
+        Message message = new Message(username, input);
         ServiceFacade.getInstance().sendChatMessage(message);
         listener.clearMessageInput();
     }
 
     public interface View {
-        void setChatMsgsFromPoller(List<ChatMessage> message);
+        void setChatMsgsFromPoller(List<Message> message);
         String getMessageInput();
         void clearMessageInput();
     }

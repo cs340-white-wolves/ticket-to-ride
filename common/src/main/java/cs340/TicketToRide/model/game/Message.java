@@ -4,11 +4,11 @@ import java.util.Objects;
 
 import cs340.TicketToRide.utility.Username;
 
-public class ChatMessage {
+public class Message {
     private Username username;
     private String message;
 
-    public ChatMessage(Username username, String message) {
+    public Message(Username username, String message) {
         this.username = username;
         this.message = message;
     }
@@ -33,7 +33,7 @@ public class ChatMessage {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ChatMessage that = (ChatMessage) o;
+        Message that = (Message) o;
         return Objects.equals(username, that.username) &&
                 Objects.equals(message, that.message);
     }
@@ -45,7 +45,7 @@ public class ChatMessage {
 
     @Override
     public String toString() {
-        return "ChatMessage{" +
+        return "Message{" +
                 "username='" + username + '\'' +
                 ", message='" + message + '\'' +
                 '}';

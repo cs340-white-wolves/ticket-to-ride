@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import a340.tickettoride.R;
-import cs340.TicketToRide.model.game.ChatMessage;
+import cs340.TicketToRide.model.game.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,23 +15,23 @@ import java.util.List;
 
 public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerViewAdapter.ViewHolder> {
 
-    private final List<ChatMessage> mMessages;
+    private final List<Message> mMessages;
 
     public ChatRecyclerViewAdapter() {
         mMessages = new ArrayList<>();
     }
 
-    public void addMessage(ChatMessage message) {
+    public void addMessage(Message message) {
         mMessages.add(message);
         notifyDataSetChanged();
     }
 
-    public void addMessages(List<ChatMessage> messages) {
+    public void addMessages(List<Message> messages) {
         mMessages.addAll(messages);
         notifyDataSetChanged();
     }
 
-    public void setMessages(List<ChatMessage> messages) {
+    public void setMessages(List<Message> messages) {
         mMessages.clear();
         mMessages.addAll(messages);
         notifyDataSetChanged();
@@ -60,7 +60,7 @@ public class ChatRecyclerViewAdapter extends RecyclerView.Adapter<ChatRecyclerVi
         public final View mView;
         public final TextView mPlayerName;
         public final TextView mMessage;
-        public ChatMessage mChatMessage;
+        public Message mChatMessage;
 
         public ViewHolder(View view) {
             super(view);
