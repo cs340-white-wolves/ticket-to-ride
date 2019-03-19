@@ -261,7 +261,6 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
 
-    //=================================Testing Methods===============================
     @Override
     public void updateGameDestCardDeck(DestinationCards destCardDeck) {
         activeGame.setDestinationCardDeck(destCardDeck);
@@ -275,10 +274,12 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
     public void updateFaceUpTrainCards(TrainCards faceUpCards) {
-        this.activeGame.setFaceUpTrainCards(faceUpCards);
+        activeGame.setFaceUpTrainCards(faceUpCards);
         notifyObservers(ModelChangeType.FaceUpTrainCardsUpdate, activeGame.getFaceUpTrainCards());
         notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getTrainCardDeck().size());
     }
+
+    //=================================Testing Methods===============================
 
     public void claimARoute() {
             List<Route> routes = new ArrayList<>();

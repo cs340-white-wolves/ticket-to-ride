@@ -2,11 +2,15 @@ package cs340.TicketToRide.model.game.card;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import cs340.TicketToRide.utility.ID;
 
 public class TrainCard {
 
     private static final int NUM_NORMAL_CARDS = 12;
     private static final int NUM_LOCOMOTIVE_CARDS = 14;
+    private ID id;
 
     public enum Color {
         passengerWhite, tankerBlue, reeferYellow, freightOrange, cabooseGreen,
@@ -17,6 +21,7 @@ public class TrainCard {
 
     public TrainCard(Color color) {
         this.color = color;
+        id = ID.generateID();
     }
 
     public Color getColor() {
@@ -44,5 +49,18 @@ public class TrainCard {
         cards.shuffle();
 
         return cards;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TrainCard card = (TrainCard) o;
+        return color == card.color && id.equals(card.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

@@ -308,15 +308,4 @@ public class Game {
         }
     }
 
-    public void giveCardToPlayer(TrainCard card, Player player) {
-        if (trainCardDeck.contains(card)) {
-            trainCardDeck.remove(card);
-            player.addTrainCard(card);
-        } else if (faceUpTrainCards.contains(card)) {
-            faceUpTrainCards.remove(card);
-            player.addTrainCard(card);
-        } else {
-            throw new RuntimeException("Card not in faceup or facedown decks");
-        }
-    }
 }
