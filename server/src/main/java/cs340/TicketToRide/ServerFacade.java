@@ -11,6 +11,7 @@ import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
+import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.service.*;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
@@ -57,7 +58,12 @@ public class ServerFacade implements IServer {
 
     @Override
     public void claimRoute(Route route, AuthToken token, ID gameID, ID playerId) {
+        new ClaimRouteService().claimRoute(route, token, gameID, playerId);
+    }
 
+    @Override
+    public void drawTrainCard(TrainCard card, AuthToken token, ID gameId, ID playerId) {
+        new DrawTrainCardService().drawTrainCard(card, token, gameId, playerId);
     }
 
     public Games getAvailableGames(AuthToken token) {
