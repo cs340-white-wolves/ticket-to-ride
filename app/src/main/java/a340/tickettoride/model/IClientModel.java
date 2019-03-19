@@ -41,13 +41,13 @@ public interface IClientModel {
     void updateFaceUpTrainCards(TrainCards faceUpCards);
     void updateGameDestCardDeck(DestinationCards destCardDeck);
     void updateTrainCardDeck(TrainCards cards);
+    void updateRoute(Route route);
 
 //    void updateActivePlayersPoints();
 //    void updatePlayersTrainCards(TrainCards cards);
 //    void updatePlayersDestCards(DestinationCards cards);
 //    void updateOpponentsTrainCards(TrainCards cards);
 //    void updateOponentsDestCards(DestinationCard cards);
-//    void claimARoute(ID player, Route claimedRoute);
 //    void addChatMessage(ID player, String message);
 //    void advanceTurn();
 

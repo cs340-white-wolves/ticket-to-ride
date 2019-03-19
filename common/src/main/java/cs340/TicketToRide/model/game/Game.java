@@ -90,14 +90,17 @@ public class Game {
         Player player = getPlayerById(playerId);
         Set<DestinationCard> completedCards = new HashSet<>();
         for (DestinationCard card : player.getDestinationCards()) {
-            if (playerCompletedDestCard(playerId, card)) {
+            if (card.isCompleted()) {
                 completedCards.add(card);
             }
+//            if (playerCompletedDestCard(playerId, card)) {
+//                completedCards.add(card);
+//            }
         }
         return completedCards;
     }
 
-    private boolean playerCompletedDestCard(ID playerId, DestinationCard card) {
+    public boolean playerCompletedDestCard(ID playerId, DestinationCard card) {
         City start = card.getCity1();
         City end = card.getCity2();
         List<City> visitedCities = new ArrayList<>();

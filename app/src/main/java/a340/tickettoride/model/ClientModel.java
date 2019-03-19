@@ -279,19 +279,11 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getTrainCardDeck().size());
     }
 
-    //=================================Testing Methods===============================
-
-    public void claimARoute() {
-            List<Route> routes = new ArrayList<>();
-            routes.addAll(activeGame.getBoard().getRoutes());
-            int index = 0;
-
-            for (Player player: activeGame.getPlayers()) {
-                routes.get(index).occupy(player.getId());
-                notifyObservers(ModelChangeType.RouteClaimed, routes.get(index));
-                index++;
-            }
+    public void updateRoute(Route route) {
+        notifyObservers(ModelChangeType.RouteClaimed, route);
     }
+
+    //=================================Testing Methods===============================
 
 
     public void advanceTurn() {

@@ -5,6 +5,7 @@ import java.util.List;
 import cs340.TicketToRide.model.game.ChatMessage;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
+import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
@@ -17,4 +18,5 @@ public interface IClient {
     void startGame();
     void faceUpDeckChanged(TrainCards trainCards);
     void trainCardDeckChanged(TrainCards trainCards);
+    void routeUpdated(Route route);
 }
