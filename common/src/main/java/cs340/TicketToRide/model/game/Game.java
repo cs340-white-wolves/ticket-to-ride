@@ -21,6 +21,7 @@ public class Game {
     public static final int MIN_PLAYERS = 2;
     public static final int MAX_PLAYERS = 5;
     public static final int MAX_FACE_UP = 5;
+    public static final int MAX_FACEUP_LOCOMOTIVES = 2;
 
     private int targetNumPlayers;
     private Players players;
@@ -242,10 +243,40 @@ public class Game {
         }
 
         // Set the 5 face up train cards
-        for (int i = 0; i < MAX_FACE_UP; i++) {
-            TrainCard trainCard = trainCardDeck.drawFromTop();
-            faceUpTrainCards.add(trainCard);
-        }
+        setupFaceUpCards();
+
+    }
+
+    public void setupFaceUpCards() {
+
+        // TODO: UNLIKELY CASE WHERE THE ONLY CARDS LEFT HAVE 3+ OF LOCOMOTIVES, COULD CAUSE INFINITE LOOP
+        // TODO: PASSED FROM DISCARD TO DRAW DECK TO FACE UP
+
+        do {
+            if (hasTooManyFaceupLocomotives()) {
+                discardedTrainCards.addAll(faceUpTrainCards);
+                faceUpTrainCards.clear();
+            }
+
+            if (trainCardDeck.size() < MAX_FACE_UP) {
+                addDiscardedToDrawDeck();
+            }
+
+            for (int i = 0; i < MAX_FACE_UP; i++) {
+                TrainCard trainCard = trainCardDeck.drawFromTop();
+
+                if (trainCard != null) {
+                    faceUpTrainCards.add(trainCard);
+                }
+            }
+
+        } while (hasTooManyFaceupLocomotives());
+    }
+
+    public void addDiscardedToDrawDeck() {
+        discardedTrainCards.shuffle();
+        trainCardDeck.addAll(discardedTrainCards);
+        discardedTrainCards.clear();
     }
 
     public Board getBoard() {
@@ -311,4 +342,13 @@ public class Game {
         }
     }
 
+    public boolean hasTooManyFaceupLocomotives() {
+        int numFaceUpLocomotives = 0;
+        for (TrainCard card : faceUpTrainCards) {
+            if (card.getColor() == TrainCard.Color.locomotive) {
+                numFaceUpLocomotives++;
+            }
+        }
+        return numFaceUpLocomotives > MAX_FACEUP_LOCOMOTIVES;
+    }
 }

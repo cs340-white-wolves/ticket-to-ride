@@ -16,6 +16,9 @@ import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 
 public class DrawTrainCardService {
+
+    public static final int SINGLE_CARD = 1;
+
     public void drawTrainCard(TrainCard card, AuthToken token, ID gameId, ID playerId) {
         IServerModel model = ServerModel.getInstance();
         User user = model.getUserByAuthToken(token);
@@ -41,35 +44,51 @@ public class DrawTrainCardService {
     private void addCardToPlayer(Game game, TrainCard card, Player player) {
         TrainCards trainCardDeck = game.getTrainCardDeck();
         TrainCards faceUpTrainCards = game.getFaceUpTrainCards();
+        boolean faceup;
+
+        if (trainCardDeck.size() <= SINGLE_CARD) {
+            game.addDiscardedToDrawDeck();
+        }
 
         // Some differences if they choose a face up vs a card from the deck
         if (trainCardDeck.contains(card)) {
             trainCardDeck.remove(card);
-            player.addTrainCard(card);
-            updateGame(game, false);
+            faceup = false;
         } else if (faceUpTrainCards.contains(card)) {
             faceUpTrainCards.remove(card);
-            player.addTrainCard(card);
             TrainCard newFaceUpCard = trainCardDeck.drawFromTop();
-            faceUpTrainCards.add(newFaceUpCard);
-            updateGame(game, true);
+
+            if (newFaceUpCard != null) {
+                faceUpTrainCards.add(newFaceUpCard);
+            }
+
+            if (game.hasTooManyFaceupLocomotives()) {
+                game.setupFaceUpCards();
+            }
+
+            faceup = true;
         } else {
             throw new RuntimeException("Card not in faceup or facedown decks");
         }
+
+        player.addTrainCard(card);
+        updateGame(game, faceup);
+
     }
 
-    private void updateGame(Game game, boolean faceUp) {
+    private void updateGame(Game game, boolean faceup) {
         ClientProxyManager proxyManager = ClientProxyManager.getInstance();
         // todo: create game hist obj based on faceup
         Players players = game.getPlayers();
         for (Player player : players) {
             IClient client = proxyManager.get(player.getId());
             client.playersUpdated(players);
-            if (faceUp) {
+
+            if (faceup) {
                 client.faceUpDeckChanged(game.getFaceUpTrainCards());
-            } else {
-                client.trainCardDeckChanged(game.getTrainCardDeck());
             }
+
+            client.trainCardDeckChanged(game.getTrainCardDeck());
         }
     }
 }
