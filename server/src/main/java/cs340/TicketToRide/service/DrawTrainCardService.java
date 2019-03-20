@@ -54,11 +54,11 @@ public class DrawTrainCardService {
 
         // Some differences if they choose a face up vs a card from the deck
         if (trainCardDeck.contains(card)) {
-            faceUpTrainCards.remove(card);
             trainCardDeck.remove(card);
             msg = "Drew train card from deck";
             faceup = false;
         } else if (faceUpTrainCards.contains(card)) {
+            faceUpTrainCards.remove(card);
             replaceFaceUpCard(game, trainCardDeck, faceUpTrainCards);
             msg = "Drew face up " + card.getColor() + " train card";
             faceup = true;
