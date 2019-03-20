@@ -4,6 +4,7 @@ import cs340.TicketToRide.IClient;
 import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.model.*;
 import cs340.TicketToRide.model.game.Game;
+import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
@@ -37,13 +38,15 @@ public class DiscardDestCardService {
 
         allCards.removeAll(discardCards);
         game.addCardsToDestCardDeck(discardCards);
+        String msg = "Drew destination cards";
+        Message historyMessage = new Message(player.getUser().getUsername(), msg);
 
         for (Player gamePlayer : game.getPlayers()) {
             IClient client = ClientProxyManager.getInstance().get(gamePlayer.getId());
             client.destCardDeckChanged(game.getDestCardDeck());
             client.playersUpdated(game.getPlayers());
+            client.historyMessageReceived(historyMessage);
         }
 
-        // TODO: GAME HISTORY
     }
 }
