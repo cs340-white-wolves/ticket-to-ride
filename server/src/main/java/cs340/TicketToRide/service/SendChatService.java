@@ -1,21 +1,19 @@
 package cs340.TicketToRide.service;
 
-import java.util.List;
-
 import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.ClientProxyManager;
 import cs340.TicketToRide.model.IServerModel;
 import cs340.TicketToRide.model.ServerModel;
 import cs340.TicketToRide.model.User;
-import cs340.TicketToRide.model.game.ChatMessage;
+import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.utility.ID;
 
 public class SendChatService {
-    public void sendChat(AuthToken token, ID gameId, ChatMessage message) {
+    public void sendChat(AuthToken token, ID gameId, Message message) {
         IServerModel model = ServerModel.getInstance();
         User user = model.getUserByAuthToken(token);
         if (user == null) {

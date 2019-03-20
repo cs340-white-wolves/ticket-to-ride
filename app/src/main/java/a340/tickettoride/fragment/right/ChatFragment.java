@@ -15,7 +15,7 @@ import java.util.List;
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.ChatPresenter;
 import a340.tickettoride.presenter.interfaces.IChatPresenter;
-import cs340.TicketToRide.model.game.ChatMessage;
+import cs340.TicketToRide.model.game.Message;
 
 public class ChatFragment extends Fragment implements ChatPresenter.View {
 
@@ -86,7 +86,7 @@ public class ChatFragment extends Fragment implements ChatPresenter.View {
     }
 
     @Override
-    public void setChatMsgsFromPoller(final List<ChatMessage> messages) {
+    public void setChatMsgsFromPoller(final List<Message> messages) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -96,7 +96,7 @@ public class ChatFragment extends Fragment implements ChatPresenter.View {
 
     }
 
-    private void setMessages(List<ChatMessage> messages) {
+    private void setMessages(List<Message> messages) {
         mChatRecyclerAdapter.setMessages(messages);
         int itemCount = mChatRecyclerAdapter.getItemCount();
         mRecyclerView.smoothScrollToPosition(itemCount == 0 ? itemCount : itemCount - 1);

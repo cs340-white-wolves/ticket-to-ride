@@ -8,6 +8,7 @@ import cs340.TicketToRide.model.IServerModel;
 import cs340.TicketToRide.model.ServerModel;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.Game;
+import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.Route;
@@ -45,7 +46,7 @@ public class ClaimRouteService {
         route.occupy(playerId);
         updatePlayerPoints(route, player, game);
 
-        sendUpdates(route, game);
+        sendUpdates(route, game, player);
     }
 
     private void checkPlayerOwnsPartnerRoute(Route route, ID playerId, Game game) {
@@ -67,14 +68,17 @@ public class ClaimRouteService {
         }
     }
 
-    private void sendUpdates(Route route, Game game) {
+    private void sendUpdates(Route route, Game game, Player player) {
         ClientProxyManager proxyManager = ClientProxyManager.getInstance();
         Players players = game.getPlayers();
+        String msg = "Claimed route from " + route.getCity1() + " to " + route.getCity2();
+        Message historyMessage = new Message(player.getUser().getUsername(), msg);
 
-        for (Player player : players) {
-            IClient client = proxyManager.get(player.getId());
+        for (Player curPlayer : players) {
+            IClient client = proxyManager.get(curPlayer.getId());
             client.routeUpdated(route);
             client.playersUpdated(players);
+            client.historyMessageReceived(historyMessage);
         }
     }
 }

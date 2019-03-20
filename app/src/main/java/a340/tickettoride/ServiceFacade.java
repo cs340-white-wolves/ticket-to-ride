@@ -1,11 +1,5 @@
 package a340.tickettoride;
 
-import android.util.Log;
-
-import java.util.List;
-
-import a340.tickettoride.model.ClientModel;
-import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.task.ClaimRouteTask;
 import a340.tickettoride.task.CreateGameTask;
 import a340.tickettoride.task.DiscardDestCardTask;
@@ -14,10 +8,9 @@ import a340.tickettoride.task.JoinGameTask;
 import a340.tickettoride.task.LoginTask;
 import a340.tickettoride.task.RegisterTask;
 import a340.tickettoride.task.SendChatTask;
-import cs340.TicketToRide.model.game.ChatMessage;
+import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.ID;
@@ -78,7 +71,7 @@ public class ServiceFacade {
 
     }
 
-    public void sendChatMessage(ChatMessage message) {
+    public void sendChatMessage(Message message) {
         SendChatTask task = new SendChatTask(message);
         task.execute();
     }

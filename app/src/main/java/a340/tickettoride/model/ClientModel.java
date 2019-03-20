@@ -14,17 +14,14 @@ import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
-import cs340.TicketToRide.model.game.ChatMessage;
+import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.Deck;
-import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
-import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Username;
@@ -37,7 +34,8 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     private Game activeGame;
     private Games lobbyGameList;
     private ID playerId;
-    private List<ChatMessage> chatMessages = new ArrayList<>();
+    private List<Message> chatMessages = new ArrayList<>();
+    private List<Message> historyMessages = new ArrayList<>();
     private int lastExecutedCommandIndex = -1;
 
     private ClientModel() {
@@ -146,9 +144,15 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
     @Override
-    public void onChatMessageReceived(ChatMessage message) {
+    public void onChatMessageReceived(Message message) {
         chatMessages.add(message);
         notifyObservers(ModelChangeType.ChatMessageReceived, chatMessages);
+    }
+
+    @Override
+    public void onHistoryMessageReceived(Message message) {
+        historyMessages.add(message);
+        notifyObservers(ModelChangeType.GameHistoryReceived, historyMessages);
     }
 
     private void startGameListPoller() {
@@ -256,7 +260,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         return lastExecutedCommandIndex;
     }
 
-    public List<ChatMessage> getChatMessages() {
+    public List<Message> getChatMessages() {
         return chatMessages;
     }
 
@@ -294,7 +298,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     public void addChatMessages() {
         for(Player player: activeGame.getPlayers()) {
             Username username = player.getUser().getUsername();
-            chatMessages.add(new ChatMessage(username, "Message from " + username.toString()));
+            chatMessages.add(new Message(username, "Message from " + username.toString()));
         }
         notifyObservers(ModelChangeType.ChatMessageReceived, chatMessages);
     }

@@ -5,15 +5,12 @@ import java.util.List;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.User;
-import cs340.TicketToRide.model.game.ChatMessage;
+import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.Deck;
-import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
-import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 
@@ -25,7 +22,8 @@ public interface IClientModel {
     void onJoinGameFail(Exception e);
     void onCreateGameSuccess(Game game);
     void onCreateGameFail(Exception e);
-    void onChatMessageReceived(ChatMessage message);
+    void onChatMessageReceived(Message message);
+    void onHistoryMessageReceived(Message message);
     int getLastExecutedCommandIndex();
     Game getActiveGame();
     ID getPlayerId();
@@ -36,7 +34,7 @@ public interface IClientModel {
     User getLoggedInUser();
     void onGameStart();
     boolean activePlayerTurn();
-    List<ChatMessage> getChatMessages();
+    List<Message> getChatMessages();
     void startGameCommandPoller();
     void updateFaceUpTrainCards(TrainCards faceUpCards);
     void updateGameDestCardDeck(DestinationCards destCardDeck);

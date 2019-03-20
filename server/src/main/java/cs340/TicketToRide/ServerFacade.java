@@ -1,15 +1,11 @@
 package cs340.TicketToRide;
 
-import java.util.List;
-
 import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.*;
-import cs340.TicketToRide.model.game.ChatMessage;
+import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Game;
-import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.service.*;
@@ -71,7 +67,7 @@ public class ServerFacade implements IServer {
     }
 
     @Override
-    public void sendChat(AuthToken token, ID gameId, ChatMessage message) {
+    public void sendChat(AuthToken token, ID gameId, Message message) {
         new SendChatService().sendChat(token, gameId, message);
     }
 

@@ -2,24 +2,21 @@ package a340.tickettoride.task;
 
 import android.os.AsyncTask;
 
-import java.util.List;
-
 import a340.tickettoride.ServerProxy;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
 import cs340.TicketToRide.IServer;
 import cs340.TicketToRide.model.AuthToken;
-import cs340.TicketToRide.model.game.ChatMessage;
-import cs340.TicketToRide.model.game.card.DestinationCard;
+import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.utility.ID;
 
 public class SendChatTask extends AsyncTask<Void, Integer, Void> {
 
     private IClientModel model = ClientModel.getInstance();
     private Exception exception;
-    private ChatMessage message;
+    private Message message;
 
-    public SendChatTask(ChatMessage message) {
+    public SendChatTask(Message message) {
         this.message = message;
     }
 
