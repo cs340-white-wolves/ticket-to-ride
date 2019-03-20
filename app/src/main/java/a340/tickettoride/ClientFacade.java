@@ -32,6 +32,11 @@ public class ClientFacade implements IClient {
     }
 
     @Override
+    public void historyMessageReceived(Message message) {
+        model.onHistoryMessageReceived(message);
+    }
+
+    @Override
     public void playersUpdated(Players players) {
         model.updatePlayers(players);
     }

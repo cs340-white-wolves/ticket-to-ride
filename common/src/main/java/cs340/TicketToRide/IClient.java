@@ -8,6 +8,7 @@ import cs340.TicketToRide.model.game.card.TrainCards;
 
 public interface IClient {
     void chatMessageReceived(Message message);
+    void historyMessageReceived(Message message);
     void playersUpdated(Players players);
     void destCardDeckChanged(DestinationCards destCardDeck);
     void startGame();

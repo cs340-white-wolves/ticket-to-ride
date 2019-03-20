@@ -35,6 +35,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     private Games lobbyGameList;
     private ID playerId;
     private List<Message> chatMessages = new ArrayList<>();
+    private List<Message> historyMessages = new ArrayList<>();
     private int lastExecutedCommandIndex = -1;
 
     private ClientModel() {
@@ -146,6 +147,12 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     public void onChatMessageReceived(Message message) {
         chatMessages.add(message);
         notifyObservers(ModelChangeType.ChatMessageReceived, chatMessages);
+    }
+
+    @Override
+    public void onHistoryMessageReceived(Message message) {
+        historyMessages.add(message);
+        notifyObservers(ModelChangeType.GameHistoryReceived, historyMessages);
     }
 
     private void startGameListPoller() {

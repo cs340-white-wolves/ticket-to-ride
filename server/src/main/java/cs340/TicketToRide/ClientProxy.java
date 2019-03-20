@@ -28,6 +28,16 @@ public class ClientProxy implements IClient {
     }
 
     @Override
+    public void historyMessageReceived(Message message) {
+        Command gotHistory = new Command(
+                "historyMessageReceived",
+                new String[]{Message.class.getName()},
+                new Object[]{message}
+        );
+        queue.add(gotHistory);
+    }
+
+    @Override
     public void playersUpdated(Players players) {
         Command playersUpdated = new Command(
           "playersUpdated",

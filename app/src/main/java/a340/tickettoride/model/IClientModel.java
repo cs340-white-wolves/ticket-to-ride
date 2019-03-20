@@ -23,6 +23,7 @@ public interface IClientModel {
     void onCreateGameSuccess(Game game);
     void onCreateGameFail(Exception e);
     void onChatMessageReceived(Message message);
+    void onHistoryMessageReceived(Message message);
     int getLastExecutedCommandIndex();
     Game getActiveGame();
     ID getPlayerId();
