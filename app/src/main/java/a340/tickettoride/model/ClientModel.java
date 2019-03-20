@@ -60,7 +60,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     public void onPollComplete(Games gameList) {
         setLobbyGameList(gameList);
         setActiveGameFromGames(gameList);
-        notifyObservers(ModelChangeType.AvailableGameList, gameList);
+        notifyObservers(ModelChangeType.AvailableGameList, lobbyGameList);
     }
 
     @Override
