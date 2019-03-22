@@ -54,12 +54,6 @@ public class ClaimRouteService {
 
         route.occupy(playerId);
 
-        // TODO: make this code better
-        Board board = game.getBoard();
-        Set<Route> routes = board.getRoutes();
-        routes.remove(route);
-        routes.add(route);
-
         updatePlayerPoints(route, player, game);
 
         sendUpdates(route, game, player);
@@ -133,6 +127,11 @@ public class ClaimRouteService {
         Players players = game.getPlayers();
         String msg = "Claimed route from " + route.getCity1() + " to " + route.getCity2();
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
+
+        Board board = game.getBoard();
+        Set<Route> routes = board.getRoutes();
+        routes.remove(route);
+        routes.add(route);
 
         for (Player curPlayer : players) {
             IClient client = proxyManager.get(curPlayer.getId());
