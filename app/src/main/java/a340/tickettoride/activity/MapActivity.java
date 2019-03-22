@@ -140,7 +140,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         routesBtn = findViewById(R.id.drawRoutesButton);
         placeTrainBtn = findViewById(R.id.placeTrainsButton);
         drawCardsBtn = findViewById(R.id.drawCardsButton);
-        disableButtons();
 
         routesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,13 +167,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
    public void openBankDrawer(boolean lockDrawer) {
         drawerLayout.openDrawer(GravityCompat.START);
         if (lockDrawer == true) {
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, GravityCompat.START);
         }
 
     }
 
     public void closeBankDrawer() {
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.START);
         drawerLayout.closeDrawer(GravityCompat.START);
     }
 

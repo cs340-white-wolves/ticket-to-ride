@@ -26,8 +26,7 @@ public class BankFragment extends Fragment implements BankPresenter.View, View.O
     private TextView drawPile;
     private TextView trainCardCount;
     private TextView destinationCardCount;
-    private final int INDEX_KEY = 0;
-    private final int COLOR_KEY = 1;
+
 
 
     @Override
@@ -69,7 +68,7 @@ public class BankFragment extends Fragment implements BankPresenter.View, View.O
         faceUpCardSlots[4] = view.findViewById(R.id.card5);
 
         for (int i = 0; i < 5; i++) {
-            faceUpCardSlots[i].setTag(INDEX_KEY, i);
+            faceUpCardSlots[i].setTag(R.id.INDEX_KEY, i);
         }
     }
 
@@ -118,7 +117,7 @@ public class BankFragment extends Fragment implements BankPresenter.View, View.O
                 TrainCard.Color color = cards.get(i).getColor();
                 faceUpCardSlots[i].setVisibility(View.VISIBLE);
                 faceUpCardSlots[i].setEnabled(true);
-                faceUpCardSlots[i].setTag(COLOR_KEY, color);
+                faceUpCardSlots[i].setTag(R.id.COLOR_KEY, color);
                 faceUpCardSlots[i]
                         .setImageDrawable(getResources()
                                 .getDrawable(getCardResource(color),null));
@@ -157,8 +156,8 @@ public class BankFragment extends Fragment implements BankPresenter.View, View.O
                     presenter.drawFromDeck();
                     break;
                 default:
-                    int index = (int) view.getTag();
-                    TrainCard.Color color = (TrainCard.Color) view.getTag(COLOR_KEY);
+                    int index = (int) view.getTag(R.id.INDEX_KEY);
+                    TrainCard.Color color = (TrainCard.Color) view.getTag(R.id.COLOR_KEY);
 
                     if (color == locomotive) {
                         presenter.drawLocomotiveFaceUp(index);
