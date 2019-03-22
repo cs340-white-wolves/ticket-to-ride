@@ -10,6 +10,7 @@ import a340.tickettoride.ClientFacade;
 import a340.tickettoride.communication.Poller;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObservable;
+import a340.tickettoride.presenter.ActionType;
 import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
@@ -22,6 +23,7 @@ import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCards;
+import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Username;
@@ -286,6 +288,18 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     public void updateRoute(Route route) {
         notifyObservers(ModelChangeType.RouteClaimed, route);
     }
+
+    @Override
+    public void takePlayerAction(ActionType action) {
+        switch (action) {
+            case drawTrainCard:
+                notifyObservers(ModelChangeType.DrawTrainCards, null);
+                break;
+        }
+
+    }
+
+
 
     //=================================Testing Methods===============================
 

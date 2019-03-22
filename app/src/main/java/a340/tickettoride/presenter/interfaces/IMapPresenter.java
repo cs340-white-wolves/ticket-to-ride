@@ -25,4 +25,6 @@ public interface IMapPresenter {
     Set<Route> getRoutes();
     void advanceTurn();
     void startPoller();
+    void drawTrainCards();
+
 }

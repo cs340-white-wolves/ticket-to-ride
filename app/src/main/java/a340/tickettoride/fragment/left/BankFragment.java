@@ -11,19 +11,24 @@ import android.widget.Toast;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.BankPresenter;
+import a340.tickettoride.presenter.InvalidMoveException;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 
 import static cs340.TicketToRide.model.game.Game.MAX_FACE_UP;
+import static cs340.TicketToRide.model.game.card.TrainCard.Color.locomotive;
 
-public class BankFragment extends Fragment implements BankPresenter.View {
+public class BankFragment extends Fragment implements BankPresenter.View, View.OnClickListener {
 
     private IBankPresenter presenter;
     private ImageView[] faceUpCardSlots = new ImageView[5];
     private TextView drawPile;
     private TextView trainCardCount;
     private TextView destinationCardCount;
+    private final int INDEX_KEY = 0;
+    private final int COLOR_KEY = 1;
+
 
     @Override
     public void onResume() {
@@ -64,7 +69,7 @@ public class BankFragment extends Fragment implements BankPresenter.View {
         faceUpCardSlots[4] = view.findViewById(R.id.card5);
 
         for (int i = 0; i < 5; i++) {
-            faceUpCardSlots[i].setTag(i);
+            faceUpCardSlots[i].setTag(INDEX_KEY, i);
         }
     }
 
@@ -96,25 +101,10 @@ public class BankFragment extends Fragment implements BankPresenter.View {
 
     private void setClickListeners() {
 
-        drawPile.setOnClickListener(new android.view.View.OnClickListener(){
-
-            @Override
-            public void onClick(android.view.View view) {
-                Toast.makeText(getContext(), "You drew a new card",Toast.LENGTH_SHORT).show();
-
-            }
-        });
+        drawPile.setOnClickListener(this);
 
         for (int i=0; i < 5; i++) {
-            faceUpCardSlots[i].setOnClickListener(new android.view.View.OnClickListener(){
-
-                @Override
-                public void onClick(android.view.View view) {
-                    TrainCard newCard = presenter.drawTrainCard();
-                    ImageView card = (ImageView) view;
-                    card.setImageDrawable(getResources().getDrawable(getCardResource(newCard.getColor()),null));
-                }
-            });
+            faceUpCardSlots[i].setOnClickListener(this);
         }
     }
 
@@ -125,11 +115,13 @@ public class BankFragment extends Fragment implements BankPresenter.View {
                 faceUpCardSlots[i].setVisibility(View.INVISIBLE);
                 faceUpCardSlots[i].setEnabled(false);
             } else {
+                TrainCard.Color color = cards.get(i).getColor();
                 faceUpCardSlots[i].setVisibility(View.VISIBLE);
                 faceUpCardSlots[i].setEnabled(true);
+                faceUpCardSlots[i].setTag(COLOR_KEY, color);
                 faceUpCardSlots[i]
                         .setImageDrawable(getResources()
-                                .getDrawable(getCardResource(cards.get(i).getColor()),null));
+                                .getDrawable(getCardResource(color),null));
             }
 
         }
@@ -156,4 +148,29 @@ public class BankFragment extends Fragment implements BankPresenter.View {
         });
     }
 
+    @Override
+    public void onClick(View view) {
+
+        try {
+            switch (view.getId()) {
+                case R.id.drawPile:
+                    presenter.drawFromDeck();
+                    break;
+                default:
+                    int index = (int) view.getTag();
+                    TrainCard.Color color = (TrainCard.Color) view.getTag(COLOR_KEY);
+
+                    if (color == locomotive) {
+                        presenter.drawLocomotiveFaceUp(index);
+                    } else {
+                        presenter.drawStandardFaceUp(index, color);
+                    }
+                    break;
+            }
+
+        } catch(InvalidMoveException e) {
+            Toast.makeText(getActivity(),e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }

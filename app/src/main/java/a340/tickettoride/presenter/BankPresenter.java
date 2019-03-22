@@ -1,12 +1,10 @@
 package a340.tickettoride.presenter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
+import a340.tickettoride.presenter.ITrainCardState;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
@@ -15,6 +13,7 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
 
     private View view;
     private IClientModel model = ClientModel.getInstance();
+    private ITrainCardState state;
 
     public BankPresenter(View view) {
         this.view = view;
@@ -27,17 +26,6 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
     }
 
     @Override
-    public TrainCard drawTrainCard() {
-
-        return new TrainCard(TrainCard.Color.tankerBlue);
-    }
-
-    @Override
-    public TrainCard pickUpTrainCard(int index) {
-        return null;
-    }
-
-    @Override
     public int getNumTrainCards() { return model.getActiveGame().getTrainCardDeck().size(); }
 
     @Override
@@ -45,6 +33,35 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
         return model.getActiveGame().getDestCardDeck().size();
     }
 
+    @Override
+    public IClientModel getModel() {
+        return model;
+    }
+    //==============================State Methods==============================
+
+
+    @Override
+    public void drawStandardFaceUp(int index, TrainCard.Color color) throws InvalidMoveException {
+        state.drawStandardFaceUp(this, index, color);
+    }
+
+    @Override
+    public void drawLocomotiveFaceUp(int index) throws InvalidMoveException {
+        state.drawLocomotiveFaceUp(this, index);
+    }
+
+    @Override
+    public void drawFromDeck() throws InvalidMoveException {
+        state.drawFromDeck(this);
+    }
+
+    @Override
+    public void setState(ITrainCardState state) {
+        this.state = state;
+    }
+
+
+    //=============================Model Methods=================================
     @Override
     public void startObserving() {
         ClientModel.getInstance().addObserver(this);
@@ -69,6 +86,9 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
         } else if (changeType == ModelChangeType.FaceUpTrainCardsUpdate) {
             TrainCards trainCards = (TrainCards) obj;
             view.updateFaceUpCards(trainCards);
+
+        } else if (changeType == ModelChangeType.DrawTrainCards) {
+            state = new NoCardsState();
         }
 
     }

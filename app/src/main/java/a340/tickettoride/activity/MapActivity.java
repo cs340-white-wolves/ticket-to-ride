@@ -155,12 +155,27 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 initPlaceTrainDialog();
             }
         });
+
         drawCardsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
+                openBankDrawer(true);
+                presenter.drawTrainCards();
             }
         });
+    }
+
+   public void openBankDrawer(boolean lockDrawer) {
+        drawerLayout.openDrawer(GravityCompat.START);
+        if (lockDrawer == true) {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+        }
+
+    }
+
+    public void closeBankDrawer() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     public void enableButtons() {

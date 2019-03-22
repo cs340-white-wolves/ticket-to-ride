@@ -21,6 +21,8 @@ import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public class MapPresenter implements IMapPresenter, ModelObserver {
+
+
     private View view;
     private IClientModel model = ClientModel.getInstance();
 
@@ -124,6 +126,14 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         return model.getPlayerFromGame().getDestinationCards();
     }
 
+    @Override
+    public void drawTrainCards() {
+        //TODO: Maybe add check to make sure that it is the players turn
+        model.takePlayerAction(ActionType.drawTrainCard);
+        view.disableButtons();
+        view.openBankDrawer(true);
+    }
+
     public interface View {
         void displayNextPlayersTurn();
         void showRouteIsClaimed(Route route);
@@ -132,5 +142,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         void enableButtons();
         void disableButtons();
         void chooseDestCard();
+        void openBankDrawer(boolean lockDrawer);
+        void closeBankDrawer();
     }
 }
