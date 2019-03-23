@@ -27,9 +27,13 @@ import java.util.*;
 import a340.tickettoride.R;
 import a340.tickettoride.adapter.*;
 import a340.tickettoride.fragment.right.*;
+import a340.tickettoride.presenter.DrawRoutesPresenter;
+import a340.tickettoride.presenter.PlaceTrainsPresenter;
 import a340.tickettoride.presenter.TestPresenter;
+import a340.tickettoride.presenter.interfaces.IDrawRoutesPresenter;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
+import a340.tickettoride.presenter.interfaces.IPlaceTrainsPresenter;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.*;
 import cs340.TicketToRide.model.game.board.*;
@@ -75,9 +79,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Button drawCardsBtn;
     private TestPresenter testPresenter;
     private Button testBtn;
+    private IDrawRoutesPresenter drawRoutesPresenter;
+    private IPlaceTrainsPresenter placeTrainsPresenter;
 
     public MapActivity() {
         presenter = new MapPresenter(this);
+        drawRoutesPresenter = new DrawRoutesPresenter(MapActivity.this);
+
+
     }
 
     @Override
@@ -140,21 +149,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         routesBtn = findViewById(R.id.drawRoutesButton);
         placeTrainBtn = findViewById(R.id.placeTrainsButton);
         drawCardsBtn = findViewById(R.id.drawCardsButton);
-        disableButtons();
+//        disableButtons();
 
+//        routesBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                initDestCardDialog();
+//            }
+//        });
         routesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initDestCardDialog();
+                drawRoutesPresenter.chooseDestCards();
             }
         });
+
 
         placeTrainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                placeTrainsPresenter = new PlaceTrainsPresenter( MapActivity.this);
                 initPlaceTrainDialog();
             }
         });
+
         drawCardsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,11 +206,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void chooseDestCard() {
+    public void chooseDestCard(final int numCardsKeep) {
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                initDestCardDialog();
+                initDestCardDialog(numCardsKeep);
             }
         });
 
@@ -205,7 +223,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-    private void initDestCardDialog() {
+    private void initDestCardDialog(int numCardsKeep) {
         DestinationCards cards = presenter.getPlayerDestCards();
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_route, null, false);
@@ -214,7 +232,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(destCardAdapter);
 
-        final int minCards = 2;// TODO: 2 will become 1
+//        final int minCards = 2;// TODO: 2 will become 1
+        final int minCards = numCardsKeep;
 
         final AlertDialog dialog = new AlertDialog.Builder(
                 MapActivity.this)
@@ -233,7 +252,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     @Override
                     public void onClick(View view) {
                         if (destCardAdapter.getSelectedDestCards().size() >= minCards) {
-                            presenter.discardDestCards();
+                            drawRoutesPresenter.discardDestCards();
                             dialog.dismiss();
                         }
                         else {
@@ -248,7 +267,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void initPlaceTrainDialog() {
-        List<Route> routes = presenter.getPossibleRoutesToClaim();
+        List<Route> routes = placeTrainsPresenter.getPossibleRoutesToClaim();
 
 //        Route route = new Route(new City("Sandy", "sd", 20, 10), new City("Salt Lake", "sd", 20, 10), coalRed, 0);
 //        routes.add(route);
@@ -270,7 +289,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        presenter.placeTrains();
+                        placeTrainsPresenter.placeTrains();
                     }
                 })
                 .create();
