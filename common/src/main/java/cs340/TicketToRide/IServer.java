@@ -24,6 +24,7 @@ public interface IServer {
     void discardDestCards(DestinationCards cards, AuthToken token, ID gameId, ID playerId);
     void claimRoute(Route route, AuthToken token, ID gameID, ID playerId);
     void drawTrainCard(TrainCard card, AuthToken token, ID gameId, ID playerId);
+    void drawDestCards(AuthToken token, ID gameId, ID playerId);
     /*
         SendChat
         getDestCards? they get automatically

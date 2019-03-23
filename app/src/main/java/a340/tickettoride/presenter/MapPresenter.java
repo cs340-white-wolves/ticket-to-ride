@@ -49,6 +49,8 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
 
         } else if (changeType == ModelChangeType.RouteClaimed) {
             view.showRouteIsClaimed((Route) obj);
+        } else if (changeType == ModelChangeType.DestCardsAdded) {
+            view.chooseDestCard((DestinationCards)obj);
         }
     }
 
