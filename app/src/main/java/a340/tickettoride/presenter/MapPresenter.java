@@ -22,6 +22,8 @@ import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public class MapPresenter implements IMapPresenter, ModelObserver {
+    public static final int INITIAL_MIN_DEST_CARDS = 2;
+    public static final int STANDARD_MIN_DEST_CARDS = 1;
     private View view;
     private IClientModel model = ClientModel.getInstance();
 
@@ -43,7 +45,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     public void onModelEvent(ModelChangeType changeType, Object obj) {
         if (changeType == ModelChangeType.GameStarted) {
             Log.i("MapPresenter", "Game Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            view.chooseDestCard(getPlayerDestCards());
+            view.chooseDestCard(getPlayerDestCards(), INITIAL_MIN_DEST_CARDS);
 
         } else if (changeType == ModelChangeType.AdvanceTurn) {
             advanceTurn();
@@ -51,7 +53,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         } else if (changeType == ModelChangeType.RouteClaimed) {
             view.showRouteIsClaimed((Route) obj);
         } else if (changeType == ModelChangeType.DestCardsAdded) {
-            view.chooseDestCard((DestinationCards)obj);
+            view.chooseDestCard((DestinationCards)obj, STANDARD_MIN_DEST_CARDS);
         }
     }
 
@@ -138,6 +140,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         Route getSelectedRoute();
         void enableButtons();
         void disableButtons();
-        void chooseDestCard(DestinationCards cards);
+        void chooseDestCard(DestinationCards cards, int minCardsToKeep);
     }
 }

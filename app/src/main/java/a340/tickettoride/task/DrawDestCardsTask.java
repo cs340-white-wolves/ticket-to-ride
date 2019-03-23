@@ -31,12 +31,5 @@ public class DrawDestCardsTask extends AsyncTask<Void, Integer, Void> {
         return null;
     }
 
-    @Override
-    protected void onPostExecute(Void v) {
-        if (exception != null) {
-            model.onDiscardDestCardsFail(exception);
-        }
-
-    }
 
 }

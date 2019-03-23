@@ -188,11 +188,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void chooseDestCard(final DestinationCards cards) {
+    public void chooseDestCard(final DestinationCards cards, final int minCardsToKeep) {
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                initDestCardDialog(cards);
+                initDestCardDialog(cards, minCardsToKeep);
             }
         });
 
@@ -205,20 +205,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-    private void initDestCardDialog(DestinationCards cards) {
+    private void initDestCardDialog(DestinationCards cards, final int minCardsToKeep) {
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_route, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
         destCardAdapter = new DestCardAdapter(cards, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(destCardAdapter);
 
-        final int minCards = 2;// TODO: 2 will become 1
-
         final AlertDialog dialog = new AlertDialog.Builder(
                 MapActivity.this)
                 .setView(view)
                 .setTitle("Destination Card")
-                .setMessage("Select at least " + minCards + " destination cards to keep")
+                .setMessage("Select at least " + minCardsToKeep + " destination cards to keep")
                 .setCancelable(false)
                 .setPositiveButton("OK", null)
                 .create();
@@ -230,12 +228,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (destCardAdapter.getSelectedDestCards().size() >= minCards) {
+                        if (destCardAdapter.getSelectedDestCards().size() >= minCardsToKeep) {
                             presenter.discardDestCards();
                             dialog.dismiss();
                         }
                         else {
-                            displayText("You must select at least " + minCards + " cards.");
+                            displayText("You must select at least " + minCardsToKeep + " cards.");
                         }
                     }
                 });
