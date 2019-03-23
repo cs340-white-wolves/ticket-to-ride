@@ -9,7 +9,6 @@ import java.util.Set;
 import cs340.TicketToRide.model.game.board.Board;
 import cs340.TicketToRide.model.game.board.City;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
@@ -33,6 +32,7 @@ public class Game {
     private TrainCards trainCardDeck;
     private DestinationCards destinationCardDeck;
     private int currentPlayerTurnIdx = 0;
+    private ID lastRoundLastPlayerId = null;
 
     public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);
@@ -365,4 +365,11 @@ public class Game {
         return null;
     }
 
+    public ID getLastRoundLastPlayerId() {
+        return lastRoundLastPlayerId;
+    }
+
+    public void setLastRoundLastPlayerId(ID lastRoundLastPlayerId) {
+        this.lastRoundLastPlayerId = lastRoundLastPlayerId;
+    }
 }
