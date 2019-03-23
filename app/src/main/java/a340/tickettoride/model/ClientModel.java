@@ -292,6 +292,15 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         notifyObservers(ModelChangeType.DestCardsAdded, cardsToAddToPlayer);
     }
 
+    @Override
+    public List<Message> getHistoryMessages() {
+        return historyMessages;
+    }
+
+    public void setHistoryMessages(List<Message> historyMessages) {
+        this.historyMessages = historyMessages;
+    }
+
     //=================================Testing Methods===============================
 
 
@@ -371,8 +380,6 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
         updatePlayers(activeGame.getPlayers());
     }
-
-
 
 
 
