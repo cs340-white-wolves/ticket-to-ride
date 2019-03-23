@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import a340.tickettoride.ServerProxy;
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
@@ -102,6 +103,11 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     @Override
     public void startPoller() {
         model.startGameCommandPoller();
+    }
+
+    @Override
+    public void onClickDrawDestCards() {
+        ServiceFacade.getInstance().drawDestCards();
     }
 
     @Override

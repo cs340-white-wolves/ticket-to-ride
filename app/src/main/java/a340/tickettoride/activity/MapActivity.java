@@ -145,7 +145,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         routesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               initDestCardDialog(new DestinationCards());
+                presenter.onClickDrawDestCards();
             }
         });
 
