@@ -3,6 +3,7 @@ package a340.tickettoride;
 import a340.tickettoride.task.ClaimRouteTask;
 import a340.tickettoride.task.CreateGameTask;
 import a340.tickettoride.task.DiscardDestCardTask;
+import a340.tickettoride.task.DrawDestCardsTask;
 import a340.tickettoride.task.DrawTrainCardTask;
 import a340.tickettoride.task.JoinGameTask;
 import a340.tickettoride.task.LoginTask;
@@ -73,6 +74,11 @@ public class ServiceFacade {
 
     public void sendChatMessage(Message message) {
         SendChatTask task = new SendChatTask(message);
+        task.execute();
+    }
+
+    public void drawDestCards() {
+        DrawDestCardsTask task = new DrawDestCardsTask();
         task.execute();
     }
 

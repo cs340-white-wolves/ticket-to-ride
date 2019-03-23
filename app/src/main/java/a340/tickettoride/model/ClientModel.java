@@ -287,6 +287,11 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         notifyObservers(ModelChangeType.RouteClaimed, route);
     }
 
+    @Override
+    public void onDestCardsAdded(DestinationCards cardsToAddToPlayer) {
+        notifyObservers(ModelChangeType.DestCardsAdded, cardsToAddToPlayer);
+    }
+
     //=================================Testing Methods===============================
 
 

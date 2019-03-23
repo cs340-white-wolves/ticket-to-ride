@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import a340.tickettoride.ServerProxy;
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
@@ -21,12 +22,13 @@ import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public class MapPresenter implements IMapPresenter, ModelObserver {
+    public static final int INITIAL_MIN_DEST_CARDS = 2;
+    public static final int STANDARD_MIN_DEST_CARDS = 1;
     private View view;
     private IClientModel model = ClientModel.getInstance();
 
     public MapPresenter(View view) {
         this.view = view;
-
     }
 
     @Override
@@ -43,13 +45,15 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     public void onModelEvent(ModelChangeType changeType, Object obj) {
         if (changeType == ModelChangeType.GameStarted) {
             Log.i("MapPresenter", "Game Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            view.chooseDestCard();
+            view.chooseDestCard(getPlayerDestCards(), INITIAL_MIN_DEST_CARDS);
 
         } else if (changeType == ModelChangeType.AdvanceTurn) {
             advanceTurn();
 
         } else if (changeType == ModelChangeType.RouteClaimed) {
             view.showRouteIsClaimed((Route) obj);
+        } else if (changeType == ModelChangeType.DestCardsAdded) {
+            view.chooseDestCard((DestinationCards)obj, STANDARD_MIN_DEST_CARDS);
         }
     }
 
@@ -104,6 +108,11 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     @Override
+    public void onClickDrawDestCards() {
+        ServiceFacade.getInstance().drawDestCards();
+    }
+
+    @Override
     public Players getPlayers() {
         return model.getActiveGame().getPlayers();
     }
@@ -131,6 +140,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         Route getSelectedRoute();
         void enableButtons();
         void disableButtons();
-        void chooseDestCard();
+        void chooseDestCard(DestinationCards cards, int minCardsToKeep);
     }
 }
