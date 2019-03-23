@@ -51,21 +51,13 @@ public class GameHistoryFragment extends Fragment implements GameHistoryPresente
                                           Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         android.view.View inflate = inflater.inflate(R.layout.fragment_game_history, container, false);
-//
-//
         recyclerView = inflate.findViewById(R.id.chat_list);
-//
-//        // Set the adapter
         Context context = recyclerView.getContext();
-//
         mLinearLayoutManager = new LinearLayoutManager(context);
         mLinearLayoutManager.setStackFromEnd(true);
-//
         adapter = new GameHistoryRecyclerViewAdapter();
-//
         recyclerView.setLayoutManager(mLinearLayoutManager);
         recyclerView.setAdapter(adapter);
-//
         setMessages(presenter.getHistoryMessages());
 
         return inflate;
