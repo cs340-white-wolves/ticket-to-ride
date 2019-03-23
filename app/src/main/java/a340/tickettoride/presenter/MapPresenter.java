@@ -26,7 +26,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
 
     public MapPresenter(View view) {
         this.view = view;
-
     }
 
     @Override
@@ -43,7 +42,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     public void onModelEvent(ModelChangeType changeType, Object obj) {
         if (changeType == ModelChangeType.GameStarted) {
             Log.i("MapPresenter", "Game Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            view.chooseDestCard();
+            view.chooseDestCard(getPlayerDestCards());
 
         } else if (changeType == ModelChangeType.AdvanceTurn) {
             advanceTurn();
@@ -131,6 +130,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         Route getSelectedRoute();
         void enableButtons();
         void disableButtons();
-        void chooseDestCard();
+        void chooseDestCard(DestinationCards cards);
     }
 }

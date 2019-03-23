@@ -145,7 +145,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         routesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initDestCardDialog();
+               initDestCardDialog(new DestinationCards());
             }
         });
 
@@ -188,11 +188,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void chooseDestCard() {
+    public void chooseDestCard(final DestinationCards cards) {
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                initDestCardDialog();
+                initDestCardDialog(cards);
             }
         });
 
@@ -205,9 +205,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-    private void initDestCardDialog() {
-        DestinationCards cards = presenter.getPlayerDestCards();
-
+    private void initDestCardDialog(DestinationCards cards) {
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_route, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
         destCardAdapter = new DestCardAdapter(cards, this);
@@ -249,12 +247,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void initPlaceTrainDialog() {
         List<Route> routes = presenter.getPossibleRoutesToClaim();
-
-//        Route route = new Route(new City("Sandy", "sd", 20, 10), new City("Salt Lake", "sd", 20, 10), coalRed, 0);
-//        routes.add(route);
-//
-//        route = new Route(new City("Provo", "sd", 20, 10), new City("American Fork", "sd", 20, 10), coalRed, 0);
-//        routes.add(route);
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_place_trains, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.place_trains_recycler);

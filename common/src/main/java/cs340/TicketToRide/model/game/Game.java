@@ -22,6 +22,7 @@ public class Game {
     public static final int MAX_PLAYERS = 5;
     public static final int MAX_FACE_UP = 5;
     public static final int MAX_FACEUP_LOCOMOTIVES = 2;
+    public static final int MAX_ITERATIONS = 5;
 
     private int targetNumPlayers;
     private Players players;
@@ -248,9 +249,7 @@ public class Game {
     }
 
     public void setupFaceUpCards() {
-
-        // TODO: UNLIKELY CASE WHERE THE ONLY CARDS LEFT HAVE 3+ OF LOCOMOTIVES, COULD CAUSE INFINITE LOOP
-        // TODO: PASSED FROM DISCARD TO DRAW DECK TO FACE UP
+        int iteration = 0;
 
         do {
             if (hasTooManyFaceupLocomotives()) {
@@ -270,7 +269,9 @@ public class Game {
                 }
             }
 
-        } while (hasTooManyFaceupLocomotives());
+            iteration++;
+
+        } while (hasTooManyFaceupLocomotives() && iteration <= MAX_ITERATIONS);
     }
 
     public void addDiscardedToDrawDeck() {
