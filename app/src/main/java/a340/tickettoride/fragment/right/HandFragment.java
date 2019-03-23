@@ -44,34 +44,25 @@ public class HandFragment extends Fragment implements HandPresenter.View {
     }
 
     public void updatePlayerHandDisplay(TrainCards trainCards) {
-        final Map<TrainCard.Color, Integer> colorCounts = new HashMap<>();
-        colorCounts.put(coalRed, 0);
-        colorCounts.put(passengerWhite, 0);
-        colorCounts.put(reeferYellow, 0);
-        colorCounts.put(tankerBlue, 0);
-        colorCounts.put(cabooseGreen, 0);
-        colorCounts.put(boxPurple, 0);
-        colorCounts.put(freightOrange, 0);
-        colorCounts.put(hopperBlack, 0);
-        colorCounts.put(locomotive, 0);
+        final Map<TrainCard.Color, Integer> colorCounts = trainCards.getColorCounts();
 
-        for (TrainCard card : trainCards) {
-            TrainCard.Color color = card.getColor();
-            Integer count = colorCounts.get(color);
-            colorCounts.put(color, count == null ? 0 : count + 1);
-        }
+        final Map<Integer, TrainCard.Color> slotMap = new HashMap<>();
+        slotMap.put(R.id.num_red, coalRed);
+        slotMap.put(R.id.num_white, passengerWhite);
+        slotMap.put(R.id.num_orange, freightOrange);
+        slotMap.put(R.id.num_yellow, reeferYellow);
+        slotMap.put(R.id.num_green, cabooseGreen);
+        slotMap.put(R.id.num_purple, boxPurple);
+        slotMap.put(R.id.num_blue, tankerBlue);
+        slotMap.put(R.id.num_black, hopperBlack);
+        slotMap.put(R.id.num_locomotive, locomotive);
+
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((TextView)view.findViewById(R.id.num_red)).setText(String.valueOf(colorCounts.get(coalRed)));
-                ((TextView)view.findViewById(R.id.num_white)).setText(String.valueOf(colorCounts.get(passengerWhite)));
-                ((TextView)view.findViewById(R.id.num_orange)).setText(String.valueOf(colorCounts.get(freightOrange)));
-                ((TextView)view.findViewById(R.id.num_yellow)).setText(String.valueOf(colorCounts.get(reeferYellow)));
-                ((TextView)view.findViewById(R.id.num_green)).setText(String.valueOf(colorCounts.get(cabooseGreen)));
-                ((TextView)view.findViewById(R.id.num_purple)).setText(String.valueOf(colorCounts.get(boxPurple)));
-                ((TextView)view.findViewById(R.id.num_blue)).setText(String.valueOf(colorCounts.get(tankerBlue)));
-                ((TextView)view.findViewById(R.id.num_black)).setText(String.valueOf(colorCounts.get(hopperBlack)));
-                ((TextView)view.findViewById(R.id.num_locomotive)).setText(String.valueOf(colorCounts.get(locomotive)));
+                for (Map.Entry<Integer, TrainCard.Color> entry : slotMap.entrySet()) {
+                    ((TextView)view.findViewById(entry.getKey())).setText(String.valueOf(colorCounts.get(entry.getValue())));
+                }
             }
         });
 

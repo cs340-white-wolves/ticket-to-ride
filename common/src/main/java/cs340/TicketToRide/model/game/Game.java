@@ -304,6 +304,10 @@ public class Game {
         this.board = board;
     }
 
+    public void addDiscardedTrainCards(TrainCards cards) {
+        this.discardedTrainCards.addAll(cards);
+    }
+
     public TrainCards getDiscardedTrainCards() {
         return discardedTrainCards;
     }
@@ -361,4 +365,5 @@ public class Game {
         }
         return null;
     }
+
 }
