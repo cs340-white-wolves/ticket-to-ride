@@ -8,7 +8,8 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 
-public class Player {
+public class Player implements Comparable<Player>{
+
 
     public enum Color {
         red, green, blue, yellow, black
@@ -104,4 +105,15 @@ public class Player {
     public int hashCode() {
         return Objects.hash(user);
     }
+
+    @Override
+    public int compareTo(Player player) {
+
+        if (player.getScore() == this.score) { return 0; }
+        else if (player.getScore() > this.score) { return -1; }
+        else { return 1; }
+
+
+    }
+
 }

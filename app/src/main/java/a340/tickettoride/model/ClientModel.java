@@ -273,12 +273,14 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         notifyObservers(ModelChangeType.DrawableDestinationCardCount, activeGame.getDestCardDeck().size());
     }
 
+    @Override
     public void updateTrainCardDeck(TrainCards cards) {
-        activeGame.setFaceUpTrainCards(cards);
-        notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getFaceUpTrainCards().size());
+        activeGame.setTrainCardDeck(cards);
+        notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getTrainCardDeck().size());
 
     }
 
+    @Override
     public void updateFaceUpTrainCards(TrainCards faceUpCards) {
         activeGame.setFaceUpTrainCards(faceUpCards);
         notifyObservers(ModelChangeType.FaceUpTrainCardsUpdate, activeGame.getFaceUpTrainCards());
@@ -297,6 +299,10 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
                 break;
         }
 
+    }
+
+    public Players getPlayers() {
+        return this.activeGame.getPlayers();
     }
 
 

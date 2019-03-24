@@ -52,7 +52,11 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
 
         } else if (changeType == ModelChangeType.RouteClaimed) {
             view.showRouteIsClaimed((Route) obj);
+
+        } else if (changeType == ModelChangeType.EndGame) {
+            view.displayResults((Players) obj);
         }
+
     }
 
     public Set<City> getActiveGameCities() {
@@ -130,8 +134,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     public void drawTrainCards() {
         //TODO: Maybe add check to make sure that it is the players turn
         model.takePlayerAction(ActionType.drawTrainCard);
-        view.disableButtons();
-        view.openBankDrawer(true);
     }
 
     public interface View {
@@ -142,7 +144,8 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         void enableButtons();
         void disableButtons();
         void chooseDestCard();
-        void openBankDrawer(boolean lockDrawer);
-        void closeBankDrawer();
+        void openDrawer(int side, boolean lockDrawer);
+        void closeDrawer(int side);
+        void displayResults(Players players);
     }
 }

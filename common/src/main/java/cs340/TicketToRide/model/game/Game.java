@@ -319,6 +319,10 @@ public class Game {
         this.faceUpTrainCards = faceUpTrainCards;
     }
 
+    public void setTrainCardDeck(TrainCards newTrainCardDeck) {
+        this.trainCardDeck = newTrainCardDeck;
+    }
+
     public TrainCards getTrainCardDeck() {
         return trainCardDeck;
     }

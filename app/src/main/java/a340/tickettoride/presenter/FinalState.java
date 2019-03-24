@@ -9,12 +9,12 @@ public class FinalState implements ITrainCardState {
     public static FinalState getInstance() {return state;}
 
     @Override
-    public void drawStandardFaceUp(IBankPresenter presenter, int index, TrainCard.Color color) throws InvalidMoveException {
+    public void drawStandardFaceUp(IBankPresenter presenter, TrainCard card) throws InvalidMoveException {
         throw new InvalidMoveException("Cannot draw more cards");
     }
 
     @Override
-    public void drawLocomotiveFaceUp(IBankPresenter presenter, int index) throws InvalidMoveException {
+    public void drawLocomotiveFaceUp(IBankPresenter presenter, TrainCard card) throws InvalidMoveException {
         throw new InvalidMoveException("Cannot draw more cards");
     }
 
@@ -23,8 +23,4 @@ public class FinalState implements ITrainCardState {
         throw new InvalidMoveException("Cannot draw more cards");
     }
 
-    @Override
-    public void finishTurn() {
-
-    }
 }

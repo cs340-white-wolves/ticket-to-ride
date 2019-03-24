@@ -4,7 +4,6 @@ import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
-import a340.tickettoride.presenter.ITrainCardState;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
@@ -33,21 +32,16 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
         return model.getActiveGame().getDestCardDeck().size();
     }
 
-    @Override
-    public IClientModel getModel() {
-        return model;
-    }
+
     //==============================State Methods==============================
-
-
     @Override
-    public void drawStandardFaceUp(int index, TrainCard.Color color) throws InvalidMoveException {
-        state.drawStandardFaceUp(this, index, color);
+    public void drawStandardFaceUp(TrainCard card) throws InvalidMoveException {
+        state.drawStandardFaceUp(this, card);
     }
 
     @Override
-    public void drawLocomotiveFaceUp(int index) throws InvalidMoveException {
-        state.drawLocomotiveFaceUp(this, index);
+    public void drawLocomotiveFaceUp(TrainCard card) throws InvalidMoveException {
+        state.drawLocomotiveFaceUp(this, card);
     }
 
     @Override
@@ -58,6 +52,20 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
     @Override
     public void setState(ITrainCardState state) {
         this.state = state;
+
+        if (state.getClass() == FinalState.getInstance().getClass()) {
+            //send the end turn command
+        }
+    }
+
+    @Override
+    public TrainCard getTopOfDeck() {
+        TrainCards deck = model.getActiveGame().getTrainCardDeck();
+
+        if (deck.size() != 0) {
+            return deck.get(0);
+        }
+        return null;
     }
 
 

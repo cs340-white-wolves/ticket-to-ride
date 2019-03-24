@@ -28,7 +28,6 @@ public class BankFragment extends Fragment implements BankPresenter.View, View.O
     private TextView destinationCardCount;
 
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -66,10 +65,10 @@ public class BankFragment extends Fragment implements BankPresenter.View, View.O
         faceUpCardSlots[2] = view.findViewById(R.id.card3);
         faceUpCardSlots[3] = view.findViewById(R.id.card4);
         faceUpCardSlots[4] = view.findViewById(R.id.card5);
-
-        for (int i = 0; i < 5; i++) {
-            faceUpCardSlots[i].setTag(R.id.INDEX_KEY, i);
-        }
+//
+//        for (int i = 0; i < 5; i++) {
+//            faceUpCardSlots[i].setTag(R.id.INDEX_KEY, i);
+//        }
     }
 
 
@@ -108,22 +107,27 @@ public class BankFragment extends Fragment implements BankPresenter.View, View.O
     }
 
     @Override
-    public void updateFaceUpCards(TrainCards cards) {
-        for (int i=0; i < MAX_FACE_UP; i++) {
-            if (i >= cards.size()) {
-                faceUpCardSlots[i].setVisibility(View.INVISIBLE);
-                faceUpCardSlots[i].setEnabled(false);
-            } else {
-                TrainCard.Color color = cards.get(i).getColor();
-                faceUpCardSlots[i].setVisibility(View.VISIBLE);
-                faceUpCardSlots[i].setEnabled(true);
-                faceUpCardSlots[i].setTag(R.id.COLOR_KEY, color);
-                faceUpCardSlots[i]
-                        .setImageDrawable(getResources()
-                                .getDrawable(getCardResource(color),null));
-            }
+    public void updateFaceUpCards(final TrainCards cards) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i=0; i < MAX_FACE_UP; i++) {
+                    if (i >= cards.size()) {
+                        faceUpCardSlots[i].setVisibility(View.INVISIBLE);
+                        faceUpCardSlots[i].setEnabled(false);
+                    } else {
+                        TrainCard card = cards.get(i);
+                        faceUpCardSlots[i].setVisibility(View.VISIBLE);
+                        faceUpCardSlots[i].setEnabled(true);
+                        faceUpCardSlots[i].setTag(R.id.CARD_KEY, card);
+                        faceUpCardSlots[i].setImageDrawable(getResources()
+                                .getDrawable(getCardResource(card.getColor()),null));
+                    }
 
-        }
+                }
+            }
+        });
+
     }
 
     @Override
@@ -156,13 +160,13 @@ public class BankFragment extends Fragment implements BankPresenter.View, View.O
                     presenter.drawFromDeck();
                     break;
                 default:
-                    int index = (int) view.getTag(R.id.INDEX_KEY);
-                    TrainCard.Color color = (TrainCard.Color) view.getTag(R.id.COLOR_KEY);
+//                    int index = (int) view.getTag(R.id.INDEX_KEY);
+                    TrainCard card = (TrainCard) view.getTag(R.id.CARD_KEY);
 
-                    if (color == locomotive) {
-                        presenter.drawLocomotiveFaceUp(index);
+                    if (card.getColor() == locomotive) {
+                        presenter.drawLocomotiveFaceUp(card);
                     } else {
-                        presenter.drawStandardFaceUp(index, color);
+                        presenter.drawStandardFaceUp(card);
                     }
                     break;
             }

@@ -17,5 +17,6 @@ public enum ModelChangeType {
     GameStarted,
     StartMap,
     GameHistoryReceived, AuthenticateSuccess,
-    DrawTrainCards
+    DrawTrainCards,
+    EndGame
 }
