@@ -12,7 +12,7 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
 
     private View view;
     private IClientModel model = ClientModel.getInstance();
-    private ITrainCardState state;
+    private ITrainCardState state = FinalState.getInstance();
 
     public BankPresenter(View view) {
         this.view = view;
