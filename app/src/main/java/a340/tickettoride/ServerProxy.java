@@ -196,4 +196,14 @@ public class ServerProxy implements IServer {
         communicator.sendCommand(command);
     }
 
+    @Override
+    public void drawDestCards(AuthToken token, ID gameId, ID playerId) {
+        ICommand command = new Command(
+                "drawDestCards",
+                new String[]{AuthToken.class.getName(), ID.class.getName(), ID.class.getName()},
+                new Object[]{token, gameId, playerId}
+        );
+        communicator.sendCommand(command);
+    }
+
 }

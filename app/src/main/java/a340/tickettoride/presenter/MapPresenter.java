@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import a340.tickettoride.ServerProxy;
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
@@ -21,13 +22,13 @@ import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public class MapPresenter implements IMapPresenter, ModelObserver {
+    public static final int INITIAL_MIN_DEST_CARDS = 2;
+    public static final int STANDARD_MIN_DEST_CARDS = 1;
     private View view;
     private IClientModel model = ClientModel.getInstance();
-    private static final int NUM_CARDS_KEEP_START = 2;
 
     public MapPresenter(View view) {
         this.view = view;
-
     }
 
     @Override
@@ -44,40 +45,46 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     public void onModelEvent(ModelChangeType changeType, Object obj) {
         if (changeType == ModelChangeType.GameStarted) {
             Log.i("MapPresenter", "Game Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            view.chooseDestCard(NUM_CARDS_KEEP_START);
+            view.chooseDestCard(getPlayerDestCards(), INITIAL_MIN_DEST_CARDS);
 
         } else if (changeType == ModelChangeType.AdvanceTurn) {
             advanceTurn();
 
         } else if (changeType == ModelChangeType.RouteClaimed) {
             view.showRouteIsClaimed((Route) obj);
+        } else if (changeType == ModelChangeType.DestCardsAdded) {
+            view.chooseDestCard((DestinationCards)obj, STANDARD_MIN_DEST_CARDS);
+
+        } else if (changeType == ModelChangeType.EndGame) {
+            view.displayResults((Players) obj);
         }
+
     }
 
     public Set<City> getActiveGameCities() {
         return null;
     }
 
-//    @Override
-//    public void discardDestCards() {
-//        DestinationCards selectedCards = view.getSelectedDestinationCards();
-//        DestinationCards discardedCards = new DestinationCards();
-//        Player player = model.getPlayerFromGame();
-//        DestinationCards allCards = player.getDestinationCards();
-//        for (DestinationCard card : allCards) {
-//            if (!selectedCards.contains(card)) {
-//                discardedCards.add(card);
-//            }
-//        }
-//
-//        ServiceFacade.getInstance().discardDestCards(discardedCards);
-//    }
+    @Override
+    public void discardDestCards() {
+        DestinationCards selectedCards = view.getSelectedDestinationCards();
+        DestinationCards discardedCards = new DestinationCards();
+        Player player = model.getPlayerFromGame();
+        DestinationCards allCards = player.getDestinationCards();
+        for (DestinationCard card : allCards) {
+            if (!selectedCards.contains(card)) {
+                discardedCards.add(card);
+            }
+        }
 
-//    @Override
-//    public void placeTrains() {
-//        Route route = view.getSelectedRoute();
-//        ServiceFacade.getInstance().claimRoute(route);
-//    }
+        ServiceFacade.getInstance().discardDestCards(discardedCards);
+    }
+
+    @Override
+    public void placeTrains() {
+        Route route = view.getSelectedRoute();
+        ServiceFacade.getInstance().claimRoute(route);
+    }
 
     @Override
     public Set<City> getCities() {
@@ -105,6 +112,11 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     @Override
+    public void onClickDrawDestCards() {
+        ServiceFacade.getInstance().drawDestCards();
+    }
+
+    @Override
     public Players getPlayers() {
         return model.getActiveGame().getPlayers();
     }
@@ -114,15 +126,21 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         return model.getActiveGame().getPlayerById(playerId);
     }
 
-//    @Override
-//    public List<Route> getPossibleRoutesToClaim() {
-//        // todo: implement this
-//        return new ArrayList<>();
-//    }
+    @Override
+    public List<Route> getPossibleRoutesToClaim() {
+        // todo: implement this
+        return new ArrayList<>();
+    }
 
     @Override
     public DestinationCards getPlayerDestCards() {
         return model.getPlayerFromGame().getDestinationCards();
+    }
+
+    @Override
+    public void drawTrainCards() {
+        //TODO: Maybe add check to make sure that it is the players turn
+        model.takePlayerAction(ActionType.drawTrainCard);
     }
 
     public interface View {
@@ -132,6 +150,9 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         Route getSelectedRoute();
         void enableButtons();
         void disableButtons();
-        void chooseDestCard(int numCardsKeep);
+        void openDrawer(int side, boolean lockDrawer);
+        void closeDrawer(int side);
+        void displayResults(Players players);
+        void chooseDestCard(DestinationCards cards, int minCardsToKeep);
     }
 }

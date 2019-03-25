@@ -3,18 +3,22 @@ package cs340.TicketToRide.model.game;
 import java.util.Objects;
 
 import cs340.TicketToRide.model.User;
+import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 
-public class Player {
+public class Player implements Comparable<Player>{
+
+
+
 
     public enum Color {
-        red, green, blue, yellow, black
+        red, green, blue, yellow, black;
     }
-
     private User user;
+
     private int score;
     private int numTrains;
     private TrainCards trainCards = new TrainCards();
@@ -23,7 +27,6 @@ public class Player {
     private ID id;
 
     // todo: should the player have a set of routes? or route has player?
-
     public Player(User user) {
         setUser(user);
         id = ID.generateID();
@@ -31,6 +34,10 @@ public class Player {
 
     public void addTrainCard(TrainCard card) {
         trainCards.add(card);
+    }
+
+    public void addDestCard(DestinationCard card) {
+        destinationCards.add(card);
     }
 
     public User getUser() {
@@ -104,4 +111,15 @@ public class Player {
     public int hashCode() {
         return Objects.hash(user);
     }
+
+    @Override
+    public int compareTo(Player player) {
+
+        if (player.getScore() == this.score) { return 0; }
+        else if (player.getScore() > this.score) { return -1; }
+        else { return 1; }
+
+
+    }
+
 }

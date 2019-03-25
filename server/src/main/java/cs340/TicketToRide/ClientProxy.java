@@ -96,4 +96,14 @@ public class ClientProxy implements IClient {
         );
         queue.add(updateRoute);
     }
+
+    @Override
+    public void addedDestCards(DestinationCards cardsToAddToPlayer) {
+        Command command = new Command(
+                "addedDestCards",
+                new String[]{DestinationCards.class.getName()},
+                new Object[]{cardsToAddToPlayer}
+        );
+        queue.add(command);
+    }
 }
