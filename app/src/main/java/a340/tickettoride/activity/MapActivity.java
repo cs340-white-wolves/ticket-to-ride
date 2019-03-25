@@ -31,9 +31,13 @@ import a340.tickettoride.adapter.*;
 import a340.tickettoride.fragment.ResultsFragment;
 import a340.tickettoride.fragment.right.*;
 import a340.tickettoride.model.ClientModel;
+import a340.tickettoride.presenter.DrawRoutesPresenter;
+import a340.tickettoride.presenter.PlaceTrainsPresenter;
 import a340.tickettoride.presenter.TestPresenter;
+import a340.tickettoride.presenter.interfaces.IDrawRoutesPresenter;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
+import a340.tickettoride.presenter.interfaces.IPlaceTrainsPresenter;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.*;
 import cs340.TicketToRide.model.game.board.*;
@@ -80,10 +84,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private TestPresenter testPresenter;
     private Button viewBankBtn;
     private Button viewSummaryBtn;
-
+    private IDrawRoutesPresenter drawRoutesPresenter;
+    private IPlaceTrainsPresenter placeTrainsPresenter;
 
     public MapActivity() {
         presenter = new MapPresenter(this);
+        drawRoutesPresenter = new DrawRoutesPresenter(MapActivity.this);
+
+
     }
 
     @Override
@@ -285,7 +293,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void initPlaceTrainDialog() {
-        List<Route> routes = presenter.getPossibleRoutesToClaim();
+        List<Route> routes = placeTrainsPresenter.getPossibleRoutesToClaim();
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_place_trains, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.place_trains_recycler);
@@ -301,7 +309,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        presenter.placeTrains();
+                        placeTrainsPresenter.placeTrains();
                     }
                 })
                 .create();
