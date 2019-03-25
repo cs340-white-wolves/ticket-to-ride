@@ -2,6 +2,8 @@ package a340.tickettoride.model;
 
 import java.util.List;
 
+import a340.tickettoride.observerable.ModelChangeType;
+import a340.tickettoride.presenter.ActionType;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.User;
@@ -41,6 +43,7 @@ public interface IClientModel {
     void updateTrainCardDeck(TrainCards cards);
     void updateRoute(Route route);
     void onDestCardsAdded(DestinationCards cardsToAddToPlayer);
+    void takePlayerAction(ActionType action);
 
 //    void updateActivePlayersPoints();
 //    void updatePlayersTrainCards(TrainCards cards);

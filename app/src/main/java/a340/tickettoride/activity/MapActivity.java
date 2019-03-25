@@ -3,6 +3,7 @@ package a340.tickettoride.activity;
 import android.content.DialogInterface;
 import android.graphics.*;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroupOverlay;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,7 +28,9 @@ import java.util.*;
 
 import a340.tickettoride.R;
 import a340.tickettoride.adapter.*;
+import a340.tickettoride.fragment.ResultsFragment;
 import a340.tickettoride.fragment.right.*;
+import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.presenter.TestPresenter;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
@@ -38,7 +42,7 @@ import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.*;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, MapPresenter.View, TestPresenter.TestCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, MapPresenter.View {
     private static final int LINE_WIDTH = 15;
     private static final int LINE_BORDER_WIDTH = 17;
     private static final int CIRCLE_RADIUS = 35000;
@@ -74,7 +78,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Button placeTrainBtn;
     private Button drawCardsBtn;
     private TestPresenter testPresenter;
-    private Button testBtn;
+    private Button viewBankBtn;
+    private Button viewSummaryBtn;
+
 
     public MapActivity() {
         presenter = new MapPresenter(this);
@@ -122,8 +128,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         initTrainColorValues();
         initPlayerColorValues();
 
-        testPresenter = new TestPresenter(this);
-
         lineRouteManager = new HashMap<>();
         cityMarkers = new HashSet<>();
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -134,13 +138,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         initButtons();
 
 
+
     }
 
     private void initButtons() {
         routesBtn = findViewById(R.id.drawRoutesButton);
         placeTrainBtn = findViewById(R.id.placeTrainsButton);
         drawCardsBtn = findViewById(R.id.drawCardsButton);
-        disableButtons();
+        viewBankBtn = findViewById(R.id.viewBankBtn);
+        viewSummaryBtn = findViewById(R.id.viewSummaryBtn);
 
         routesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,12 +161,54 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 initPlaceTrainDialog();
             }
         });
+
         drawCardsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
+                openDrawer(GravityCompat.START, true);
+                disableButtons();
+                presenter.drawTrainCards();
             }
         });
+
+        viewBankBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { openDrawer(GravityCompat.START, false);
+            }
+        });
+        viewSummaryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { displayResults(ClientModel.getInstance().getPlayers()); //openDrawer(GravityCompat.END, false);
+            }
+        });
+    }
+
+    @Override
+   public void openDrawer(int side, boolean lockDrawer) {
+        drawerLayout.openDrawer(side);
+        if (lockDrawer == true) {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, side);
+        }
+
+    }
+
+    @Override
+    public void closeDrawer(int side) {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, side);
+        drawerLayout.closeDrawer(side);
+    }
+
+    @Override
+    public void displayResults(Players players) {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+
+        ResultsFragment results = new ResultsFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.map, results);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
     }
 
     public void enableButtons() {
@@ -196,13 +244,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        testBtn = findViewById(R.id.testButton);
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testPresenter.executeCurrentTest();
-            }
-        });
     }
 
     private void initDestCardDialog(DestinationCards cards, final int minCardsToKeep) {
@@ -531,16 +572,4 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-
-    @Override
-    public void showTestName(String name) {
-        displayText(name);
-    }
-
-    @Override
-    public void endTest() {
-
-        displayText("Finished Tests");
-        testBtn.setVisibility(View.GONE);
-    }
 }
