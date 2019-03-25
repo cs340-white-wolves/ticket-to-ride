@@ -11,19 +11,22 @@ import android.widget.Toast;
 
 import a340.tickettoride.R;
 import a340.tickettoride.presenter.BankPresenter;
+import a340.tickettoride.presenter.InvalidMoveException;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 
 import static cs340.TicketToRide.model.game.Game.MAX_FACE_UP;
+import static cs340.TicketToRide.model.game.card.TrainCard.Color.locomotive;
 
-public class BankFragment extends Fragment implements BankPresenter.View {
+public class BankFragment extends Fragment implements BankPresenter.View, View.OnClickListener {
 
     private IBankPresenter presenter;
     private ImageView[] faceUpCardSlots = new ImageView[5];
     private TextView drawPile;
     private TextView trainCardCount;
     private TextView destinationCardCount;
+
 
     @Override
     public void onResume() {
@@ -62,10 +65,10 @@ public class BankFragment extends Fragment implements BankPresenter.View {
         faceUpCardSlots[2] = view.findViewById(R.id.card3);
         faceUpCardSlots[3] = view.findViewById(R.id.card4);
         faceUpCardSlots[4] = view.findViewById(R.id.card5);
-
-        for (int i = 0; i < 5; i++) {
-            faceUpCardSlots[i].setTag(i);
-        }
+//
+//        for (int i = 0; i < 5; i++) {
+//            faceUpCardSlots[i].setTag(R.id.INDEX_KEY, i);
+//        }
     }
 
 
@@ -96,43 +99,35 @@ public class BankFragment extends Fragment implements BankPresenter.View {
 
     private void setClickListeners() {
 
-        drawPile.setOnClickListener(new android.view.View.OnClickListener(){
-
-            @Override
-            public void onClick(android.view.View view) {
-                Toast.makeText(getContext(), "You drew a new card",Toast.LENGTH_SHORT).show();
-
-            }
-        });
+        drawPile.setOnClickListener(this);
 
         for (int i=0; i < 5; i++) {
-            faceUpCardSlots[i].setOnClickListener(new android.view.View.OnClickListener(){
-
-                @Override
-                public void onClick(android.view.View view) {
-                    TrainCard newCard = presenter.drawTrainCard();
-                    ImageView card = (ImageView) view;
-                    card.setImageDrawable(getResources().getDrawable(getCardResource(newCard.getColor()),null));
-                }
-            });
+            faceUpCardSlots[i].setOnClickListener(this);
         }
     }
 
     @Override
-    public void updateFaceUpCards(TrainCards cards) {
-        for (int i=0; i < MAX_FACE_UP; i++) {
-            if (i >= cards.size()) {
-                faceUpCardSlots[i].setVisibility(View.INVISIBLE);
-                faceUpCardSlots[i].setEnabled(false);
-            } else {
-                faceUpCardSlots[i].setVisibility(View.VISIBLE);
-                faceUpCardSlots[i].setEnabled(true);
-                faceUpCardSlots[i]
-                        .setImageDrawable(getResources()
-                                .getDrawable(getCardResource(cards.get(i).getColor()),null));
-            }
+    public void updateFaceUpCards(final TrainCards cards) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i=0; i < MAX_FACE_UP; i++) {
+                    if (i >= cards.size()) {
+                        faceUpCardSlots[i].setVisibility(View.INVISIBLE);
+                        faceUpCardSlots[i].setEnabled(false);
+                    } else {
+                        TrainCard card = cards.get(i);
+                        faceUpCardSlots[i].setVisibility(View.VISIBLE);
+                        faceUpCardSlots[i].setEnabled(true);
+                        faceUpCardSlots[i].setTag(R.id.CARD_KEY, card);
+                        faceUpCardSlots[i].setImageDrawable(getResources()
+                                .getDrawable(getCardResource(card.getColor()),null));
+                    }
 
-        }
+                }
+            }
+        });
+
     }
 
     @Override
@@ -156,4 +151,29 @@ public class BankFragment extends Fragment implements BankPresenter.View {
         });
     }
 
+    @Override
+    public void onClick(View view) {
+
+        try {
+            switch (view.getId()) {
+                case R.id.drawPile:
+                    presenter.drawFromDeck();
+                    break;
+                default:
+//                    int index = (int) view.getTag(R.id.INDEX_KEY);
+                    TrainCard card = (TrainCard) view.getTag(R.id.CARD_KEY);
+
+                    if (card.getColor() == locomotive) {
+                        presenter.drawLocomotiveFaceUp(card);
+                    } else {
+                        presenter.drawStandardFaceUp(card);
+                    }
+                    break;
+            }
+
+        } catch(InvalidMoveException e) {
+            Toast.makeText(getActivity(),e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }

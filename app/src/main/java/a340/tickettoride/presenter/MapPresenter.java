@@ -54,7 +54,11 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
             view.showRouteIsClaimed((Route) obj);
         } else if (changeType == ModelChangeType.DestCardsAdded) {
             view.chooseDestCard((DestinationCards)obj, STANDARD_MIN_DEST_CARDS);
+
+        } else if (changeType == ModelChangeType.EndGame) {
+            view.displayResults((Players) obj);
         }
+
     }
 
     public Set<City> getActiveGameCities() {
@@ -133,6 +137,12 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         return model.getPlayerFromGame().getDestinationCards();
     }
 
+    @Override
+    public void drawTrainCards() {
+        //TODO: Maybe add check to make sure that it is the players turn
+        model.takePlayerAction(ActionType.drawTrainCard);
+    }
+
     public interface View {
         void displayNextPlayersTurn();
         void showRouteIsClaimed(Route route);
@@ -140,6 +150,9 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         Route getSelectedRoute();
         void enableButtons();
         void disableButtons();
+        void openDrawer(int side, boolean lockDrawer);
+        void closeDrawer(int side);
+        void displayResults(Players players);
         void chooseDestCard(DestinationCards cards, int minCardsToKeep);
     }
 }

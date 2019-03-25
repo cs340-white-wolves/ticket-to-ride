@@ -1,8 +1,5 @@
 package a340.tickettoride.presenter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
@@ -15,6 +12,7 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
 
     private View view;
     private IClientModel model = ClientModel.getInstance();
+    private ITrainCardState state = FinalState.getInstance();
 
     public BankPresenter(View view) {
         this.view = view;
@@ -27,17 +25,6 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
     }
 
     @Override
-    public TrainCard drawTrainCard() {
-
-        return new TrainCard(TrainCard.Color.tankerBlue);
-    }
-
-    @Override
-    public TrainCard pickUpTrainCard(int index) {
-        return null;
-    }
-
-    @Override
     public int getNumTrainCards() { return model.getActiveGame().getTrainCardDeck().size(); }
 
     @Override
@@ -45,6 +32,44 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
         return model.getActiveGame().getDestCardDeck().size();
     }
 
+
+    //==============================State Methods==============================
+    @Override
+    public void drawStandardFaceUp(TrainCard card) throws InvalidMoveException {
+        state.drawStandardFaceUp(this, card);
+    }
+
+    @Override
+    public void drawLocomotiveFaceUp(TrainCard card) throws InvalidMoveException {
+        state.drawLocomotiveFaceUp(this, card);
+    }
+
+    @Override
+    public void drawFromDeck() throws InvalidMoveException {
+        state.drawFromDeck(this);
+    }
+
+    @Override
+    public void setState(ITrainCardState state) {
+        this.state = state;
+
+        if (state.getClass() == FinalState.getInstance().getClass()) {
+            //send the end turn command
+        }
+    }
+
+    @Override
+    public TrainCard getTopOfDeck() {
+        TrainCards deck = model.getActiveGame().getTrainCardDeck();
+
+        if (deck.size() != 0) {
+            return deck.get(0);
+        }
+        return null;
+    }
+
+
+    //=============================Model Methods=================================
     @Override
     public void startObserving() {
         ClientModel.getInstance().addObserver(this);
@@ -69,6 +94,9 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
         } else if (changeType == ModelChangeType.FaceUpTrainCardsUpdate) {
             TrainCards trainCards = (TrainCards) obj;
             view.updateFaceUpCards(trainCards);
+
+        } else if (changeType == ModelChangeType.DrawTrainCards) {
+            state = new NoCardsState();
         }
 
     }

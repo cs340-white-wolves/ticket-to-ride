@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+    android:background="@drawable/radial_gradient">
+
+    <TextView
+        android:id="@+id/rank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/vacer"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toStartOf="@+id/playerUsername"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/playerUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/vacer"
+        android:text="TextView"
+        android:textSize="30sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/rank"
+        app:layout_constraintEnd_toStartOf="@+id/points"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/rank"
+        tools:text="curtgilbert" />
+
+    <TextView
+        android:id="@+id/points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/vacer"
+        android:text="TextView"
+        android:textSize="30sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/playerUsername"
+        app:layout_constraintEnd_toStartOf="@+id/cards"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/playerUsername"
+        tools:text="200" />
+
+    <TextView
+        android:id="@+id/cards"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/vacer"
+        android:text="TextView"
+        android:textSize="30sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/points"
+        app:layout_constraintEnd_toStartOf="@+id/trains"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/points"
+        tools:text="45" />
+
+    <TextView
+        android:id="@+id/trains"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/vacer"
+        android:text="TextView"
+        android:textSize="30sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/cards"
+        app:layout_constraintEnd_toStartOf="@+id/routes"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/cards"
+        tools:text="45" />
+
+    <TextView
+        android:id="@+id/routes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/vacer"
+        android:text="TextView"
+        android:textSize="30sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/trains"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/trains"
+        tools:text="10" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/shangiri"
+        android:text="@string/rank"
+        android:textColor="@color/Gold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/rank"
+        app:layout_constraintStart_toStartOf="@+id/rank"
+        app:layout_constraintTop_toBottomOf="@+id/rank" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/shangiri"
+        android:text="@string/player_info_routes_heading"
+        android:textColor="@color/Gold"
+        app:layout_constraintEnd_toEndOf="@+id/routes"
+        app:layout_constraintStart_toStartOf="@+id/routes"
+        app:layout_constraintTop_toBottomOf="@+id/routes" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/shangiri"
+        android:text="@string/player_info_trains_heading"
+        android:textColor="@color/Gold"
+        app:layout_constraintEnd_toEndOf="@+id/trains"
+        app:layout_constraintStart_toStartOf="@+id/trains"
+        app:layout_constraintTop_toBottomOf="@+id/trains" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/shangiri"
+        android:text="@string/player_info_player_heading"
+        android:textColor="@color/Gold"
+        app:layout_constraintEnd_toEndOf="@+id/playerUsername"
+        app:layout_constraintStart_toStartOf="@+id/playerUsername"
+        app:layout_constraintTop_toBottomOf="@+id/playerUsername" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/shangiri"
+        android:text="@string/player_info_points_heading"
+        android:textColor="@color/Gold"
+        app:layout_constraintEnd_toEndOf="@+id/points"
+        app:layout_constraintStart_toStartOf="@+id/points"
+        app:layout_constraintTop_toBottomOf="@+id/points" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/shangiri"
+        android:text="@string/player_info_cards_heading"
+        android:textColor="@color/Gold"
+        app:layout_constraintEnd_toEndOf="@+id/cards"
+        app:layout_constraintStart_toStartOf="@+id/cards"
+        app:layout_constraintTop_toBottomOf="@+id/cards" />
+
+</android.support.constraint.ConstraintLayout>
