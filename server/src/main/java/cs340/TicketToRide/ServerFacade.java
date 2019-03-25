@@ -62,6 +62,11 @@ public class ServerFacade implements IServer {
         new DrawTrainCardService().drawTrainCard(card, token, gameId, playerId);
     }
 
+    @Override
+    public void drawDestCards(AuthToken token, ID gameId, ID playerId) {
+        new DrawDestCardsService().drawDestCards(token, gameId, playerId);
+    }
+
     public Games getAvailableGames(AuthToken token) {
         return new GamesService().getAvailableGames(token);
     }

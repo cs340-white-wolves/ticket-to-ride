@@ -292,6 +292,11 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
     @Override
+    public void onDestCardsAdded(DestinationCards cardsToAddToPlayer) {
+        notifyObservers(ModelChangeType.DestCardsAdded, cardsToAddToPlayer);
+    }
+
+    @Override
     public void takePlayerAction(ActionType action) {
         switch (action) {
             case drawTrainCard:
