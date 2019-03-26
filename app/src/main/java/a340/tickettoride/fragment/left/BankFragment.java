@@ -27,29 +27,23 @@ public class BankFragment extends Fragment implements BankPresenter.View, View.O
     private TextView trainCardCount;
     private TextView destinationCardCount;
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        presenter.startObserving();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        presenter.stopObserving();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                           Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View newView = inflater.inflate(R.layout.fragment_bank, container, false);
         presenter = new BankPresenter(this);
+        presenter.startObserving();
         bindViews(newView);
         setClickListeners();
         updateFaceUpCards(presenter.getCurrentFaceUpCards());
         return newView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.stopObserving();
     }
 
     private void bindViews(android.view.View view) {

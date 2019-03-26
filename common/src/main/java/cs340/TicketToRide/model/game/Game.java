@@ -34,10 +34,13 @@ public class Game {
     private TrainCards trainCardDeck;
     private DestinationCards destinationCardDeck;
     private int currentPlayerTurnIdx = 0;
+    private boolean preGame = true;
+    private int playersLeftToDiscard;
 
     public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);
         players = new Players();
+        playersLeftToDiscard = targetNumPlayers;
         gameID = ID.generateID();
         board = new Board();
         discardedTrainCards = new TrainCards();
@@ -370,4 +373,11 @@ public class Game {
         return null;
     }
 
+    public void decrementPlayersLeftToDiscard() {
+        this.playersLeftToDiscard--;
+    }
+
+    public boolean allPlayersReady() {
+        return playersLeftToDiscard == 0;
+    }
 }

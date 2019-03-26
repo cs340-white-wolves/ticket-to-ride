@@ -23,5 +23,5 @@ public interface IMapPresenter {
     void startPoller();
     void onClickDrawDestCards();
     void drawTrainCards();
-
+    boolean isActivePlayerTurn();
 }

@@ -13,6 +13,7 @@ import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
+import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.City;
@@ -44,7 +45,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     public void onModelEvent(ModelChangeType changeType, Object obj) {
         if (changeType == ModelChangeType.AdvanceTurn) {
             advanceTurn();
-
+            view.lockDrawer(false);
         } else if (changeType == ModelChangeType.RouteClaimed) {
             view.showRouteIsClaimed((Route) obj);
         } else if (changeType == ModelChangeType.EndGame) {
@@ -103,10 +104,20 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         model.takePlayerAction(ActionType.drawTrainCard);
     }
 
+    @Override
+    public boolean isActivePlayerTurn() {
+        Game activeGame = model.getActiveGame();
+        int idx = activeGame.getCurrentPlayerTurnIdx();
+        Player player = activeGame.getPlayers().get(idx);
+
+        return player.getId().equals(model.getPlayerId());
+    }
+
     public interface View {
         void displayNextPlayersTurn();
         void showRouteIsClaimed(Route route);
         DestinationCards getSelectedDestinationCards();
+        DestinationCards getRecentlyAddedDestCards();
         Route getSelectedRoute();
         void enableButtons();
         void disableButtons();
@@ -114,5 +125,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         void closeDrawer(int side);
         void displayResults(Players players);
         void chooseDestCard(DestinationCards cards, int minCardsToKeep);
+        void lockDrawer(boolean b);
     }
 }

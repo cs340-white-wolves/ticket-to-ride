@@ -8,6 +8,9 @@ public class FinalState implements ITrainCardState {
     private static FinalState state = new FinalState();
     public static FinalState getInstance() {return state;}
 
+    private FinalState() {
+
+    }
     @Override
     public void drawStandardFaceUp(IBankPresenter presenter, TrainCard card) throws InvalidMoveException {
         throw new InvalidMoveException("Cannot draw more cards");

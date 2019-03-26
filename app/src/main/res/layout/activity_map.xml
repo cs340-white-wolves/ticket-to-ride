@@ -31,7 +31,8 @@
                     android:text="@string/draw_cards"
                     android:padding="10dp"
                     android:layout_marginTop="20dp"
-                    android:paddingRight="10dp"/>
+                    android:paddingRight="10dp"
+                    android:enabled="false"/>
 
                 <Button
                     android:id="@+id/placeTrainsButton"
@@ -40,7 +41,8 @@
                     android:text="@string/place_trains"
                     android:padding="10dp"
                     android:layout_marginTop="20dp"
-                    android:paddingRight="10dp"/>
+                    android:paddingRight="10dp"
+                    android:enabled="false"/>
 
                 <Button
                     android:id="@+id/drawRoutesButton"
@@ -49,7 +51,8 @@
                     android:text="@string/draw_routes"
                     android:padding="10dp"
                     android:layout_marginTop="20dp"
-                    android:paddingRight="10dp"/>
+                    android:paddingRight="10dp"
+                    android:enabled="false"/>
 
                 <Button
                     android:id="@+id/viewBankBtn"
@@ -59,7 +62,7 @@
                     android:layout_weight="1"
                     android:padding="10dp"
                     android:paddingRight="10dp"
-                    android:text="@string/view_bank" />
+                    android:text="@string/view_bank"/>
 
                 <Button
                     android:id="@+id/viewSummaryBtn"

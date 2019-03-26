@@ -26,20 +26,10 @@ public class HandFragment extends Fragment implements HandPresenter.View {
     private View view;
     private IHandPresenter presenter;
 
-    public HandFragment() {
-        presenter = new HandPresenter(this);
-        // Required empty public constructor
-    }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        presenter.startObserving();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         presenter.stopObserving();
     }
 
@@ -72,6 +62,9 @@ public class HandFragment extends Fragment implements HandPresenter.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        presenter = new HandPresenter(this);
+
+        presenter.startObserving();
         view = inflater.inflate(R.layout.fragment_hand, container, false);
         return view;
     }

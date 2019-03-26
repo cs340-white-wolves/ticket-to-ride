@@ -97,6 +97,7 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
 
     }
 
+
     public interface View {
         void updateFaceUpCards(TrainCards cards);
         void updateDestinationCardCount(int count);

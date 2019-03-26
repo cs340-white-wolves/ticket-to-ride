@@ -75,6 +75,10 @@ public class DestCardAdapter extends RecyclerView.Adapter<DestCardAdapter.DestCa
         return cards.size();
     }
 
+    public DestinationCards getAllDestCards() {
+        return cards;
+    }
+
     public static class DestCardView extends RecyclerView.ViewHolder {
         TextView text;
         public DestCardView(View view) {
