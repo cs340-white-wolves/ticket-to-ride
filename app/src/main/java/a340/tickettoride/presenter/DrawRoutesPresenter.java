@@ -27,7 +27,6 @@ import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 
 public class DrawRoutesPresenter implements IDrawRoutesPresenter, ModelObserver {
-    private static final int NUM_CARDS_KEEP_TURN = 1;
     public static final int INITIAL_MIN_DEST_CARDS = 2;
     public static final int STANDARD_MIN_DEST_CARDS = 1;
 
