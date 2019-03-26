@@ -278,7 +278,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     @Override
                     public void onClick(View view) {
                         if (destCardAdapter.getSelectedDestCards().size() >= minCardsToKeep) {
-                            presenter.discardDestCards();
+                            drawRoutesPresenter.discardDestCards();
                             dialog.dismiss();
                         }
                         else {
