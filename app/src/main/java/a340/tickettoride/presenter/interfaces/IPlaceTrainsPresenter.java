@@ -9,5 +9,7 @@ public interface IPlaceTrainsPresenter {
     void placeTrains();
     void goBack();
     void finishTurn();
+    void startObserving();
+    void stopObserving();
 
 }
