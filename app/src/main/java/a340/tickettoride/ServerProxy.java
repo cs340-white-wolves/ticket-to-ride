@@ -186,12 +186,12 @@ public class ServerProxy implements IServer {
     }
 
     @Override
-    public void drawTrainCard(TrainCard card, AuthToken token, ID gameId, ID playerId) {
+    public void drawTrainCard(TrainCard card, boolean advanceTurn, AuthToken token, ID gameId, ID playerId) {
         ICommand command = new Command(
                 "drawTrainCard",
-                new String[]{TrainCard.class.getName(), AuthToken.class.getName(),
+                new String[]{TrainCard.class.getName(), boolean.class.getName(), AuthToken.class.getName(),
                         ID.class.getName(), ID.class.getName()},
-                new Object[]{card, token, gameId, playerId}
+                new Object[]{card, advanceTurn, token, gameId, playerId}
         );
         communicator.sendCommand(command);
     }

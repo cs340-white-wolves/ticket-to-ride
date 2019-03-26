@@ -106,4 +106,14 @@ public class ClientProxy implements IClient {
         );
         queue.add(command);
     }
+
+    @Override
+    public void advanceTurn() {
+        Command command = new Command(
+                "advanceTurn",
+                new String[]{},
+                new Object[]{}
+        );
+        queue.add(command);
+    }
 }

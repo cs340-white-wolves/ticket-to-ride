@@ -42,6 +42,8 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     private ClientModel() {
         Log.i("ClientModel", "I'm alive!");
+        historyMessages.add(new Message(new Username("nbarlow23"), "drew cards"));
+        historyMessages.add(new Message(new Username("bjensena"), "placed trains"));
     }
 
     @Override
@@ -319,14 +321,14 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
 
-
-    //=================================Testing Methods===============================
-
-
     public void advanceTurn() {
         activeGame.setNextPlayerTurn();
         notifyObservers(ModelChangeType.AdvanceTurn, null);
     }
+
+
+    //=================================Testing Methods===============================
+
 
     public void addChatMessages() {
         for(Player player: activeGame.getPlayers()) {

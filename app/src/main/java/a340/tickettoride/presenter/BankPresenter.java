@@ -52,10 +52,6 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
     @Override
     public void setState(ITrainCardState state) {
         this.state = state;
-
-        if (state.getClass() == FinalState.getInstance().getClass()) {
-            //send the end turn command
-        }
     }
 
     @Override
