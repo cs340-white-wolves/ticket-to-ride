@@ -12,20 +12,20 @@ public class NoCardsState implements ITrainCardState {
     @Override
     public void drawStandardFaceUp(IBankPresenter presenter, TrainCard card) {
         presenter.setState(OneCardState.getInstance());
-        ServiceFacade.getInstance().drawTrainCard(card);
+        ServiceFacade.getInstance().drawTrainCard(card, false);
 
     }
 
     @Override
     public void drawLocomotiveFaceUp(IBankPresenter presenter, TrainCard card) {
         presenter.setState(FinalState.getInstance());
-        ServiceFacade.getInstance().drawTrainCard(card);
+        ServiceFacade.getInstance().drawTrainCard(card, true);
     }
 
     @Override
     public void drawFromDeck(IBankPresenter presenter) {
         presenter.setState(OneCardState.getInstance());
-        ServiceFacade.getInstance().drawTrainCard(presenter.getTopOfDeck());
+        ServiceFacade.getInstance().drawTrainCard(presenter.getTopOfDeck(), false);
 
     }
 

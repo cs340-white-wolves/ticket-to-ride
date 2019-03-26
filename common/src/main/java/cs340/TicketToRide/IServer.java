@@ -23,7 +23,7 @@ public interface IServer {
     Commands getQueuedCommands(AuthToken token, ID playerId, ID gameId, int index);
     void discardDestCards(DestinationCards cards, AuthToken token, ID gameId, ID playerId);
     void claimRoute(Route route, AuthToken token, ID gameID, ID playerId);
-    void drawTrainCard(TrainCard card, AuthToken token, ID gameId, ID playerId);
+    void drawTrainCard(TrainCard card, boolean advanceTurn, AuthToken token, ID gameId, ID playerId);
     void drawDestCards(AuthToken token, ID gameId, ID playerId);
     /*
         SendChat

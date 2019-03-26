@@ -16,4 +16,5 @@ public interface IClient {
     void trainCardDeckChanged(TrainCards trainCards);
     void routeUpdated(Route route);
     void addedDestCards(DestinationCards cardsToAddToPlayer);
+    void advanceTurn();
 }

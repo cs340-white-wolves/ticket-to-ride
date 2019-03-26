@@ -42,6 +42,8 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     private ClientModel() {
         Log.i("ClientModel", "I'm alive!");
+        historyMessages.add(new Message(new Username("nbarlow23"), "drew cards"));
+        historyMessages.add(new Message(new Username("bjensena"), "placed trains"));
     }
 
     @Override
@@ -297,6 +299,14 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
     @Override
+    public List<Message> getHistoryMessages() {
+        return historyMessages;
+    }
+
+    public void setHistoryMessages(List<Message> historyMessages) {
+        this.historyMessages = historyMessages;
+    }
+
     public void takePlayerAction(ActionType action) {
         switch (action) {
             case drawTrainCard:
@@ -311,14 +321,14 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
 
-
-    //=================================Testing Methods===============================
-
-
     public void advanceTurn() {
         activeGame.setNextPlayerTurn();
         notifyObservers(ModelChangeType.AdvanceTurn, null);
     }
+
+
+    //=================================Testing Methods===============================
+
 
     public void addChatMessages() {
         for(Player player: activeGame.getPlayers()) {
@@ -391,8 +401,6 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
         updatePlayers(activeGame.getPlayers());
     }
-
-
 
 
 

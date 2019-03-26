@@ -92,8 +92,8 @@ public class ServiceFacade {
         task.execute();
     }
 
-    public void drawTrainCard(TrainCard card) {
-        DrawTrainCardTask task = new DrawTrainCardTask(card);
+    public void drawTrainCard(TrainCard card, boolean advanceTurn) {
+        DrawTrainCardTask task = new DrawTrainCardTask(card, advanceTurn);
         task.execute();
     }
 }

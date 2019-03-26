@@ -38,13 +38,12 @@ public class Poller {
                     Games games = server.getAvailableGames(model.getAuthToken());
                     Log.i("Poller", "Got " + games.getGameSet().size() + " games");
                     listener.onPollComplete(games);
-                }
-                catch (Throwable t) {
+                } catch (Throwable t) {
                     t.printStackTrace();
                     Log.e("Poller", t.getMessage());
                 }
             }
-        }, 0, POLLER_FREQUENCY, TimeUnit.SECONDS);
+        }, 0, 5, TimeUnit.SECONDS);
     }
 
     public void runGetGameCommands() {

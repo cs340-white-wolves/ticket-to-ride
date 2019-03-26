@@ -46,6 +46,7 @@ public class DiscardDestCardService {
             client.destCardDeckChanged(game.getDestCardDeck());
             client.playersUpdated(game.getPlayers());
             client.historyMessageReceived(historyMessage);
+            client.advanceTurn();
         }
 
     }

@@ -22,8 +22,7 @@ import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public class MapPresenter implements IMapPresenter, ModelObserver {
-    public static final int INITIAL_MIN_DEST_CARDS = 2;
-    public static final int STANDARD_MIN_DEST_CARDS = 1;
+
     private View view;
     private IClientModel model = ClientModel.getInstance();
 
@@ -43,18 +42,11 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
 
     @Override
     public void onModelEvent(ModelChangeType changeType, Object obj) {
-        if (changeType == ModelChangeType.GameStarted) {
-            Log.i("MapPresenter", "Game Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            view.chooseDestCard(getPlayerDestCards(), INITIAL_MIN_DEST_CARDS);
-
-        } else if (changeType == ModelChangeType.AdvanceTurn) {
+        if (changeType == ModelChangeType.AdvanceTurn) {
             advanceTurn();
 
         } else if (changeType == ModelChangeType.RouteClaimed) {
             view.showRouteIsClaimed((Route) obj);
-        } else if (changeType == ModelChangeType.DestCardsAdded) {
-            view.chooseDestCard((DestinationCards)obj, STANDARD_MIN_DEST_CARDS);
-
         } else if (changeType == ModelChangeType.EndGame) {
             view.displayResults((Players) obj);
         }
@@ -63,27 +55,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
 
     public Set<City> getActiveGameCities() {
         return null;
-    }
-
-    @Override
-    public void discardDestCards() {
-        DestinationCards selectedCards = view.getSelectedDestinationCards();
-        DestinationCards discardedCards = new DestinationCards();
-        Player player = model.getPlayerFromGame();
-        DestinationCards allCards = player.getDestinationCards();
-        for (DestinationCard card : allCards) {
-            if (!selectedCards.contains(card)) {
-                discardedCards.add(card);
-            }
-        }
-
-        ServiceFacade.getInstance().discardDestCards(discardedCards);
-    }
-
-    @Override
-    public void placeTrains() {
-        Route route = view.getSelectedRoute();
-        ServiceFacade.getInstance().claimRoute(route);
     }
 
     @Override
@@ -124,17 +95,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     @Override
     public Player getPlayerById(ID playerId) {
         return model.getActiveGame().getPlayerById(playerId);
-    }
-
-    @Override
-    public List<Route> getPossibleRoutesToClaim() {
-        // todo: implement this
-        return new ArrayList<>();
-    }
-
-    @Override
-    public DestinationCards getPlayerDestCards() {
-        return model.getPlayerFromGame().getDestinationCards();
     }
 
     @Override

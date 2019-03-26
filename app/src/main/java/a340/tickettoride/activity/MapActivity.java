@@ -99,13 +99,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onResume();
 
         presenter.startObserving();
+        drawRoutesPresenter.startObserving();
+        placeTrainsPresenter.startObserving();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
         presenter.stopObserving();
+        drawRoutesPresenter.startObserving();
+        placeTrainsPresenter.stopObserving();
     }
 
     @Override
@@ -278,7 +281,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     @Override
                     public void onClick(View view) {
                         if (destCardAdapter.getSelectedDestCards().size() >= minCardsToKeep) {
-                            presenter.discardDestCards();
+                            drawRoutesPresenter.discardDestCards();
                             dialog.dismiss();
                         }
                         else {
