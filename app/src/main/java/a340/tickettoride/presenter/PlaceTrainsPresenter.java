@@ -24,14 +24,12 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
     private IClientModel model = ClientModel.getInstance();
     private Player player = model.getActiveGame().getPlayerById(model.getPlayerId());
 
-
     public PlaceTrainsPresenter(MapPresenter.View view) { this.view = view; }
 
     @Override
     public List<Route> getPossibleRoutesToClaim() {
         List<Route> possible = new ArrayList<>();
         Set<Route> routes = model.getActiveGame().getBoard().getRoutes();
-        Player player = model.getActiveGame().getPlayerById(model.getPlayerId());
         /*
         if (!allowDuplicateRoutes()) {
             routes = deleteDuplicateRoutes(routes);
@@ -155,19 +153,9 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
         if (numOfColor >= length) {
             options.add(new RouteColorOption(color, length, 0));
         } else if (numOfColor + numLocomotives >= length){
-            int numLocomitivesNeeded = length - numOfColor;
-            options.add(new RouteColorOption(color, numOfColor, numLocomitivesNeeded));
+            int namLocomotivesNeeded = length - numOfColor;
+            options.add(new RouteColorOption(color, numOfColor, namLocomotivesNeeded));
         }
-    }
-
-    @Override
-    public void goBack() {
-
-    }
-
-    @Override
-    public void finishTurn() {
-
     }
 
     @Override

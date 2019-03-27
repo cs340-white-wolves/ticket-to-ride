@@ -7,7 +7,6 @@ import cs340.TicketToRide.model.game.board.Route;
 
 public interface IPlaceTrainsPresenter {
     List<Route> getPossibleRoutesToClaim();
-    void placeTrains();
     void onSelectRoute();
     void startObserving();
     void stopObserving();
