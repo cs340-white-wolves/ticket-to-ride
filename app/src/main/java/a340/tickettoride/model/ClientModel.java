@@ -42,8 +42,6 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     private ClientModel() {
         Log.i("ClientModel", "I'm alive!");
-        historyMessages.add(new Message(new Username("nbarlow23"), "drew cards"));
-        historyMessages.add(new Message(new Username("bjensena"), "placed trains"));
     }
 
     @Override
@@ -81,7 +79,10 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
             startIndex++;
         }
 
-        lastExecutedCommandIndex = queuedCommands.getEndIndex();
+        // Check if this causes bugs
+        if (lastExecutedCommandIndex < queuedCommands.getEndIndex()) {
+            lastExecutedCommandIndex = queuedCommands.getEndIndex();
+        }
     }
 
     private void setActiveGameFromGames(Games lobbyGameList) {

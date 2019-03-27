@@ -60,7 +60,7 @@ public class DrawTrainCardService {
         } else if (faceUpTrainCards.contains(card)) {
             faceUpTrainCards.remove(card);
             replaceFaceUpCard(game, trainCardDeck, faceUpTrainCards);
-            msg = "Drew face up " + card.getColor() + " train card";
+            msg = "Drew face up " + card.toString() + " train card";
             faceup = true;
         } else {
             throw new RuntimeException("Card not in faceup or facedown decks");
