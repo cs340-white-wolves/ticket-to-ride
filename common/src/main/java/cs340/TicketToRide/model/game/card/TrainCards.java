@@ -16,20 +16,24 @@ public class TrainCards extends Deck<TrainCard> {
             throw new RuntimeException("This function is not designed to be used for locomotives");
         }
 
-        if (color == null) {
-            return false;
-            // todo: how to handle if can be claimed when gray, and what colors to use
-        }
-
         Map<TrainCard.Color, Integer> colorCounts = getColorCounts();
 
         int hasCount = 0;
 
-        hasCount += colorCounts.get(color);
-
         if (useLocomotives) {
             hasCount += colorCounts.get(TrainCard.Color.locomotive);
         }
+
+        if (color == null) {
+            for (Map.Entry<TrainCard.Color, Integer> entry : colorCounts.entrySet()) {
+                if ((hasCount + entry.getValue()) >= neededCount) {
+                    return true;
+                }
+            }
+        } else {
+            hasCount += colorCounts.get(color);
+        }
+
 
         return (hasCount >= neededCount);
     }
