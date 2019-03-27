@@ -10,6 +10,7 @@ import a340.tickettoride.ClientFacade;
 import a340.tickettoride.communication.Poller;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObservable;
+import a340.tickettoride.presenter.ActionType;
 import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.communication.Commands;
 import cs340.TicketToRide.communication.LoginRegisterResponse;
@@ -22,6 +23,7 @@ import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCards;
+import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Username;
@@ -40,6 +42,8 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     private ClientModel() {
         Log.i("ClientModel", "I'm alive!");
+        historyMessages.add(new Message(new Username("nbarlow23"), "drew cards"));
+        historyMessages.add(new Message(new Username("bjensena"), "placed trains"));
     }
 
     @Override
@@ -271,12 +275,14 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         notifyObservers(ModelChangeType.DrawableDestinationCardCount, activeGame.getDestCardDeck().size());
     }
 
+    @Override
     public void updateTrainCardDeck(TrainCards cards) {
-        activeGame.setFaceUpTrainCards(cards);
-        notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getFaceUpTrainCards().size());
+        activeGame.setTrainCardDeck(cards);
+        notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getTrainCardDeck().size());
 
     }
 
+    @Override
     public void updateFaceUpTrainCards(TrainCards faceUpCards) {
         activeGame.setFaceUpTrainCards(faceUpCards);
         notifyObservers(ModelChangeType.FaceUpTrainCardsUpdate, activeGame.getFaceUpTrainCards());
@@ -287,13 +293,42 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         notifyObservers(ModelChangeType.RouteClaimed, route);
     }
 
-    //=================================Testing Methods===============================
+    @Override
+    public void onDestCardsAdded(DestinationCards cardsToAddToPlayer) {
+        notifyObservers(ModelChangeType.DestCardsAdded, cardsToAddToPlayer);
+    }
+
+    @Override
+    public List<Message> getHistoryMessages() {
+        return historyMessages;
+    }
+
+    public void setHistoryMessages(List<Message> historyMessages) {
+        this.historyMessages = historyMessages;
+    }
+
+    public void takePlayerAction(ActionType action) {
+        switch (action) {
+            case drawTrainCard:
+                notifyObservers(ModelChangeType.DrawTrainCards, null);
+                break;
+        }
+
+    }
+
+    public Players getPlayers() {
+        return this.activeGame.getPlayers();
+    }
 
 
     public void advanceTurn() {
         activeGame.setNextPlayerTurn();
         notifyObservers(ModelChangeType.AdvanceTurn, null);
     }
+
+
+    //=================================Testing Methods===============================
+
 
     public void addChatMessages() {
         for(Player player: activeGame.getPlayers()) {
@@ -366,8 +401,6 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
         updatePlayers(activeGame.getPlayers());
     }
-
-
 
 
 

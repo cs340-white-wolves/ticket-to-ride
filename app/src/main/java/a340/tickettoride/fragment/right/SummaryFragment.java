@@ -28,7 +28,7 @@ public class SummaryFragment extends Fragment {
         View inflate = inflater.inflate(R.layout.fragment_summary, container, false);
 
         mViewPager = inflate.findViewById(R.id.summary_container);
-        mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setOffscreenPageLimit(5);
 
         setupViewPager(mViewPager);
 
@@ -44,6 +44,7 @@ public class SummaryFragment extends Fragment {
         mPageAdapter.addItem(new PlayerInfoFragment(), "Players");
         mPageAdapter.addItem(new RoutesFragment(), "Routes");
         mPageAdapter.addItem(new ChatFragment(), "Chat");
+        mPageAdapter.addItem(new GameHistoryFragment(), "History");
         viewPager.setAdapter(mPageAdapter);
     }
 

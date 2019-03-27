@@ -144,6 +144,7 @@ public class ClaimRouteService {
             client.routeUpdated(route);
             client.playersUpdated(players);
             client.historyMessageReceived(historyMessage);
+            client.advanceTurn();
         }
 
         if (startOfLastRound) {

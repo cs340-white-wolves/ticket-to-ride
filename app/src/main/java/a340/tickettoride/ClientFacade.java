@@ -66,4 +66,14 @@ public class ClientFacade implements IClient {
         model.updateRoute(route);
     }
 
+    @Override
+    public void addedDestCards(DestinationCards cardsToAddToPlayer) {
+        model.onDestCardsAdded(cardsToAddToPlayer);
+    }
+
+    @Override
+    public void advanceTurn() {
+        model.advanceTurn();
+    }
+
 }

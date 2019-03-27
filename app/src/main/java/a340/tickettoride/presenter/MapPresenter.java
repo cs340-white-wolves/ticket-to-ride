@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import a340.tickettoride.ServerProxy;
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
+import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.City;
@@ -21,12 +23,12 @@ import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public class MapPresenter implements IMapPresenter, ModelObserver {
+
     private View view;
     private IClientModel model = ClientModel.getInstance();
 
     public MapPresenter(View view) {
         this.view = view;
-
     }
 
     @Override
@@ -41,41 +43,19 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
 
     @Override
     public void onModelEvent(ModelChangeType changeType, Object obj) {
-        if (changeType == ModelChangeType.GameStarted) {
-            Log.i("MapPresenter", "Game Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            view.chooseDestCard();
-
-        } else if (changeType == ModelChangeType.AdvanceTurn) {
+        if (changeType == ModelChangeType.AdvanceTurn) {
             advanceTurn();
-
+            view.lockDrawer(false);
         } else if (changeType == ModelChangeType.RouteClaimed) {
             view.showRouteIsClaimed((Route) obj);
+        } else if (changeType == ModelChangeType.EndGame) {
+            view.displayResults((Players) obj);
         }
+
     }
 
     public Set<City> getActiveGameCities() {
         return null;
-    }
-
-    @Override
-    public void discardDestCards() {
-        DestinationCards selectedCards = view.getSelectedDestinationCards();
-        DestinationCards discardedCards = new DestinationCards();
-        Player player = model.getPlayerFromGame();
-        DestinationCards allCards = player.getDestinationCards();
-        for (DestinationCard card : allCards) {
-            if (!selectedCards.contains(card)) {
-                discardedCards.add(card);
-            }
-        }
-
-        ServiceFacade.getInstance().discardDestCards(discardedCards);
-    }
-
-    @Override
-    public void placeTrains() {
-        Route route = view.getSelectedRoute();
-        ServiceFacade.getInstance().claimRoute(route);
     }
 
     @Override
@@ -104,6 +84,11 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     @Override
+    public void onClickDrawDestCards() {
+        ServiceFacade.getInstance().drawDestCards();
+    }
+
+    @Override
     public Players getPlayers() {
         return model.getActiveGame().getPlayers();
     }
@@ -114,23 +99,32 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     @Override
-    public List<Route> getPossibleRoutesToClaim() {
-        // todo: implement this
-        return new ArrayList<>();
+    public void drawTrainCards() {
+        //TODO: Maybe add check to make sure that it is the players turn
+        model.takePlayerAction(ActionType.drawTrainCard);
     }
 
     @Override
-    public DestinationCards getPlayerDestCards() {
-        return model.getPlayerFromGame().getDestinationCards();
+    public boolean isActivePlayerTurn() {
+        Game activeGame = model.getActiveGame();
+        int idx = activeGame.getCurrentPlayerTurnIdx();
+        Player player = activeGame.getPlayers().get(idx);
+
+        return player.getId().equals(model.getPlayerId());
     }
 
     public interface View {
         void displayNextPlayersTurn();
         void showRouteIsClaimed(Route route);
         DestinationCards getSelectedDestinationCards();
+        DestinationCards getRecentlyAddedDestCards();
         Route getSelectedRoute();
         void enableButtons();
         void disableButtons();
-        void chooseDestCard();
+        void openDrawer(int side, boolean lockDrawer);
+        void closeDrawer(int side);
+        void displayResults(Players players);
+        void chooseDestCard(DestinationCards cards, int minCardsToKeep);
+        void lockDrawer(boolean b);
     }
 }

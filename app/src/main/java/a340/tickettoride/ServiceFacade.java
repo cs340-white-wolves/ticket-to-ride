@@ -3,6 +3,7 @@ package a340.tickettoride;
 import a340.tickettoride.task.ClaimRouteTask;
 import a340.tickettoride.task.CreateGameTask;
 import a340.tickettoride.task.DiscardDestCardTask;
+import a340.tickettoride.task.DrawDestCardsTask;
 import a340.tickettoride.task.DrawTrainCardTask;
 import a340.tickettoride.task.JoinGameTask;
 import a340.tickettoride.task.LoginTask;
@@ -76,6 +77,11 @@ public class ServiceFacade {
         task.execute();
     }
 
+    public void drawDestCards() {
+        DrawDestCardsTask task = new DrawDestCardsTask();
+        task.execute();
+    }
+
     public void discardDestCards(DestinationCards discardedCards) {
         DiscardDestCardTask task = new DiscardDestCardTask(discardedCards);
         task.execute();
@@ -86,8 +92,8 @@ public class ServiceFacade {
         task.execute();
     }
 
-    public void drawTrainCard(TrainCard card) {
-        DrawTrainCardTask task = new DrawTrainCardTask(card);
+    public void drawTrainCard(TrainCard card, boolean advanceTurn) {
+        DrawTrainCardTask task = new DrawTrainCardTask(card, advanceTurn);
         task.execute();
     }
 }

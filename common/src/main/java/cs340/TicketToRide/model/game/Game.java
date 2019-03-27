@@ -21,6 +21,7 @@ public class Game {
     public static final int MAX_PLAYERS = 5;
     public static final int MAX_FACE_UP = 5;
     public static final int MAX_FACEUP_LOCOMOTIVES = 2;
+    public static final int MAX_ITERATIONS = 5;
 
     private int targetNumPlayers;
     private Players players;
@@ -33,10 +34,13 @@ public class Game {
     private DestinationCards destinationCardDeck;
     private int currentPlayerTurnIdx = 0;
     private ID lastRoundLastPlayerId = null;
+    private boolean preGame = true;
+    private int playersLeftToDiscard;
 
     public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);
         players = new Players();
+        playersLeftToDiscard = targetNumPlayers;
         gameID = ID.generateID();
         board = new Board();
         discardedTrainCards = new TrainCards();
@@ -248,9 +252,7 @@ public class Game {
     }
 
     public void setupFaceUpCards() {
-
-        // TODO: UNLIKELY CASE WHERE THE ONLY CARDS LEFT HAVE 3+ OF LOCOMOTIVES, COULD CAUSE INFINITE LOOP
-        // TODO: PASSED FROM DISCARD TO DRAW DECK TO FACE UP
+        int iteration = 0;
 
         do {
             if (hasTooManyFaceupLocomotives()) {
@@ -270,7 +272,9 @@ public class Game {
                 }
             }
 
-        } while (hasTooManyFaceupLocomotives());
+            iteration++;
+
+        } while (hasTooManyFaceupLocomotives() && iteration <= MAX_ITERATIONS);
     }
 
     public void addDiscardedToDrawDeck() {
@@ -323,6 +327,10 @@ public class Game {
         this.faceUpTrainCards = faceUpTrainCards;
     }
 
+    public void setTrainCardDeck(TrainCards newTrainCardDeck) {
+        this.trainCardDeck = newTrainCardDeck;
+    }
+
     public TrainCards getTrainCardDeck() {
         return trainCardDeck;
     }
@@ -371,5 +379,13 @@ public class Game {
 
     public void setLastRoundLastPlayerId(ID lastRoundLastPlayerId) {
         this.lastRoundLastPlayerId = lastRoundLastPlayerId;
+    }
+  
+    public void decrementPlayersLeftToDiscard() {
+        this.playersLeftToDiscard--;
+    }
+
+    public boolean allPlayersReady() {
+        return playersLeftToDiscard == 0;
     }
 }

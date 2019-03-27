@@ -3,6 +3,7 @@ package a340.tickettoride.activity;
 import android.content.DialogInterface;
 import android.graphics.*;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroupOverlay;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,10 +28,16 @@ import java.util.*;
 
 import a340.tickettoride.R;
 import a340.tickettoride.adapter.*;
+import a340.tickettoride.fragment.ResultsFragment;
 import a340.tickettoride.fragment.right.*;
+import a340.tickettoride.model.ClientModel;
+import a340.tickettoride.presenter.DrawRoutesPresenter;
+import a340.tickettoride.presenter.PlaceTrainsPresenter;
 import a340.tickettoride.presenter.TestPresenter;
+import a340.tickettoride.presenter.interfaces.IDrawRoutesPresenter;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
+import a340.tickettoride.presenter.interfaces.IPlaceTrainsPresenter;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.*;
 import cs340.TicketToRide.model.game.board.*;
@@ -38,7 +46,7 @@ import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.*;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, MapPresenter.View, TestPresenter.TestCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, MapPresenter.View {
     private static final int LINE_WIDTH = 15;
     private static final int LINE_BORDER_WIDTH = 17;
     private static final int CIRCLE_RADIUS = 35000;
@@ -74,10 +82,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Button placeTrainBtn;
     private Button drawCardsBtn;
     private TestPresenter testPresenter;
-    private Button testBtn;
+    private Button viewBankBtn;
+    private Button viewSummaryBtn;
+    private IDrawRoutesPresenter drawRoutesPresenter;
+    private IPlaceTrainsPresenter placeTrainsPresenter;
 
     public MapActivity() {
         presenter = new MapPresenter(this);
+        drawRoutesPresenter = new DrawRoutesPresenter(this);
+        placeTrainsPresenter = new PlaceTrainsPresenter(this);
     }
 
     @Override
@@ -85,13 +98,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onResume();
 
         presenter.startObserving();
+        drawRoutesPresenter.startObserving();
+        placeTrainsPresenter.startObserving();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
         presenter.stopObserving();
+        drawRoutesPresenter.startObserving();
+        placeTrainsPresenter.stopObserving();
     }
 
     @Override
@@ -122,8 +138,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         initTrainColorValues();
         initPlayerColorValues();
 
-        testPresenter = new TestPresenter(this);
-
         lineRouteManager = new HashMap<>();
         cityMarkers = new HashSet<>();
         mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -132,20 +146,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawerLayout = findViewById(R.id.drawer_layout);
         initTurnTracker();
         initButtons();
-
-
     }
 
     private void initButtons() {
         routesBtn = findViewById(R.id.drawRoutesButton);
         placeTrainBtn = findViewById(R.id.placeTrainsButton);
         drawCardsBtn = findViewById(R.id.drawCardsButton);
-        disableButtons();
+        viewBankBtn = findViewById(R.id.viewBankBtn);
+        viewSummaryBtn = findViewById(R.id.viewSummaryBtn);
+
+        if (presenter.isActivePlayerTurn()) {
+            enableButtons();
+        }
 
         routesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initDestCardDialog();
+                presenter.onClickDrawDestCards();
             }
         });
 
@@ -155,12 +172,52 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 initPlaceTrainDialog();
             }
         });
+
         drawCardsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawerLayout.openDrawer(GravityCompat.START);
+                openDrawer(GravityCompat.START, true);
+                disableButtons();
+                presenter.drawTrainCards();
             }
         });
+
+        viewBankBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { openDrawer(GravityCompat.START, false);
+            }
+        });
+        viewSummaryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDrawer(GravityCompat.END, false);
+            }
+        });
+    }
+
+    @Override
+   public void openDrawer(int side, boolean lockDrawer) {
+        drawerLayout.openDrawer(side);
+        lockDrawer(lockDrawer);
+    }
+
+    @Override
+    public void closeDrawer(int side) {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, side);
+        drawerLayout.closeDrawer(side);
+    }
+
+    @Override
+    public void displayResults(Players players) {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+
+        ResultsFragment results = new ResultsFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.map, results);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
     }
 
     public void enableButtons() {
@@ -188,39 +245,39 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void chooseDestCard() {
+    public void chooseDestCard(final DestinationCards cards, final int minCardsToKeep) {
         this.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                initDestCardDialog();
+                initDestCardDialog(cards, minCardsToKeep);
             }
         });
 
-        testBtn = findViewById(R.id.testButton);
-        testBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                testPresenter.executeCurrentTest();
-            }
-        });
     }
 
-    private void initDestCardDialog() {
-        DestinationCards cards = presenter.getPlayerDestCards();
+    @Override
+    public void lockDrawer(boolean locked) {
+        if (locked) {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, GravityCompat.START);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+        } else {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.START);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+        }
+    }
 
+    private void initDestCardDialog(DestinationCards cards, final int minCardsToKeep) {
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_route, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
         destCardAdapter = new DestCardAdapter(cards, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(destCardAdapter);
 
-        final int minCards = 2;// TODO: 2 will become 1
-
         final AlertDialog dialog = new AlertDialog.Builder(
                 MapActivity.this)
                 .setView(view)
                 .setTitle("Destination Card")
-                .setMessage("Select at least " + minCards + " destination cards to keep")
+                .setMessage("Select at least " + minCardsToKeep + " destination cards to keep")
                 .setCancelable(false)
                 .setPositiveButton("OK", null)
                 .create();
@@ -232,12 +289,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (destCardAdapter.getSelectedDestCards().size() >= minCards) {
-                            presenter.discardDestCards();
+                        if (destCardAdapter.getSelectedDestCards().size() >= minCardsToKeep) {
+                            drawRoutesPresenter.discardDestCards();
                             dialog.dismiss();
                         }
                         else {
-                            displayText("You must select at least " + minCards + " cards.");
+                            displayText("You must select at least " + minCardsToKeep + " cards.");
                         }
                     }
                 });
@@ -248,13 +305,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void initPlaceTrainDialog() {
-        List<Route> routes = presenter.getPossibleRoutesToClaim();
-
-//        Route route = new Route(new City("Sandy", "sd", 20, 10), new City("Salt Lake", "sd", 20, 10), coalRed, 0);
-//        routes.add(route);
-//
-//        route = new Route(new City("Provo", "sd", 20, 10), new City("American Fork", "sd", 20, 10), coalRed, 0);
-//        routes.add(route);
+        List<Route> routes = placeTrainsPresenter.getPossibleRoutesToClaim();
 
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_place_trains, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.place_trains_recycler);
@@ -270,7 +321,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        presenter.placeTrains();
+                        placeTrainsPresenter.placeTrains();
                     }
                 })
                 .create();
@@ -528,6 +579,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
+    public DestinationCards getRecentlyAddedDestCards() {
+        return destCardAdapter.getAllDestCards();
+    }
+
+    @Override
     public Route getSelectedRoute() {
         return placeTrainsAdapter.getSelectedRoute();
     }
@@ -541,16 +597,4 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-
-    @Override
-    public void showTestName(String name) {
-        displayText(name);
-    }
-
-    @Override
-    public void endTest() {
-
-        displayText("Finished Tests");
-        testBtn.setVisibility(View.GONE);
-    }
 }

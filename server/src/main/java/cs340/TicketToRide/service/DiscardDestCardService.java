@@ -38,7 +38,7 @@ public class DiscardDestCardService {
 
         allCards.removeAll(discardCards);
         game.addCardsToDestCardDeck(discardCards);
-        String msg = "Drew destination cards";
+        String msg = "Drew " + (3 - discardCards.size()) + " destination cards";
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
 
         for (Player gamePlayer : game.getPlayers()) {
@@ -46,6 +46,13 @@ public class DiscardDestCardService {
             client.destCardDeckChanged(game.getDestCardDeck());
             client.playersUpdated(game.getPlayers());
             client.historyMessageReceived(historyMessage);
+            if (game.allPlayersReady()) {
+                client.advanceTurn();
+            }
+        }
+
+        if (!game.allPlayersReady()) {
+            game.decrementPlayersLeftToDiscard();
         }
 
     }

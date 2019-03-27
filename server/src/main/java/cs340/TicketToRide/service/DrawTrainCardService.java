@@ -20,7 +20,7 @@ public class DrawTrainCardService {
 
     public static final int SINGLE_CARD = 1;
 
-    public void drawTrainCard(TrainCard card, AuthToken token, ID gameId, ID playerId) {
+    public void drawTrainCard(TrainCard card, boolean advanceTurn, AuthToken token, ID gameId, ID playerId) {
         IServerModel model = ServerModel.getInstance();
         User user = model.getUserByAuthToken(token);
         if (user == null) {
@@ -38,11 +38,11 @@ public class DrawTrainCardService {
             throw new RuntimeException("Player not in game");
         }
 
-        addCardToPlayer(game, card, player);
+        addCardToPlayer(game, card, player, advanceTurn);
 
     }
 
-    private void addCardToPlayer(Game game, TrainCard card, Player player) {
+    private void addCardToPlayer(Game game, TrainCard card, Player player, boolean advanceTurn) {
         TrainCards trainCardDeck = game.getTrainCardDeck();
         TrainCards faceUpTrainCards = game.getFaceUpTrainCards();
         boolean faceup;
@@ -68,7 +68,7 @@ public class DrawTrainCardService {
 
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
         player.addTrainCard(card);
-        updateGame(game, faceup, historyMessage);
+        updateGame(game, faceup, historyMessage, advanceTurn);
     }
 
     private void replaceFaceUpCard(Game game, TrainCards trainCardDeck,
@@ -84,7 +84,7 @@ public class DrawTrainCardService {
         }
     }
 
-    private void updateGame(Game game, boolean faceup, Message historyMessage) {
+    private void updateGame(Game game, boolean faceup, Message historyMessage, boolean advanceTurn) {
         ClientProxyManager proxyManager = ClientProxyManager.getInstance();
         Players players = game.getPlayers();
         for (Player curPlayer : players) {
@@ -97,6 +97,9 @@ public class DrawTrainCardService {
 
             client.trainCardDeckChanged(game.getTrainCardDeck());
             client.historyMessageReceived(historyMessage);
+            if (advanceTurn) {
+                client.advanceTurn();
+            }
         }
     }
 }

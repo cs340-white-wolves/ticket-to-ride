@@ -22,19 +22,10 @@ public class PlayerInfoFragment extends Fragment implements PlayerInfoPresenter.
     private IPlayerInfoPresenter presenter;
     private RecyclerView mRecyclerView;
 
-    public PlayerInfoFragment() { }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        presenter.startObserving();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
+    public void onDestroy() {
+        super.onDestroy();
         presenter.stopObserving();
     }
 
@@ -45,6 +36,8 @@ public class PlayerInfoFragment extends Fragment implements PlayerInfoPresenter.
 
         mRecyclerView = view.findViewById(R.id.player_info_recycler_view);
         presenter = new PlayerInfoPresenter(this);
+        presenter.startObserving();
+
 
         // Set the adapter
         if (mRecyclerView != null) {

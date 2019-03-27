@@ -16,6 +16,11 @@ public class TrainCards extends Deck<TrainCard> {
             throw new RuntimeException("This function is not designed to be used for locomotives");
         }
 
+        if (color == null) {
+            return false;
+            // todo: how to handle if can be claimed when gray, and what colors to use
+        }
+
         Map<TrainCard.Color, Integer> colorCounts = getColorCounts();
 
         int hasCount = 0;
