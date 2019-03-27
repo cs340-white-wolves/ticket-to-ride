@@ -21,7 +21,6 @@ import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 
 import static android.graphics.Color.*;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.*;
 
 import java.util.*;
 
@@ -46,14 +45,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int LINE_WIDTH = 15;
     private static final int LINE_BORDER_WIDTH = 17;
     private static final int CIRCLE_RADIUS = 35000;
-    private static final int ORANGE = 0x7FFF9800;
-    public static final int WHITE = 0xFFFFFFFF;
-    public static final int BLACK = 0x7F000000;
-    public static final int BLUE = 0x7F0000FF;
-    public static final int YELLOW = 0x7FFFFF00;
-    public static final int GREEN = 0x7F00FF00;
-    public static final int PURPLE = 0x7FFF00FF;
-    public static final int RED = 0x7FFF0000;
     private static final double CENTER_LAT = 39.8283;
     private static final double CENTER_LNG = -94.5795;
     private static final float ZOOM = 3.65f;
@@ -132,7 +123,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void init() {
-        initTrainColorValues();
+        trainColorValues = TrainCard.getColorMap();
         initPlayerColorValues();
 
         lineRouteManager = new HashMap<>();
@@ -365,17 +356,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 })
                 .create();
         dialog.show();
-    }
-
-    private void initTrainColorValues() {
-        trainColorValues.put(hopperBlack, BLACK);
-        trainColorValues.put(passengerWhite, WHITE);
-        trainColorValues.put(tankerBlue, BLUE);
-        trainColorValues.put(reeferYellow, YELLOW);
-        trainColorValues.put(freightOrange, ORANGE);
-        trainColorValues.put(cabooseGreen, GREEN);
-        trainColorValues.put(boxPurple, PURPLE);
-        trainColorValues.put(coalRed, RED);
     }
 
     private void initPlayerColorValues() {
