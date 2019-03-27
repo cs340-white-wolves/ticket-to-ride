@@ -50,6 +50,8 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
             view.showRouteIsClaimed((Route) obj);
         } else if (changeType == ModelChangeType.EndGame) {
             view.displayResults((Players) obj);
+        } else if (changeType == ModelChangeType.SelectedSingleCard) {
+            view.lockDrawer(true);
         }
 
     }

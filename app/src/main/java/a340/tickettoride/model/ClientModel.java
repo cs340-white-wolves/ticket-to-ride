@@ -404,5 +404,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
 
-
+    public void onSelectedSingleCard() {
+        notifyObservers(ModelChangeType.SelectedSingleCard, null);
+    }
 }

@@ -176,7 +176,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawCardsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDrawer(GravityCompat.START, true);
+                openDrawer(GravityCompat.START, false);
                 disableButtons();
                 presenter.drawTrainCards();
             }

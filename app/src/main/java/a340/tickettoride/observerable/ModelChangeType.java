@@ -20,5 +20,5 @@ public enum ModelChangeType {
     AuthenticateSuccess,
     GameHistoryReceived,
     DrawTrainCards,
-    EndGame
+    SelectedSingleCard, EndGame
 }
