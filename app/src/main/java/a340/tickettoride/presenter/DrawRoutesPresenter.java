@@ -67,9 +67,8 @@ public class DrawRoutesPresenter implements IDrawRoutesPresenter, ModelObserver 
     public void discardDestCards() {
         DestinationCards selectedCards = view.getSelectedDestinationCards();
         DestinationCards discardedCards = new DestinationCards();
-        Player player = model.getPlayerFromGame();
-        DestinationCards allCards = player.getDestinationCards();
-        for (DestinationCard card : allCards) {
+        DestinationCards recentlyAdded = view.getRecentlyAddedDestCards();
+        for (DestinationCard card : recentlyAdded) {
             if (!selectedCards.contains(card)) {
                 discardedCards.add(card);
             }

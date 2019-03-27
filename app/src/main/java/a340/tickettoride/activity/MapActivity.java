@@ -89,9 +89,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public MapActivity() {
         presenter = new MapPresenter(this);
-        drawRoutesPresenter = new DrawRoutesPresenter(MapActivity.this);
-
-
+        drawRoutesPresenter = new DrawRoutesPresenter(this);
+        placeTrainsPresenter = new PlaceTrainsPresenter(this);
     }
 
     @Override
@@ -147,9 +146,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawerLayout = findViewById(R.id.drawer_layout);
         initTurnTracker();
         initButtons();
-
-
-
     }
 
     private void initButtons() {
@@ -158,6 +154,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawCardsBtn = findViewById(R.id.drawCardsButton);
         viewBankBtn = findViewById(R.id.viewBankBtn);
         viewSummaryBtn = findViewById(R.id.viewSummaryBtn);
+
+        if (presenter.isActivePlayerTurn()) {
+            enableButtons();
+        }
 
         routesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,7 +189,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
         viewSummaryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { displayResults(ClientModel.getInstance().getPlayers()); //openDrawer(GravityCompat.END, false);
+            public void onClick(View v) {
+                openDrawer(GravityCompat.END, false);
             }
         });
     }
@@ -197,10 +198,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
    public void openDrawer(int side, boolean lockDrawer) {
         drawerLayout.openDrawer(side);
-        if (lockDrawer == true) {
-            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, side);
-        }
-
+        lockDrawer(lockDrawer);
     }
 
     @Override
@@ -255,6 +253,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+    }
+
+    @Override
+    public void lockDrawer(boolean locked) {
+        if (locked) {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN, GravityCompat.START);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+        } else {
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.START);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED, GravityCompat.END);
+        }
     }
 
     private void initDestCardDialog(DestinationCards cards, final int minCardsToKeep) {
@@ -567,6 +576,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public DestinationCards getSelectedDestinationCards() {
         return destCardAdapter.getSelectedDestCards();
+    }
+
+    @Override
+    public DestinationCards getRecentlyAddedDestCards() {
+        return destCardAdapter.getAllDestCards();
     }
 
     @Override

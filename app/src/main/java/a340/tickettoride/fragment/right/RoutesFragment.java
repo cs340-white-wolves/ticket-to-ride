@@ -25,18 +25,11 @@ public class RoutesFragment extends Fragment implements RoutesPresenter.View {
     private PlayerRoutesAdapter adapter;
 
     public RoutesFragment() {
-        presenter = new RoutesPresenter(this);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        presenter.startObserving();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         presenter.stopObserving();
     }
 
@@ -44,6 +37,9 @@ public class RoutesFragment extends Fragment implements RoutesPresenter.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        presenter = new RoutesPresenter(this);
+        presenter.startObserving();
+
         view = inflater.inflate(R.layout.fragment_routes, container, false);
         adapter = new PlayerRoutesAdapter(getActivity());
         adapter.setCards(presenter.getPlayerDestCards());
@@ -51,6 +47,8 @@ public class RoutesFragment extends Fragment implements RoutesPresenter.View {
         routesRecycler = view.findViewById(R.id.player_routes_recycler);
         routesRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         routesRecycler.setAdapter(adapter);
+
+
         return view;
     }
 

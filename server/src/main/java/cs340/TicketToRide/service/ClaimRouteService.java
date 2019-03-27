@@ -54,11 +54,22 @@ public class ClaimRouteService {
 
         route.occupy(playerId);
 
+        recordClaim(route, game);
+
         updatePlayerPoints(route, player, game);
 
-        sendUpdates(route, game, player);
+        boolean lastRound = handleIfStartOfLastRound(game, player);
 
-        // TODO: check if time to start final round
+        sendUpdates(route, game, player, lastRound);
+    }
+
+    public boolean handleIfStartOfLastRound(Game game, Player player) {
+        if (game.getLastRoundLastPlayerId() != null && player.getNumTrains() <= 2) {
+            game.setLastRoundLastPlayerId(player.getId());
+            return true;
+        }
+
+        return false;
     }
 
     private void removeTrainCars(Route route, Player player) {
@@ -122,16 +133,11 @@ public class ClaimRouteService {
         }
     }
 
-    private void sendUpdates(Route route, Game game, Player player) {
+    private void sendUpdates(Route route, Game game, Player player, boolean startOfLastRound) {
         ClientProxyManager proxyManager = ClientProxyManager.getInstance();
         Players players = game.getPlayers();
         String msg = "Claimed route from " + route.getCity1() + " to " + route.getCity2();
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
-
-        Board board = game.getBoard();
-        Set<Route> routes = board.getRoutes();
-        routes.remove(route);
-        routes.add(route);
 
         for (Player curPlayer : players) {
             IClient client = proxyManager.get(curPlayer.getId());
@@ -140,5 +146,22 @@ public class ClaimRouteService {
             client.historyMessageReceived(historyMessage);
             client.advanceTurn();
         }
+
+        if (startOfLastRound) {
+            String message = "The last round has begun!";
+            Message lastRound = new Message(player.getUser().getUsername(), message);
+
+            for (Player curPlayer : players) {
+                IClient client = proxyManager.get(curPlayer.getId());
+                client.historyMessageReceived(historyMessage);
+            }
+        }
+    }
+
+    private void recordClaim(Route route, Game game) {
+        Board board = game.getBoard();
+        Set<Route> routes = board.getRoutes();
+        routes.remove(route);
+        routes.add(route);
     }
 }
