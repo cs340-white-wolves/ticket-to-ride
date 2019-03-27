@@ -34,12 +34,12 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultIt
     @Override
     public void onBindViewHolder(@NonNull ResultsAdapter.ResultItem resultItem, int index) {
         Player player = players.get(index);
-        resultItem.rank.setText(Integer.toString(index +1));
+        resultItem.rank.setText(String.valueOf(index +1));
         resultItem.player.setText(player.getUser().getUsername().toString());
-        resultItem.points.setText(Integer.toString(player.getScore()));
-        resultItem.cards.setText(Integer.toString(player.getTrainCards().size()));
-        resultItem.trains.setText(Integer.toString(player.getNumTrains()));
-        resultItem.routes.setText(Integer.toString(player.getDestinationCards().size()));
+        resultItem.totalPoints.setText(String.valueOf(player.getScore()));
+        resultItem.routePoints.setText(String.valueOf(player.getDestCardPoints()));
+        resultItem.trainPoints.setText(String.valueOf(player.getTrainPoints()));
+        resultItem.awardPoints.setText(player.hasAward()? "10" : "");
 
     }
 
@@ -51,20 +51,20 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultIt
     public static class ResultItem extends RecyclerView.ViewHolder {
         private TextView rank;
         private TextView player;
-        private TextView points;
-        private TextView cards;
-        private TextView trains;
-        private TextView routes;
+        private TextView totalPoints;
+        private TextView routePoints;
+        private TextView trainPoints;
+        private TextView awardPoints;
 
 
         public ResultItem(@NonNull View itemView) {
             super(itemView);
             rank = itemView.findViewById(R.id.rank);
             player = itemView.findViewById(R.id.playerUsername);
-            points = itemView.findViewById(R.id.points);
-            cards = itemView.findViewById(R.id.cards);
-            trains = itemView.findViewById(R.id.trains);
-            routes = itemView.findViewById(R.id.routes);
+            totalPoints = itemView.findViewById(R.id.totalPoints);
+            routePoints = itemView.findViewById(R.id.routePoints);
+            trainPoints = itemView.findViewById(R.id.trainPoints);
+            awardPoints = itemView.findViewById(R.id.awardPoints);
 
         }
     }
