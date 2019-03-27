@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroupOverlay;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.*;
@@ -82,8 +83,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Button placeTrainBtn;
     private Button drawCardsBtn;
     private TestPresenter testPresenter;
-    private Button viewBankBtn;
-    private Button viewSummaryBtn;
+    private ImageButton viewBankBtn;
+    private ImageButton viewSummaryBtn;
     private IDrawRoutesPresenter drawRoutesPresenter;
     private IPlaceTrainsPresenter placeTrainsPresenter;
     private ColorOptionsAdapter colorOptionsAdapter;
@@ -189,6 +190,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         viewSummaryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 openDrawer(GravityCompat.END, false);
             }
         });
@@ -208,14 +210,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void displayResults(Players players) {
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.END);
+                drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, GravityCompat.START);
+                playerTurnRecycler.setVisibility(View.GONE);
+                viewBankBtn.setVisibility(View.GONE);
+                viewSummaryBtn.setVisibility(View.GONE);
 
-        ResultsFragment results = new ResultsFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.map, results);
-        transaction.addToBackStack(null);
-        transaction.commit();
+                ResultsFragment results = new ResultsFragment();
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.map, results);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
 
     }
 
