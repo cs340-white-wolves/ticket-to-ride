@@ -42,6 +42,8 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
         return possible;
     }
 
+    // todo: duplicate routes aren't being deleted properly???
+
     private boolean allowDuplicateRoutes() {
         if (model.getActiveGame().getTargetNumPlayers() == NUM_PLAYERS_DUPLICATE_ROUTES) {
             return true;
@@ -81,20 +83,18 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
         return false;
     }
 
-    // remember to do all requirements:
-        //// CHECK // need required resources
-        // after claiming, take away correct resources
-        // increase points
-        //// CHECK // can't claim route if already claimed
+    // todo: remember to complete requirements:
+        // after claiming, take away correct resources -- where?
+        // increase points -- where?
         // choose what color if blank
         // end turn appropriately
-        //// CHECK //  double route rules correctly applied (1 player can't own both routes; can't claim both if less than 4 players)
         // check for finished destination
 
     @Override
     public void placeTrains() {
         Route route = view.getSelectedRoute();
         ServiceFacade.getInstance().claimRoute(route);
+
     }
 
     @Override
