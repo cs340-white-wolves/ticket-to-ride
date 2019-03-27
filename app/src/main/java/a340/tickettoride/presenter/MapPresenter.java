@@ -1,12 +1,8 @@
 package a340.tickettoride.presenter;
 
-import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
-import a340.tickettoride.ServerProxy;
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
@@ -18,7 +14,6 @@ import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.City;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 

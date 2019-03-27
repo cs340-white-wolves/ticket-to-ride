@@ -1,8 +1,11 @@
 package cs340.TicketToRide.model.game;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import cs340.TicketToRide.model.User;
+import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
@@ -26,8 +29,9 @@ public class Player implements Comparable<Player>{
     private Color color;
     private ID id;
     private boolean award = false;
+    private List<Route> claimedRoutes = new ArrayList<>();
 
-    // todo: should the player have a set of routes? or route has player?
+
     public Player(User user) {
         setUser(user);
         id = ID.generateID();
@@ -117,6 +121,14 @@ public class Player implements Comparable<Player>{
 
     public void setDestinationCards(DestinationCards destinationCards) {
         this.destinationCards = destinationCards;
+    }
+
+    public void addClaimedRoute(Route route) {
+        claimedRoutes.add(route);
+    }
+
+    public List<Route> getClaimedRoutes() {
+        return claimedRoutes;
     }
 
     public Color getColor() {

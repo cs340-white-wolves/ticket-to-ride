@@ -63,4 +63,20 @@ public class TrainCard {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    @Override
+    public String toString() {
+        switch (color) {
+            case locomotive: return "Locomotive";
+            case hopperBlack: return "Hopper Black";
+            case coalRed: return "Coal Red";
+            case boxPurple: return "Box Purple";
+            case tankerBlue: return "Tanker Blue";
+            case cabooseGreen: return "Caboose Green";
+            case reeferYellow: return "Reefer Yellow";
+            case freightOrange: return "Freight Orange";
+            case passengerWhite: return "Passenger White";
+            default: return "Gray";
+        }
+    }
 }
