@@ -70,6 +70,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     public void onSetTurn(int playerIdx) {
         view.displayPlayerTurn(playerIdx);
         if (model.activePlayerTurn()) {
+            // TODO: handle when last turn
             model.startTurn();
             view.enableButtons();
         } else {
