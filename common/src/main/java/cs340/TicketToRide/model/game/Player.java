@@ -25,6 +25,7 @@ public class Player implements Comparable<Player>{
     private DestinationCards destinationCards = new DestinationCards();
     private Color color;
     private ID id;
+    private boolean award = false;
 
     // todo: should the player have a set of routes? or route has player?
     public Player(User user) {
@@ -49,6 +50,41 @@ public class Player implements Comparable<Player>{
             throw new IllegalArgumentException();
         }
         this.user = user;
+    }
+
+    public int getTrainPoints() {
+        final int awardPoints = 10;
+        int trainPoints = this.score - getDestCardPoints();
+
+        if (hasAward()) {
+            trainPoints = trainPoints - awardPoints;
+        }
+
+        return trainPoints;
+    }
+
+    public int getDestCardPoints() {
+        int destPoints = 0;
+
+        for (DestinationCard card: this.destinationCards) {
+            if (card.isCompleted()) {
+                destPoints += card.getPoints();
+            }
+        }
+
+        return destPoints;
+    }
+
+    public int getNumOfCompletedDests() {
+        int destPoints = 0;
+
+        for (DestinationCard card: this.destinationCards) {
+            if (card.isCompleted()) {
+                destPoints++;
+            }
+        }
+
+        return destPoints;
     }
 
     public int getScore() {
@@ -99,6 +135,14 @@ public class Player implements Comparable<Player>{
         return id;
     }
 
+    public void setAward(boolean award) {
+        this.award = award;
+    }
+
+    public boolean hasAward() {
+        return this.award;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -115,7 +159,17 @@ public class Player implements Comparable<Player>{
     @Override
     public int compareTo(Player player) {
 
-        if (player.getScore() == this.score) { return 0; }
+        if (player.getScore() == this.score) {
+
+            if (player.getNumOfCompletedDests() > this.getNumOfCompletedDests()) {
+                return -1;
+
+            } else if (player.hasAward() && !this.hasAward()) {
+                return -1;
+            } else {
+                return 0;
+            }
+        }
         else if (player.getScore() > this.score) { return -1; }
         else { return 1; }
 
