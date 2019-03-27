@@ -177,8 +177,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View v) {
                 openDrawer(GravityCompat.START, false);
-                disableButtons();
-                presenter.drawTrainCards();
             }
         });
 

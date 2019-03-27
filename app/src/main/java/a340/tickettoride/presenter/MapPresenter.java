@@ -1,12 +1,7 @@
 package a340.tickettoride.presenter;
 
-import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
-import a340.tickettoride.ServerProxy;
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
@@ -18,7 +13,6 @@ import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.City;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
@@ -74,6 +68,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     public void advanceTurn() {
         view.displayNextPlayersTurn();
         if (model.activePlayerTurn()) {
+            model.startTurn();
             view.enableButtons();
         } else {
             view.disableButtons();
@@ -98,12 +93,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     @Override
     public Player getPlayerById(ID playerId) {
         return model.getActiveGame().getPlayerById(playerId);
-    }
-
-    @Override
-    public void drawTrainCards() {
-        //TODO: Maybe add check to make sure that it is the players turn
-        model.takePlayerAction(ActionType.drawTrainCard);
     }
 
     @Override
