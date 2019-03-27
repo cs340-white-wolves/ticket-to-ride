@@ -22,6 +22,7 @@ public class Game {
     public static final int MAX_FACE_UP = 5;
     public static final int MAX_FACEUP_LOCOMOTIVES = 2;
     public static final int MAX_ITERATIONS = 5;
+    public static final int MIN_NUM_PLAYERS_FOR_DOUBLE_ROUTES = 4;
 
     private int targetNumPlayers;
     private Players players;
@@ -161,6 +162,10 @@ public class Game {
 
     public int getNumCurrentPlayers() {
         return players.size();
+    }
+
+    public boolean canUseDoubleRoutes () {
+        return (getNumCurrentPlayers() >= MIN_NUM_PLAYERS_FOR_DOUBLE_ROUTES);
     }
 
     public void setTargetNumPlayers(int targetNumPlayers) {

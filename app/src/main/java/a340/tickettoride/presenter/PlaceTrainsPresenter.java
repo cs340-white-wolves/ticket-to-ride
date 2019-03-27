@@ -11,6 +11,7 @@ import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IPlaceTrainsPresenter;
+import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.TrainCard;
@@ -47,11 +48,8 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
     // todo: duplicate routes aren't being deleted properly? also the ok button disappeared???
 
     private boolean allowDuplicateRoutes() {
-        if (model.getActiveGame().getTargetNumPlayers() == NUM_PLAYERS_DUPLICATE_ROUTES) {
-            return true;
-        }
-
-        return false;
+        Game game = model.getActiveGame();
+        return game.canUseDoubleRoutes();
     }
 
     private Set<Route> deleteDuplicateRoutes(Set<Route> routes) {

@@ -115,11 +115,9 @@ public class ClaimRouteService {
     }
 
     private void checkSmallGameDoubleRoute(Route route, Game game) {
-        if (route.isDoubleRoute() && game.getNumCurrentPlayers() <= 3) {
-            Route partnerRoute = game.getPartnerRoute(route);
-            if (partnerRoute.getOccupierId() != null) {
-                throw new RuntimeException("In a 2 or 3 player game, only one of the double routes may be claimed.");
-            }
+        Route partnerRoute = game.getPartnerRoute(route);
+        if (route.isDoubleRoute() && ! game.canUseDoubleRoutes() && partnerRoute.getOccupierId() != null) {
+            throw new RuntimeException("In a 2 or 3 player game, only one of the double routes may be claimed.");
         }
     }
 
