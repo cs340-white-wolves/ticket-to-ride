@@ -111,6 +111,10 @@ public class TrainCard {
     }
 
     public static String getColorName(Color color) {
+        if (color == null) {
+            return "Gray";
+        }
+
         switch (color) {
             case locomotive: return "Locomotive";
             case hopperBlack: return "Black";
@@ -121,7 +125,7 @@ public class TrainCard {
             case reeferYellow: return "Yellow";
             case freightOrange: return "Orange";
             case passengerWhite: return "White";
-            default: return "Gray";
+            default: return "Unknown";
         }
     }
 }
