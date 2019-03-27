@@ -28,8 +28,6 @@ public class Player implements Comparable<Player>{
     private DestinationCards destinationCards = new DestinationCards();
     private Color color;
     private ID id;
-
-    // todo: should the player have a set of routes? or route has player?
     private List<Route> claimedRoutes = new ArrayList<>();
 
 

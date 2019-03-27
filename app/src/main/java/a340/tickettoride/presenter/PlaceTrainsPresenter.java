@@ -13,12 +13,15 @@ import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IPlaceTrainsPresenter;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.Route;
+import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 
 public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserver {
     private static final int NUM_PLAYERS_DUPLICATE_ROUTES = 4;
-    MapPresenter.View view;
-    IClientModel model = ClientModel.getInstance();
+    private MapPresenter.View view;
+    private IClientModel model = ClientModel.getInstance();
+    private Player player = model.getActiveGame().getPlayerById(model.getPlayerId());
+
 
     public PlaceTrainsPresenter(MapPresenter.View view) { this.view = view; }
 
@@ -29,7 +32,6 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
         if (!allowDuplicateRoutes()) {
             routes = deleteDuplicateRoutes(routes);
         }
-        Player player = model.getActiveGame().getPlayerById(model.getPlayerId());
         TrainCards trainCards = player.getTrainCards();
         for (Route route : routes) {
             if (route.getOccupierId() == null) {
@@ -42,7 +44,7 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
         return possible;
     }
 
-    // todo: duplicate routes aren't being deleted properly???
+    // todo: duplicate routes aren't being deleted properly? also the ok button disappeared???
 
     private boolean allowDuplicateRoutes() {
         if (model.getActiveGame().getTargetNumPlayers() == NUM_PLAYERS_DUPLICATE_ROUTES) {
@@ -60,10 +62,7 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
             }
         }
 
-        Set<Route> returnRoutes = new HashSet<>();
-        returnRoutes.addAll(newRoutes);
-
-        return returnRoutes;
+        return new HashSet<>(newRoutes);
     }
 
     private boolean playerHasDuplicateRoute(Player player, Route route) {
@@ -84,8 +83,6 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
     }
 
     // todo: remember to complete requirements:
-        // after claiming, take away correct resources -- where?
-        // increase points -- where?
         // choose what color if blank
         // end turn appropriately
         // check for finished destination
@@ -94,7 +91,10 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
     public void placeTrains() {
         Route route = view.getSelectedRoute();
         ServiceFacade.getInstance().claimRoute(route);
-
+        player.getTrainCards().removeColorCount(route.getColor(), route.getLength(), true); // discard train cars
+        view.showRouteIsClaimed(route);
+        player.setNumTrains(player.getNumTrains() - route.getLength()); // decrease num train cars
+        player.setScore(player.getScore() + route.getPointValue()); // increase player points
     }
 
     @Override

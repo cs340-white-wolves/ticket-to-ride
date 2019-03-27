@@ -41,6 +41,8 @@ public class TrainCards extends Deck<TrainCard> {
     public TrainCards removeColorCount(TrainCard.Color color, int neededCount, boolean useLocomotives) {
         TrainCards removed = new TrainCards();
 
+        // todo: if color == null, player chooses what cards to discard
+
         // First use non-locomotive cards
         for (TrainCard card : this) {
             if (neededCount == 0) {
