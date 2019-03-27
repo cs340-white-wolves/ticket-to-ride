@@ -35,6 +35,7 @@ import a340.tickettoride.presenter.interfaces.IDrawRoutesPresenter;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
 import a340.tickettoride.presenter.interfaces.IPlaceTrainsPresenter;
+import a340.tickettoride.utility.RouteColorOption;
 import cs340.TicketToRide.model.game.*;
 import cs340.TicketToRide.model.game.board.*;
 import cs340.TicketToRide.model.game.card.DestinationCards;
@@ -81,6 +82,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Button viewSummaryBtn;
     private IDrawRoutesPresenter drawRoutesPresenter;
     private IPlaceTrainsPresenter placeTrainsPresenter;
+    private ColorOptionsAdapter colorOptionsAdapter;
 
     public MapActivity() {
         presenter = new MapPresenter(this);
@@ -259,6 +261,44 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    @Override
+    public void initColorOptionsDialog(List<RouteColorOption> options) {
+        View view = LayoutInflater.from(this).inflate(null, null, false);
+        RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
+        colorOptionsAdapter = new ColorOptionsAdapter(options, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(colorOptionsAdapter);
+
+        final AlertDialog dialog = new AlertDialog.Builder(
+                MapActivity.this)
+                .setView(view)
+                .setTitle("Color Options")
+                .setMessage("Please choose an option to claim this route")
+                .setCancelable(true)
+                .setPositiveButton("OK", null)
+                .create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RouteColorOption selectedOption = colorOptionsAdapter.getSelectedOption();
+                        if (selectedOption != null) {
+                            Route route = placeTrainsAdapter.getSelectedRoute();
+                            placeTrainsPresenter.claimRoute(route, selectedOption);
+                            dialog.dismiss();
+                        } else {
+                            displayText("You must select an option");
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     private void initDestCardDialog(DestinationCards cards, final int minCardsToKeep) {
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_route, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
@@ -315,7 +355,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         disableButtons();
-                        placeTrainsPresenter.placeTrains();
+                        placeTrainsPresenter.onSelectRoute();
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

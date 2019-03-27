@@ -1,5 +1,6 @@
 package a340.tickettoride.presenter;
 
+import java.util.List;
 import java.util.Set;
 
 import a340.tickettoride.ServiceFacade;
@@ -8,6 +9,7 @@ import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
+import a340.tickettoride.utility.RouteColorOption;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
@@ -117,5 +119,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         void displayResults(Players players);
         void chooseDestCard(DestinationCards cards, int minCardsToKeep);
         void lockDrawer(boolean b);
+        void initColorOptionsDialog(List<RouteColorOption> options);
     }
 }

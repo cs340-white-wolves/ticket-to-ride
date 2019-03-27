@@ -1,7 +1,5 @@
 package a340.tickettoride.fragment.right;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import a340.tickettoride.R;
@@ -34,7 +31,7 @@ public class HandFragment extends Fragment implements HandPresenter.View {
     }
 
     public void updatePlayerHandDisplay(TrainCards trainCards) {
-        final Map<TrainCard.Color, Integer> colorCounts = trainCards.getColorCounts();
+        final Map<TrainCard.Color, Integer> colorCounts = trainCards.getColorCounts(true);
 
         final Map<Integer, TrainCard.Color> slotMap = new HashMap<>();
         slotMap.put(R.id.num_red, coalRed);

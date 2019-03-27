@@ -9,6 +9,7 @@ import a340.tickettoride.task.JoinGameTask;
 import a340.tickettoride.task.LoginTask;
 import a340.tickettoride.task.RegisterTask;
 import a340.tickettoride.task.SendChatTask;
+import a340.tickettoride.utility.RouteColorOption;
 import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.board.Route;
@@ -87,7 +88,7 @@ public class ServiceFacade {
         task.execute();
     }
 
-    public void claimRoute(Route route) {
+    public void claimRoute(Route route, RouteColorOption option) {
         ClaimRouteTask task = new ClaimRouteTask(route);
         task.execute();
     }
