@@ -108,11 +108,11 @@ public class ClientProxy implements IClient {
     }
 
     @Override
-    public void advanceTurn() {
+    public void setTurn(int playerIdx) {
         Command command = new Command(
-                "advanceTurn",
-                new String[]{},
-                new Object[]{}
+                "setTurn",
+                new String[]{int.class.getName()},
+                new Object[]{playerIdx}
         );
         queue.add(command);
     }

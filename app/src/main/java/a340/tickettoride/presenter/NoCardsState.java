@@ -1,6 +1,7 @@
 package a340.tickettoride.presenter;
 
 import a340.tickettoride.ServiceFacade;
+import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
 
@@ -12,6 +13,7 @@ public class NoCardsState implements ITrainCardState {
     @Override
     public void drawStandardFaceUp(IBankPresenter presenter, TrainCard card) {
         presenter.setState(OneCardState.getInstance());
+        ClientModel.getInstance().onSelectedSingleCard();
         ServiceFacade.getInstance().drawTrainCard(card, false);
 
     }
@@ -25,6 +27,7 @@ public class NoCardsState implements ITrainCardState {
     @Override
     public void drawFromDeck(IBankPresenter presenter) {
         presenter.setState(OneCardState.getInstance());
+        ClientModel.getInstance().onSelectedSingleCard();
         ServiceFacade.getInstance().drawTrainCard(presenter.getTopOfDeck(), false);
 
     }

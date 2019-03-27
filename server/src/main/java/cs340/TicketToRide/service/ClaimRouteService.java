@@ -137,12 +137,14 @@ public class ClaimRouteService {
         String msg = "Claimed route from " + route.getCity1() + " to " + route.getCity2();
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
 
+        game.setNextPlayerTurn();
+
         for (Player curPlayer : players) {
             IClient client = proxyManager.get(curPlayer.getId());
             client.routeUpdated(route);
             client.playersUpdated(players);
             client.historyMessageReceived(historyMessage);
-            client.advanceTurn();
+            client.setTurn(game.getCurrentPlayerTurnIdx());
         }
 
         if (startOfLastRound) {

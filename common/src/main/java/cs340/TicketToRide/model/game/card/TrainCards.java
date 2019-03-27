@@ -16,7 +16,11 @@ public class TrainCards extends Deck<TrainCard> {
             throw new RuntimeException("This function is not designed to be used for locomotives");
         }
 
-        Map<TrainCard.Color, Integer> colorCounts = getColorCounts();
+        if (color == null) {
+            return false;
+        }
+
+        Map<TrainCard.Color, Integer> colorCounts = getColorCounts(true);
 
         int hasCount = 0;
 
@@ -79,21 +83,31 @@ public class TrainCards extends Deck<TrainCard> {
         return removed;
     }
 
-    public Map<TrainCard.Color, Integer> getColorCounts () {
+    public Map<TrainCard.Color, Integer> getColorCounts(boolean includeLocomotives) {
         final Map<TrainCard.Color, Integer> colorCounts = new HashMap<>();
 
         // Initialize to zero
         for (TrainCard.Color c : TrainCard.Color.values()) {
-            colorCounts.put(c, 0);
+            if (includeLocomotives || c != TrainCard.Color.locomotive) {
+                colorCounts.put(c, 0);
+            }
         }
 
         // Sum
         for (TrainCard card : this) {
             TrainCard.Color c = card.getColor();
-            Integer cnt = colorCounts.get(c);
-            colorCounts.put(c, cnt == null ? 0 : cnt + 1);
+            if (includeLocomotives || c != TrainCard.Color.locomotive) {
+                Integer cnt = colorCounts.get(c);
+                colorCounts.put(c, cnt == null ? 0 : cnt + 1);
+            }
         }
 
         return colorCounts;
+    }
+
+    public int getColorCount (TrainCard.Color color) {
+        Map<TrainCard.Color, Integer> cnts = getColorCounts(true);
+        Integer cnt = cnts.get(color);
+        return cnt == null ? 0 : cnt;
     }
 }

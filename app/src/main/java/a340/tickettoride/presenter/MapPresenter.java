@@ -1,6 +1,6 @@
 package a340.tickettoride.presenter;
 
-
+import java.util.List;
 import java.util.Set;
 
 import a340.tickettoride.ServiceFacade;
@@ -9,6 +9,7 @@ import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
+import a340.tickettoride.utility.RouteColorOption;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
@@ -38,13 +39,15 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
 
     @Override
     public void onModelEvent(ModelChangeType changeType, Object obj) {
-        if (changeType == ModelChangeType.AdvanceTurn) {
-            advanceTurn();
+        if (changeType == ModelChangeType.SetTurn) {
+            onSetTurn((Integer) obj);
             view.lockDrawer(false);
         } else if (changeType == ModelChangeType.RouteClaimed) {
             view.showRouteIsClaimed((Route) obj);
         } else if (changeType == ModelChangeType.EndGame) {
             view.displayResults((Players) obj);
+        } else if (changeType == ModelChangeType.SelectedSingleCard) {
+            view.lockDrawer(true);
         }
 
     }
@@ -64,9 +67,10 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     @Override
-    public void advanceTurn() {
-        view.displayNextPlayersTurn();
+    public void onSetTurn(int playerIdx) {
+        view.displayPlayerTurn(playerIdx);
         if (model.activePlayerTurn()) {
+            model.startTurn();
             view.enableButtons();
         } else {
             view.disableButtons();
@@ -94,12 +98,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     @Override
-    public void drawTrainCards() {
-        //TODO: Maybe add check to make sure that it is the players turn
-        model.takePlayerAction(ActionType.drawTrainCard);
-    }
-
-    @Override
     public boolean isActivePlayerTurn() {
         Game activeGame = model.getActiveGame();
         int idx = activeGame.getCurrentPlayerTurnIdx();
@@ -109,7 +107,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     public interface View {
-        void displayNextPlayersTurn();
+        void displayPlayerTurn(int playerIdx);
         void showRouteIsClaimed(Route route);
         DestinationCards getSelectedDestinationCards();
         DestinationCards getRecentlyAddedDestCards();
@@ -121,5 +119,6 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         void displayResults(Players players);
         void chooseDestCard(DestinationCards cards, int minCardsToKeep);
         void lockDrawer(boolean b);
+        void initColorOptionsDialog(List<RouteColorOption> options);
     }
 }
