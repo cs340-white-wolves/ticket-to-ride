@@ -43,7 +43,7 @@ public interface IClientModel {
     void onDestCardsAdded(DestinationCards cardsToAddToPlayer);
     List<Message> getHistoryMessages();
     void startTurn();
-    void advanceTurn();
+    void setTurn(int playerIdx);
 
 //    void updateActivePlayersPoints();
 //    void updatePlayersTrainCards(TrainCards cards);
@@ -51,7 +51,7 @@ public interface IClientModel {
 //    void updateOpponentsTrainCards(TrainCards cards);
 //    void updateOponentsDestCards(DestinationCard cards);
 //    void addChatMessage(ID player, String message);
-//    void advanceTurn();
+//    void setTurn();
 
 
 }

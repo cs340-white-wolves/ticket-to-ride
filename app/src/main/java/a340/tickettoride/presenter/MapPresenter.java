@@ -37,8 +37,8 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
 
     @Override
     public void onModelEvent(ModelChangeType changeType, Object obj) {
-        if (changeType == ModelChangeType.AdvanceTurn) {
-            advanceTurn();
+        if (changeType == ModelChangeType.SetTurn) {
+            onSetTurn((Integer) obj);
             view.lockDrawer(false);
         } else if (changeType == ModelChangeType.RouteClaimed) {
             view.showRouteIsClaimed((Route) obj);
@@ -65,8 +65,8 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     @Override
-    public void advanceTurn() {
-        view.displayNextPlayersTurn();
+    public void onSetTurn(int playerIdx) {
+        view.displayPlayerTurn(playerIdx);
         if (model.activePlayerTurn()) {
             model.startTurn();
             view.enableButtons();
@@ -105,7 +105,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     public interface View {
-        void displayNextPlayersTurn();
+        void displayPlayerTurn(int playerIdx);
         void showRouteIsClaimed(Route route);
         DestinationCards getSelectedDestinationCards();
         DestinationCards getRecentlyAddedDestCards();
