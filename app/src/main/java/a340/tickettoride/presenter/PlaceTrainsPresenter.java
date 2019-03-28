@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import a340.tickettoride.R;
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
@@ -22,31 +23,22 @@ import cs340.TicketToRide.model.game.card.TrainCards;
 public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserver {
     private MapPresenter.View view;
     private IClientModel model = ClientModel.getInstance();
-    private Player player = model.getActiveGame().getPlayerById(model.getPlayerId());
 
     public PlaceTrainsPresenter(MapPresenter.View view) { this.view = view; }
 
     @Override
     public List<Route> getPossibleRoutesToClaim() {
         List<Route> possible = new ArrayList<>();
+        Player player = model.getActiveGame().getPlayerById(model.getPlayerId());
+
         Set<Route> routes = model.getActiveGame().getBoard().getRoutes();
-        /*
-        if (!allowDuplicateRoutes()) {
-            routes = deleteDuplicateRoutes(routes);
-        }
 
-
-        boolean hasResources = trainCards.hasColorCount(route.getColor(), route.getLength(), true);
-        if (hasResources && !isDoubleRoute(possible, route) && !playerHasDuplicateRoute(player, route)) {
-            possible.add(route);
-        }
-         */
         TrainCards trainCards = player.getTrainCards();
         Map<TrainCard.Color, Integer> colorCounts = trainCards.getColorCounts(false);
         int locomotiveCount = trainCards.getColorCount(TrainCard.Color.locomotive);
 
         for (Route route : routes) {
-            if (route.getOccupierId() == null) {
+            if (route.getOccupierId() == null && (!route.isDoubleRoute() || !isDuplicate(route, possible))) {
                 boolean canClaim = false;
                 if (route.getColor() == null) {
                     for (Integer count : colorCounts.values()) {
@@ -66,6 +58,15 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
             }
         }
         return possible;
+    }
+
+    private boolean isDuplicate(Route route, List<Route> addedRoutes) {
+        for (Route addedRoute : addedRoutes) {
+            if (addedRoute.isDuplicate(route)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // todo: duplicate routes aren't being deleted properly? also the ok button disappeared???
