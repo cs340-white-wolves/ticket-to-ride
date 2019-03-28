@@ -154,6 +154,7 @@ public class ClaimRouteService {
             for (Player curPlayer : players) {
                 IClient client = proxyManager.get(curPlayer.getId());
                 client.historyMessageReceived(historyMessage);
+                client.setLastRoundLastPlayer(player.getId());
             }
         }
     }
