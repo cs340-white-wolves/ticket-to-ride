@@ -7,6 +7,7 @@ import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCards;
+import cs340.TicketToRide.utility.ID;
 
 public class ClientProxy implements IClient {
     public ClientCommandQueue queue = new ClientCommandQueue();
@@ -113,6 +114,16 @@ public class ClientProxy implements IClient {
                 "setTurn",
                 new String[]{int.class.getName()},
                 new Object[]{playerIdx}
+        );
+        queue.add(command);
+    }
+
+    @Override
+    public void setLastRoundLastPlayer(ID playerId) {
+        Command command = new Command(
+                "setLastRoundLastPlayer",
+                new String[]{ID.class.getName()},
+                new Object[]{playerId}
         );
         queue.add(command);
     }

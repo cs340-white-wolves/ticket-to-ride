@@ -44,6 +44,7 @@ public interface IClientModel {
     List<Message> getHistoryMessages();
     void startTurn();
     void setTurn(int playerIdx);
+    void setLastRoundLastPlayerId(ID playerId);
 
 //    void updateActivePlayersPoints();
 //    void updatePlayersTrainCards(TrainCards cards);
