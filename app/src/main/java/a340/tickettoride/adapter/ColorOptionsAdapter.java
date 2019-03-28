@@ -1,6 +1,5 @@
 package a340.tickettoride.adapter;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +14,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import a340.tickettoride.R;
-import a340.tickettoride.utility.RouteColorOption;
+import cs340.TicketToRide.utility.RouteColorOption;
 import cs340.TicketToRide.model.game.card.TrainCard;
 
 public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapter.OptionView> {

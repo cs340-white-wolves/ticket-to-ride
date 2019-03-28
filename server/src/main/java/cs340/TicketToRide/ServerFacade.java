@@ -11,6 +11,7 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.service.*;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
+import cs340.TicketToRide.utility.RouteColorOption;
 import cs340.TicketToRide.utility.Username;
 
 public class ServerFacade implements IServer {
@@ -53,8 +54,8 @@ public class ServerFacade implements IServer {
     }
 
     @Override
-    public void claimRoute(Route route, AuthToken token, ID gameID, ID playerId) {
-        new ClaimRouteService().claimRoute(route, token, gameID, playerId);
+    public void claimRoute(Route route, RouteColorOption option, AuthToken token, ID gameID, ID playerId) {
+        new ClaimRouteService().claimRoute(route, option, token, gameID, playerId);
     }
 
     @Override

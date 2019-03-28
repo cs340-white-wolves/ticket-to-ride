@@ -1,19 +1,17 @@
 package a340.tickettoride.presenter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import a340.tickettoride.R;
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IPlaceTrainsPresenter;
-import a340.tickettoride.utility.RouteColorOption;
+import cs340.TicketToRide.utility.RouteColorOption;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.board.Route;
@@ -29,16 +27,17 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
     @Override
     public List<Route> getPossibleRoutesToClaim() {
         List<Route> possible = new ArrayList<>();
-        Player player = model.getActiveGame().getPlayerById(model.getPlayerId());
+        Game game = model.getActiveGame();
+        Player player = game.getPlayerById(model.getPlayerId());
 
-        Set<Route> routes = model.getActiveGame().getBoard().getRoutes();
+        Set<Route> routes = game.getBoard().getRoutes();
 
         TrainCards trainCards = player.getTrainCards();
         Map<TrainCard.Color, Integer> colorCounts = trainCards.getColorCounts(false);
         int locomotiveCount = trainCards.getColorCount(TrainCard.Color.locomotive);
 
         for (Route route : routes) {
-            if (route.getOccupierId() == null && (!route.isDoubleRoute() || !isDuplicate(route, possible))) {
+            if (routeAvailable(possible, game, player, route)) {
                 boolean canClaim = false;
                 if (route.getColor() == null) {
                     for (Integer count : colorCounts.values()) {
@@ -60,6 +59,19 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
         return possible;
     }
 
+    private boolean routeAvailable(List<Route> possible, Game game, Player player, Route route) {
+        return route.unOccupied() && notAlreadyAdded(possible, route) && (game.canUseDoubleRoutes()
+                || partnerUnoccupied(route, game)) && !playerOwnsPartner(player, route, game);
+    }
+
+    private boolean partnerUnoccupied(Route route, Game game) {
+        return (!route.isDoubleRoute() || game.getPartnerRoute(route).unOccupied());
+    }
+
+    private boolean notAlreadyAdded(List<Route> possible, Route route) {
+        return !route.isDoubleRoute() || !isDuplicate(route, possible);
+    }
+
     private boolean isDuplicate(Route route, List<Route> addedRoutes) {
         for (Route addedRoute : addedRoutes) {
             if (addedRoute.isDuplicate(route)) {
@@ -69,39 +81,10 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
         return false;
     }
 
-    // todo: duplicate routes aren't being deleted properly? also the ok button disappeared???
-
-    private boolean allowDuplicateRoutes() {
-        Game game = model.getActiveGame();
-        return game.canUseDoubleRoutes();
-    }
-
-    private Set<Route> deleteDuplicateRoutes(Set<Route> routes) {
-        List<Route> newRoutes = new ArrayList<>();
-        for (Route route : routes) {
-            if (!isDoubleRoute(newRoutes, route)) {
-                newRoutes.add(route);
-            }
-        }
-
-        return new HashSet<>(newRoutes);
-    }
-
-    private boolean playerHasDuplicateRoute(Player player, Route route) {
+    private boolean playerOwnsPartner(Player player, Route route, Game game) {
         if (!route.isDoubleRoute()) { return false; }
-        for (Route r : player.getClaimedRoutes()) {
-            if (r.isPartnerRoute(route)) { return true; }
-        }
-
-        return false;
-    }
-
-    private boolean isDoubleRoute(List<Route> possible, Route route) {
-        for (Route r : possible) {
-            if (r.isPartnerRoute(route)) { return true; }
-        }
-
-        return false;
+        Route partnerRoute = game.getPartnerRoute(route);
+        return partnerRoute.occupiedBy(player.getId());
     }
 
     // todo: remember to complete requirements:

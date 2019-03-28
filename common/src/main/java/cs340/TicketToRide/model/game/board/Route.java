@@ -259,4 +259,8 @@ public class Route {
                 this.city2.equals(route.city2) &&
                 this.color == route.color;
     }
+
+    public boolean unOccupied() {
+        return occupierId == null;
+    }
 }
