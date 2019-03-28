@@ -2,25 +2,25 @@ package a340.tickettoride.task;
 
 import android.os.AsyncTask;
 
-import java.util.List;
-
 import a340.tickettoride.ServerProxy;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
+import cs340.TicketToRide.utility.RouteColorOption;
 import cs340.TicketToRide.IServer;
 import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.utility.ID;
 
 public class ClaimRouteTask extends AsyncTask<Void, Integer, Void> {
 
     private IClientModel model = ClientModel.getInstance();
     private Route route;
+    private RouteColorOption option;
     private Exception exception;
 
-    public ClaimRouteTask(Route route) {
+    public ClaimRouteTask(Route route, RouteColorOption option) {
         this.route = route;
+        this.option = option;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class ClaimRouteTask extends AsyncTask<Void, Integer, Void> {
         ID playerId = model.getPlayerId();
 
         try {
-            server.claimRoute(route, token, gameID, playerId);
+            server.claimRoute(route, option, token, gameID, playerId);
         } catch (Exception e) {
             exception = e;
         }

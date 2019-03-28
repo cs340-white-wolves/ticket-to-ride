@@ -1,4 +1,4 @@
-package a340.tickettoride.utility;
+package cs340.TicketToRide.utility;
 
 import java.util.Objects;
 

@@ -253,4 +253,14 @@ public class Route {
 
         return this.city1 == route.city1 && this.city2 == route.city2;
     }
+
+    public boolean isDuplicate(Route route) {
+        return this.city1.equals(route.city1) &&
+                this.city2.equals(route.city2) &&
+                this.color == route.color;
+    }
+
+    public boolean unOccupied() {
+        return occupierId == null;
+    }
 }
