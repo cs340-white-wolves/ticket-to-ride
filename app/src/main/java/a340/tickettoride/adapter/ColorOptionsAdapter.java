@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import a340.tickettoride.R;
 import a340.tickettoride.utility.RouteColorOption;
@@ -20,12 +21,10 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapter.OptionView> {
     private List<RouteColorOption> options;
     private OptionView selectedOptionView;
-    private Context context;
     private Map<View, OptionView> viewOptions;
 
-    public ColorOptionsAdapter(List<RouteColorOption> options, Context context) {
+    public ColorOptionsAdapter(List<RouteColorOption> options) {
         this.options = options;
-        this.context = context;
         viewOptions = new HashMap<>();
     }
 
@@ -41,6 +40,11 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
     @Override
     public void onBindViewHolder(@NonNull OptionView optionView, int index) {
         optionView.onBind(options.get(index));
+        if (optionView.equals(selectedOptionView)) {
+            optionView.onSelect();
+        } else {
+            optionView.onUnselected();
+        }
         viewOptions.put(optionView.row, optionView);
         optionView.row.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,7 +76,7 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
     }
 
     public RouteColorOption getSelectedOption() {
-        return selectedOptionView.option;
+        return selectedOptionView == null ? null : selectedOptionView.option;
     }
 
     static class OptionView extends RecyclerView.ViewHolder {
@@ -90,8 +94,22 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
 
         void onBind(RouteColorOption option) {
             this.option = option;
+            TrainCard.Color color = this.option.getColor();
+            String first = "";
 
-            onUnselected();
+            if (option.getNumOfColor() > 0) {
+                first = String.format("%d %s", option.getNumOfColor(), TrainCard.getColorName(color));
+            }
+
+            this.color.setText(first);
+
+            String second = "";
+
+            if (option.getNumLocomotives() > 0) {
+                second = String.format("%d %s", option.getNumLocomotives(), TrainCard.getColorName(TrainCard.Color.locomotive));
+            }
+
+            this.locomotive.setText(second);
         }
 
         void onSelect() {
@@ -101,23 +119,21 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
 
         void onUnselected () {
             TrainCard.Color color = option.getColor();
-
-            String first = "";
-
-            if (option.getNumOfColor() > 0) {
-                first = String.format("%d %s", option.getNumOfColor(), TrainCard.getColorName(color));
-            }
-
-            this.color.setText(first);
             this.color.setTextColor(TrainCard.getColorValue(color));
-            String second = "";
-
-            if (option.getNumLocomotives() > 0) {
-                second = String.format("%d %s", option.getNumLocomotives(), TrainCard.getColorName(TrainCard.Color.locomotive));
-            }
-
-            this.locomotive.setText(second);
             this.locomotive.setTextColor(Color.WHITE);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            OptionView that = (OptionView) o;
+            return Objects.equals(option, that.option);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(option);
         }
     }
 }

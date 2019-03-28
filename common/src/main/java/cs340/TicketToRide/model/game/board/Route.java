@@ -219,7 +219,7 @@ public class Route {
 
     @Override
     public String toString() {
-        return city1.getName() + ", " + city2.getName() + ": " + getPointValue() + " " + TrainCard.getColorName(this.getColor());
+        return city1.getName() + ", " + city2.getName() + ": " + getLength() + " " + TrainCard.getColorName(this.getColor());
     }
 
     public boolean contains(City city) {
