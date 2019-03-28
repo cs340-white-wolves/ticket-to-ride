@@ -65,7 +65,8 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
     }
 
     private boolean partnerUnoccupied(Route route, Game game) {
-        return (!route.isDoubleRoute() || game.getPartnerRoute(route).unOccupied());
+        Route partnerRoute = game.getPartnerRoute(route);
+        return partnerRoute == null || partnerRoute.unOccupied();
     }
 
     private boolean notAlreadyAdded(List<Route> possible, Route route) {
