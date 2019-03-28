@@ -19,12 +19,13 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 
 public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapter.OptionView> {
     private List<RouteColorOption> options;
-    private OptionView selectedOptionView;
+    private int selectedOptionIdx;
     private Map<View, OptionView> viewOptions;
 
     public ColorOptionsAdapter(List<RouteColorOption> options) {
         this.options = options;
         viewOptions = new HashMap<>();
+        this.selectedOptionIdx = -1;
     }
 
     @NonNull
@@ -38,13 +39,13 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull OptionView optionView, int index) {
+        viewOptions.put(optionView.row, optionView);
         optionView.onBind(options.get(index));
-        if (optionView.equals(selectedOptionView)) {
+        if (index == selectedOptionIdx) {
             optionView.onSelect();
         } else {
             optionView.onUnselected();
         }
-        viewOptions.put(optionView.row, optionView);
         optionView.row.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,17 +66,19 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
             return;
         }
 
-        if (selectedOptionView != null) {
-            selectedOptionView.onUnselected();
-        }
+        RouteColorOption option = optionView.option;
+        int index = options.indexOf(option);
+        int prevSelectedIdx = selectedOptionIdx;
 
-        selectedOptionView = optionView;
+        if (prevSelectedIdx != index) {
+            notifyItemChanged(prevSelectedIdx);
+        }
 
         optionView.onSelect();
     }
 
     public RouteColorOption getSelectedOption() {
-        return selectedOptionView == null ? null : selectedOptionView.option;
+        return selectedOptionIdx >= 0 ? options.get(selectedOptionIdx) : null;
     }
 
     static class OptionView extends RecyclerView.ViewHolder {
@@ -120,19 +123,6 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
             TrainCard.Color color = option.getColor();
             this.color.setTextColor(TrainCard.getColorValue(color));
             this.locomotive.setTextColor(Color.WHITE);
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            OptionView that = (OptionView) o;
-            return Objects.equals(option, that.option);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(option);
         }
     }
 }

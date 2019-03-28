@@ -271,8 +271,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void initColorOptionsDialog(List<RouteColorOption> options) {
-        View view = LayoutInflater.from(this).inflate(null, null, false);
-        RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_color_option, null, false);
+        RecyclerView recyclerView = view.findViewById(R.id.color_options_recycler);
         colorOptionsAdapter = new ColorOptionsAdapter(options);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(colorOptionsAdapter);
