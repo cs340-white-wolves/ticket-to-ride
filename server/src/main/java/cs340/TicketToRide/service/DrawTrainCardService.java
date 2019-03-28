@@ -69,10 +69,6 @@ public class DrawTrainCardService extends ActionService {
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
         player.addTrainCard(card);
 
-        if (game.getLastRoundLastPlayerId() == null) {
-            game.setLastRoundLastPlayerId(game.getPlayers().get(game.getCurrentPlayerTurnIdx()).getId());
-        }
-
         updateGame(game, faceup, historyMessage, advanceTurn);
     }
 
