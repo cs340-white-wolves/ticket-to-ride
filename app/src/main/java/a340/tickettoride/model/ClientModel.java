@@ -324,8 +324,15 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     public void advanceTurn() {
         activeGame.setNextPlayerTurn();
+
         notifyObservers(ModelChangeType.AdvanceTurn, null);
     }
+
+    @Override
+    public void endGame() {
+        notifyObservers(ModelChangeType.EndGame, activeGame.getPlayers());
+    }
+
 
 
     //=================================Testing Methods===============================

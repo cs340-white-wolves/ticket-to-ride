@@ -20,7 +20,7 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 
-public class ClaimRouteService {
+public class ClaimRouteService extends ActionService {
     public void claimRoute(Route route, AuthToken token, ID gameID, ID playerId) {
 
         if (route.getOccupierId() != null) {
@@ -64,8 +64,9 @@ public class ClaimRouteService {
     }
 
     public boolean handleIfStartOfLastRound(Game game, Player player) {
-        if (game.getLastRoundLastPlayerId() != null && player.getNumTrains() <= 2) {
+        if (game.getLastRoundLastPlayerId() == null && player.getNumTrains() <= 2) {
             game.setLastRoundLastPlayerId(player.getId());
+
             return true;
         }
 
@@ -145,6 +146,7 @@ public class ClaimRouteService {
             client.playersUpdated(players);
             client.historyMessageReceived(historyMessage);
             client.advanceTurn();
+
         }
 
         if (startOfLastRound) {
@@ -153,8 +155,12 @@ public class ClaimRouteService {
 
             for (Player curPlayer : players) {
                 IClient client = proxyManager.get(curPlayer.getId());
-                client.historyMessageReceived(historyMessage);
+                client.historyMessageReceived(lastRound);
             }
+        }
+
+        if (!checkToEndGame(game)){
+            increaseTurnsPassed(game);
         }
     }
 

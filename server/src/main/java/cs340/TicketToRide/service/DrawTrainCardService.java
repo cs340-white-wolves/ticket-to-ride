@@ -16,7 +16,7 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 
-public class DrawTrainCardService {
+public class DrawTrainCardService extends ActionService {
 
     public static final int SINGLE_CARD = 1;
 
@@ -68,6 +68,11 @@ public class DrawTrainCardService {
 
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
         player.addTrainCard(card);
+
+        if (game.getLastRoundLastPlayerId() == null) {
+            game.setLastRoundLastPlayerId(game.getPlayers().get(game.getCurrentPlayerTurnIdx()).getId());
+        }
+
         updateGame(game, faceup, historyMessage, advanceTurn);
     }
 
@@ -97,8 +102,16 @@ public class DrawTrainCardService {
 
             client.trainCardDeckChanged(game.getTrainCardDeck());
             client.historyMessageReceived(historyMessage);
-            if (advanceTurn) {
-                client.advanceTurn();
+
+           if (advanceTurn) {
+               client.advanceTurn();
+           }
+
+        }
+
+        if (advanceTurn) {
+            if (!checkToEndGame(game)){
+                increaseTurnsPassed(game);
             }
         }
     }

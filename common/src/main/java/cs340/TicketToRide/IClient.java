@@ -17,4 +17,5 @@ public interface IClient {
     void routeUpdated(Route route);
     void addedDestCards(DestinationCards cardsToAddToPlayer);
     void advanceTurn();
+    void endGame();
 }

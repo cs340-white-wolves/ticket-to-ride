@@ -72,6 +72,11 @@ public class ClientFacade implements IClient {
     }
 
     @Override
+    public void endGame() {
+        model.endGame();
+    }
+
+    @Override
     public void advanceTurn() {
         model.advanceTurn();
     }

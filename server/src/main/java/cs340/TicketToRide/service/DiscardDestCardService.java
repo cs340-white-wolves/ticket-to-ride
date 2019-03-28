@@ -9,7 +9,7 @@ import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
-public class DiscardDestCardService {
+public class DiscardDestCardService extends ActionService {
     public void discardDestCards(DestinationCards discardCards, AuthToken token, ID gameId, ID playerId) {
         IServerModel model = ServerModel.getInstance();
         User user = model.getUserByAuthToken(token);
@@ -46,6 +46,7 @@ public class DiscardDestCardService {
             client.destCardDeckChanged(game.getDestCardDeck());
             client.playersUpdated(game.getPlayers());
             client.historyMessageReceived(historyMessage);
+
             if (game.allPlayersReady()) {
                 client.advanceTurn();
             }
@@ -53,6 +54,10 @@ public class DiscardDestCardService {
 
         if (!game.allPlayersReady()) {
             game.decrementPlayersLeftToDiscard();
+        }
+
+        if (!checkToEndGame(game)){
+            increaseTurnsPassed(game);
         }
 
     }

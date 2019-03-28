@@ -46,6 +46,7 @@ public interface IClientModel {
     List<Message> getHistoryMessages();
     void takePlayerAction(ActionType action);
     void advanceTurn();
+    void endGame();
 
 //    void updateActivePlayersPoints();
 //    void updatePlayersTrainCards(TrainCards cards);
