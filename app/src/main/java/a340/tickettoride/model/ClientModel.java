@@ -325,6 +325,12 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         activeGame.setLastRoundLastPlayerId(playerId);
     }
 
+    @Override
+    public void endGame() {
+        notifyObservers(ModelChangeType.EndGame, activeGame.getPlayers());
+    }
+
+
 
     //=================================Testing Methods===============================
 

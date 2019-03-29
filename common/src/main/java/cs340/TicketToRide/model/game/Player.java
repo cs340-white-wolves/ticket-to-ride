@@ -14,11 +14,8 @@ import cs340.TicketToRide.utility.ID;
 
 public class Player implements Comparable<Player>{
 
-
-
-
     public enum Color {
-        red, green, blue, yellow, black;
+        red, green, blue, yellow, black
     }
     private User user;
 
@@ -55,11 +52,10 @@ public class Player implements Comparable<Player>{
     }
 
     public int getTrainPoints() {
-        final int awardPoints = 10;
-        int trainPoints = this.score - getDestCardPoints();
+        int trainPoints = 0;
 
-        if (hasAward()) {
-            trainPoints = trainPoints - awardPoints;
+        for (Route route: claimedRoutes) {
+            trainPoints += route.getPointValue();
         }
 
         return trainPoints;

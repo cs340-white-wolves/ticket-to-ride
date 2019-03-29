@@ -127,4 +127,14 @@ public class ClientProxy implements IClient {
         );
         queue.add(command);
     }
+
+    @Override
+    public void endGame() {
+        Command command = new Command(
+                "endGame",
+                new String[]{},
+                new Object[]{}
+        );
+        queue.add(command);
+    }
 }

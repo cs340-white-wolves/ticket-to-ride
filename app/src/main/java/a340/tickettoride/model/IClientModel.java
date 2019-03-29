@@ -45,6 +45,7 @@ public interface IClientModel {
     void startTurn();
     void setTurn(int playerIdx);
     void setLastRoundLastPlayerId(ID playerId);
+    void endGame();
 
 //    void updateActivePlayersPoints();
 //    void updatePlayersTrainCards(TrainCards cards);

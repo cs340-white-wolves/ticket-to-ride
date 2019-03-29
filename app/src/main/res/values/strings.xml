@@ -66,9 +66,9 @@
     <string name="player_rank">Rank</string>
     <string name="return_button">Return to Lobby</string>
     <string name="rank">Rank</string>
-    <string name="destination_points">Route Points</string>
+    <string name="destination_points">Route Pts</string>
     <string name="route_points">Route\nPoints</string>
-    <string name="total_points">Total Points</string>
-    <string name="train_points">Train Points</string>
+    <string name="total_points">Total Pts</string>
+    <string name="train_points">Train Pts</string>
     <string name="award">Award?</string>
 </resources>

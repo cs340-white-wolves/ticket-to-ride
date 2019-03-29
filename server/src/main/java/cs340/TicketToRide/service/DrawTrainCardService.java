@@ -15,7 +15,7 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 
-public class DrawTrainCardService {
+public class DrawTrainCardService extends ActionService {
 
     public static final int SINGLE_CARD = 1;
 
@@ -104,6 +104,12 @@ public class DrawTrainCardService {
 
             if (advanceTurn) {
                 client.setTurn(game.getCurrentPlayerTurnIdx());
+            }
+        }
+
+        if (advanceTurn) {
+            if (!checkToEndGame(game)){
+                increaseTurnsPassed(game);
             }
         }
     }

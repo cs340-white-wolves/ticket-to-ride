@@ -19,4 +19,5 @@ public interface IClient {
     void addedDestCards(DestinationCards cardsToAddToPlayer);
     void setTurn(int playerIdx);
     void setLastRoundLastPlayer(ID playerId);
+    void endGame();
 }
