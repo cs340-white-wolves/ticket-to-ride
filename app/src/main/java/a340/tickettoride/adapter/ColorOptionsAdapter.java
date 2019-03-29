@@ -11,7 +11,6 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 import a340.tickettoride.R;
 import cs340.TicketToRide.utility.RouteColorOption;
@@ -20,11 +19,11 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapter.OptionView> {
     private List<RouteColorOption> options;
     private int selectedOptionIdx;
-    private Map<View, OptionView> viewOptions;
+    private Map<View, OptionView> optionViews;
 
     public ColorOptionsAdapter(List<RouteColorOption> options) {
         this.options = options;
-        viewOptions = new HashMap<>();
+        optionViews = new HashMap<>();
         this.selectedOptionIdx = -1;
     }
 
@@ -39,8 +38,11 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
 
     @Override
     public void onBindViewHolder(@NonNull OptionView optionView, int index) {
-        viewOptions.put(optionView.row, optionView);
-        optionView.onBind(options.get(index));
+        RouteColorOption option = options.get(index);
+        optionView.option = option;
+        optionViews.put(optionView.row, optionView);
+        optionView.onBind(option);
+
         if (index == selectedOptionIdx) {
             optionView.onSelect();
         } else {
@@ -60,7 +62,7 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
     }
 
     private void handleClick(View row) {
-        OptionView optionView = viewOptions.get(row);
+        OptionView optionView = optionViews.get(row);
 
         if (optionView == null) {
             return;
@@ -69,6 +71,7 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
         RouteColorOption option = optionView.option;
         int index = options.indexOf(option);
         int prevSelectedIdx = selectedOptionIdx;
+        selectedOptionIdx = index;
 
         if (prevSelectedIdx != index) {
             notifyItemChanged(prevSelectedIdx);
@@ -95,7 +98,6 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
         }
 
         void onBind(RouteColorOption option) {
-            this.option = option;
             TrainCard.Color color = this.option.getColor();
             String first = "";
 
