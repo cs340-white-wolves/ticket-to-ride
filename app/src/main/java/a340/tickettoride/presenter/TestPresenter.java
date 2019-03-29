@@ -145,7 +145,7 @@ public class TestPresenter implements ITest {
     }
 
     private void advancePlayerTurn() {
-        commands.add(new TestCommand("Advance Turn marker", className, "advanceTurn", new Class<?>[] {}, new Object[] {}));
+        commands.add(new TestCommand("Advance Turn marker", className, "setTurn", new Class<?>[] {}, new Object[] {}));
     }
 
     @Override

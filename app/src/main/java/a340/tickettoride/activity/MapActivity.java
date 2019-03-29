@@ -11,9 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -22,7 +26,6 @@ import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
 
 import static android.graphics.Color.*;
-import static cs340.TicketToRide.model.game.card.TrainCard.Color.*;
 
 import java.util.*;
 
@@ -31,11 +34,11 @@ import a340.tickettoride.adapter.*;
 import a340.tickettoride.fragment.ResultsFragment;
 import a340.tickettoride.presenter.DrawRoutesPresenter;
 import a340.tickettoride.presenter.PlaceTrainsPresenter;
-import a340.tickettoride.presenter.TestPresenter;
 import a340.tickettoride.presenter.interfaces.IDrawRoutesPresenter;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
 import a340.tickettoride.presenter.MapPresenter;
 import a340.tickettoride.presenter.interfaces.IPlaceTrainsPresenter;
+import cs340.TicketToRide.utility.RouteColorOption;
 import cs340.TicketToRide.model.game.*;
 import cs340.TicketToRide.model.game.board.*;
 import cs340.TicketToRide.model.game.card.DestinationCards;
@@ -77,11 +80,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private Button routesBtn;
     private Button placeTrainBtn;
     private Button drawCardsBtn;
-    private TestPresenter testPresenter;
     private ImageButton viewBankBtn;
     private ImageButton viewSummaryBtn;
     private IDrawRoutesPresenter drawRoutesPresenter;
     private IPlaceTrainsPresenter placeTrainsPresenter;
+    private ColorOptionsAdapter colorOptionsAdapter;
+    private RecyclerView possibleRoutesRecycler;
 
     public MapActivity() {
         presenter = new MapPresenter(this);
@@ -131,7 +135,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void init() {
-        initTrainColorValues();
+        trainColorValues = TrainCard.getColorMap();
         initPlayerColorValues();
 
         lineRouteManager = new HashMap<>();
@@ -151,10 +155,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         viewBankBtn = findViewById(R.id.viewBankBtn);
         viewSummaryBtn = findViewById(R.id.viewSummaryBtn);
 
-        if (presenter.isActivePlayerTurn()) {
-            enableButtons();
-        }
-
         routesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,9 +172,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         drawCardsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openDrawer(GravityCompat.START, true);
-                disableButtons();
-                presenter.drawTrainCards();
+                openDrawer(GravityCompat.START, false);
             }
         });
 
@@ -271,6 +269,44 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    @Override
+    public void initColorOptionsDialog(List<RouteColorOption> options) {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_color_option, null, false);
+        RecyclerView recyclerView = view.findViewById(R.id.color_options_recycler);
+        colorOptionsAdapter = new ColorOptionsAdapter(options);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(colorOptionsAdapter);
+
+        final AlertDialog dialog = new AlertDialog.Builder(
+                MapActivity.this)
+                .setView(view)
+                .setTitle("Color Options")
+                .setMessage("Please choose an option to claim this route")
+                .setCancelable(true)
+                .setPositiveButton("OK", null)
+                .create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        RouteColorOption selectedOption = colorOptionsAdapter.getSelectedOption();
+                        if (selectedOption != null) {
+                            Route route = placeTrainsAdapter.getSelectedRoute();
+                            placeTrainsPresenter.claimRoute(route, selectedOption);
+                            dialog.dismiss();
+                        } else {
+                            displayText("You must select an option");
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     private void initDestCardDialog(DestinationCards cards, final int minCardsToKeep) {
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_choose_route, null, false);
         RecyclerView recyclerView = view.findViewById(R.id.dest_card_recycler);
@@ -311,37 +347,52 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void initPlaceTrainDialog() {
         List<Route> routes = placeTrainsPresenter.getPossibleRoutesToClaim();
-
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_place_trains, null, false);
-        RecyclerView recyclerView = view.findViewById(R.id.place_trains_recycler);
+        possibleRoutesRecycler = view.findViewById(R.id.place_trains_recycler);
         placeTrainsAdapter = new PlaceTrainsAdapter(routes, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(placeTrainsAdapter);
+        possibleRoutesRecycler.setLayoutManager(new LinearLayoutManager(this));
+        possibleRoutesRecycler.setAdapter(placeTrainsAdapter);
+        placeTrainsAdapter.notifyDataSetChanged();
 
-        AlertDialog dialog = new AlertDialog.Builder(
+        final AlertDialog dialog = new AlertDialog.Builder(
                 MapActivity.this)
                 .setView(view)
                 .setTitle("Possible Paths")
                 .setMessage("Select a path to claim")
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        placeTrainsPresenter.placeTrains();
-                    }
-                })
+                .setPositiveButton("OK", null)
+                .setNegativeButton("Cancel", null)
                 .create();
-        dialog.show();
-    }
 
-    private void initTrainColorValues() {
-        trainColorValues.put(hopperBlack, BLACK);
-        trainColorValues.put(passengerWhite, WHITE);
-        trainColorValues.put(tankerBlue, BLUE);
-        trainColorValues.put(reeferYellow, YELLOW);
-        trainColorValues.put(freightOrange, ORANGE);
-        trainColorValues.put(cabooseGreen, GREEN);
-        trainColorValues.put(boxPurple, PURPLE);
-        trainColorValues.put(coalRed, RED);
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+                Button button = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        placeTrainsPresenter.onSelectRoute();
+                    }
+                });
+            }
+        });
+        dialog.show();
+
+        Window window = dialog.getWindow();
+        Point size = new Point();
+
+        Display display = window.getWindowManager().getDefaultDisplay();
+        display.getSize(size);
+
+        int width = size.x;
+        int height = size.y;
+
+        window.setLayout((int) (width * 0.75), (int) (height * .90));
+        window.setGravity(Gravity.CENTER);
+
+
+        ViewGroup.LayoutParams layoutParams = possibleRoutesRecycler.getLayoutParams();
+        layoutParams.height = (int) (layoutParams.height * .9);
+        possibleRoutesRecycler.setLayoutParams(layoutParams);
     }
 
     private void initPlayerColorValues() {
@@ -375,7 +426,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         playerTurnRecycler.setAdapter(adapter);
     }
 
-    public void displayNextPlayersTurn() {
+    public void displayPlayerTurn(final int playerIdx) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -383,7 +434,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if (adapter == null) {
                     return;
                 }
-                adapter.setNextActivePlayer();
+                adapter.setActivePlayer(playerIdx);
                 adapter.notifyDataSetChanged();
             }
         });

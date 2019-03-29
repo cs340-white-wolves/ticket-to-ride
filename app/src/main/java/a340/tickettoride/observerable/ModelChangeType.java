@@ -8,7 +8,7 @@ public enum ModelChangeType {
     TrainCardsDrawn,
     RouteClaimed,
     ChatMessageReceived,
-    AdvanceTurn,
+    SetTurn,
     FaceUpTrainCardsUpdate,
     DrawableTrainCardCount,
     DiscardedTrainCardCount,
@@ -19,6 +19,6 @@ public enum ModelChangeType {
     DestCardsAdded,
     AuthenticateSuccess,
     GameHistoryReceived,
-    DrawTrainCards,
-    EndGame
+    StartTurn,
+    SelectedSingleCard, EndGame
 }

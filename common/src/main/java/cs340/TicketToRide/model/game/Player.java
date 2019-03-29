@@ -26,8 +26,6 @@ public class Player implements Comparable<Player>{
     private Color color;
     private ID id;
     private boolean award = false;
-    private List<Route> claimedRoutes = new ArrayList<>();
-
 
     public Player(User user) {
         setUser(user);
@@ -117,14 +115,6 @@ public class Player implements Comparable<Player>{
 
     public void setDestinationCards(DestinationCards destinationCards) {
         this.destinationCards = destinationCards;
-    }
-
-    public void addClaimedRoute(Route route) {
-        claimedRoutes.add(route);
-    }
-
-    public List<Route> getClaimedRoutes() {
-        return claimedRoutes;
     }
 
     public Color getColor() {

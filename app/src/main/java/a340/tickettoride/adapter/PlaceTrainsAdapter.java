@@ -11,20 +11,22 @@ import android.widget.TextView;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import a340.tickettoride.R;
 import cs340.TicketToRide.model.game.board.Route;
 
 public class PlaceTrainsAdapter extends RecyclerView.Adapter<PlaceTrainsAdapter.RouteView> {
     private List<Route> routes;
-    private Route selectedRoute;
+    private int selectedRouteIdx;
     private Context context;
-    private Map<View, Route> viewRoutes;
+    private Map<TextView, RouteView> routeViews;
 
     public PlaceTrainsAdapter(List<Route> routes, Context context) {
         this.routes = routes;
         this.context = context;
-        viewRoutes = new HashMap<>();
+        routeViews = new HashMap<>();
+        this.selectedRouteIdx = -1;
     }
 
     @NonNull
@@ -33,14 +35,20 @@ public class PlaceTrainsAdapter extends RecyclerView.Adapter<PlaceTrainsAdapter.
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.list_item_route, viewGroup, false);
 
-        return new RouteView(view);
+        return new RouteView(view, context);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RouteView routeView, int index) {
         Route route = routes.get(index);
-        viewRoutes.put(routeView.text, route);
+        routeView.route = route;
+        routeViews.put(routeView.text, routeView);
         routeView.text.setText(route.toString());
+        if (index == selectedRouteIdx) {
+            routeView.onSelect();
+        } else {
+            routeView.onUnselect();
+        }
         routeView.text.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,33 +64,45 @@ public class PlaceTrainsAdapter extends RecyclerView.Adapter<PlaceTrainsAdapter.
     }
 
     private void handleClick(TextView textView) {
-        Route route = viewRoutes.get(textView);
-        if (route != null && route.equals(selectedRoute)) {
+        RouteView routeView = routeViews.get(textView);
+        if (routeView == null) {
             return;
         }
 
-        if (selectedRoute != null) {
-            for (View view : viewRoutes.keySet()) {
-                if (viewRoutes.get(view).equals(selectedRoute)) {
-                    ((TextView)view).setTextColor(context.getColor(R.color.White));
-                    break;
-                }
-            }
+        Route route = routeView.route;
+        int index = routes.indexOf(route);
+        int prevSelectedIdx = selectedRouteIdx;
+        selectedRouteIdx = index;
+
+        if (prevSelectedIdx != index) {
+            notifyItemChanged(prevSelectedIdx);
         }
-        selectedRoute = route;
-        textView.setTextColor(context.getColor(R.color.Blue));
+
+        routeView.onSelect();
     }
 
     public Route getSelectedRoute() {
-        return selectedRoute;
+        return selectedRouteIdx >= 0 ? routes.get(selectedRouteIdx) : null;
     }
 
     static class RouteView extends RecyclerView.ViewHolder {
         TextView text;
+        Route route;
+        private Context context;
 
-        RouteView(View view) {
+        RouteView(View view, Context context) {
             super(view);
+            this.context = context;
             text = view.findViewById(R.id.route_text_view);
         }
+
+        void onSelect() {
+            text.setTextColor(context.getColor(R.color.Blue));
+        }
+
+        void onUnselect() {
+            text.setTextColor(context.getColor(R.color.White));
+        }
+
     }
 }

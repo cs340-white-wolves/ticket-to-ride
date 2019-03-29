@@ -91,7 +91,7 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
             TrainCards trainCards = (TrainCards) obj;
             view.updateFaceUpCards(trainCards);
 
-        } else if (changeType == ModelChangeType.DrawTrainCards) {
+        } else if (changeType == ModelChangeType.StartTurn) {
             state = new NoCardsState();
         }
 

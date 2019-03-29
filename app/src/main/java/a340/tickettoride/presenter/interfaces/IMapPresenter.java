@@ -19,9 +19,8 @@ public interface IMapPresenter {
     Player getPlayerById(ID playerId);
     Set<City> getCities();
     Set<Route> getRoutes();
-    void advanceTurn();
+    void onSetTurn(int playerIdx);
     void startPoller();
     void onClickDrawDestCards();
-    void drawTrainCards();
     boolean isActivePlayerTurn();
 }

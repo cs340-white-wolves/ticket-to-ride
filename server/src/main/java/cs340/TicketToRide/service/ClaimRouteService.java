@@ -19,9 +19,10 @@ import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
+import cs340.TicketToRide.utility.RouteColorOption;
 
 public class ClaimRouteService extends ActionService {
-    public void claimRoute(Route route, AuthToken token, ID gameID, ID playerId) {
+    public void claimRoute(Route route, RouteColorOption option, AuthToken token, ID gameID, ID playerId) {
 
         if (route.getOccupierId() != null) {
             throw new RuntimeException("This route is already occupied");
@@ -49,7 +50,7 @@ public class ClaimRouteService extends ActionService {
         checkPlayerOwnsPartnerRoute(route, playerId, game);
         checkSmallGameDoubleRoute(route, game);
 
-        removeTrainCards(route, player, game);
+        removeTrainCards(option, route, player, game);
         removeTrainCars(route, player);
 
         route.occupy(playerId);
@@ -66,7 +67,6 @@ public class ClaimRouteService extends ActionService {
     public boolean handleIfStartOfLastRound(Game game, Player player) {
         if (game.getLastRoundLastPlayerId() == null && player.getNumTrains() <= 2) {
             game.setLastRoundLastPlayerId(player.getId());
-
             return true;
         }
 
@@ -91,10 +91,11 @@ public class ClaimRouteService extends ActionService {
      * @param player the player who want to claim the route
      * @param game the game itself
      */
-    private void removeTrainCards(Route route, Player player, Game game) {
+    private void removeTrainCards(RouteColorOption option, Route route, Player player, Game game) {
         TrainCard.Color routeColor = route.getColor();
         int length = route.getLength();
 
+        // todo: use the option now to remove the cards
         TrainCards trainCards = player.getTrainCards();
 
         if (! trainCards.hasColorCount(routeColor, length, true)) {
@@ -116,11 +117,9 @@ public class ClaimRouteService extends ActionService {
     }
 
     private void checkSmallGameDoubleRoute(Route route, Game game) {
-        if (route.isDoubleRoute() && game.getNumCurrentPlayers() <= 3) {
-            Route partnerRoute = game.getPartnerRoute(route);
-            if (partnerRoute.getOccupierId() != null) {
-                throw new RuntimeException("In a 2 or 3 player game, only one of the double routes may be claimed.");
-            }
+        Route partnerRoute = game.getPartnerRoute(route);
+        if (route.isDoubleRoute() && ! game.canUseDoubleRoutes() && partnerRoute.getOccupierId() != null) {
+            throw new RuntimeException("In a 2 or 3 player game, only one of the double routes may be claimed.");
         }
     }
 
@@ -140,13 +139,14 @@ public class ClaimRouteService extends ActionService {
         String msg = "Claimed route from " + route.getCity1() + " to " + route.getCity2();
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
 
+        game.setNextPlayerTurn();
+
         for (Player curPlayer : players) {
             IClient client = proxyManager.get(curPlayer.getId());
             client.routeUpdated(route);
             client.playersUpdated(players);
             client.historyMessageReceived(historyMessage);
-            client.advanceTurn();
-
+            client.setTurn(game.getCurrentPlayerTurnIdx());
         }
 
         if (startOfLastRound) {
@@ -156,6 +156,7 @@ public class ClaimRouteService extends ActionService {
             for (Player curPlayer : players) {
                 IClient client = proxyManager.get(curPlayer.getId());
                 client.historyMessageReceived(lastRound);
+                client.setLastRoundLastPlayer(player.getId());
             }
         }
 

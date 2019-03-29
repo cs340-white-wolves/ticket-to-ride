@@ -1,6 +1,5 @@
 package cs340.TicketToRide.service;
 
-import cs340.TicketToRide.ClientProxy;
 import cs340.TicketToRide.IClient;
 import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.model.AuthToken;
@@ -68,7 +67,6 @@ public class DrawTrainCardService extends ActionService {
 
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
         player.addTrainCard(card);
-
         updateGame(game, faceup, historyMessage, advanceTurn);
     }
 
@@ -88,6 +86,11 @@ public class DrawTrainCardService extends ActionService {
     private void updateGame(Game game, boolean faceup, Message historyMessage, boolean advanceTurn) {
         ClientProxyManager proxyManager = ClientProxyManager.getInstance();
         Players players = game.getPlayers();
+
+        if (advanceTurn) {
+            game.setNextPlayerTurn();
+        }
+
         for (Player curPlayer : players) {
             IClient client = proxyManager.get(curPlayer.getId());
             client.playersUpdated(players);
@@ -99,10 +102,9 @@ public class DrawTrainCardService extends ActionService {
             client.trainCardDeckChanged(game.getTrainCardDeck());
             client.historyMessageReceived(historyMessage);
 
-           if (advanceTurn) {
-               client.advanceTurn();
-           }
-
+            if (advanceTurn) {
+                client.setTurn(game.getCurrentPlayerTurnIdx());
+            }
         }
 
         if (advanceTurn) {

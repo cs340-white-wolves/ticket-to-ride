@@ -13,7 +13,7 @@
     <string name="available_games">Available Games</string>
     <string name="players_number">Number of Players</string>
     <string name="error_message_placeholder">Error message</string>
-    <string name="list_of_players">List of Players</string>
+    <string name="list_of_players">Loading...</string>
     <string name="start_message">The game will start once
         all players have joined</string>
     <string name="no_games">No games have been created yet...\n Please create a game.</string>

@@ -41,19 +41,20 @@ public class DiscardDestCardService extends ActionService {
         String msg = "Drew " + (3 - discardCards.size()) + " destination cards";
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
 
+        if (!game.allPlayersReady()) {
+            game.decrementPlayersLeftToDiscard();
+        } else {
+            game.setNextPlayerTurn();
+        }
+
         for (Player gamePlayer : game.getPlayers()) {
             IClient client = ClientProxyManager.getInstance().get(gamePlayer.getId());
             client.destCardDeckChanged(game.getDestCardDeck());
             client.playersUpdated(game.getPlayers());
             client.historyMessageReceived(historyMessage);
-
             if (game.allPlayersReady()) {
-                client.advanceTurn();
+                client.setTurn(game.getCurrentPlayerTurnIdx());
             }
-        }
-
-        if (!game.allPlayersReady()) {
-            game.decrementPlayersLeftToDiscard();
         }
 
         if (!checkToEndGame(game)){
