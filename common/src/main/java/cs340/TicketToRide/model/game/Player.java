@@ -54,9 +54,10 @@ public class Player implements Comparable<Player>{
     public int getTrainPoints() {
         int trainPoints = 0;
 
-        for (Route route: claimedRoutes) {
-            trainPoints += route.getPointValue();
-        }
+        // TODO: fix this
+//        for (Route route : claimedRoutes) {
+//            trainPoints += route.getPointValue();
+//        }
 
         return trainPoints;
     }
