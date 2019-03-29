@@ -19,11 +19,12 @@ public abstract class ActionService {
 
         if (game.getLastRoundLastPlayerId() != null) {
 
-            if (currentPlayerId.equals(game.getLastRoundLastPlayerId()) && turnsPassed == game.getNumCurrentPlayers()) {
+            if (turnsPassed == game.getNumCurrentPlayers()) {
                 assignAwardPoints(game.getPlayers());
                 sendEndGameCommand(game);
                 return true;
             }
+            turnsPassed++;
 
         }
 
@@ -31,9 +32,7 @@ public abstract class ActionService {
 
     }
 
-    protected void increaseTurnsPassed(Game game) {
-        if (game.getLastRoundLastPlayerId() != null) {turnsPassed++;}
-    }
+
 
     private void assignAwardPoints(Players players) {
 

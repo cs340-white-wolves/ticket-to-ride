@@ -160,9 +160,7 @@ public class ClaimRouteService extends ActionService {
             }
         }
 
-        if (!checkToEndGame(game)){
-            increaseTurnsPassed(game);
-        }
+        checkToEndGame(game);
     }
 
     private void recordClaim(Route route, Game game) {
