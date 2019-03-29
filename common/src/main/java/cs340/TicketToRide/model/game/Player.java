@@ -52,12 +52,11 @@ public class Player implements Comparable<Player>{
     }
 
     public int getTrainPoints() {
-        int trainPoints = 0;
 
-        for (Route route: claimedRoutes) {
-            trainPoints += route.getPointValue();
+        int trainPoints = score - getDestCardPoints();
+        if (award) {
+            trainPoints = trainPoints - 10;
         }
-
         return trainPoints;
     }
 
@@ -74,15 +73,15 @@ public class Player implements Comparable<Player>{
     }
 
     public int getNumOfCompletedDests() {
-        int destPoints = 0;
+        int numDests = 0;
 
         for (DestinationCard card: this.destinationCards) {
             if (card.isCompleted()) {
-                destPoints++;
+                numDests++;
             }
         }
 
-        return destPoints;
+        return numDests;
     }
 
     public int getScore() {

@@ -65,6 +65,7 @@ public class DrawTrainCardService extends ActionService {
             throw new RuntimeException("Card not in faceup or facedown decks");
         }
 
+
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
         player.addTrainCard(card);
         updateGame(game, faceup, historyMessage, advanceTurn);
@@ -108,9 +109,7 @@ public class DrawTrainCardService extends ActionService {
         }
 
         if (advanceTurn) {
-            if (!checkToEndGame(game)){
-                increaseTurnsPassed(game);
-            }
+            checkToEndGame(game);
         }
     }
 }

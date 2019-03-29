@@ -57,9 +57,7 @@ public class DiscardDestCardService extends ActionService {
             }
         }
 
-        if (!checkToEndGame(game)){
-            increaseTurnsPassed(game);
-        }
+        checkToEndGame(game);
 
     }
 }
