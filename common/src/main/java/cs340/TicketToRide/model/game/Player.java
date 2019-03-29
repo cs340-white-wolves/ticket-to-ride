@@ -86,6 +86,10 @@ public class Player implements Comparable<Player>{
         return destPoints;
     }
 
+    public boolean hasEnoughTrainPieces (int length ) {
+        return (this.getNumTrains() >= length);
+    }
+
     public int getScore() {
         return score;
     }

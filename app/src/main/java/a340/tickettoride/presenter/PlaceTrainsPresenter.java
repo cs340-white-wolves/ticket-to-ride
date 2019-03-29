@@ -37,18 +37,20 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
         int locomotiveCount = trainCards.getColorCount(TrainCard.Color.locomotive);
 
         for (Route route : routes) {
-            if (routeAvailable(possible, game, player, route)) {
+            int routeLength = route.getLength();
+
+            if (player.hasEnoughTrainPieces(routeLength) && routeAvailable(possible, game, player, route)) {
                 boolean canClaim = false;
                 if (route.getColor() == null) {
                     for (Integer count : colorCounts.values()) {
-                        if (locomotiveCount + count >= route.getLength()) {
+                        if (locomotiveCount + count >= routeLength) {
                             canClaim = true;
                             break;
                         }
                     }
                 } else {
                     int colorCount = trainCards.getColorCount(route.getColor());
-                    canClaim = colorCount + locomotiveCount >= route.getLength();
+                    canClaim = colorCount + locomotiveCount >= routeLength;
                 }
 
                 if (canClaim) {
@@ -106,13 +108,18 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
     private List<RouteColorOption> getColorOptions(Route route) {
         Player player = model.getActiveGame().getPlayerById(model.getPlayerId());
         TrainCards trainCards = player.getTrainCards();
-        Map<TrainCard.Color, Integer> colorCounts = trainCards.getColorCounts(false);
+        Map<TrainCard.Color, Integer> colorCounts = trainCards.getColorCounts(true);
         List<RouteColorOption> options = new ArrayList<>();
-        int length = route.getLength();
 
-        int numLocomotives = getCountSafe(colorCounts, TrainCard.Color.locomotive);
+        int length = route.getLength();
         TrainCard.Color routeColor = route.getColor();
 
+        int numLocomotives = getCountSafe(colorCounts, TrainCard.Color.locomotive);
+
+        // Take locomotives out now that we know how many they have
+        colorCounts.remove(TrainCard.Color.locomotive);
+
+        // If the route is gray
         if (routeColor == null) {
             for (Map.Entry<TrainCard.Color, Integer> entry : colorCounts.entrySet()) {
                 TrainCard.Color color = entry.getKey();
@@ -138,11 +145,18 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
     }
 
     private void calcOptionsForColor(List<RouteColorOption> options, Integer numLocomotives, TrainCard.Color color, int numOfColor, int length) {
+        if (numOfColor == 0) {
+            return;
+        }
+
         if (numOfColor >= length) {
             options.add(new RouteColorOption(color, length, 0));
-        } else if (numOfColor + numLocomotives >= length){
-            int namLocomotivesNeeded = length - numOfColor;
-            options.add(new RouteColorOption(color, numOfColor, namLocomotivesNeeded));
+            return;
+        }
+
+        if (numOfColor + numLocomotives >= length){
+            int numLocomotivesNeeded = length - numOfColor;
+            options.add(new RouteColorOption(color, numOfColor, numLocomotivesNeeded));
         }
     }
 
