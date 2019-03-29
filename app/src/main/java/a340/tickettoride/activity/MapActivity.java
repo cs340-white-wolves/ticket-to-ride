@@ -313,6 +313,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 });
             }
         });
+
+        dialog.show();
     }
 
     private void initDestCardDialog(DestinationCards cards, final int minCardsToKeep) {
@@ -378,8 +380,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (placeTrainsPresenter.onSelectRoute()) {
+                        if (MapActivity.this.getSelectedRoute() != null) {
                             dialog.dismiss();
+                            placeTrainsPresenter.onSelectRoute();
                         }
                     }
                 });

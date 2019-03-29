@@ -97,17 +97,10 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
         // check for finished destination
 
     @Override
-    public boolean onSelectRoute() {
+    public void onSelectRoute() {
         Route route = view.getSelectedRoute();
-
-        if (route == null) {
-            return false;
-        }
-
         List<RouteColorOption> options = getColorOptions(route);
         view.initColorOptionsDialog(options);
-
-        return true;
     }
 
     private List<RouteColorOption> getColorOptions(Route route) {
