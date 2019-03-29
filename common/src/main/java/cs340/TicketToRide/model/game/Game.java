@@ -248,7 +248,7 @@ public class Game {
 
             player.setColor(values[i]);
             player.setScore(0);
-            player.setNumTrains(2);
+            player.setNumTrains(45);
         }
 
         // Set the 5 face up train cards
