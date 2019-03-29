@@ -60,8 +60,11 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
     }
 
     private boolean routeAvailable(List<Route> possible, Game game, Player player, Route route) {
-        return route.unOccupied() && notAlreadyAdded(possible, route) && (game.canUseDoubleRoutes()
-                || partnerUnoccupied(route, game)) && !playerOwnsPartner(player, route, game);
+        return
+                route.unOccupied() &&
+                notAlreadyAdded(possible, route) &&
+                (game.canUseDoubleRoutes() || partnerUnoccupied(route, game)) &&
+                !playerOwnsPartner(player, route, game);
     }
 
     private boolean partnerUnoccupied(Route route, Game game) {
