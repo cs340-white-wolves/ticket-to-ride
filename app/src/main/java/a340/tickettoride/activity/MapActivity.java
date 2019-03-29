@@ -255,8 +255,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 initDestCardDialog(cards, minCardsToKeep);
             }
         });
-
     }
+
+    @Override
+    public void displayLastTurn() {
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                    initLastTurnDialog();
+            }
+        });    }
 
     @Override
     public void lockDrawer(boolean locked) {
@@ -395,6 +403,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         ViewGroup.LayoutParams layoutParams = possibleRoutesRecycler.getLayoutParams();
         layoutParams.height = (int) (layoutParams.height * .9);
         possibleRoutesRecycler.setLayoutParams(layoutParams);
+    }
+
+    private void initLastTurnDialog() {
+        new AlertDialog.Builder(MapActivity.this)
+                .setMessage("This is your last turn!")
+                .setPositiveButton("OK", null)
+                .show();
     }
 
     private void initPlayerColorValues() {

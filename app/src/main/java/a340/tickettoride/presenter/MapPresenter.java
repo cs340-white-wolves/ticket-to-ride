@@ -70,9 +70,11 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     public void onSetTurn(int playerIdx) {
         view.displayPlayerTurn(playerIdx);
         if (model.activePlayerTurn()) {
-            // TODO: handle when last turn
             model.startTurn();
             view.enableButtons();
+            if (model.getActiveGame().getLastRoundLastPlayerId() != null) {
+                view.displayLastTurn();
+            }
         } else {
             view.disableButtons();
         }
@@ -119,6 +121,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         void closeDrawer(int side);
         void displayResults(Players players);
         void chooseDestCard(DestinationCards cards, int minCardsToKeep);
+        void displayLastTurn();
         void lockDrawer(boolean b);
         void initColorOptionsDialog(List<RouteColorOption> options);
     }
