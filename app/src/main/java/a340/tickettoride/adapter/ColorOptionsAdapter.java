@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -18,13 +20,10 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 
 public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapter.OptionView> {
     private List<RouteColorOption> options;
-    private int selectedOptionIdx;
-    private Map<View, OptionView> optionViews;
+    private int lastSelectPos = -1;
 
     public ColorOptionsAdapter(List<RouteColorOption> options) {
         this.options = options;
-        optionViews = new HashMap<>();
-        this.selectedOptionIdx = -1;
     }
 
     @NonNull
@@ -40,20 +39,8 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
     public void onBindViewHolder(@NonNull OptionView optionView, int index) {
         RouteColorOption option = options.get(index);
         optionView.option = option;
-        optionViews.put(optionView.row, optionView);
         optionView.onBind(option);
-
-        if (index == selectedOptionIdx) {
-            optionView.onSelect();
-        } else {
-            optionView.onUnselected();
-        }
-        optionView.row.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleClick(v);
-            }
-        });
+        optionView.radioButton.setChecked(lastSelectPos == index);
     }
 
     @Override
@@ -61,44 +48,36 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
         return options.size();
     }
 
-    private void handleClick(View row) {
-        OptionView optionView = optionViews.get(row);
-
-        if (optionView == null) {
-            return;
-        }
-
-        RouteColorOption option = optionView.option;
-        int index = options.indexOf(option);
-        int prevSelectedIdx = selectedOptionIdx;
-        selectedOptionIdx = index;
-
-        if (prevSelectedIdx != index) {
-            notifyItemChanged(prevSelectedIdx);
-        }
-
-        optionView.onSelect();
-    }
-
     public RouteColorOption getSelectedOption() {
-        return selectedOptionIdx >= 0 ? options.get(selectedOptionIdx) : null;
+        return lastSelectPos >= 0 ? options.get(lastSelectPos) : null;
     }
 
-    static class OptionView extends RecyclerView.ViewHolder {
+    public class OptionView extends RecyclerView.ViewHolder {
         TextView color;
         TextView locomotive;
-        View row;
         RouteColorOption option;
+        RadioButton radioButton;
 
         OptionView(View view) {
             super(view);
-            row = view.findViewById(R.id.color_option_row);
             color = view.findViewById(R.id.color_option_color);
             locomotive = view.findViewById(R.id.color_option_locomotive);
+            radioButton = view.findViewById(R.id.color_option_radio);
+
+            radioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    lastSelectPos = getAdapterPosition();
+                    notifyDataSetChanged();
+                }
+            });
         }
 
         void onBind(RouteColorOption option) {
-            TrainCard.Color color = this.option.getColor();
+            TrainCard.Color color = option.getColor();
+            this.color.setTextColor(TrainCard.getColorValue(color));
+            this.locomotive.setTextColor(Color.WHITE);
+
             String first = "";
 
             if (option.getNumOfColor() > 0) {
@@ -116,15 +95,5 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
             this.locomotive.setText(second);
         }
 
-        void onSelect() {
-            this.color.setTextColor(Color.BLUE);
-            this.locomotive.setTextColor(Color.BLUE);
-        }
-
-        void onUnselected () {
-            TrainCard.Color color = option.getColor();
-            this.color.setTextColor(TrainCard.getColorValue(color));
-            this.locomotive.setTextColor(Color.WHITE);
-        }
     }
 }

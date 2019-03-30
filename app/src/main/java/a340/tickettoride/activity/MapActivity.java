@@ -314,6 +314,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+        dialog.getWindow().setBackgroundDrawableResource(R.color.Gray);
+
         dialog.show();
     }
 
@@ -391,6 +393,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         dialog.show();
 
         Window window = dialog.getWindow();
+
         Point size = new Point();
 
         Display display = window.getWindowManager().getDefaultDisplay();
