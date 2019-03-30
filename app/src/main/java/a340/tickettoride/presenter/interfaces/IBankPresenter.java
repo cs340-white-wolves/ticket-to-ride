@@ -1,7 +1,7 @@
 package a340.tickettoride.presenter.interfaces;
 
-import a340.tickettoride.presenter.ITrainCardState;
-import a340.tickettoride.presenter.InvalidMoveException;
+import a340.tickettoride.presenter.trainCardState.ITrainCardState;
+import a340.tickettoride.presenter.trainCardState.InvalidMoveException;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 

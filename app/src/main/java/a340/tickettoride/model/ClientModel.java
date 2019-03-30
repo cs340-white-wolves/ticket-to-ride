@@ -278,6 +278,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     public void updateTrainCardDeck(TrainCards cards) {
         activeGame.setTrainCardDeck(cards);
         notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getTrainCardDeck().size());
+        notifyObservers(ModelChangeType.BankUpdated, null);
 
     }
 

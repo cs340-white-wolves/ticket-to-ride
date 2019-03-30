@@ -1,4 +1,4 @@
-package a340.tickettoride.presenter;
+package a340.tickettoride.presenter.trainCardState;
 
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
@@ -24,6 +24,11 @@ public class OneCardState implements ITrainCardState {
     public void drawFromDeck(IBankPresenter presenter) {
         presenter.setState(FinalState.getInstance());
         ServiceFacade.getInstance().drawTrainCard(presenter.getTopOfDeck(), true);
+    }
+
+    @Override
+    public void bankUpdated(IBankPresenter presenter) {
+        presenter.setState(OneCardState.getInstance());
     }
 
 }

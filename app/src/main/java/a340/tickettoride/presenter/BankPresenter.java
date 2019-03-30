@@ -5,6 +5,10 @@ import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
+import a340.tickettoride.presenter.trainCardState.FinalState;
+import a340.tickettoride.presenter.trainCardState.ITrainCardState;
+import a340.tickettoride.presenter.trainCardState.InvalidMoveException;
+import a340.tickettoride.presenter.trainCardState.NoCardsState;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 
@@ -93,6 +97,8 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
 
         } else if (changeType == ModelChangeType.StartTurn) {
             state = new NoCardsState();
+        } else if (changeType == ModelChangeType.BankUpdated) {
+            state.bankUpdated(this);
         }
 
     }

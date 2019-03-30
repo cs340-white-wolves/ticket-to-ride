@@ -38,7 +38,6 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
     @Override
     public void onBindViewHolder(@NonNull OptionView optionView, int index) {
         RouteColorOption option = options.get(index);
-        optionView.option = option;
         optionView.onBind(option);
         optionView.radioButton.setChecked(lastSelectPos == index);
     }
@@ -74,6 +73,7 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
         }
 
         void onBind(RouteColorOption option) {
+            this.option = option;
             TrainCard.Color color = option.getColor();
             this.color.setTextColor(TrainCard.getColorValue(color));
             this.locomotive.setTextColor(Color.WHITE);

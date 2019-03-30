@@ -53,4 +53,9 @@ public class RouteColorOption {
     public int hashCode() {
         return Objects.hash(color, numOfColor, numLocomotives);
     }
+
+    @Override
+    public String toString() {
+        return color.toString() + ": " + numOfColor + ", locomotives: " + numLocomotives;
+    }
 }
