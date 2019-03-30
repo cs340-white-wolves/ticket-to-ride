@@ -629,24 +629,29 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void showRouteIsClaimed(final Route route) {
-        ID playerId = route.getOccupierId();
-        Player player = presenter.getPlayerById(playerId);
-        if (playerId == null) {
-            return;
-        }
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ID playerId = route.getOccupierId();
+                Player player = presenter.getPlayerById(playerId);
+                if (playerId == null) {
+                    return;
+                }
 
-        final List<Polyline> polylines = lineRouteManager.get(route);
-        if (polylines == null) {
-            return;
-        }
-        for (Polyline polyline : polylines) {
-            polyline.remove();
-        }
-        LatLng start = getRouteStartLocation(route);
-        LatLng end = getRouteEndLocation(route);
-        Player.Color color = player.getColor();
-        int colorValue = getPlayerColorValue(color);
-        map.addPolyline(getClaimedRoutePolylineOptions(start, end, colorValue));
+                final List<Polyline> polylines = lineRouteManager.get(route);
+                if (polylines == null) {
+                    return;
+                }
+                for (Polyline polyline : polylines) {
+                    polyline.remove();
+                }
+                LatLng start = getRouteStartLocation(route);
+                LatLng end = getRouteEndLocation(route);
+                Player.Color color = player.getColor();
+                int colorValue = getPlayerColorValue(color);
+                map.addPolyline(getClaimedRoutePolylineOptions(start, end, colorValue));
+            }
+        });
     }
 
     @Override
