@@ -4,6 +4,7 @@ import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.presenter.interfaces.IBankPresenter;
 import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.model.game.card.TrainCards;
 
 public class NoCardsState implements ITrainCardState {
 
@@ -12,9 +13,20 @@ public class NoCardsState implements ITrainCardState {
 
     @Override
     public void drawStandardFaceUp(IBankPresenter presenter, TrainCard card) {
-        presenter.setState(DisabledState.getInstance());
+        boolean advanceTurn = false;
+
+        TrainCards currentFaceUpCards = presenter.getCurrentFaceUpCards();
+
+        if (presenter.getNumTrainCards() == 0 && (currentFaceUpCards.size() == 1
+                || allFaceupsLocomotives(currentFaceUpCards))) {
+            advanceTurn = true;
+            presenter.setState(FinalState.getInstance());
+        } else {
+            presenter.setState(DisabledState.getInstance());
+        }
+
         ClientModel.getInstance().onSelectedSingleCard();
-        ServiceFacade.getInstance().drawTrainCard(card, false);
+        ServiceFacade.getInstance().drawTrainCard(card, advanceTurn);
 
     }
 
@@ -25,17 +37,34 @@ public class NoCardsState implements ITrainCardState {
     }
 
     @Override
-    public void drawFromDeck(IBankPresenter presenter) {
+    public void drawFromDeck(IBankPresenter presenter) throws InvalidMoveException {
         boolean advanceTurn = false;
-        if (presenter.getNumTrainCards() <= 1) {
-            presenter.setState(FinalState.getInstance());
+        TrainCards currentFaceUpCards = presenter.getCurrentFaceUpCards();
+        int numFaceUp = currentFaceUpCards.size();
+        int numDeckTrainCards = presenter.getNumTrainCards();
+
+        if (numDeckTrainCards == 0) {
+            throw new InvalidMoveException("There are no cards in deck");
+        } else if (numDeckTrainCards == 1 && (numFaceUp == 0 || allFaceupsLocomotives(currentFaceUpCards))){
             advanceTurn = true;
+            presenter.setState(FinalState.getInstance());
         } else {
             presenter.setState(DisabledState.getInstance());
         }
+
         ClientModel.getInstance().onSelectedSingleCard();
         TrainCard topCard = presenter.getTopOfDeck();
         ServiceFacade.getInstance().drawTrainCard(topCard, advanceTurn);
+    }
+
+    private boolean allFaceupsLocomotives(TrainCards currentFaceUpCards) {
+        int numFaceUpLocomotives = 0;
+        for (TrainCard faceup : currentFaceUpCards) {
+            if (faceup.getColor() == TrainCard.Color.locomotive) {
+                numFaceUpLocomotives++;
+            }
+        }
+        return numFaceUpLocomotives == currentFaceUpCards.size();
     }
 
     @Override
