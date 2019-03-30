@@ -15,7 +15,9 @@ public class NoCardsState implements ITrainCardState {
     public void drawStandardFaceUp(IBankPresenter presenter, TrainCard card) {
         boolean advanceTurn = false;
 
-        TrainCards currentFaceUpCards = presenter.getCurrentFaceUpCards();
+        TrainCards currentFaceUpCards = new TrainCards();
+        currentFaceUpCards.addAll(presenter.getCurrentFaceUpCards());
+        currentFaceUpCards.remove(card);
 
         if (presenter.getNumTrainCards() == 0 && (currentFaceUpCards.size() == 1
                 || allFaceupsLocomotives(currentFaceUpCards))) {
