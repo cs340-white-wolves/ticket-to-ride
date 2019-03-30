@@ -95,14 +95,27 @@ public class ClaimRouteService extends ActionService {
         TrainCard.Color routeColor = route.getColor();
         int length = route.getLength();
 
-        // todo: use the option now to remove the cards
-        TrainCards trainCards = player.getTrainCards();
-
-        if (! trainCards.hasColorCount(routeColor, length, true)) {
-            throw new RuntimeException("Player does not have the right cards to claim route!");
+        if (length != option.getNumOfColor() + option.getNumLocomotives()) {
+            throw new RuntimeException("Option number of cards does not satisfy route length");
         }
 
-        TrainCards removedCards = trainCards.removeColorCount(routeColor, length, true);
+        if (routeColor != null && option.getColor() != null && option.getColor() != routeColor) {
+            throw new RuntimeException("Option color is not compatible with route color");
+        }
+
+        TrainCards trainCards = player.getTrainCards();
+
+        if (trainCards.getColorCount(option.getColor()) < option.getNumOfColor()) {
+            throw new RuntimeException("Player does not have enough color cards to claim!");
+        }
+
+        if (trainCards.getColorCount(TrainCard.Color.locomotive) < option.getNumLocomotives()) {
+            throw new RuntimeException("Player does not have enough locomotive cards to claim!");
+        }
+
+        TrainCards removedCards = new TrainCards();
+        removedCards.addAll(trainCards.removeColorCount(option.getColor(), option.getNumOfColor()));
+        removedCards.addAll(trainCards.removeColorCount(TrainCard.Color.locomotive, option.getNumLocomotives()));
 
         game.addDiscardedTrainCards(removedCards);
     }

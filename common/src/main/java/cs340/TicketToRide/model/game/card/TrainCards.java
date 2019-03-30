@@ -11,37 +11,35 @@ public class TrainCards extends Deck<TrainCard> {
         super();
     }
 
-    public boolean hasColorCount(TrainCard.Color color, int neededCount, boolean useLocomotives) {
-        if (color == TrainCard.Color.locomotive) {
-            throw new RuntimeException("This function is not designed to be used for locomotives");
-        }
+//    public boolean hasColorCount(TrainCard.Color color, int neededCount, boolean useLocomotives) {
+//        if (color == TrainCard.Color.locomotive) {
+//            throw new RuntimeException("This function is not designed to be used for locomotives");
+//        }
+//
+//        Map<TrainCard.Color, Integer> colorCounts = getColorCounts(true);
+//
+//        int hasCount = 0;
+//
+//        if (useLocomotives) {
+//            hasCount += colorCounts.get(TrainCard.Color.locomotive);
+//        }
+//
+//        if (color == null) {
+//            for (Map.Entry<TrainCard.Color, Integer> entry : colorCounts.entrySet()) {
+//                if ((hasCount + entry.getValue()) >= neededCount) {
+//                    return true;
+//                }
+//            }
+//        } else {
+//            hasCount += colorCounts.get(color);
+//        }
+//
+//
+//        return (hasCount >= neededCount);
+//    }
 
-        Map<TrainCard.Color, Integer> colorCounts = getColorCounts(true);
-
-        int hasCount = 0;
-
-        if (useLocomotives) {
-            hasCount += colorCounts.get(TrainCard.Color.locomotive);
-        }
-
-        if (color == null) {
-            for (Map.Entry<TrainCard.Color, Integer> entry : colorCounts.entrySet()) {
-                if ((hasCount + entry.getValue()) >= neededCount) {
-                    return true;
-                }
-            }
-        } else {
-            hasCount += colorCounts.get(color);
-        }
-
-
-        return (hasCount >= neededCount);
-    }
-
-    public TrainCards removeColorCount(TrainCard.Color color, int neededCount, boolean useLocomotives) {
+    public TrainCards removeColorCount(TrainCard.Color color, int neededCount) {
         TrainCards removed = new TrainCards();
-
-        // todo: if color == null, player chooses what cards to discard
 
         // First use non-locomotive cards
         for (TrainCard card : this) {
@@ -55,23 +53,27 @@ public class TrainCards extends Deck<TrainCard> {
             }
         }
 
-        // If required and allowed, use locomotive cards
-        if (neededCount > 0 && useLocomotives) {
-            for (TrainCard card : this) {
-                if (neededCount == 0) {
-                    break;
-                }
-
-                if (card.getColor() == TrainCard.Color.locomotive) {
-                    removed.add(card);
-                    neededCount--;
-                }
-            }
-        }
-
         if (neededCount > 0) {
             throw new RuntimeException("Could not remove cards to satisfy requirements.");
         }
+
+//        // If required and allowed, use locomotive cards
+//        if (neededCount > 0 && useLocomotives) {
+//            for (TrainCard card : this) {
+//                if (neededCount == 0) {
+//                    break;
+//                }
+//
+//                if (card.getColor() == TrainCard.Color.locomotive) {
+//                    removed.add(card);
+//                    neededCount--;
+//                }
+//            }
+//        }
+//
+//        if (neededCount > 0) {
+//            throw new RuntimeException("Could not remove cards to satisfy requirements.");
+//        }
 
         // Actually remove them
         this.removeAll(removed);

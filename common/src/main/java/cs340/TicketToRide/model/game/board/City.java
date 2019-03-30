@@ -59,4 +59,9 @@ public class City {
         City c = (City)o;
         return c.name.equals(name);
     }
+
+    @Override
+    public String toString() {
+        return name + " (" + code + ")";
+    }
 }
