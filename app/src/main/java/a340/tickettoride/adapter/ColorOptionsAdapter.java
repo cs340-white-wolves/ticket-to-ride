@@ -78,21 +78,26 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
             this.color.setTextColor(TrainCard.getColorValue(color));
             this.locomotive.setTextColor(Color.WHITE);
 
-            String first = "";
+            int numOfColor = option.getNumOfColor();
+            int numLocomotives = option.getNumLocomotives();
 
-            if (option.getNumOfColor() > 0) {
-                first = String.format("%d %s", option.getNumOfColor(), TrainCard.getColorName(color));
+            String colorStr = String.format("%d %s", numOfColor, TrainCard.getColorName(color));
+            String locomotiveStr = String.format("%d %s", numLocomotives, TrainCard.getColorName(TrainCard.Color.locomotive));
+
+            if (numOfColor > 0) {
+                this.color.setText(colorStr);
+                if (numLocomotives > 0) {
+                    this.locomotive.setText(locomotiveStr);
+                } else {
+                    this.locomotive.setText("");
+                }
+
+            } else {
+                this.color.setText(locomotiveStr);
+                this.locomotive.setText("");
             }
 
-            this.color.setText(first);
 
-            String second = "";
-
-            if (option.getNumLocomotives() > 0) {
-                second = String.format("%d %s", option.getNumLocomotives(), TrainCard.getColorName(TrainCard.Color.locomotive));
-            }
-
-            this.locomotive.setText(second);
         }
 
     }

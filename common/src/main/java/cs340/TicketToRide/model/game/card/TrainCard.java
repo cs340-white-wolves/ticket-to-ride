@@ -102,7 +102,7 @@ public class TrainCard {
     public static int getColorValue(Color color) {
         Map<Color, Integer> colorMap = getColorMap();
         Integer col = colorMap.get(color);
-        return col == null ? RED : col;
+        return col == null ? WHITE : col;
     }
 
     @Override
