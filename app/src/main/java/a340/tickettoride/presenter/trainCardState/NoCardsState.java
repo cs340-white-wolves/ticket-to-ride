@@ -26,10 +26,16 @@ public class NoCardsState implements ITrainCardState {
 
     @Override
     public void drawFromDeck(IBankPresenter presenter) {
-        presenter.setState(DisabledState.getInstance());
+        boolean advanceTurn = false;
+        if (presenter.getNumTrainCards() <= 1) {
+            presenter.setState(FinalState.getInstance());
+            advanceTurn = true;
+        } else {
+            presenter.setState(DisabledState.getInstance());
+        }
         ClientModel.getInstance().onSelectedSingleCard();
-        ServiceFacade.getInstance().drawTrainCard(presenter.getTopOfDeck(), false);
-
+        TrainCard topCard = presenter.getTopOfDeck();
+        ServiceFacade.getInstance().drawTrainCard(topCard, advanceTurn);
     }
 
     @Override
