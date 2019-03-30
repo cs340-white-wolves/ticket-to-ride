@@ -214,7 +214,7 @@ public class Route {
 
     @Override
     public int hashCode() {
-        return city1.getName().hashCode() * city2.getName().hashCode() +  31 * priority;
+        return city1.hashCode() * city2.hashCode() +  31 * priority;
     }
 
     @Override

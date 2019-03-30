@@ -1,6 +1,7 @@
 package a340.tickettoride.presenter;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -58,6 +59,15 @@ public class PlaceTrainsPresenter implements IPlaceTrainsPresenter, ModelObserve
                 }
             }
         }
+
+        // Sort
+        possible.sort(new Comparator<Route>() {
+            @Override
+            public int compare(Route a, Route b) {
+                return a.toString().compareTo(b.toString());
+            }
+        });
+
         return possible;
     }
 
