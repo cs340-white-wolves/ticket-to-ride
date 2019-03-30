@@ -223,13 +223,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    public void enableButtons() {
+    public void enableButtons(final boolean enableRoutesBtn, final boolean enableCardsBtn) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                drawCardsBtn.setEnabled(true);
+                drawCardsBtn.setEnabled(enableCardsBtn);
                 placeTrainBtn.setEnabled(true);
-                routesBtn.setEnabled(true);
+                routesBtn.setEnabled(enableRoutesBtn);
             }
         });
 

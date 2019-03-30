@@ -71,8 +71,12 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         view.displayPlayerTurn(playerIdx);
         if (model.activePlayerTurn()) {
             model.startTurn();
-            view.enableButtons();
-            if (model.getActiveGame().getLastRoundLastPlayerId() != null) {
+            Game activeGame = model.getActiveGame();
+            int destCardSize = activeGame.getDestCardDeck().size();
+            int numTrainCards = activeGame.getTrainCardDeck().size()
+                    + activeGame.getFaceUpTrainCards().size();
+            view.enableButtons(destCardSize != 0, numTrainCards != 0);
+            if (activeGame.getLastRoundLastPlayerId() != null) {
                 view.displayLastTurn();
             }
         } else {
@@ -115,7 +119,7 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
         DestinationCards getSelectedDestinationCards();
         DestinationCards getRecentlyAddedDestCards();
         Route getSelectedRoute();
-        void enableButtons();
+        void enableButtons(final boolean enableRoutesBtn, final boolean enableCardsBtn);
         void disableButtons();
         void openDrawer(int side, boolean lockDrawer);
         void closeDrawer(int side);
