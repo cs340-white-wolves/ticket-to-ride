@@ -289,6 +289,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
     public void updateRoute(Route route) {
+        activeGame.updateRoute(route);
         notifyObservers(ModelChangeType.RouteClaimed, route);
     }
 

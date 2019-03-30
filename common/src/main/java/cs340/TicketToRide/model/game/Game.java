@@ -393,4 +393,10 @@ public class Game {
     public boolean allPlayersReady() {
         return playersLeftToDiscard == 0;
     }
+
+    public void updateRoute(Route route) {
+        Set<Route> routes = board.getRoutes();
+        routes.remove(route);
+        routes.add(route);
+    }
 }
