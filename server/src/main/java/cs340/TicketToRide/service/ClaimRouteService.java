@@ -61,7 +61,7 @@ public class ClaimRouteService extends ActionService {
 
         boolean lastRound = handleIfStartOfLastRound(game, player);
 
-        sendUpdates(route, game, player, lastRound);
+        sendUpdates(route, option, game, player, lastRound);
     }
 
     public boolean handleIfStartOfLastRound(Game game, Player player) {
@@ -146,10 +146,10 @@ public class ClaimRouteService extends ActionService {
         }
     }
 
-    private void sendUpdates(Route route, Game game, Player player, boolean startOfLastRound) {
+    private void sendUpdates(Route route, RouteColorOption option, Game game, Player player, boolean startOfLastRound) {
         ClientProxyManager proxyManager = ClientProxyManager.getInstance();
         Players players = game.getPlayers();
-        String msg = "Claimed route from " + route.getCity1() + " to " + route.getCity2();
+        String msg = String.format("Claimed route from %s to %s using %s", route.getCity1(), route.getCity2(), option);
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
 
         game.setNextPlayerTurn();

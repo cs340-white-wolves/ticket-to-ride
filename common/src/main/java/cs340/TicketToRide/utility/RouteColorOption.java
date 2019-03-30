@@ -1,5 +1,6 @@
 package cs340.TicketToRide.utility;
 
+import java.util.Locale;
 import java.util.Objects;
 
 import cs340.TicketToRide.model.game.card.TrainCard;
@@ -56,6 +57,21 @@ public class RouteColorOption {
 
     @Override
     public String toString() {
-        return color.toString() + ": " + numOfColor + ", locomotives: " + numLocomotives;
+        String colorStr = String.format(Locale.US, "%d %s card%s", numOfColor, TrainCard.getColorName(color), numOfColor != 1 ? "s" : "");
+        String locoStr = String.format(Locale.US, "%d %s card%s", numLocomotives, TrainCard.getColorName(TrainCard.Color.locomotive), numLocomotives != 1 ? "s" : "");
+
+        if (numOfColor > 0 && numLocomotives > 0) {
+            return colorStr + " and " + locoStr;
+        }
+
+        if (numOfColor > 0) {
+            return colorStr;
+        }
+
+        if (numLocomotives > 0) {
+            return locoStr;
+        }
+
+        return "";
     }
 }
