@@ -15,7 +15,7 @@ public abstract class ActionService {
         ID currentPlayerId = game.getPlayers().get(game.getCurrentPlayerTurnIdx()).getId();
 
         if (game.getLastRoundLastPlayerId() == currentPlayerId) {
-            assignAwardPoints(game.getPlayers());
+            assignPoints(game.getPlayers());
             sendEndGameCommand(game);
             return true;
         }
@@ -23,16 +23,14 @@ public abstract class ActionService {
         return false;
     }
 
+    private void assignPoints(Players players) {
 
-
-    private void assignAwardPoints(Players players) {
-
-        int destCompleted = findMostDestCompleted(players);
+        int maxDestinationsCompletedCnt = findMostDestCompleted(players);
 
         for (Player player: players) {
-            if (player.getNumOfCompletedDests() == destCompleted) {
-                player.setScore(player.getScore() + AWARD_POINTS);
-                player.setAward(true);
+            if (player.getNumOfCompletedDests() == maxDestinationsCompletedCnt) {
+                player.setAwardPoints(AWARD_POINTS);
+                player.updateTotalPoints();
             }
         }
     }

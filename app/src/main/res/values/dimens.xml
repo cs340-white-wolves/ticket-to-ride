@@ -2,4 +2,8 @@
 <resources>
     <dimen name="text_margin">4dp</dimen>
     <dimen name="all_player_column_width">80dp</dimen>
+    <dimen name="game_summary_font">20sp</dimen>
+    <dimen name="game_summary_font_small">8sp</dimen>
+    <dimen name="game_summary_font_category">12sp</dimen>
+    <dimen name="game_summary_total_font">30sp</dimen>
 </resources>

@@ -135,11 +135,11 @@ public class ClaimRouteService extends ActionService {
     }
 
     private void updatePlayerPoints(Route route, Player player, Game game) {
-        player.setScore(player.getScore() + route.getPointValue());
+        player.setRoutePoints(player.getRoutePoints() + route.getPointValue());
         for (DestinationCard card : player.getDestinationCards()) {
             if (!card.isCompleted() && game.playerCompletedDestCard(player.getId(), card)) {
                 card.setCompleted(true);
-                player.setScore(player.getScore() + card.getPoints());
+//                player.setRoutePoints(player.getRoutePoints() + card.getPoints());
             }
         }
     }
