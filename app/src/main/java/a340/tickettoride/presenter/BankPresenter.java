@@ -14,6 +14,7 @@ import cs340.TicketToRide.model.game.card.TrainCards;
 
 public class BankPresenter implements IBankPresenter, ModelObserver {
 
+    public static final String NOT_TURN_MSG = "It's not your turn";
     private View view;
     private IClientModel model = ClientModel.getInstance();
     private ITrainCardState state = FinalState.getInstance();
@@ -38,18 +39,27 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
 
 
     //==============================State Methods==============================
+
+    private void checkIfPlayersTurn() throws InvalidMoveException {
+        if (!model.activePlayerTurn()) {
+            throw new InvalidMoveException(NOT_TURN_MSG);
+        }
+    }
     @Override
     public void drawStandardFaceUp(TrainCard card) throws InvalidMoveException {
+        checkIfPlayersTurn();
         state.drawStandardFaceUp(this, card);
     }
 
     @Override
     public void drawLocomotiveFaceUp(TrainCard card) throws InvalidMoveException {
+        checkIfPlayersTurn();
         state.drawLocomotiveFaceUp(this, card);
     }
 
     @Override
     public void drawFromDeck() throws InvalidMoveException {
+        checkIfPlayersTurn();
         state.drawFromDeck(this);
     }
 
@@ -102,7 +112,6 @@ public class BankPresenter implements IBankPresenter, ModelObserver {
         }
 
     }
-
 
     public interface View {
         void updateFaceUpCards(TrainCards cards);
