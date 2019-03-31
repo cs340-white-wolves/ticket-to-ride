@@ -292,6 +292,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .setMessage("Please choose an option to claim this route")
                 .setCancelable(true)
                 .setPositiveButton("OK", null)
+                .setNegativeButton("Cancel", null)
                 .create();
 
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {

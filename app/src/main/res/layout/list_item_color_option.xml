@@ -20,12 +20,4 @@
         android:layout_marginRight="10dp"
         android:textColor="@color/Red"/>
 
-    <TextView
-        android:id="@+id/color_option_locomotive"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:text="1 of Locomotive"
-        android:textColor="@color/Red"/>
-
 </LinearLayout>

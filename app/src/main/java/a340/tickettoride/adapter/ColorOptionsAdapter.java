@@ -53,14 +53,12 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
 
     public class OptionView extends RecyclerView.ViewHolder {
         TextView color;
-        TextView locomotive;
         RouteColorOption option;
         RadioButton radioButton;
 
         OptionView(View view) {
             super(view);
             color = view.findViewById(R.id.color_option_color);
-            locomotive = view.findViewById(R.id.color_option_locomotive);
             radioButton = view.findViewById(R.id.color_option_radio);
 
             radioButton.setOnClickListener(new View.OnClickListener() {
@@ -76,27 +74,17 @@ public class ColorOptionsAdapter extends RecyclerView.Adapter<ColorOptionsAdapte
             this.option = option;
             TrainCard.Color color = option.getColor();
             this.color.setTextColor(TrainCard.getColorValue(color));
-            this.locomotive.setTextColor(Color.WHITE);
 
             int numOfColor = option.getNumOfColor();
-            int numLocomotives = option.getNumLocomotives();
-
-            String colorStr = String.format("%d %s", numOfColor, TrainCard.getColorName(color));
-            String locomotiveStr = String.format("%d %s", numLocomotives, TrainCard.getColorName(TrainCard.Color.locomotive));
+            String colorStr = option.toString();
 
             if (numOfColor > 0) {
-                this.color.setText(colorStr);
-                if (numLocomotives > 0) {
-                    this.locomotive.setText(locomotiveStr);
-                } else {
-                    this.locomotive.setText("");
-                }
-
+                this.color.setTextColor(TrainCard.getColorValue(color));
             } else {
-                this.color.setText(locomotiveStr);
-                this.locomotive.setText("");
+                this.color.setTextColor(TrainCard.getColorValue(TrainCard.Color.passengerWhite));
             }
 
+            this.color.setText(colorStr);
 
         }
 
