@@ -11,25 +11,16 @@ public abstract class ActionService {
 
     final int AWARD_POINTS = 10;
 
-    private static int turnsPassed = 0;
-
     protected boolean checkToEndGame(Game game) {
-
         ID currentPlayerId = game.getPlayers().get(game.getCurrentPlayerTurnIdx()).getId();
 
-        if (game.getLastRoundLastPlayerId() != null) {
-
-            if (turnsPassed == game.getNumCurrentPlayers()) {
-                assignAwardPoints(game.getPlayers());
-                sendEndGameCommand(game);
-                return true;
-            }
-            turnsPassed++;
-
+        if (game.getLastRoundLastPlayerId() == currentPlayerId) {
+            assignAwardPoints(game.getPlayers());
+            sendEndGameCommand(game);
+            return true;
         }
 
         return false;
-
     }
 
 
