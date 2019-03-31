@@ -442,6 +442,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return playerColorValues.get(color);
     }
 
+    @Override
+    public void onBackPressed() {
+        // Disable pressing back
+    }
+
     private void initTurnTracker() {
         Players players = presenter.getPlayers();
         TurnTrackerAdapter adapter = new TurnTrackerAdapter(players, this);
