@@ -124,8 +124,9 @@ public class Game {
                     return true;
                 }
 
-                if (!visitedCities.contains(intermediate)) {
-                    return pathOwnedByPlayer(playerId, intermediate, target, visitedCities);
+                if (!visitedCities.contains(intermediate) &&
+                        pathOwnedByPlayer(playerId, intermediate, target, visitedCities)) {
+                    return true;
                 }
             }
         }
