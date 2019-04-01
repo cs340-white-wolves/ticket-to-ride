@@ -1,11 +1,8 @@
 package cs340.TicketToRide.model.game;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import cs340.TicketToRide.model.User;
-import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
@@ -19,13 +16,15 @@ public class Player implements Comparable<Player>{
     }
     private User user;
 
-    private int score;
+    private int totalPoints = 0;
+    private int routePoints = 0;
+    private int awardPoints = 0;
     private int numTrains;
+    private int score;
     private TrainCards trainCards = new TrainCards();
     private DestinationCards destinationCards = new DestinationCards();
     private Color color;
     private ID id;
-    private boolean award = false;
 
     public Player(User user) {
         setUser(user);
@@ -51,20 +50,23 @@ public class Player implements Comparable<Player>{
         this.user = user;
     }
 
-    public int getTrainPoints() {
-
-        int trainPoints = score - getDestCardPoints();
-        if (award) {
-            trainPoints = trainPoints - 10;
-        }
-        return trainPoints;
-    }
-
-    public int getDestCardPoints() {
+    public int getDestCardCompletePoints() {
         int destPoints = 0;
 
         for (DestinationCard card: this.destinationCards) {
             if (card.isCompleted()) {
+                destPoints += card.getPoints();
+            }
+        }
+
+        return destPoints;
+    }
+
+    public int getDestCardIncompletePoints() {
+        int destPoints = 0;
+
+        for (DestinationCard card: this.destinationCards) {
+            if (! card.isCompleted()) {
                 destPoints += card.getPoints();
             }
         }
@@ -86,6 +88,14 @@ public class Player implements Comparable<Player>{
 
     public boolean hasEnoughTrainPieces (int length ) {
         return (this.getNumTrains() >= length);
+    }
+
+    public int getRoutePoints() {
+        return routePoints;
+    }
+
+    public void setRoutePoints(int routePoints) {
+        this.routePoints = routePoints;
     }
 
     public int getScore() {
@@ -136,12 +146,24 @@ public class Player implements Comparable<Player>{
         return id;
     }
 
-    public void setAward(boolean award) {
-        this.award = award;
+    public void setAwardPoints(int awardPoints) {
+        this.awardPoints = awardPoints;
     }
 
-    public boolean hasAward() {
-        return this.award;
+    public int getAwardPoints() {
+        return this.awardPoints;
+    }
+
+    public void updateTotalPoints () {
+        setTotalPoints(getRoutePoints() + getDestCardCompletePoints() - getDestCardIncompletePoints() + getAwardPoints());
+    }
+
+    public int getTotalPoints() {
+        return totalPoints;
+    }
+
+    private void setTotalPoints(int totalPoints) {
+        this.totalPoints = totalPoints;
     }
 
     @Override
@@ -158,23 +180,30 @@ public class Player implements Comparable<Player>{
     }
 
     @Override
-    public int compareTo(Player player) {
+    public int compareTo(Player that) {
 
-        if (player.getScore() == this.score) {
-
-            if (player.getNumOfCompletedDests() > this.getNumOfCompletedDests()) {
-                return -1;
-
-            } else if (player.hasAward() && !this.hasAward()) {
-                return -1;
-            } else {
-                return 0;
-            }
+        // By Score
+        if (this.getTotalPoints() < that.getTotalPoints()) {
+            return 1;
         }
-        else if (player.getScore() > this.score) { return -1; }
-        else { return 1; }
 
+        if (this.getTotalPoints() > that.getTotalPoints()) {
+            return -1;
+        }
 
+        // By number of completed destination tickets
+        if (this.getNumOfCompletedDests() < that.getNumOfCompletedDests()) {
+            return 1;
+        }
+
+        if (this.getNumOfCompletedDests() > that.getNumOfCompletedDests()) {
+            return -1;
+        }
+
+        // The next tie breaker would be the longest continuous path, but
+        // we don't have that, so we will say it's a tie!
+
+        return 0;
     }
 
 }

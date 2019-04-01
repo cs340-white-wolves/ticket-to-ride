@@ -11,38 +11,28 @@ public abstract class ActionService {
 
     final int AWARD_POINTS = 10;
 
-    private static int turnsPassed = 0;
-
     protected boolean checkToEndGame(Game game) {
-
         ID currentPlayerId = game.getPlayers().get(game.getCurrentPlayerTurnIdx()).getId();
 
-        if (game.getLastRoundLastPlayerId() != null) {
-
-            if (turnsPassed == game.getNumCurrentPlayers()) {
-                assignAwardPoints(game.getPlayers());
-                sendEndGameCommand(game);
-                return true;
-            }
-            turnsPassed++;
-
+        if (game.getLastRoundLastPlayerId() == currentPlayerId) {
+            assignPoints(game.getPlayers());
+            sendEndGameCommand(game);
+            return true;
         }
 
         return false;
-
     }
 
+    private void assignPoints(Players players) {
 
-
-    private void assignAwardPoints(Players players) {
-
-        int destCompleted = findMostDestCompleted(players);
+        int maxDestinationsCompletedCnt = findMostDestCompleted(players);
 
         for (Player player: players) {
-            if (player.getNumOfCompletedDests() == destCompleted) {
-                player.setScore(player.getScore() + AWARD_POINTS);
-                player.setAward(true);
+            if (player.getNumOfCompletedDests() == maxDestinationsCompletedCnt) {
+                player.setAwardPoints(AWARD_POINTS);
             }
+
+            player.updateTotalPoints();
         }
     }
 

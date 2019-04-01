@@ -68,7 +68,8 @@ public class GameHistoryFragment extends Fragment implements GameHistoryPresente
     private void setMessages(List<Message> historyMessages) {
         adapter.setMessages(historyMessages);
         int itemCount = historyMessages.size();
-        recyclerView.smoothScrollToPosition(itemCount == 0 ? itemCount : itemCount - 1);
+        recyclerView.smoothScrollToPosition(itemCount);
+        // check if this is correct, may be the source of a bug? if so, try itemCount == 0 ? 0 : itemCount - 1
     }
 
     @Override

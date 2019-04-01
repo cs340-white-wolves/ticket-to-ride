@@ -347,7 +347,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     public void updateActivePlayersPoints(int points) {
         Player player = getPlayerFromGame();
-        player.setScore(points);
+        player.setRoutePoints(points);
         updatePlayers(activeGame.getPlayers());
     }
 
