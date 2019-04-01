@@ -124,8 +124,9 @@ public class Game {
                     return true;
                 }
 
-                if (!visitedCities.contains(intermediate)) {
-                    return pathOwnedByPlayer(playerId, intermediate, target, visitedCities);
+                if (!visitedCities.contains(intermediate) &&
+                        pathOwnedByPlayer(playerId, intermediate, target, visitedCities)) {
+                    return true;
                 }
             }
         }
@@ -247,7 +248,7 @@ public class Game {
             }
 
             player.setColor(values[i]);
-            player.setScore(0);
+            player.setRoutePoints(0);
             player.setNumTrains(45);
         }
 

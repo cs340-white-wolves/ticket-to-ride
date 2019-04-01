@@ -2,6 +2,7 @@ package cs340.TicketToRide.model.game.card;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import cs340.TicketToRide.model.game.Game;
@@ -98,8 +99,13 @@ public class DestinationCard {
     }
 
     public String toString() {
-        return city1.getName() + " (" + city1.getCode() + "), " +
-                city2.getName() + " (" + city2.getCode() + ")";
+        return String.format(Locale.US, "%s (%s) - %s (%s), %d pts",
+                city1.getName(),
+                city1.getCode(),
+                city2.getName(),
+                city2.getCode(),
+                getPoints()
+            );
     }
 
     public boolean isCompleted() {

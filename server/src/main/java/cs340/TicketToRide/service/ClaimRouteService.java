@@ -59,9 +59,7 @@ public class ClaimRouteService extends ActionService {
 
         updatePlayerPoints(route, player, game);
 
-        boolean lastRound = handleIfStartOfLastRound(game, player);
-
-        sendUpdates(route, option, game, player, lastRound);
+        sendUpdates(route, option, game, player);
     }
 
     public boolean handleIfStartOfLastRound(Game game, Player player) {
@@ -137,43 +135,55 @@ public class ClaimRouteService extends ActionService {
     }
 
     private void updatePlayerPoints(Route route, Player player, Game game) {
-        player.setScore(player.getScore() + route.getPointValue());
+        player.setRoutePoints(player.getRoutePoints() + route.getPointValue());
         for (DestinationCard card : player.getDestinationCards()) {
             if (!card.isCompleted() && game.playerCompletedDestCard(player.getId(), card)) {
                 card.setCompleted(true);
-                player.setScore(player.getScore() + card.getPoints());
+//                player.setRoutePoints(player.getRoutePoints() + card.getPoints());
             }
         }
     }
 
-    private void sendUpdates(Route route, RouteColorOption option, Game game, Player player, boolean startOfLastRound) {
+    private void sendUpdates(Route route, RouteColorOption option, Game game, Player player) {
         ClientProxyManager proxyManager = ClientProxyManager.getInstance();
         Players players = game.getPlayers();
         String msg = String.format("Claimed route from %s to %s using %s", route.getCity1(), route.getCity2(), option);
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
-
-        game.setNextPlayerTurn();
 
         for (Player curPlayer : players) {
             IClient client = proxyManager.get(curPlayer.getId());
             client.routeUpdated(route);
             client.playersUpdated(players);
             client.historyMessageReceived(historyMessage);
-            client.setTurn(game.getCurrentPlayerTurnIdx());
         }
 
-        if (startOfLastRound) {
-            String message = "The last round has begun!";
-            Message lastRound = new Message(player.getUser().getUsername(), message);
+        boolean end = checkToEndGame(game);
+
+        if (! end) {
+            boolean startOfLastRound = handleIfStartOfLastRound(game, player);
+
+            if (startOfLastRound) {
+                sendLastRoundMessage(player, proxyManager, players);
+            }
+
+            game.setNextPlayerTurn();
 
             for (Player curPlayer : players) {
                 IClient client = proxyManager.get(curPlayer.getId());
-                client.historyMessageReceived(lastRound);
-                client.setLastRoundLastPlayer(player.getId());
+                client.setTurn(game.getCurrentPlayerTurnIdx());
             }
         }
+    }
 
-        checkToEndGame(game);
+    private void sendLastRoundMessage(Player player, ClientProxyManager proxyManager, Players players) {
+        String message = "The last round has begun!";
+        Message lastRound = new Message(player.getUser().getUsername(), message);
+
+        for (Player curPlayer : players) {
+            IClient client = proxyManager.get(curPlayer.getId());
+            client.historyMessageReceived(lastRound);
+            client.setLastRoundLastPlayer(player.getId());
+        }
     }
 
     private void recordClaim(Route route, Game game) {

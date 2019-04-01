@@ -72,7 +72,7 @@ public class DrawTrainCardService extends ActionService {
     }
 
     private void replaceFaceUpCard(Game game, TrainCards trainCardDeck,
-                                  TrainCards faceUpTrainCards) {
+                                   TrainCards faceUpTrainCards) {
         TrainCard newFaceUpCard = trainCardDeck.drawFromTop();
 
         if (newFaceUpCard != null) {
@@ -88,10 +88,6 @@ public class DrawTrainCardService extends ActionService {
         ClientProxyManager proxyManager = ClientProxyManager.getInstance();
         Players players = game.getPlayers();
 
-        if (advanceTurn) {
-            game.setNextPlayerTurn();
-        }
-
         for (Player curPlayer : players) {
             IClient client = proxyManager.get(curPlayer.getId());
             client.playersUpdated(players);
@@ -102,14 +98,19 @@ public class DrawTrainCardService extends ActionService {
 
             client.trainCardDeckChanged(game.getTrainCardDeck());
             client.historyMessageReceived(historyMessage);
-
-            if (advanceTurn) {
-                client.setTurn(game.getCurrentPlayerTurnIdx());
-            }
         }
 
         if (advanceTurn) {
-            checkToEndGame(game);
+            boolean end = checkToEndGame(game);
+
+            if (! end) {
+                game.setNextPlayerTurn();
+
+                for (Player curPlayer : players) {
+                    IClient client = proxyManager.get(curPlayer.getId());
+                    client.setTurn(game.getCurrentPlayerTurnIdx());
+                }
+            }
         }
     }
 }

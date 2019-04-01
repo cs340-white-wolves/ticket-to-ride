@@ -40,7 +40,7 @@ public class PlayerRecyclerViewAdapter extends RecyclerView.Adapter<PlayerRecycl
 
         if (player != null) {
             holder.mPlayerName.setText(player.getUser().getUsername().toString());
-            holder.mPoints.setText(String.valueOf(player.getScore()));
+            holder.mPoints.setText(String.valueOf(player.getRoutePoints()));
             holder.mNumTrains.setText(String.valueOf(player.getNumTrains()));
             holder.mNumCards.setText(String.valueOf(player.getTrainCards().size()));
             holder.mNumRoutes.setText(String.valueOf(player.getDestinationCards().size()));
