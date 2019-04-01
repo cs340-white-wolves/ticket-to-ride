@@ -30,8 +30,9 @@ public abstract class ActionService {
         for (Player player: players) {
             if (player.getNumOfCompletedDests() == maxDestinationsCompletedCnt) {
                 player.setAwardPoints(AWARD_POINTS);
-                player.updateTotalPoints();
             }
+
+            player.updateTotalPoints();
         }
     }
 

@@ -155,7 +155,7 @@ public class Player implements Comparable<Player>{
     }
 
     public void updateTotalPoints () {
-        setTotalPoints(routePoints + getDestCardCompletePoints() - getDestCardIncompletePoints() + getAwardPoints());
+        setTotalPoints(getRoutePoints() + getDestCardCompletePoints() - getDestCardIncompletePoints() + getAwardPoints());
     }
 
     public int getTotalPoints() {
