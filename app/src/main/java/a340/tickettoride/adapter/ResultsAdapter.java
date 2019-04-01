@@ -42,6 +42,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultIt
         resultItem.incompletePoints.setText(String.format("-%s", String.valueOf(player.getDestCardIncompletePoints())));
         int awardPoints = player.getAwardPoints();
         resultItem.numDestinationPoints.setText(awardPoints > 0 ? String.format("+%d", awardPoints) : "");
+        resultItem.numDestinationPointsLabel.setText(awardPoints > 0 ? "Most Complete" : "");
         resultItem.totalPoints.setText(String.valueOf(player.getTotalPoints()));
     }
 
@@ -57,6 +58,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultIt
         private TextView completePoints;
         private TextView incompletePoints;
         private TextView numDestinationPoints;
+        private TextView numDestinationPointsLabel;
         private TextView totalPoints;
 
 
@@ -68,6 +70,7 @@ public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ResultIt
             completePoints = itemView.findViewById(R.id.completePoints);
             incompletePoints = itemView.findViewById(R.id.incompletePoints);
             numDestinationPoints = itemView.findViewById(R.id.numDestinationsPoints);
+            numDestinationPointsLabel = itemView.findViewById(R.id.textView14);
             totalPoints = itemView.findViewById(R.id.totalPoints);
 
         }
