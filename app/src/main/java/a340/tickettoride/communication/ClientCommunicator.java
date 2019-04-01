@@ -34,7 +34,7 @@ public class ClientCommunicator {
     }
 
     public Response sendCommand(ICommand commandToSend) {
-        final String TARGET_RECIPIENT = "http://ttr.zyn.us:8080/command";
+        final String TARGET_RECIPIENT = "http://ttr.zyn.zone:8080/command";
         Response result = null;
         HttpURLConnection connection;
 
