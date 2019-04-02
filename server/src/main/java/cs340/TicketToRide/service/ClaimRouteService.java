@@ -51,6 +51,16 @@ public class ClaimRouteService extends ActionService {
         checkSmallGameDoubleRoute(route, game);
 
         removeTrainCards(option, route, player, game);
+
+        if (game.getTrainCardDeck().size() == 0) {
+            game.addDiscardedToDrawDeck();
+        }
+
+        int numFaceUps = game.getFaceUpTrainCards().size();
+        for (int i = 0; i < 5 - numFaceUps; i++) {
+            replaceFaceUpCard(game, game.getTrainCardDeck(), game.getFaceUpTrainCards());
+        }
+
         removeTrainCars(route, player);
 
         route.occupy(playerId);
@@ -139,7 +149,6 @@ public class ClaimRouteService extends ActionService {
         for (DestinationCard card : player.getDestinationCards()) {
             if (!card.isCompleted() && game.playerCompletedDestCard(player.getId(), card)) {
                 card.setCompleted(true);
-//                player.setRoutePoints(player.getRoutePoints() + card.getPoints());
             }
         }
     }

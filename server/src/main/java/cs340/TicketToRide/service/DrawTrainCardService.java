@@ -65,23 +65,9 @@ public class DrawTrainCardService extends ActionService {
             throw new RuntimeException("Card not in faceup or facedown decks");
         }
 
-
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
         player.addTrainCard(card);
         updateGame(game, faceup, historyMessage, advanceTurn);
-    }
-
-    private void replaceFaceUpCard(Game game, TrainCards trainCardDeck,
-                                   TrainCards faceUpTrainCards) {
-        TrainCard newFaceUpCard = trainCardDeck.drawFromTop();
-
-        if (newFaceUpCard != null) {
-            faceUpTrainCards.add(newFaceUpCard);
-        }
-
-        if (game.hasTooManyFaceupLocomotives()) {
-            game.setupFaceUpCards();
-        }
     }
 
     private void updateGame(Game game, boolean faceup, Message historyMessage, boolean advanceTurn) {

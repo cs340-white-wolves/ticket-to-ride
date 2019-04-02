@@ -5,6 +5,8 @@ import cs340.TicketToRide.model.ClientProxyManager;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
+import cs340.TicketToRide.model.game.card.TrainCard;
+import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 
 public abstract class ActionService {
@@ -56,6 +58,19 @@ public abstract class ActionService {
             IClient client = proxyManager.get(curPlayer.getId());
             client.playersUpdated(players);
             client.endGame();
+        }
+    }
+
+    protected void replaceFaceUpCard(Game game, TrainCards trainCardDeck,
+                                   TrainCards faceUpTrainCards) {
+        TrainCard newFaceUpCard = trainCardDeck.drawFromTop();
+
+        if (newFaceUpCard != null) {
+            faceUpTrainCards.add(newFaceUpCard);
+        }
+
+        if (game.hasTooManyFaceupLocomotives()) {
+            game.setupFaceUpCards();
         }
     }
 }
