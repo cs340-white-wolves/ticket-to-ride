@@ -1,5 +1,6 @@
 package a340.tickettoride.presenter;
 
+import java.nio.charset.Charset;
 import java.util.List;
 
 import a340.tickettoride.ServiceFacade;
@@ -10,6 +11,7 @@ import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IChatPresenter;
 import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.utility.Username;
+
 
 public class ChatPresenter implements IChatPresenter, ModelObserver {
     private View listener;
@@ -44,7 +46,18 @@ public class ChatPresenter implements IChatPresenter, ModelObserver {
 
     @Override
     public void onSendPress() {
+        // in this case, they case send input like "    " but I think it's fine
         String input = listener.getMessageInput();
+        if (input == null || input.equals("")) {
+            return;
+        }
+
+        if (!Charset.forName("US-ASCII").newEncoder().canEncode(input)) {
+            listener.clearMessageInput();
+            listener.displayMessage("Invalid Message");
+            return;
+        }
+
         IClientModel model = ClientModel.getInstance();
         Username username = model.getLoggedInUser().getUsername();
         Message message = new Message(username, input);
@@ -56,6 +69,7 @@ public class ChatPresenter implements IChatPresenter, ModelObserver {
         void setChatMsgsFromPoller(List<Message> message);
         String getMessageInput();
         void clearMessageInput();
+        void displayMessage(String invalid_message);
     }
 
 }

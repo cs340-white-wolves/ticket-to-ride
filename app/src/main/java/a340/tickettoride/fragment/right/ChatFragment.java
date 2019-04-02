@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -102,5 +103,10 @@ public class ChatFragment extends Fragment implements ChatPresenter.View {
     @Override
     public void clearMessageInput() {
         mChatInput.setText("");
+    }
+
+    @Override
+    public void displayMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 }
