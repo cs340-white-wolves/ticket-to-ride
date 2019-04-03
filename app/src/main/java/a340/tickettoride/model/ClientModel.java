@@ -158,7 +158,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         notifyObservers(ModelChangeType.GameHistoryReceived, historyMessages);
     }
 
-    private void startGameListPoller() {
+    public void startGameListPoller() {
         poller.runUpdateGameList();
     }
 
@@ -166,7 +166,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         poller.runGetGameCommands();
     }
 
-    private void stopPoller() {
+    public void stopPoller() {
         poller.stop();
     }
 
@@ -412,5 +412,14 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     public void onSelectedSingleCard() {
         notifyObservers(ModelChangeType.SelectedSingleCard, null);
+    }
+
+    public void clearGame() {
+        chatMessages.clear();
+        historyMessages.clear();
+        lobbyGameList.clear();
+        playerId = null;
+        activeGame = null;
+        lastExecutedCommandIndex = -1;
     }
 }
