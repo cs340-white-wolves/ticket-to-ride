@@ -10,6 +10,7 @@ public class ResultsPresenter implements IResultsPresenter {
     public void terminateGame() {
         ClientModel model = ClientModel.getInstance();
         model.stopPoller();
+        model.clearGame();
         model.startGameListPoller();
     }
 

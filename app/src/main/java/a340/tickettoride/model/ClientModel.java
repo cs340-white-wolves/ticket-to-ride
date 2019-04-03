@@ -413,4 +413,13 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     public void onSelectedSingleCard() {
         notifyObservers(ModelChangeType.SelectedSingleCard, null);
     }
+
+    public void clearGame() {
+        chatMessages.clear();
+        historyMessages.clear();
+        lobbyGameList.clear();
+        playerId = null;
+        activeGame = null;
+        lastExecutedCommandIndex = -1;
+    }
 }
