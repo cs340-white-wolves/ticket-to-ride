@@ -6,6 +6,7 @@ import cs340.TicketToRide.model.*;
 import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Player;
+import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
@@ -40,6 +41,12 @@ public class DiscardDestCardService extends ActionService {
         game.addCardsToDestCardDeck(discardCards);
         String msg = "Drew " + (3 - discardCards.size()) + " destination cards";
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
+
+        for (DestinationCard card : allCards) {
+            if (!card.isCompleted() && game.playerCompletedDestCard(playerId, card)) {
+                card.setCompleted(true);
+            }
+        }
 
         for (Player gamePlayer : game.getPlayers()) {
             IClient client = ClientProxyManager.getInstance().get(gamePlayer.getId());
