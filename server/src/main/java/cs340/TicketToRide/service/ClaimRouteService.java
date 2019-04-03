@@ -10,6 +10,7 @@ import cs340.TicketToRide.model.IServerModel;
 import cs340.TicketToRide.model.ServerModel;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.game.Game;
+import static cs340.TicketToRide.model.game.Game.MAX_FACE_UP;
 import cs340.TicketToRide.model.game.Message;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
@@ -52,12 +53,12 @@ public class ClaimRouteService extends ActionService {
 
         removeTrainCards(option, route, player, game);
 
-        if (game.getTrainCardDeck().size() == 0) {
+        if (game.getTrainCardDeck().isEmpty()) {
             game.addDiscardedToDrawDeck();
         }
 
         int numFaceUps = game.getFaceUpTrainCards().size();
-        for (int i = 0; i < 5 - numFaceUps; i++) {
+        for (int i = 0; i < MAX_FACE_UP - numFaceUps; i++) {
             replaceFaceUpCard(game, game.getTrainCardDeck(), game.getFaceUpTrainCards());
         }
 
@@ -164,6 +165,8 @@ public class ClaimRouteService extends ActionService {
             client.routeUpdated(route);
             client.playersUpdated(players);
             client.historyMessageReceived(historyMessage);
+            client.faceUpDeckChanged(game.getFaceUpTrainCards());
+            client.trainCardDeckChanged(game.getTrainCardDeck());
         }
 
         boolean end = checkToEndGame(game);
