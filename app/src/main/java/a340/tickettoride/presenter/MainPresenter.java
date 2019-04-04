@@ -2,6 +2,9 @@ package a340.tickettoride.presenter;
 
 import android.util.Log;
 
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
+
 import a340.tickettoride.ServiceFacade;
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
@@ -71,6 +74,11 @@ public class MainPresenter implements ModelObserver, IMainPresenter {
     private void setUsernamePassword(String usernameStr, String passStr) {
         if (usernameStr == null || passStr == null || usernameStr.equals("") || passStr.equals("")) {
             throw new IllegalArgumentException();
+        }
+
+        CharsetEncoder charsetEncoder = Charset.forName("US-ASCII").newEncoder();
+        if (!charsetEncoder.canEncode(usernameStr) || !charsetEncoder.canEncode(passStr)) {
+            throw new IllegalArgumentException("Invalid Input");
         }
 
         username = new Username(usernameStr);
