@@ -42,7 +42,7 @@ public class CommandHandler implements HttpHandler{
             }
             String jsonStr = gson.toJson(response);
 
-            System.out.println(jsonStr);
+            //System.out.println(jsonStr);
             httpExchange.sendResponseHeaders(200, jsonStr.length());
 
             osw.write(jsonStr);
