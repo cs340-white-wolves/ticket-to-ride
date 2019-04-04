@@ -100,8 +100,14 @@ public class MainActivity extends AppCompatActivity implements MainPresenter.Vie
 
     @Override
     public void onAuthenticated() {
-        Intent intent = new Intent(MainActivity.this, LobbyActivity.class);
-        startActivity(intent);
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(MainActivity.this, LobbyActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
