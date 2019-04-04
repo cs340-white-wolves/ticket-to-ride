@@ -106,7 +106,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onPause() {
         super.onPause();
         presenter.stopObserving();
-        drawRoutesPresenter.startObserving();
+        drawRoutesPresenter.stopObserving();
         placeTrainsPresenter.stopObserving();
     }
 
