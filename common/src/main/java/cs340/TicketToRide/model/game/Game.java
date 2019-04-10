@@ -282,27 +282,6 @@ public class Game {
 
         } while (hasTooManyFaceupLocomotives() && iteration <= MAX_ITERATIONS);
 
-        if (hasTooManyFaceupLocomotives()) {
-            discardedTrainCards.addAll(faceUpTrainCards);
-            faceUpTrainCards.clear();
-
-            addDiscardedToDrawDeck();
-
-            for (TrainCard card : trainCardDeck) {
-                if (faceUpTrainCards.size() < MAX_FACE_UP
-                        && card.getColor() != TrainCard.Color.locomotive) {
-                    trainCardDeck.remove(card);
-                    faceUpTrainCards.add(card);
-                }
-            }
-
-            for (int size = faceUpTrainCards.size(); size < MAX_FACE_UP; size++) {
-                TrainCard card = trainCardDeck.drawFromTop();
-                if (card != null) {
-                    faceUpTrainCards.add(card);
-                }
-            }
-        }
     }
 
     public void addDiscardedToDrawDeck() {
