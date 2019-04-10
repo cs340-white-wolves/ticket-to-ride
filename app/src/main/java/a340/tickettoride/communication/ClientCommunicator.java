@@ -22,7 +22,7 @@ public class ClientCommunicator {
     private static ClientCommunicator SINGLETON = null;
     private Gson gson = new Gson();
 
-    private ClientCommunicator() {};
+    private ClientCommunicator() {}
 
     public static ClientCommunicator getInstance() {
 

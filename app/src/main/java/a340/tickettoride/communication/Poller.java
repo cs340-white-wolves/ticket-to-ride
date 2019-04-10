@@ -43,7 +43,7 @@ public class Poller {
                     Log.e("Poller", t.getMessage());
                 }
             }
-        }, 0, POLLER_FREQUENCY, TimeUnit.SECONDS);
+        }, 0, 5, TimeUnit.SECONDS);
     }
 
     public void runGetGameCommands() {
