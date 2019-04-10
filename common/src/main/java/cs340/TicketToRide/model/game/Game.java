@@ -281,6 +281,7 @@ public class Game {
             iteration++;
 
         } while (hasTooManyFaceupLocomotives() && iteration <= MAX_ITERATIONS);
+
     }
 
     public void addDiscardedToDrawDeck() {
