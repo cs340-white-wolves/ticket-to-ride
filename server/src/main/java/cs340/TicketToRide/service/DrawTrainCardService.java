@@ -1,6 +1,5 @@
 package cs340.TicketToRide.service;
 
-import cs340.TicketToRide.ClientProxy;
 import cs340.TicketToRide.IClient;
 import cs340.TicketToRide.exception.AuthenticationException;
 import cs340.TicketToRide.model.AuthToken;
@@ -16,11 +15,11 @@ import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.model.game.card.TrainCards;
 import cs340.TicketToRide.utility.ID;
 
-public class DrawTrainCardService {
+public class DrawTrainCardService extends ActionService {
 
     public static final int SINGLE_CARD = 1;
 
-    public void drawTrainCard(TrainCard card, AuthToken token, ID gameId, ID playerId) {
+    public void drawTrainCard(TrainCard card, boolean advanceTurn, AuthToken token, ID gameId, ID playerId) {
         IServerModel model = ServerModel.getInstance();
         User user = model.getUserByAuthToken(token);
         if (user == null) {
@@ -38,11 +37,11 @@ public class DrawTrainCardService {
             throw new RuntimeException("Player not in game");
         }
 
-        addCardToPlayer(game, card, player);
+        addCardToPlayer(game, card, player, advanceTurn);
 
     }
 
-    private void addCardToPlayer(Game game, TrainCard card, Player player) {
+    private void addCardToPlayer(Game game, TrainCard card, Player player, boolean advanceTurn) {
         TrainCards trainCardDeck = game.getTrainCardDeck();
         TrainCards faceUpTrainCards = game.getFaceUpTrainCards();
         boolean faceup;
@@ -60,7 +59,7 @@ public class DrawTrainCardService {
         } else if (faceUpTrainCards.contains(card)) {
             faceUpTrainCards.remove(card);
             replaceFaceUpCard(game, trainCardDeck, faceUpTrainCards);
-            msg = "Drew face up " + card.getColor() + " train card";
+            msg = "Drew face up " + card.toString() + " train card";
             faceup = true;
         } else {
             throw new RuntimeException("Card not in faceup or facedown decks");
@@ -68,25 +67,13 @@ public class DrawTrainCardService {
 
         Message historyMessage = new Message(player.getUser().getUsername(), msg);
         player.addTrainCard(card);
-        updateGame(game, faceup, historyMessage);
+        updateGame(game, faceup, historyMessage, advanceTurn);
     }
 
-    private void replaceFaceUpCard(Game game, TrainCards trainCardDeck,
-                                  TrainCards faceUpTrainCards) {
-        TrainCard newFaceUpCard = trainCardDeck.drawFromTop();
-
-        if (newFaceUpCard != null) {
-            faceUpTrainCards.add(newFaceUpCard);
-        }
-
-        if (game.hasTooManyFaceupLocomotives()) {
-            game.setupFaceUpCards();
-        }
-    }
-
-    private void updateGame(Game game, boolean faceup, Message historyMessage) {
+    private void updateGame(Game game, boolean faceup, Message historyMessage, boolean advanceTurn) {
         ClientProxyManager proxyManager = ClientProxyManager.getInstance();
         Players players = game.getPlayers();
+
         for (Player curPlayer : players) {
             IClient client = proxyManager.get(curPlayer.getId());
             client.playersUpdated(players);
@@ -97,6 +84,19 @@ public class DrawTrainCardService {
 
             client.trainCardDeckChanged(game.getTrainCardDeck());
             client.historyMessageReceived(historyMessage);
+        }
+
+        if (advanceTurn) {
+            boolean end = checkToEndGame(game);
+
+            if (! end) {
+                game.setNextPlayerTurn();
+
+                for (Player curPlayer : players) {
+                    IClient client = proxyManager.get(curPlayer.getId());
+                    client.setTurn(game.getCurrentPlayerTurnIdx());
+                }
+            }
         }
     }
 }

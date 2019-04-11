@@ -56,9 +56,14 @@ public class JoinGameActivity extends AppCompatActivity implements JoinGamePrese
 
     @Override
     public void onGameJoined() {
-        // start Pending activity
-        Intent intent = new Intent(JoinGameActivity.this, PendingActivity.class);
-        startActivity(intent);
+        this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(JoinGameActivity.this, PendingActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override

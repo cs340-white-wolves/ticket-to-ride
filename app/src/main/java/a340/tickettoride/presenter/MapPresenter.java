@@ -1,8 +1,5 @@
 package a340.tickettoride.presenter;
 
-import android.util.Log;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -12,21 +9,22 @@ import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IMapPresenter;
+import cs340.TicketToRide.utility.RouteColorOption;
+import cs340.TicketToRide.model.game.Game;
 import cs340.TicketToRide.model.game.Player;
 import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.City;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.utility.ID;
 
 public class MapPresenter implements IMapPresenter, ModelObserver {
+
     private View view;
     private IClientModel model = ClientModel.getInstance();
 
     public MapPresenter(View view) {
         this.view = view;
-
     }
 
     @Override
@@ -41,41 +39,21 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
 
     @Override
     public void onModelEvent(ModelChangeType changeType, Object obj) {
-        if (changeType == ModelChangeType.GameStarted) {
-            Log.i("MapPresenter", "Game Started!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            view.chooseDestCard();
-
-        } else if (changeType == ModelChangeType.AdvanceTurn) {
-            advanceTurn();
-
+        if (changeType == ModelChangeType.SetTurn) {
+            onSetTurn((Integer) obj);
+            view.lockDrawer(false);
         } else if (changeType == ModelChangeType.RouteClaimed) {
             view.showRouteIsClaimed((Route) obj);
+        } else if (changeType == ModelChangeType.EndGame) {
+            view.displayResults((Players) obj);
+        } else if (changeType == ModelChangeType.SelectedSingleCard) {
+            view.lockDrawer(true);
         }
+
     }
 
     public Set<City> getActiveGameCities() {
         return null;
-    }
-
-    @Override
-    public void discardDestCards() {
-        DestinationCards selectedCards = view.getSelectedDestinationCards();
-        DestinationCards discardedCards = new DestinationCards();
-        Player player = model.getPlayerFromGame();
-        DestinationCards allCards = player.getDestinationCards();
-        for (DestinationCard card : allCards) {
-            if (!selectedCards.contains(card)) {
-                discardedCards.add(card);
-            }
-        }
-
-        ServiceFacade.getInstance().discardDestCards(discardedCards);
-    }
-
-    @Override
-    public void placeTrains() {
-        Route route = view.getSelectedRoute();
-        ServiceFacade.getInstance().claimRoute(route);
     }
 
     @Override
@@ -89,10 +67,18 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     @Override
-    public void advanceTurn() {
-        view.displayNextPlayersTurn();
+    public void onSetTurn(int playerIdx) {
+        view.displayPlayerTurn(playerIdx);
         if (model.activePlayerTurn()) {
-            view.enableButtons();
+            model.startTurn();
+            Game activeGame = model.getActiveGame();
+            int destCardSize = activeGame.getDestCardDeck().size();
+            int numTrainCards = activeGame.getTrainCardDeck().size()
+                    + activeGame.getFaceUpTrainCards().size();
+            view.enableButtons(destCardSize != 0, numTrainCards != 0);
+            if (activeGame.getLastRoundLastPlayerId() != null) {
+                view.displayLastTurn();
+            }
         } else {
             view.disableButtons();
         }
@@ -101,6 +87,11 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     @Override
     public void startPoller() {
         model.startGameCommandPoller();
+    }
+
+    @Override
+    public void onClickDrawDestCards() {
+        ServiceFacade.getInstance().drawDestCards();
     }
 
     @Override
@@ -114,23 +105,28 @@ public class MapPresenter implements IMapPresenter, ModelObserver {
     }
 
     @Override
-    public List<Route> getPossibleRoutesToClaim() {
-        // todo: implement this
-        return new ArrayList<>();
-    }
+    public boolean isActivePlayerTurn() {
+        Game activeGame = model.getActiveGame();
+        int idx = activeGame.getCurrentPlayerTurnIdx();
+        Player player = activeGame.getPlayers().get(idx);
 
-    @Override
-    public DestinationCards getPlayerDestCards() {
-        return model.getPlayerFromGame().getDestinationCards();
+        return player.getId().equals(model.getPlayerId());
     }
 
     public interface View {
-        void displayNextPlayersTurn();
+        void displayPlayerTurn(int playerIdx);
         void showRouteIsClaimed(Route route);
         DestinationCards getSelectedDestinationCards();
+        DestinationCards getRecentlyAddedDestCards();
         Route getSelectedRoute();
-        void enableButtons();
+        void enableButtons(final boolean enableRoutesBtn, final boolean enableCardsBtn);
         void disableButtons();
-        void chooseDestCard();
+        void openDrawer(int side, boolean lockDrawer);
+        void closeDrawer(int side);
+        void displayResults(Players players);
+        void chooseDestCard(DestinationCards cards, int minCardsToKeep);
+        void displayLastTurn();
+        void lockDrawer(boolean b);
+        void initColorOptionsDialog(List<RouteColorOption> options);
     }
 }

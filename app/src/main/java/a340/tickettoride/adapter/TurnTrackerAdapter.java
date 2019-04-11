@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
 
 import a340.tickettoride.R;
 import a340.tickettoride.activity.MapActivity;
@@ -55,19 +54,8 @@ public class TurnTrackerAdapter extends RecyclerView.Adapter<TurnTrackerAdapter.
         return players.size();
     }
 
-    public void setActivePlayerIndex(int index) {
-        if (index == getItemCount()) {
-            index = 0;
-        }
-        this.activePlayerIndex = index;
-    }
-
-    public void setNextActivePlayer() {
-        activePlayerIndex++;
-        if (activePlayerIndex == getItemCount()) {
-            activePlayerIndex = 0;
-        }
-        notifyDataSetChanged();
+    public void setActivePlayer(int playerIdx) {
+        activePlayerIndex = playerIdx;
     }
 
     //This class is the layout/view for each individual list item

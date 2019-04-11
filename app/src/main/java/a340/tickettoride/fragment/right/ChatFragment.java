@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -28,32 +29,24 @@ public class ChatFragment extends Fragment implements ChatPresenter.View {
     private LinearLayoutManager mLinearLayoutManager;
     private RecyclerView mRecyclerView;
 
-    public ChatFragment() {
-        presenter = new ChatPresenter(this);
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        presenter.startObserving();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
+    public void onDestroy() {
+        super.onDestroy();
         presenter.stopObserving();
     }
 
     @Override
     public android.view.View onCreateView(LayoutInflater inflater, ViewGroup container,
                                           Bundle savedInstanceState) {
+        presenter = new ChatPresenter(this);
+
+        presenter.startObserving();
+
         // Inflate the layout for this fragment
         android.view.View inflate = inflater.inflate(R.layout.fragment_chat, container, false);
 
@@ -110,5 +103,10 @@ public class ChatFragment extends Fragment implements ChatPresenter.View {
     @Override
     public void clearMessageInput() {
         mChatInput.setText("");
+    }
+
+    @Override
+    public void displayMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 }

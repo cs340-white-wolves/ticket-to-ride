@@ -9,7 +9,6 @@ import java.util.Set;
 import cs340.TicketToRide.model.game.board.Board;
 import cs340.TicketToRide.model.game.board.City;
 import cs340.TicketToRide.model.game.board.Route;
-import cs340.TicketToRide.model.game.card.Deck;
 import cs340.TicketToRide.model.game.card.DestinationCard;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
@@ -22,6 +21,8 @@ public class Game {
     public static final int MAX_PLAYERS = 5;
     public static final int MAX_FACE_UP = 5;
     public static final int MAX_FACEUP_LOCOMOTIVES = 2;
+    public static final int MAX_ITERATIONS = 5;
+    public static final int MIN_NUM_PLAYERS_FOR_DOUBLE_ROUTES = 4;
 
     private int targetNumPlayers;
     private Players players;
@@ -33,10 +34,14 @@ public class Game {
     private TrainCards trainCardDeck;
     private DestinationCards destinationCardDeck;
     private int currentPlayerTurnIdx = 0;
+    private ID lastRoundLastPlayerId = null;
+    private boolean preGame = true;
+    private int playersLeftToDiscard;
 
     public Game(int targetNumPlayers, Username creator) {
         setTargetNumPlayers(targetNumPlayers);
         players = new Players();
+        playersLeftToDiscard = targetNumPlayers;
         gameID = ID.generateID();
         board = new Board();
         discardedTrainCards = new TrainCards();
@@ -119,8 +124,9 @@ public class Game {
                     return true;
                 }
 
-                if (!visitedCities.contains(intermediate)) {
-                    return pathOwnedByPlayer(playerId, intermediate, target, visitedCities);
+                if (!visitedCities.contains(intermediate) &&
+                        pathOwnedByPlayer(playerId, intermediate, target, visitedCities)) {
+                    return true;
                 }
             }
         }
@@ -157,6 +163,10 @@ public class Game {
 
     public int getNumCurrentPlayers() {
         return players.size();
+    }
+
+    public boolean canUseDoubleRoutes () {
+        return (getNumCurrentPlayers() >= MIN_NUM_PLAYERS_FOR_DOUBLE_ROUTES);
     }
 
     public void setTargetNumPlayers(int targetNumPlayers) {
@@ -238,7 +248,7 @@ public class Game {
             }
 
             player.setColor(values[i]);
-            player.setScore(0);
+            player.setRoutePoints(0);
             player.setNumTrains(45);
         }
 
@@ -248,9 +258,7 @@ public class Game {
     }
 
     public void setupFaceUpCards() {
-
-        // TODO: UNLIKELY CASE WHERE THE ONLY CARDS LEFT HAVE 3+ OF LOCOMOTIVES, COULD CAUSE INFINITE LOOP
-        // TODO: PASSED FROM DISCARD TO DRAW DECK TO FACE UP
+        int iteration = 0;
 
         do {
             if (hasTooManyFaceupLocomotives()) {
@@ -270,7 +278,10 @@ public class Game {
                 }
             }
 
-        } while (hasTooManyFaceupLocomotives());
+            iteration++;
+
+        } while (hasTooManyFaceupLocomotives() && iteration <= MAX_ITERATIONS);
+
     }
 
     public void addDiscardedToDrawDeck() {
@@ -303,6 +314,10 @@ public class Game {
         this.board = board;
     }
 
+    public void addDiscardedTrainCards(TrainCards cards) {
+        this.discardedTrainCards.addAll(cards);
+    }
+
     public TrainCards getDiscardedTrainCards() {
         return discardedTrainCards;
     }
@@ -317,6 +332,10 @@ public class Game {
 
     public void setFaceUpTrainCards(TrainCards faceUpTrainCards) {
         this.faceUpTrainCards = faceUpTrainCards;
+    }
+
+    public void setTrainCardDeck(TrainCards newTrainCardDeck) {
+        this.trainCardDeck = newTrainCardDeck;
     }
 
     public TrainCards getTrainCardDeck() {
@@ -359,5 +378,27 @@ public class Game {
             }
         }
         return null;
+    }
+
+    public ID getLastRoundLastPlayerId() {
+        return lastRoundLastPlayerId;
+    }
+
+    public void setLastRoundLastPlayerId(ID lastRoundLastPlayerId) {
+        this.lastRoundLastPlayerId = lastRoundLastPlayerId;
+    }
+  
+    public void decrementPlayersLeftToDiscard() {
+        this.playersLeftToDiscard--;
+    }
+
+    public boolean allPlayersReady() {
+        return playersLeftToDiscard == 0;
+    }
+
+    public void updateRoute(Route route) {
+        Set<Route> routes = board.getRoutes();
+        routes.remove(route);
+        routes.add(route);
     }
 }

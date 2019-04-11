@@ -214,12 +214,12 @@ public class Route {
 
     @Override
     public int hashCode() {
-        return city1.getName().hashCode() * city2.getName().hashCode() +  31 * priority;
+        return city1.hashCode() * city2.hashCode() +  31 * priority;
     }
 
     @Override
     public String toString() {
-        return city1.getName() + ", " + city2.getName() + ": " + getPointValue();
+        return city1.getName() + ", " + city2.getName() + ": " + getLength() + " " + TrainCard.getColorName(this.getColor());
     }
 
     public boolean contains(City city) {
@@ -251,6 +251,16 @@ public class Route {
             return false;
         }
 
-        return this.city1 == route.city1 && this.city2 == route.city2;
+        return this.city1.equals(route.city1) && this.city2.equals(route.city2);
+    }
+
+    public boolean isDuplicate(Route route) {
+        return this.city1.equals(route.city1) &&
+                this.city2.equals(route.city2) &&
+                this.color == route.color;
+    }
+
+    public boolean unOccupied() {
+        return occupierId == null;
     }
 }

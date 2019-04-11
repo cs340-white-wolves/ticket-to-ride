@@ -18,6 +18,7 @@ import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCard;
 import cs340.TicketToRide.utility.ID;
 import cs340.TicketToRide.utility.Password;
+import cs340.TicketToRide.utility.RouteColorOption;
 import cs340.TicketToRide.utility.Username;
 
 public class ServerProxy implements IServer {
@@ -175,23 +176,34 @@ public class ServerProxy implements IServer {
     }
 
     @Override
-    public void claimRoute(Route route, AuthToken token, ID gameID, ID playerId) {
+    public void claimRoute(Route route, RouteColorOption option, AuthToken token, ID gameID, ID playerId) {
         ICommand command = new Command(
                 "claimRoute",
-                new String[]{Route.class.getName(), AuthToken.class.getName(),
+                new String[]{Route.class.getName(), RouteColorOption.class.getName(),
+                        AuthToken.class.getName(),
                         ID.class.getName(), ID.class.getName()},
-                new Object[]{route, token, gameID, playerId}
+                new Object[]{route, option, token, gameID, playerId}
         );
         communicator.sendCommand(command);
     }
 
     @Override
-    public void drawTrainCard(TrainCard card, AuthToken token, ID gameId, ID playerId) {
+    public void drawTrainCard(TrainCard card, boolean advanceTurn, AuthToken token, ID gameId, ID playerId) {
         ICommand command = new Command(
                 "drawTrainCard",
-                new String[]{TrainCard.class.getName(), AuthToken.class.getName(),
+                new String[]{TrainCard.class.getName(), boolean.class.getName(), AuthToken.class.getName(),
                         ID.class.getName(), ID.class.getName()},
-                new Object[]{card, token, gameId, playerId}
+                new Object[]{card, advanceTurn, token, gameId, playerId}
+        );
+        communicator.sendCommand(command);
+    }
+
+    @Override
+    public void drawDestCards(AuthToken token, ID gameId, ID playerId) {
+        ICommand command = new Command(
+                "drawDestCards",
+                new String[]{AuthToken.class.getName(), ID.class.getName(), ID.class.getName()},
+                new Object[]{token, gameId, playerId}
         );
         communicator.sendCommand(command);
     }

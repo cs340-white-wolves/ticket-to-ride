@@ -77,7 +77,10 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
             startIndex++;
         }
 
-        lastExecutedCommandIndex = queuedCommands.getEndIndex();
+        // Check if this causes bugs
+        if (lastExecutedCommandIndex < queuedCommands.getEndIndex()) {
+            lastExecutedCommandIndex = queuedCommands.getEndIndex();
+        }
     }
 
     private void setActiveGameFromGames(Games lobbyGameList) {
@@ -155,7 +158,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         notifyObservers(ModelChangeType.GameHistoryReceived, historyMessages);
     }
 
-    private void startGameListPoller() {
+    public void startGameListPoller() {
         poller.runUpdateGameList();
     }
 
@@ -163,7 +166,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         poller.runGetGameCommands();
     }
 
-    private void stopPoller() {
+    public void stopPoller() {
         poller.stop();
     }
 
@@ -271,12 +274,15 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
         notifyObservers(ModelChangeType.DrawableDestinationCardCount, activeGame.getDestCardDeck().size());
     }
 
+    @Override
     public void updateTrainCardDeck(TrainCards cards) {
-        activeGame.setFaceUpTrainCards(cards);
-        notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getFaceUpTrainCards().size());
+        activeGame.setTrainCardDeck(cards);
+        notifyObservers(ModelChangeType.DrawableTrainCardCount, activeGame.getTrainCardDeck().size());
+        notifyObservers(ModelChangeType.BankUpdated, null);
 
     }
 
+    @Override
     public void updateFaceUpTrainCards(TrainCards faceUpCards) {
         activeGame.setFaceUpTrainCards(faceUpCards);
         notifyObservers(ModelChangeType.FaceUpTrainCardsUpdate, activeGame.getFaceUpTrainCards());
@@ -284,16 +290,52 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
     public void updateRoute(Route route) {
+        activeGame.updateRoute(route);
         notifyObservers(ModelChangeType.RouteClaimed, route);
     }
 
+    @Override
+    public void onDestCardsAdded(DestinationCards cardsToAddToPlayer) {
+        notifyObservers(ModelChangeType.DestCardsAdded, cardsToAddToPlayer);
+    }
+
+    @Override
+    public List<Message> getHistoryMessages() {
+        return historyMessages;
+    }
+
+    public void setHistoryMessages(List<Message> historyMessages) {
+        this.historyMessages = historyMessages;
+    }
+
+    public void startTurn() {
+        notifyObservers(ModelChangeType.StartTurn, null);
+    }
+
+    public Players getPlayers() {
+        return this.activeGame.getPlayers();
+    }
+
+
+    public void setTurn(int playerIdx) {
+        activeGame.setCurrentPlayerTurnIdx(playerIdx);
+        notifyObservers(ModelChangeType.SetTurn, playerIdx);
+    }
+
+    @Override
+    public void setLastRoundLastPlayerId(ID playerId) {
+        activeGame.setLastRoundLastPlayerId(playerId);
+    }
+
+    @Override
+    public void endGame() {
+        notifyObservers(ModelChangeType.EndGame, activeGame.getPlayers());
+    }
+
+
+
     //=================================Testing Methods===============================
 
-
-    public void advanceTurn() {
-        activeGame.setNextPlayerTurn();
-        notifyObservers(ModelChangeType.AdvanceTurn, null);
-    }
 
     public void addChatMessages() {
         for(Player player: activeGame.getPlayers()) {
@@ -305,7 +347,7 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
 
     public void updateActivePlayersPoints(int points) {
         Player player = getPlayerFromGame();
-        player.setScore(points);
+        player.setRoutePoints(points);
         updatePlayers(activeGame.getPlayers());
     }
 
@@ -368,7 +410,16 @@ public class ClientModel extends ModelObservable implements IClientModel, Poller
     }
 
 
+    public void onSelectedSingleCard() {
+        notifyObservers(ModelChangeType.SelectedSingleCard, null);
+    }
 
-
-
+    public void clearGame() {
+        chatMessages.clear();
+        historyMessages.clear();
+        lobbyGameList.clear();
+        playerId = null;
+        activeGame = null;
+        lastExecutedCommandIndex = -1;
+    }
 }

@@ -1,10 +1,13 @@
 package a340.tickettoride.presenter;
 
+import java.util.List;
+
 import a340.tickettoride.model.ClientModel;
 import a340.tickettoride.model.IClientModel;
 import a340.tickettoride.observerable.ModelChangeType;
 import a340.tickettoride.observerable.ModelObserver;
 import a340.tickettoride.presenter.interfaces.IGameHistoryPresenter;
+import cs340.TicketToRide.model.game.Message;
 
 public class GameHistoryPresenter implements IGameHistoryPresenter, ModelObserver {
     private View listener;
@@ -26,14 +29,19 @@ public class GameHistoryPresenter implements IGameHistoryPresenter, ModelObserve
     }
 
     @Override
+    public List<Message> getHistoryMessages() {
+        return model.getHistoryMessages();
+    }
+
+    @Override
     public void onModelEvent(ModelChangeType changeType, Object obj) {
         if (changeType == ModelChangeType.GameHistoryReceived) {
-            // TODO: stuff
+            listener.setMessagesFromPoller((List<Message>)obj);
         }
     }
 
     public interface View {
-        // TODO: stuff
+        void setMessagesFromPoller(List<Message> historyMessages);
     }
 
 }

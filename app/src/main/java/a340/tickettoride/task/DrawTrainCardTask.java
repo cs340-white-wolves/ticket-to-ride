@@ -15,9 +15,11 @@ public class DrawTrainCardTask extends AsyncTask<Void, Integer, Void> {
     private IClientModel model = ClientModel.getInstance();
     private Exception exception;
     private TrainCard card;
+    private boolean advanceTurn;
 
-    public DrawTrainCardTask(TrainCard card) {
+    public DrawTrainCardTask(TrainCard card, boolean advanceTurn) {
         this.card = card;
+        this.advanceTurn = advanceTurn;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class DrawTrainCardTask extends AsyncTask<Void, Integer, Void> {
         ID playerId = model.getPlayerId();
 
         try {
-            server.drawTrainCard(card, token, gameId, playerId);
+            server.drawTrainCard(card, advanceTurn, token, gameId, playerId);
         } catch (Exception e) {
             exception = e;
         }

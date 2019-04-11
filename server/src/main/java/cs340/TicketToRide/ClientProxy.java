@@ -7,6 +7,7 @@ import cs340.TicketToRide.model.game.Players;
 import cs340.TicketToRide.model.game.board.Route;
 import cs340.TicketToRide.model.game.card.DestinationCards;
 import cs340.TicketToRide.model.game.card.TrainCards;
+import cs340.TicketToRide.utility.ID;
 
 public class ClientProxy implements IClient {
     public ClientCommandQueue queue = new ClientCommandQueue();
@@ -95,5 +96,45 @@ public class ClientProxy implements IClient {
                 new Object[]{route}
         );
         queue.add(updateRoute);
+    }
+
+    @Override
+    public void addedDestCards(DestinationCards cardsToAddToPlayer) {
+        Command command = new Command(
+                "addedDestCards",
+                new String[]{DestinationCards.class.getName()},
+                new Object[]{cardsToAddToPlayer}
+        );
+        queue.add(command);
+    }
+
+    @Override
+    public void setTurn(int playerIdx) {
+        Command command = new Command(
+                "setTurn",
+                new String[]{int.class.getName()},
+                new Object[]{playerIdx}
+        );
+        queue.add(command);
+    }
+
+    @Override
+    public void setLastRoundLastPlayer(ID playerId) {
+        Command command = new Command(
+                "setLastRoundLastPlayer",
+                new String[]{ID.class.getName()},
+                new Object[]{playerId}
+        );
+        queue.add(command);
+    }
+
+    @Override
+    public void endGame() {
+        Command command = new Command(
+                "endGame",
+                new String[]{},
+                new Object[]{}
+        );
+        queue.add(command);
     }
 }

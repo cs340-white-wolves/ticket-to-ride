@@ -22,7 +22,7 @@ public class ClientCommunicator {
     private static ClientCommunicator SINGLETON = null;
     private Gson gson = new Gson();
 
-    private ClientCommunicator() {};
+    private ClientCommunicator() {}
 
     public static ClientCommunicator getInstance() {
 
@@ -34,7 +34,7 @@ public class ClientCommunicator {
     }
 
     public Response sendCommand(ICommand commandToSend) {
-        final String TARGET_RECIPIENT = "http://10.0.2.2:8080/command";
+        final String TARGET_RECIPIENT = "http://ttr.zyn.zone:8080/command";
         Response result = null;
         HttpURLConnection connection;
 

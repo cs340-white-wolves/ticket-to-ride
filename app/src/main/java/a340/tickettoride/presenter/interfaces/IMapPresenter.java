@@ -17,12 +17,10 @@ public interface IMapPresenter {
     void stopObserving();
     Players getPlayers();
     Player getPlayerById(ID playerId);
-    List<Route> getPossibleRoutesToClaim();
-    DestinationCards getPlayerDestCards();
-    void discardDestCards();
-    void placeTrains();
     Set<City> getCities();
     Set<Route> getRoutes();
-    void advanceTurn();
+    void onSetTurn(int playerIdx);
     void startPoller();
+    void onClickDrawDestCards();
+    boolean isActivePlayerTurn();
 }
