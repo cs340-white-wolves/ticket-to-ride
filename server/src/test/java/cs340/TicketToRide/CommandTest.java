@@ -17,7 +17,7 @@ public class CommandTest {
     private ServerFacade serverFacade = ServerFacade.getInstance();
 
     @Test
-    public void executeRegisterLocal() throws Exception {
+    public void executeRegisterLocal() {
         serverModel.clear();
 
         String[] paramTypes = {Username.class.getName(), Password.class.getName()};
@@ -28,7 +28,7 @@ public class CommandTest {
     }
 
     @Test
-    public void executeRegisterRemote() throws Exception {
+    public void executeRegisterRemote() {
         serverModel.clear();
 
         String[] paramTypes = {Username.class.getName(), Password.class.getName()};

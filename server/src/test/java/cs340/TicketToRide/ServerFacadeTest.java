@@ -47,7 +47,7 @@ public class ServerFacadeTest {
     }
 
     @Test
-    public void loginSuccess() throws Exception {
+    public void loginSuccess() {
         createUser();
 
         LoginRegisterResponse login = server.login(username, password);
@@ -60,14 +60,14 @@ public class ServerFacadeTest {
     }
 
     @Test(expected = AuthenticationException.class)
-    public void loginWrongPassword() throws Exception {
+    public void loginWrongPassword() {
         createUser();
 
         server.login(username, new Password("notpassword"));
     }
 
     @Test(expected = AuthenticationException.class)
-    public void loginNonExistent() throws Exception {
+    public void loginNonExistent() {
         createUser();
 
         server.login(new Username("nobody"), new Password("notpassword"));
@@ -101,12 +101,12 @@ public class ServerFacadeTest {
     }
 
     @Test
-    public void registerSuccess() throws Exception {
+    public void registerSuccess() {
         createUser();
     }
 
     @Test
-    public void registerNull() throws Exception {
+    public void registerNull() {
         try {
             server.register(null, null);
             fail();
@@ -127,13 +127,13 @@ public class ServerFacadeTest {
     }
 
     @Test(expected = NotUniqueException.class)
-    public void registerAlreadyExists() throws Exception {
+    public void registerAlreadyExists() {
         server.register(username, password);
         server.register(username, password);
     }
 
     @Test
-    public void createGame() throws Exception {
+    public void createGame() {
         createUser();
 
         LoginRegisterResponse resp = server.login(username, password);
@@ -150,7 +150,7 @@ public class ServerFacadeTest {
     }
 
     @Test
-    public void createGameFail() throws Exception {
+    public void createGameFail() {
         createUser();
 
         LoginRegisterResponse resp = server.login(username, password);
@@ -173,7 +173,7 @@ public class ServerFacadeTest {
     }
 
     @Test
-    public void joinGameSuccess() throws Exception {
+    public void joinGameSuccess() {
         LoginRegisterResponse host = server.register(new Username("player1"), new Password("1"));
         Username hostUsername = host.getUser().getUsername();
         AuthToken p1tok = host.getToken();
