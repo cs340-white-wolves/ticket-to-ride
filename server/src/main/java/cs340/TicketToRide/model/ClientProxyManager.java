@@ -7,7 +7,7 @@ import cs340.TicketToRide.ClientProxy;
 import cs340.TicketToRide.utility.ID;
 
 public class ClientProxyManager {
-    private static ClientProxyManager singleton;
+    private transient static ClientProxyManager singleton;
 
     private ClientProxyManager() {
     }
@@ -28,5 +28,9 @@ public class ClientProxyManager {
 
     public ClientProxy get(ID playerId) {
         return proxies.get(playerId);
+    }
+
+    public static void setSingleton(ClientProxyManager singleton) {
+        ClientProxyManager.singleton = singleton;
     }
 }

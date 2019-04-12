@@ -20,6 +20,7 @@ public class Commands {
     }
 
     public void add(Command cmd, int index) {
+
         commands.add(cmd);
 
         if (startIndex > index) {

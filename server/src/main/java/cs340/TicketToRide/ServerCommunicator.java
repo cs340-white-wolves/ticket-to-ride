@@ -4,9 +4,19 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.Set;
 import java.util.logging.*;
 
+import cs340.TicketToRide.communication.Command;
+import cs340.TicketToRide.communication.Commands;
+import cs340.TicketToRide.model.AuthManager;
+import cs340.TicketToRide.model.ClientProxyManager;
+import cs340.TicketToRide.model.Games;
+import cs340.TicketToRide.model.ServerModel;
+import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.db.IDaoFactory;
+import cs340.TicketToRide.model.db.IGameDao;
+import cs340.TicketToRide.model.db.IUserDao;
 
 public class ServerCommunicator {
 
@@ -41,11 +51,21 @@ public class ServerCommunicator {
         try {
             server.checkParameters(args);
             PersistencePluginManager ppm = PersistencePluginManager.getInstance();
-            IDaoFactory flatfile = ppm.createPluginFactory(args[0]);
+            IDaoFactory factory = ppm.createPluginFactory(args[0]);
 
-            if (flatfile == null) {
+            if (factory == null) {
                 System.exit(10);
             }
+
+            IGameDao gameDao = factory.createGameDao();
+            IUserDao userDao = factory.createUserDao();
+
+            ServerModel model = ServerModel.getInstance();
+            model.setGameDao(gameDao);
+            model.setUserDao(userDao);
+
+            loadData();
+            runStoredCmds(gameDao.loadCommands());
 
         } catch (RuntimeException e) {
             System.out.println("Invalid parameters");
@@ -54,6 +74,28 @@ public class ServerCommunicator {
         }
 
         server.run();
+    }
+
+    private static void loadData() {
+        ServerModel model = ServerModel.getInstance();
+        IGameDao gameDao = model.getGameDao();
+        IUserDao userDao = model.getUserDao();
+        Games games = gameDao.loadGames();
+        ClientProxyManager manager = gameDao.loadClientManager();
+
+        Set<User> users = userDao.loadUsers();
+        AuthManager authManager = userDao.loadTokens();
+
+        model.setGames(games);
+        model.setUsers(users);
+        model.setAuthManager(authManager);
+        ClientProxyManager.setSingleton(manager);
+    }
+
+    private static void runStoredCmds(Commands commands) {
+        for (Command command : commands.getAll()) {
+            command.execute(ServerFacade.getInstance());
+        }
     }
 
     private void checkParameters(String[] args) {

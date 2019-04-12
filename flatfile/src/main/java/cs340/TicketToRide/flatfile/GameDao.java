@@ -9,6 +9,7 @@ import java.io.IOException;
 
 import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.communication.Commands;
+import cs340.TicketToRide.model.ClientProxyManager;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.db.IGameDao;
 import cs340.TicketToRide.model.game.Game;
@@ -91,6 +92,16 @@ public class GameDao implements IGameDao {
         Commands commands = loadCommands();
         commands.clear();
         saveCommands(commands);
+    }
+
+    @Override
+    public void saveClientManager(ClientProxyManager manager) {
+
+    }
+
+    @Override
+    public ClientProxyManager loadClientManager() {
+        return null;
     }
 
     private void clearGames() {

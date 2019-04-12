@@ -4,6 +4,8 @@ import java.util.*;
 
 import cs340.TicketToRide.IClient;
 import cs340.TicketToRide.exception.*;
+import cs340.TicketToRide.model.db.IGameDao;
+import cs340.TicketToRide.model.db.IUserDao;
 import cs340.TicketToRide.model.game.*;
 import cs340.TicketToRide.utility.*;
 
@@ -37,6 +39,11 @@ public class ServerModel implements IServerModel {
      */
     private Set<User> users;
 
+    private IGameDao gameDao;
+    private IUserDao userDao;
+
+    private boolean wasRandomized;
+
     /**
      * Private constructor (singleton). Initialize empty data.
      */
@@ -44,6 +51,7 @@ public class ServerModel implements IServerModel {
         authManager = new AuthManager();
         games = new Games();
         users = new HashSet<>();
+        wasRandomized = false;
     }
 
     /**
@@ -268,4 +276,47 @@ public class ServerModel implements IServerModel {
         return games;
     }
 
+    public void setGames(Games games) {
+        this.games = games;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    public void setAuthManager(AuthManager authManager) {
+        this.authManager = authManager;
+    }
+
+    public IGameDao getGameDao() {
+        return gameDao;
+    }
+
+    public void setGameDao(IGameDao gameDao) {
+        this.gameDao = gameDao;
+    }
+
+    public IUserDao getUserDao() {
+        return userDao;
+    }
+
+    public void setUserDao(IUserDao userDao) {
+        this.userDao = userDao;
+    }
+
+    public Set<User> getUsers() {
+        return this.users;
+    }
+
+    public AuthManager getAuthManager() {
+        return this.authManager;
+    }
+
+    public boolean isWasRandomized() {
+        return wasRandomized;
+    }
+
+    public void setWasRandomized(boolean wasRandomized) {
+        this.wasRandomized = wasRandomized;
+    }
 }
