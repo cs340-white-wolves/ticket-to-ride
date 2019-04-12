@@ -1,5 +1,7 @@
 package cs340.TicketToRide.relational;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.Set;
 
 import cs340.TicketToRide.model.AuthManager;
@@ -8,11 +10,11 @@ import cs340.TicketToRide.model.db.IUserDao;
 
 public class RDUserDao implements IUserDao {
 
-    private DatabaseConneciton conn = null;
+    private DatabaseConnection connection = null;
 
     public RDUserDao() {
-        conn = new DatabaseConnection();
-        createTable();
+        connection = new DatabaseConnection();
+        createUsersTable();
     }
 
     @Override
@@ -36,12 +38,22 @@ public class RDUserDao implements IUserDao {
     }
 
     @Override
+    public void beginTransaction() {
+
+    }
+
+    @Override
+    public void endTransaction() {
+
+    }
+
+    @Override
     public void clearAll() {
 
     }
 
-    public void createTable() {
-        Connection conn = dbconn.openConnection();
+    private void createUsersTable() {
+        Connection conn = connection.openConnection();
 
         String create = "CREATE TABLE IF NOT EXISTS Users(\n" +
                 "\tuser_id VARCHAR(255) NOT NULL PRIMARY KEY,\n" +
@@ -51,6 +63,11 @@ public class RDUserDao implements IUserDao {
         stmt.executeUpdate();
 
         stmt.close();
-        dbconn.closeConnection();
+        connection.closeConnection();
+    }
+
+    private void createTokenTable() {
+        Connection conn = connection.openConnection();
+
     }
 }

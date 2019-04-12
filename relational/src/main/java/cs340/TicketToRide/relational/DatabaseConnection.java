@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DatabaseConnection {
+class DatabaseConnection {
 
     static {
         try {
@@ -28,6 +28,7 @@ public class DatabaseConnection {
 //            System.out.println("openConnection failed");
 //            throw new DatabaseException("openConnection failed", e);
         }
+        return null;
     }
 
     public Connection closeConnection() {  // throws DatabaseException
@@ -38,6 +39,7 @@ public class DatabaseConnection {
         } catch (SQLException e) {
 //            throw new DatabaseException("closeConnection failed", e);
         }
+        return null;
     }
 
     public static class DatabaseException extends Exception {
