@@ -16,7 +16,13 @@ import cs340.TicketToRide.communication.Command;
 import cs340.TicketToRide.communication.Response;
 
 public class CommandHandler implements HttpHandler{
+
+    private int delta;
     private Gson gson = new Gson();
+
+    public CommandHandler(int delta) {
+        this.delta = delta;
+    }
 
     @Override
     public void handle(HttpExchange httpExchange) throws IOException {
