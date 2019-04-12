@@ -10,7 +10,7 @@
 /captures
 .externalNativeBuild
 /*log.*
-
+/*.json
 
 # Brendon added everything below to avoid versioning files that will differ for each of us.
 

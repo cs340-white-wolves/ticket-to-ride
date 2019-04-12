@@ -35,7 +35,6 @@ public class Game {
     private DestinationCards destinationCardDeck;
     private int currentPlayerTurnIdx = 0;
     private ID lastRoundLastPlayerId = null;
-    private boolean preGame = true;
     private int playersLeftToDiscard;
 
     public Game(int targetNumPlayers, Username creator) {

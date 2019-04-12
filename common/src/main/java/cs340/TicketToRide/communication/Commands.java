@@ -9,6 +9,10 @@ public class Commands {
     private int startIndex = 0;
     private int endIndex = 0;
 
+    public Commands() {
+        commands = new ArrayList<>();
+    }
+
     public Commands(int startIndex, int endIndex) {
         commands = new ArrayList<Command>();
         this.startIndex = startIndex;
@@ -37,5 +41,13 @@ public class Commands {
 
     public int getEndIndex() {
         return endIndex;
+    }
+
+    public void add(Command cmd) {
+        commands.add(cmd);
+    }
+
+    public void clear() {
+        commands.clear();
     }
 }
