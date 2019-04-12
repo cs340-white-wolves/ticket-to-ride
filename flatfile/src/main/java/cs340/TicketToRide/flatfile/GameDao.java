@@ -31,7 +31,7 @@ public class GameDao implements IGameDao {
         saveGames(games);
     }
 
-    private void saveGames(Games games) {
+    public void saveGames(Games games) {
         String json = gson.toJson(games);
         try (FileWriter writer = new FileWriter(this.gameFile)) {
             writer.write(json);
