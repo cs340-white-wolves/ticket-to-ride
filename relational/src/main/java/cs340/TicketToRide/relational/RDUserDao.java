@@ -2,6 +2,7 @@ package cs340.TicketToRide.relational;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Set;
 
 import cs340.TicketToRide.model.AuthManager;
@@ -59,10 +60,16 @@ public class RDUserDao implements IUserDao {
                 "\tuser_id VARCHAR(255) NOT NULL PRIMARY KEY,\n" +
                 "\tuser BLOB NOT NULL,\n" +
                 ");";
-        PreparedStatement stmt = conn.prepareStatement(create);
-        stmt.executeUpdate();
 
-        stmt.close();
+        try {
+            PreparedStatement stmt = conn.prepareStatement(create);
+            stmt.executeUpdate();
+            stmt.close();
+
+        } catch (SQLException ex) {
+            // todo: handle exception
+        }
+
         connection.closeConnection();
     }
 
