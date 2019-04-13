@@ -124,8 +124,8 @@ public class Command implements ICommand {
 
     //Auxiliary methods, constants, and variables
     private static Gson gson = new Gson();
-    private Object[] parameters = null;//Only used on the server side
-    private Class<?>[] parameterTypes; //Only used on server side.
+    private transient Object[] parameters = null;//Only used on the server side
+    private transient Class<?>[] parameterTypes; //Only used on server side.
     //I don't generate the parameter type names from the
     //parameters because some of the parameters might be
     //null.
