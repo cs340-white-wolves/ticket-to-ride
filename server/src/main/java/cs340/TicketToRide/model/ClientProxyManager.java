@@ -33,4 +33,8 @@ public class ClientProxyManager {
     public static void setSingleton(ClientProxyManager singleton) {
         ClientProxyManager.singleton = singleton;
     }
+
+    public void clear() {
+        proxies.clear();
+    }
 }

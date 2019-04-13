@@ -48,6 +48,7 @@ public class ServerCommunicator {
     public static void main(String[] args) {
         ServerCommunicator server = new ServerCommunicator();
 
+        ServerModel model = ServerModel.getInstance();
         try {
             server.checkParameters(args);
             PersistencePluginManager ppm = PersistencePluginManager.getInstance();
@@ -60,11 +61,9 @@ public class ServerCommunicator {
             IGameDao gameDao = factory.createGameDao();
             IUserDao userDao = factory.createUserDao();
 
-            ServerModel model = ServerModel.getInstance();
             model.setGameDao(gameDao);
             model.setUserDao(userDao);
 
-            // todo: check if data
             loadData();
             runStoredCmds(gameDao.loadCommands());
 
@@ -81,16 +80,27 @@ public class ServerCommunicator {
         ServerModel model = ServerModel.getInstance();
         IGameDao gameDao = model.getGameDao();
         IUserDao userDao = model.getUserDao();
+
         Games games = gameDao.loadGames();
         ClientProxyManager manager = gameDao.loadClientManager();
-
         Set<User> users = userDao.loadUsers();
         AuthManager authManager = userDao.loadTokens();
 
-        model.setGames(games);
-        model.setUsers(users);
-        model.setAuthManager(authManager);
-        ClientProxyManager.setSingleton(manager);
+        if (games != null) {
+            model.setGames(games);
+        }
+
+        if (users != null) {
+            model.setUsers(users);
+        }
+
+        if (authManager != null) {
+            model.setAuthManager(authManager);
+        }
+
+        if (manager != null) {
+            ClientProxyManager.setSingleton(manager);
+        }
     }
 
     private static void runStoredCmds(Commands commands) {

@@ -18,20 +18,7 @@ public class GameDao implements IGameDao {
     private Gson gson = new Gson();
     private File gameFile = new File("./games.json");
     private File cmdFile = new File("./commands.json");
-
-    // todo: check when files exist, data is correct
-
-    @Override
-    public void saveGame(Game game) {
-        Games games;
-        if (gameFile.exists()) {
-            games = loadGames();
-        } else {
-            games = new Games();
-        }
-        games.addGame(game);
-        saveGames(games);
-    }
+    private File clientFile = new File("./clientProxies.json");
 
     public void saveGames(Games games) {
         String json = gson.toJson(games);
@@ -64,6 +51,16 @@ public class GameDao implements IGameDao {
     }
 
     @Override
+    public void saveClientManager(ClientProxyManager manager) {
+        String json = gson.toJson(manager);
+        try (FileWriter writer = new FileWriter(this.clientFile)) {
+            writer.write(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public Games loadGames() {
         Games games = null;
         try (FileReader reader = new FileReader(this.gameFile)) {
@@ -71,6 +68,7 @@ public class GameDao implements IGameDao {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return games;
     }
 
@@ -86,33 +84,24 @@ public class GameDao implements IGameDao {
     }
 
     @Override
-    public void clearCommands() {
-        if (!this.cmdFile.exists()) {
-            return;
+    public ClientProxyManager loadClientManager() {
+        ClientProxyManager manager = null;
+        try (FileReader reader = new FileReader(this.clientFile)) {
+            manager = gson.fromJson(reader, ClientProxyManager.class);
+        } catch (IOException e){
+            e.printStackTrace();
         }
+        return manager;
+    }
 
-        Commands commands = loadCommands();
-        commands.clear();
+    @Override
+    public void clearCommands() {
+        Commands commands = new Commands();
         saveCommands(commands);
     }
 
-    @Override
-    public void saveClientManager(ClientProxyManager manager) {
-
-    }
-
-    @Override
-    public ClientProxyManager loadClientManager() {
-        return null;
-    }
-
     private void clearGames() {
-        if (!this.gameFile.exists()) {
-            return;
-        }
-
-        Games games = loadGames();
-        games.clear();
+        Games games = new Games();
         saveGames(games);
     }
 
@@ -130,5 +119,12 @@ public class GameDao implements IGameDao {
     public void clearAll() {
         clearCommands();
         clearGames();
+        clearProxyManager();
+    }
+
+    private void clearProxyManager() {
+        ClientProxyManager manager = loadClientManager();
+        manager.clear();
+        saveClientManager(manager);
     }
 }
