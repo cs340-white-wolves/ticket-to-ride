@@ -25,13 +25,25 @@ public class CommandHandler implements HttpHandler{
     private int delta;
     private int cmdsStored;
     private Gson gson = new Gson();
-    private List<String> cmdsToExclude = new ArrayList<>();
+    private List<String> cmdsToDelta = new ArrayList<>();
+    private List<String> gameCmdsToForce = new ArrayList<>();
+    private List<String> userCmdsToForce = new ArrayList<>();
 
     public CommandHandler(int delta) {
         this.delta = delta;
         cmdsStored = 0;
-        cmdsToExclude.add("getQueuedCommands");
-        cmdsToExclude.add("getAvailableGames");
+
+        cmdsToDelta.add("sendChat");
+        cmdsToDelta.add("discardDestCards");
+        cmdsToDelta.add("claimRoute");
+        cmdsToDelta.add("drawTrainCard");
+        cmdsToDelta.add("drawDestCards");
+
+        gameCmdsToForce.add("createGame");
+        gameCmdsToForce.add("joinGame");
+
+        userCmdsToForce.add("register");
+        userCmdsToForce.add("login");
     }
 
     @Override
@@ -45,10 +57,18 @@ public class CommandHandler implements HttpHandler{
         storeCommand(cmd);
         Object obj = cmd.execute(ServerFacade.getInstance());
 
+        String cmdMethod = cmd.getMethodName();
+
         ServerModel model = ServerModel.getInstance();
-        if (model.isWasRandomized()) {
-            forceStoreState();
+
+
+        if (model.isWasRandomized() || gameCmdsToForce.contains(cmdMethod)) {
+            forceStoreGameState();
             model.setWasRandomized(false);
+        }
+
+        if (userCmdsToForce.contains(cmdMethod)) {
+            saveFullUsers(model, model.getUserDao());
         }
 
         encodeAndSend(httpExchange, obj);
@@ -59,41 +79,41 @@ public class CommandHandler implements HttpHandler{
             return;
         }
         String methodName = cmd.getMethodName();
-        if (!cmdsToExclude.contains(methodName)) {
+
+        if (cmdsToDelta.contains(methodName)) {
             ServerModel model = ServerModel.getInstance();
             IGameDao gameDao = model.getGameDao();
-            IUserDao userDao = model.getUserDao();
             gameDao.beginTransaction();
-            userDao.beginTransaction();
             if (cmdsStored == delta) {
-                saveFull(model, gameDao, userDao);
+                saveFullGames(model, gameDao);
             }
             gameDao.saveCommand(cmd);
-            userDao.endTransaction();
             gameDao.endTransaction();
             cmdsStored++;
         }
 
     }
 
-    private void forceStoreState() {
+    private void forceStoreGameState() {
         ServerModel model = ServerModel.getInstance();
         IGameDao gameDao = model.getGameDao();
-        IUserDao userDao = model.getUserDao();
         gameDao.beginTransaction();
-        userDao.beginTransaction();
-        saveFull(model, gameDao, userDao);
-        userDao.endTransaction();
+        saveFullGames(model, gameDao);
         gameDao.endTransaction();
     }
 
-    private void saveFull(ServerModel model, IGameDao gameDao, IUserDao userDao) {
+    private void saveFullGames(ServerModel model, IGameDao gameDao) {
         gameDao.clearCommands();
         gameDao.saveGames(model.getGames());
         gameDao.saveClientManager(ClientProxyManager.getInstance());
+        cmdsStored = 0;
+    }
+
+    private void saveFullUsers(ServerModel model, IUserDao userDao) {
+        userDao.beginTransaction();
         userDao.saveUsers(model.getUsers());
         userDao.saveTokens(model.getAuthManager());
-        cmdsStored = 0;
+        userDao.endTransaction();
     }
 
     private void encodeAndSend (HttpExchange httpExchange, Object obj) {

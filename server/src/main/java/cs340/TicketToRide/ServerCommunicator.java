@@ -113,6 +113,10 @@ public class ServerCommunicator {
     }
 
     private static void runStoredCmds(Commands commands) {
+        if (commands == null) {
+            return;
+        }
+
         for (Command command : commands.getAll()) {
             command.execute(ServerFacade.getInstance());
         }
