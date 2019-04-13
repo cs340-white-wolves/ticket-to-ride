@@ -64,8 +64,8 @@ public class ServerCommunicator {
             model.setGameDao(gameDao);
             model.setUserDao(userDao);
 
-            loadData();
-            runStoredCmds(gameDao.loadCommands());
+            Commands commands = loadData();
+            runStoredCmds(commands);
 
         } catch (RuntimeException e) {
             System.out.println("Invalid parameters");
@@ -76,15 +76,22 @@ public class ServerCommunicator {
         server.run();
     }
 
-    private static void loadData() {
+    private static Commands loadData() {
         ServerModel model = ServerModel.getInstance();
         IGameDao gameDao = model.getGameDao();
         IUserDao userDao = model.getUserDao();
 
+        gameDao.beginTransaction();
+        userDao.beginTransaction();
+
         Games games = gameDao.loadGames();
         ClientProxyManager manager = gameDao.loadClientManager();
+        Commands commands = gameDao.loadCommands();
         Set<User> users = userDao.loadUsers();
         AuthManager authManager = userDao.loadTokens();
+
+        userDao.endTransaction();
+        gameDao.endTransaction();
 
         if (games != null) {
             model.setGames(games);
@@ -101,6 +108,8 @@ public class ServerCommunicator {
         if (manager != null) {
             ClientProxyManager.setSingleton(manager);
         }
+
+        return commands;
     }
 
     private static void runStoredCmds(Commands commands) {
