@@ -18,8 +18,8 @@ import cs340.TicketToRide.model.db.IUserDao;
 
 public class UserDao implements IUserDao {
     private Gson gson = new Gson();
-    private File userFile = new File("./users.json");
-    private File tokenFile = new File("./tokens.json");
+    private File userFile = new File(DaoFactory.DATA_PATH + "users.json");
+    private File tokenFile = new File(DaoFactory.DATA_PATH + "tokens.json");
 
     @Override
     public void saveUsers(Set<User> userSet) {

@@ -16,9 +16,9 @@ import cs340.TicketToRide.model.game.Game;
 
 public class GameDao implements IGameDao {
     private Gson gson = new Gson();
-    private File gameFile = new File("./games.json");
-    private File cmdFile = new File("./commands.json");
-    private File clientFile = new File("./clientProxies.json");
+    private File gameFile = new File(DaoFactory.DATA_PATH + "games.json");
+    private File cmdFile = new File(DaoFactory.DATA_PATH + "commands.json");
+    private File clientFile = new File(DaoFactory.DATA_PATH + "clientProxies.json");
 
     public void saveGames(Games games) {
         String json = gson.toJson(games);
