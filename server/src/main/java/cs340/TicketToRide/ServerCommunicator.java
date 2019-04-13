@@ -64,6 +64,7 @@ public class ServerCommunicator {
             model.setGameDao(gameDao);
             model.setUserDao(userDao);
 
+            // todo: check if data
             loadData();
             runStoredCmds(gameDao.loadCommands());
 

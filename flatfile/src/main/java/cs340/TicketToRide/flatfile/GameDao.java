@@ -19,6 +19,8 @@ public class GameDao implements IGameDao {
     private File gameFile = new File("./games.json");
     private File cmdFile = new File("./commands.json");
 
+    // todo: check when files exist, data is correct
+
     @Override
     public void saveGame(Game game) {
         Games games;
@@ -31,7 +33,7 @@ public class GameDao implements IGameDao {
         saveGames(games);
     }
 
-    private void saveGames(Games games) {
+    public void saveGames(Games games) {
         String json = gson.toJson(games);
         try (FileWriter writer = new FileWriter(this.gameFile)) {
             writer.write(json);
