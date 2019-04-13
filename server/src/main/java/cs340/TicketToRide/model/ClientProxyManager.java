@@ -20,14 +20,14 @@ public class ClientProxyManager {
         return singleton;
     }
 
-    private Map<ID, ClientProxy> proxies = new HashMap<>();
+    private Map<String, ClientProxy> proxies = new HashMap<>();
 
     public void create(ID playerId) {
-        proxies.put(playerId, new ClientProxy());
+        proxies.put(playerId.toString(), new ClientProxy());
     }
 
     public ClientProxy get(ID playerId) {
-        return proxies.get(playerId);
+        return proxies.get(playerId.toString());
     }
 
     public static void setSingleton(ClientProxyManager singleton) {
