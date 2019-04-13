@@ -35,10 +35,12 @@ public class UserDao implements IUserDao {
     @Override
     public Set<User> loadUsers() {
         Users users = null;
-        try (FileReader reader = new FileReader(this.userFile)) {
-            users = gson.fromJson(reader, Users.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (userFile.exists()) {
+            try (FileReader reader = new FileReader(this.userFile)) {
+                users = gson.fromJson(reader, Users.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         if (users == null) {
@@ -61,10 +63,12 @@ public class UserDao implements IUserDao {
     @Override
     public AuthManager loadTokens() {
         AuthManager manager = null;
-        try (FileReader reader = new FileReader(tokenFile)) {
-            manager = gson.fromJson(reader, AuthManager.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (tokenFile.exists()) {
+            try (FileReader reader = new FileReader(tokenFile)) {
+                manager = gson.fromJson(reader, AuthManager.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return manager;
     }

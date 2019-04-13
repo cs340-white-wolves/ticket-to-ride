@@ -63,10 +63,12 @@ public class GameDao implements IGameDao {
     @Override
     public Games loadGames() {
         Games games = null;
-        try (FileReader reader = new FileReader(this.gameFile)) {
-            games = gson.fromJson(reader, Games.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (gameFile.exists()) {
+            try (FileReader reader = new FileReader(this.gameFile)) {
+                games = gson.fromJson(reader, Games.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return games;
@@ -75,10 +77,12 @@ public class GameDao implements IGameDao {
     @Override
     public Commands loadCommands() {
         Commands commands = null;
-        try (FileReader reader = new FileReader(this.cmdFile)) {
-            commands = gson.fromJson(reader, Commands.class);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (cmdFile.exists()) {
+            try (FileReader reader = new FileReader(this.cmdFile)) {
+                commands = gson.fromJson(reader, Commands.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return commands;
     }
@@ -86,10 +90,12 @@ public class GameDao implements IGameDao {
     @Override
     public ClientProxyManager loadClientManager() {
         ClientProxyManager manager = null;
-        try (FileReader reader = new FileReader(this.clientFile)) {
-            manager = gson.fromJson(reader, ClientProxyManager.class);
-        } catch (IOException e){
-            e.printStackTrace();
+        if (clientFile.exists()) {
+            try (FileReader reader = new FileReader(this.clientFile)) {
+                manager = gson.fromJson(reader, ClientProxyManager.class);
+            } catch (IOException e){
+                e.printStackTrace();
+            }
         }
         return manager;
     }
