@@ -13,9 +13,6 @@ import cs340.TicketToRide.model.ClientProxyManager;
 import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.db.IGameDao;
 import cs340.TicketToRide.model.game.Game;
-import cs340.TicketToRide.model.game.board.City;
-import cs340.TicketToRide.model.game.card.DestinationCard;
-import cs340.TicketToRide.model.game.card.DestinationCards;
 
 public class GameDao implements IGameDao {
     private Gson gson = new Gson();
@@ -136,5 +133,4 @@ public class GameDao implements IGameDao {
         manager.clear();
         saveClientManager(manager);
     }
-
 }

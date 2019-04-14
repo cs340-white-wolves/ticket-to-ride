@@ -1,6 +1,5 @@
 package cs340.TicketToRide;
 
-import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -18,9 +17,6 @@ import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.db.IDaoFactory;
 import cs340.TicketToRide.model.db.IGameDao;
 import cs340.TicketToRide.model.db.IUserDao;
-import cs340.TicketToRide.model.game.board.City;
-import cs340.TicketToRide.model.game.card.DestinationCard;
-import cs340.TicketToRide.model.game.card.DestinationCards;
 
 public class ServerCommunicator {
 
