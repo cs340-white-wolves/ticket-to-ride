@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AuthManager {
-    private Map<AuthToken, User> tokenUserMap;
+    private Map<String, User> tokenUserMap;
     public AuthManager() {
         tokenUserMap = new HashMap<>();
     }
@@ -18,11 +18,11 @@ public class AuthManager {
             return;
         }
 
-        if (tokenUserMap.get(token) != null) {
+        if (tokenUserMap.get(token.toString()) != null) {
             throw new RuntimeException("This auth token already belongs to a user");
         }
 
-        tokenUserMap.put(token, user);
+        tokenUserMap.put(token.toString(), user);
     }
 
     public User getUserByAuthToken(AuthToken token) {
@@ -34,9 +34,7 @@ public class AuthManager {
             return null;
         }
 
-        boolean c = tokenUserMap.containsKey(token);
-        User user = tokenUserMap.get(token);
-        return user;
+        return tokenUserMap.get(token.toString());
     }
 
     public void clear() {

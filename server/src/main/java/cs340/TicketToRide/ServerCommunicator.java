@@ -29,13 +29,12 @@ public class ServerCommunicator {
     private static final String PATH_COMMAND = "/command";
     private static int deltas = 0;
 
-    private void run () {
+    private void run() {
         HttpServer server;
 
         try {
             server = HttpServer.create(new InetSocketAddress(PORT), MAX_CONNECTIONS);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Logger.logger.log(Level.SEVERE, e.getMessage(), e);
             return;
         }
@@ -55,6 +54,13 @@ public class ServerCommunicator {
         ServerModel model = ServerModel.getInstance();
         try {
             server.checkParameters(args);
+        } catch (RuntimeException e) {
+            System.out.println("Invalid parameters");
+            server.usage();
+            System.exit(1);
+        }
+
+        try {
             PersistencePluginManager ppm = PersistencePluginManager.getInstance();
             IDaoFactory factory = ppm.createPluginFactory(args[0]);
 
@@ -70,11 +76,9 @@ public class ServerCommunicator {
 
             Commands commands = loadData();
             runStoredCmds(commands);
-
-        } catch (RuntimeException e) {
-            System.out.println("Invalid parameters");
-            server.usage();
-            System.exit(1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(10);
         }
 
         server.run();
