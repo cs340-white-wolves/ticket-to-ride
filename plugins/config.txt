@@ -1,1 +1,2 @@
 flatfile flatfile/build/libs/flatfile.jar cs340.TicketToRide.flatfile.DaoFactory
+relational relational/build/libs/relational.jar cs340.TicketToRide.relational.RDDaoFactory

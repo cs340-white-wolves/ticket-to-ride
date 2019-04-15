@@ -8,11 +8,11 @@ public class RDDaoFactory implements IDaoFactory {
 
     @Override
     public IUserDao createUserDao() {
-        return null;
+        return new RDUserDao();
     }
 
     @Override
     public IGameDao createGameDao() {
-        return null;
+        return new RDGameDao();
     }
 }
