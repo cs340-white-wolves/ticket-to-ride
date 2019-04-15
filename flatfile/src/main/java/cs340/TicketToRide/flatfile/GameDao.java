@@ -20,6 +20,7 @@ public class GameDao implements IGameDao {
     private File cmdFile = new File(DaoFactory.DATA_PATH + "commands.json");
     private File clientFile = new File(DaoFactory.DATA_PATH + "clientProxies.json");
 
+    @Override
     public void saveGames(Games games) {
         String json = gson.toJson(games);
         try (FileWriter writer = new FileWriter(this.gameFile)) {

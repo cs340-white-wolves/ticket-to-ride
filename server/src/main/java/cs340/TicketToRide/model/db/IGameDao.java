@@ -7,6 +7,8 @@ import cs340.TicketToRide.model.Games;
 import cs340.TicketToRide.model.game.Game;
 
 public interface IGameDao extends IDao {
+
+
     Games loadGames();
     void saveCommand(Command command);
     Commands loadCommands();
