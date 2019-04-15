@@ -70,7 +70,7 @@ public class RDUserDao implements IUserDao {
             // todo: handle exception
         }
 
-        connection.closeConnection();
+        connection.closeConnection(true);
     }
 
     private void createTokenTable() {
