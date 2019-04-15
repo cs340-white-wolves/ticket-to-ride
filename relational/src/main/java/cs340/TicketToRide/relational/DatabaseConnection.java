@@ -18,6 +18,11 @@ class DatabaseConnection {
 
     private Connection conn;
 
+    public Connection getConnection() {
+        return conn;
+    }
+
+
     public Connection openConnection() {  // throws DatabaseConnection.DatabaseException
         try {
             final String dbname = "jdbc:sqlite:ttr.sqlite"; // url of database to connect to
