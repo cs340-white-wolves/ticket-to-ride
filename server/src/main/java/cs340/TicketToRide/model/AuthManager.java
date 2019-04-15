@@ -37,6 +37,10 @@ public class AuthManager {
         return tokenUserMap.get(token.toString());
     }
 
+    public Map<String, User> getTokenUserMap() {
+        return tokenUserMap;
+    }
+
     public void clear() {
         if (tokenUserMap == null) {
             return;
