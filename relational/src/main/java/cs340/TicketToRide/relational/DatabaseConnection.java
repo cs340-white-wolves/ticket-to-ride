@@ -22,7 +22,7 @@ class DatabaseConnection {
         try {
             final String dbname = "jdbc:sqlite:ttr.sqlite"; // url of database to connect to
             conn = DriverManager.getConnection(dbname); // opens database connection
-//            conn.setAutoCommit(false);
+            conn.setAutoCommit(false);
             return conn;
         } catch (SQLException e) {
 //            System.out.println("openConnection failed");
@@ -31,8 +31,14 @@ class DatabaseConnection {
         return null;
     }
 
-    public Connection closeConnection() {  // throws DatabaseException
+    public Connection closeConnection(boolean commit) {  // throws DatabaseException
+        if (conn == null) {return null;}
         try {
+            if (commit) {
+                conn.commit();
+            } else {
+                conn.rollback();
+            }
             conn.close();
             conn = null;
             return conn;
