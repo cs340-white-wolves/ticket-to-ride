@@ -15,13 +15,20 @@ import cs340.TicketToRide.utility.RouteColorOption;
 import cs340.TicketToRide.utility.Username;
 
 public interface IServer {
+    // Don't care
+    Games getAvailableGames(AuthToken token);
+    Commands getQueuedCommands(AuthToken token, ID playerId, ID gameId, int index);
+
+    // User dao save
     LoginRegisterResponse login(Username username, Password password);
     LoginRegisterResponse register(Username username, Password password);
+
+    // Save game state
     Game createGame(AuthToken token, int numPlayers);
     Game joinGame(AuthToken token, ID gameId);
-    Games getAvailableGames(AuthToken token);
+
+    // Included in the command checkpoint code
     void sendChat(AuthToken token, ID gameId, Message message);
-    Commands getQueuedCommands(AuthToken token, ID playerId, ID gameId, int index);
     void discardDestCards(DestinationCards cards, AuthToken token, ID gameId, ID playerId);
     void claimRoute(Route route, RouteColorOption option, AuthToken token, ID gameID, ID playerId);
     void drawTrainCard(TrainCard card, boolean advanceTurn, AuthToken token, ID gameId, ID playerId);
