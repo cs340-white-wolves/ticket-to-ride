@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
-import java.util.Set;
 import com.google.gson.Gson;
 
 import cs340.TicketToRide.model.AuthManager;
@@ -17,6 +16,7 @@ import cs340.TicketToRide.model.db.IUserDao;
 public class RDUserDao implements IUserDao {
 
     private DatabaseConnection connection = null;
+    private Connection conn = null;
     private Gson gson = new Gson();
 
 
@@ -31,7 +31,6 @@ public class RDUserDao implements IUserDao {
     }
 
     private void insertUser(User user) {
-        Connection conn = connection.openConnection();
         String insert = "INSERT INTO Users VALUES (?, ?)";
 
         try {
@@ -41,9 +40,9 @@ public class RDUserDao implements IUserDao {
             stmt.executeUpdate();
 
             stmt.close();
-            connection.closeConnection(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
     }
 
@@ -58,7 +57,6 @@ public class RDUserDao implements IUserDao {
 
     @Override
     public Users loadUsers() {
-        Connection conn = connection.openConnection();
         Users users = new Users();
         String query = "SELECT * FROM Users";
 
@@ -73,30 +71,27 @@ public class RDUserDao implements IUserDao {
 
             result.close();
             stmt.close();
-            connection.closeConnection(true);
-
         } catch (SQLException ex) {
             ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
 
         return users;
     }
 
     private void insertToken(String token, User user) {
-        Connection conn = connection.openConnection();
         String insert = "INSERT INTO Tokens VALUES (?, ?)";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(insert);
-            // todo: make sure you're getting the correct data here
             stmt.setString(1, token);
-            stmt.setString(2, gson.toJson(user));
+            stmt.setString(2, user.getUserID().toString());
             stmt.executeUpdate();
 
             stmt.close();
-            connection.closeConnection(true);
         } catch (SQLException ex) {
             ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
     }
 
@@ -112,14 +107,30 @@ public class RDUserDao implements IUserDao {
     }
 
     private User getUser(String userId) {
-        // todo: implement, if necessary
-        return null;
+        User user = null;
+        String query = "SELECT * FROM Users WHERE Id = ?";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, userId);
+
+            ResultSet result = stmt.executeQuery();
+            result.next();
+            user = gson.fromJson(result.getString(2), User.class);
+
+            result.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+
+        return user;
     }
 
     @Override
     public AuthManager loadTokens() {
-        Connection conn = connection.openConnection();
-        AuthManager authmanager = new AuthManager();
+        AuthManager authManager = new AuthManager();
         String query = "SELECT * FROM Tokens";
 
         try {
@@ -127,36 +138,33 @@ public class RDUserDao implements IUserDao {
             ResultSet result = stmt.executeQuery();
 
             while (result.next()) {
-                // todo: get authManager data
-                String token = result.getString(1);
+                AuthToken token = new AuthToken(result.getString(1));
                 User user = getUser(result.getString(2));
 
+                authManager.addTokenUser(token, user);
             }
 
             result.close();
             stmt.close();
-            connection.closeConnection(true);
-
         } catch (SQLException ex) {
             ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
 
-        return authmanager;
+        return authManager;
     }
 
     @Override
     public void beginTransaction() {
-
+        conn = connection.openConnection();
     }
 
     @Override
     public void endTransaction() {
-
+        connection.closeConnection(true);
     }
 
     private void clearUserTable() {
-        Connection conn = connection.openConnection();
-
         String clear = "DELETE FROM Users";
 
         try {
@@ -166,14 +174,11 @@ public class RDUserDao implements IUserDao {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
-
-        connection.closeConnection(true);
     }
 
     private void clearTokenTable() {
-        Connection conn = connection.openConnection();
-
         String clear = "DELETE FROM Tokens";
 
         try {
@@ -183,9 +188,8 @@ public class RDUserDao implements IUserDao {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
-
-        connection.closeConnection(true);
     }
 
     @Override
@@ -195,8 +199,6 @@ public class RDUserDao implements IUserDao {
     }
 
     private void createUsersTable() {
-        Connection conn = connection.openConnection();
-
         String create = "CREATE TABLE IF NOT EXISTS Users(\n" +
                 "\tId VARCHAR(255) NOT NULL PRIMARY KEY,\n" +
                 "\tUser BLOB NOT NULL,\n" +
@@ -209,18 +211,15 @@ public class RDUserDao implements IUserDao {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
-
-        connection.closeConnection(true);
     }
 
     private void createTokensTable() {
-        Connection conn = connection.openConnection();
-
         String create = "CREATE TABLE IF NOT EXISTS Tokens(\n" +
-                "\tId VARCHAR(255) NOT NULL,\n" +
-                "\tUserId BLOB NOT NULL,\n" +
-                "    FOREIGN KEY (UserId) REFERENCES Users(UserId)\n" +
+                "\tId VARCHAR(255) NOT NULL PRIMARY KEY,\n" +
+                "\tUserId VARCHAR(255) NOT NULL,\n" +
+                "    FOREIGN KEY (UserId) REFERENCES Users(Id)\n" +
                 ");";
 
         try {
@@ -230,8 +229,7 @@ public class RDUserDao implements IUserDao {
 
         } catch (SQLException ex) {
             ex.printStackTrace();
+            throw new RuntimeException(ex);
         }
-
-        connection.closeConnection(true);
     }
 }
