@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 import java.util.Set;
 import com.google.gson.Gson;
 
 import cs340.TicketToRide.model.AuthManager;
+import cs340.TicketToRide.model.AuthToken;
 import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.Users;
 import cs340.TicketToRide.model.db.IUserDao;
@@ -52,7 +54,6 @@ public class RDUserDao implements IUserDao {
         for (User user : users.getUsers()) {
             insertUser(user);
         }
-
     }
 
     @Override
@@ -81,13 +82,37 @@ public class RDUserDao implements IUserDao {
         return users;
     }
 
+    private void insertToken(String token, User user) {
+        Connection conn = connection.openConnection();
+        String insert = "INSERT INTO Tokens VALUES (?, ?)";
+
+        try {
+            PreparedStatement stmt = conn.prepareStatement(insert);
+            // todo: make sure you're getting the correct data here
+            stmt.setString(1, token);
+            stmt.setString(2, gson.toJson(user));
+            stmt.executeUpdate();
+
+            stmt.close();
+            connection.closeConnection(true);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     @Override
     public void saveTokens(AuthManager authManager) {
+        clearTokenTable();
 
+        for (Map.Entry<String, User> entry : authManager.getTokenUserMap().entrySet()) {
+            String token = entry.getKey();
+            User user = entry.getValue();
+            insertToken(token, user);
+        }
     }
 
     private User getUser(String userId) {
-        // todo: implement
+        // todo: implement, if necessary
         return null;
     }
 
