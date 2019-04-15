@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+
 import com.google.gson.Gson;
 
 import cs340.TicketToRide.model.AuthManager;
@@ -47,17 +50,17 @@ public class RDUserDao implements IUserDao {
     }
 
     @Override
-    public void saveUsers(Users users) {
+    public void saveUsers(Set<User> users) {
         clearUserTable();
 
-        for (User user : users.getUsers()) {
+        for (User user : users) {
             insertUser(user);
         }
     }
 
     @Override
-    public Users loadUsers() {
-        Users users = new Users();
+    public Set<User> loadUsers() {
+        Set<User> users = new HashSet<>();
         String query = "SELECT * FROM Users";
 
         try {
@@ -66,7 +69,7 @@ public class RDUserDao implements IUserDao {
 
             while (result.next()) {
                 String json = result.getString("User");
-                users.addUser(gson.fromJson(json, User.class));
+                users.add(gson.fromJson(json, User.class));
             }
 
             result.close();

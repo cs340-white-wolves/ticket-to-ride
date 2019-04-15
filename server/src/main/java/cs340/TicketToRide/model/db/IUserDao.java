@@ -7,8 +7,8 @@ import cs340.TicketToRide.model.User;
 import cs340.TicketToRide.model.Users;
 
 public interface IUserDao extends IDao {
-    void saveUsers(Users users);
-    Users loadUsers();
+    void saveUsers(Set<User> users);
+    Set<User> loadUsers();
     void saveTokens(AuthManager authManager);
     AuthManager loadTokens();
 }
