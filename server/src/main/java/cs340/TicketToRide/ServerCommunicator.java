@@ -25,13 +25,12 @@ public class ServerCommunicator {
     private static final String PATH_COMMAND = "/command";
     private static int deltas = 0;
 
-    private void run () {
+    private void run() {
         HttpServer server;
 
         try {
             server = HttpServer.create(new InetSocketAddress(PORT), MAX_CONNECTIONS);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             Logger.logger.log(Level.SEVERE, e.getMessage(), e);
             return;
         }
@@ -48,8 +47,16 @@ public class ServerCommunicator {
     public static void main(String[] args) {
         ServerCommunicator server = new ServerCommunicator();
 
+        ServerModel model = ServerModel.getInstance();
         try {
             server.checkParameters(args);
+        } catch (RuntimeException e) {
+            System.out.println("Invalid parameters");
+            server.usage();
+            System.exit(1);
+        }
+
+        try {
             PersistencePluginManager ppm = PersistencePluginManager.getInstance();
             IDaoFactory factory = ppm.createPluginFactory(args[0]);
 
@@ -60,39 +67,60 @@ public class ServerCommunicator {
             IGameDao gameDao = factory.createGameDao();
             IUserDao userDao = factory.createUserDao();
 
-            ServerModel model = ServerModel.getInstance();
             model.setGameDao(gameDao);
             model.setUserDao(userDao);
 
-            loadData();
-            runStoredCmds(gameDao.loadCommands());
-
-        } catch (RuntimeException e) {
-            System.out.println("Invalid parameters");
-            server.usage();
-            System.exit(1);
+            Commands commands = loadData();
+            runStoredCmds(commands);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(10);
         }
 
         server.run();
     }
 
-    private static void loadData() {
+    private static Commands loadData() {
         ServerModel model = ServerModel.getInstance();
         IGameDao gameDao = model.getGameDao();
         IUserDao userDao = model.getUserDao();
+
+        gameDao.beginTransaction();
+        userDao.beginTransaction();
+
         Games games = gameDao.loadGames();
         ClientProxyManager manager = gameDao.loadClientManager();
-
+        Commands commands = gameDao.loadCommands();
         Set<User> users = userDao.loadUsers();
         AuthManager authManager = userDao.loadTokens();
 
-        model.setGames(games);
-        model.setUsers(users);
-        model.setAuthManager(authManager);
-        ClientProxyManager.setSingleton(manager);
+        userDao.endTransaction();
+        gameDao.endTransaction();
+
+        if (games != null) {
+            model.setGames(games);
+        }
+
+        if (users != null) {
+            model.setUsers(users);
+        }
+
+        if (authManager != null) {
+            model.setAuthManager(authManager);
+        }
+
+        if (manager != null) {
+            ClientProxyManager.setSingleton(manager);
+        }
+
+        return commands;
     }
 
     private static void runStoredCmds(Commands commands) {
+        if (commands == null) {
+            return;
+        }
+
         for (Command command : commands.getAll()) {
             command.execute(ServerFacade.getInstance());
         }

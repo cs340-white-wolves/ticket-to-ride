@@ -1,19 +1,18 @@
-package cs340.TicketToRide.flatfile;
+package cs340.TicketToRide.relational;
 
 import cs340.TicketToRide.model.db.IDaoFactory;
 import cs340.TicketToRide.model.db.IGameDao;
 import cs340.TicketToRide.model.db.IUserDao;
 
-public class DaoFactory implements IDaoFactory {
-    public static final String DATA_PATH = "./data/";
+public class RDDaoFactory implements IDaoFactory {
 
     @Override
     public IUserDao createUserDao() {
-        return new UserDao();
+        return null;
     }
 
     @Override
     public IGameDao createGameDao() {
-        return new GameDao();
+        return null;
     }
 }
