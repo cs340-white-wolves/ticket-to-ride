@@ -29,20 +29,18 @@ public class RDGameDao implements IGameDao {
         String schema =
               "CREATE TABLE IF NOT EXISTS `Games` (\n" +
               "\t`Id`\t\tTEXT NOT NULL,\n" +
-              "\t`Game`\tBLOB NOT NULL,\n" +
-              "\tPRIMARY KEY(`GameId`)\n" +
+              "\t`Game`\tTEXT NOT NULL,\n" +
+              "\tPRIMARY KEY(`Id`)\n" +
               ");\n" +
 
               "CREATE TABLE IF NOT EXISTS `Commands` (\n" +
-               "\t`Id`\t INT NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-               "\t`Command`\tBLOB NOT NULL,\n" +
-              "\tPRIMARY KEY(`Id`)\n" +
+               "\t`Id`\t INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+               "\t`Command`\tTEXT NOT NULL\n" +
                 ");\n" +
 
                 "CREATE TABLE IF NOT EXISTS `ClientProxy` (\n" +
-                "\t`Id`\tINT NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                 "\t`Proxy`\tBLOB NOT NULL,\n" +
-                "\tPRIMARY KEY(`Id`)\n" +
+                "\t`Id`\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+                 "\t`Proxy`\tTEXT NOT NULL\n" +
                 ");\n";
 
         try (Statement stmt = conn.createStatement()) {
@@ -58,9 +56,8 @@ public class RDGameDao implements IGameDao {
     @Override
     public void saveGames(Games games) {
         clearGames();
-        Connection conn = connection.openConnection();
-        String sql = "\"INSERT INTO Games (Id, Game) \"\n" +
-                "\t\t\t\t+ \"VALUES(?, ?);\"";
+        Connection conn = connection.getConnection();
+        String sql = "INSERT INTO Games (Id, Game) VALUES(?, ?);";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             for (Game game: games.getGameList()) {
@@ -70,28 +67,25 @@ public class RDGameDao implements IGameDao {
             }
 
             if (checkBatch(stmt.executeBatch())) {
-                throw new SQLException("SQL statment not executed");
+                throw new SQLException("SQL statement not executed");
             }
-
-            connection.closeConnection(true);
 
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
-            connection.closeConnection(false);
         }
     }
 
     private void clearGames() {
-        Connection conn = connection.openConnection();
+        Connection conn = connection.getConnection();
         String sql = "DELETE FROM Games;";
 
         try (Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
-            connection.closeConnection(true);
+
         } catch (SQLException e) {
             e.printStackTrace();
-            connection.closeConnection(false);
+
         }
     }
 
@@ -106,7 +100,7 @@ public class RDGameDao implements IGameDao {
 
     @Override
     public Games loadGames() {
-        Connection conn = connection.openConnection();
+        Connection conn = connection.getConnection();
         Games games = new Games();
         String sql = "SELECT * FROM Games;";
 
@@ -122,6 +116,8 @@ public class RDGameDao implements IGameDao {
             System.out.println("Games could not be loaded");
         }
 
+        if (games.size() == 0) { return null; }
+
         return games;
     }
 
@@ -130,9 +126,8 @@ public class RDGameDao implements IGameDao {
 
     @Override
     public void saveCommand(Command command) {
-        Connection conn = connection.openConnection();
-        String sql = "\"INSERT INTO Commands (Command) \"\n" +
-                "\t\t\t\t+ \"VALUES(?);\"";
+        Connection conn = connection.getConnection();
+        String sql = "INSERT INTO Commands(Command) VALUES (?);";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1,gson.toJson(command));
@@ -140,19 +135,19 @@ public class RDGameDao implements IGameDao {
             if (stmt.executeUpdate() != 1) {
                 throw new SQLException("Command could not be saved");
             }
-            connection.closeConnection(true);
+
 
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
-            connection.closeConnection(false);
+
         }
 
     }
 
     @Override
     public Commands loadCommands() {
-        Connection conn = connection.openConnection();
+        Connection conn = connection.getConnection();
         Commands commands = new Commands();
         String sql = "SELECT * FROM Commands;";
 
@@ -167,28 +162,28 @@ public class RDGameDao implements IGameDao {
             e.printStackTrace();
         }
 
+
         return commands;
     }
 
     @Override
     public void clearCommands() {
-        Connection conn = connection.openConnection();
+        Connection conn = connection.getConnection();
         String sql = "DELETE FROM Commands;";
 
         try (Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
-            connection.closeConnection(true);
+
         } catch (SQLException e) {
             e.printStackTrace();
-            connection.closeConnection(false);
+
         }
     }
 
     @Override
     public void saveClientManager(ClientProxyManager manager) {
-        Connection conn = connection.openConnection();
-        String sql = "\"INSERT INTO ClientProxy (Proxy) \"\n" +
-                "\t\t\t\t+ \"VALUES(?);\"";
+        Connection conn = connection.getConnection();
+        String sql = "INSERT INTO ClientProxy(Proxy) VALUES (?);";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1,gson.toJson(manager));
@@ -196,18 +191,18 @@ public class RDGameDao implements IGameDao {
             if (stmt.executeUpdate() != 1) {
                 throw new SQLException("Proxy manager could not be saved");
             }
-            connection.closeConnection(true);
+
 
         } catch (SQLException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
-            connection.closeConnection(false);
+
         }
     }
 
     @Override
     public ClientProxyManager loadClientManager() {
-        Connection conn = connection.openConnection();
+        Connection conn = connection.getConnection();
         ClientProxyManager proxy = null;
         String sql = "SELECT * FROM ClientProxy;";
 
@@ -229,27 +224,28 @@ public class RDGameDao implements IGameDao {
 
     @Override
     public void beginTransaction() {
-
+        connection.openConnection();
     }
 
     @Override
     public void endTransaction() {
-
+        connection.closeConnection(true);
     }
 
     @Override
     public void clearAll() {
-        Connection conn = connection.openConnection();
+        Connection conn = connection.getConnection();
         String sql = "DELETE FROM Commands; DELETE FROM ClientProxy; DELETE FROM Games";
 
         try (Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
 
-            connection.closeConnection(true);
+
 
         } catch (SQLException e) {
             e.printStackTrace();
-            connection.closeConnection(false);
+
         }
     }
 }
+
