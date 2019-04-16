@@ -12,6 +12,7 @@
 /*log.*
 /*.json
 /data/*.json
+/*.sqlite
 
 # Brendon added everything below to avoid versioning files that will differ for each of us.
 
