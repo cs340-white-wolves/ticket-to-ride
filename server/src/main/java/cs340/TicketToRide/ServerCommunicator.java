@@ -24,6 +24,7 @@ public class ServerCommunicator {
     private static final int PORT = 8080;
     private static final String PATH_COMMAND = "/command";
     private static int deltas = 0;
+    private static boolean clear = false;
 
     private void run() {
         HttpServer server;
@@ -70,14 +71,34 @@ public class ServerCommunicator {
             model.setGameDao(gameDao);
             model.setUserDao(userDao);
 
-            Commands commands = loadData();
-            runStoredCmds(commands);
+            if (clear) {
+                clearData();
+            } else {
+                Commands commands = loadData();
+                runStoredCmds(commands);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(10);
         }
 
         server.run();
+    }
+
+    private static void clearData() {
+        ServerModel model = ServerModel.getInstance();
+        IGameDao gameDao = model.getGameDao();
+        IUserDao userDao = model.getUserDao();
+
+        gameDao.beginTransaction();
+        userDao.beginTransaction();
+
+        userDao.clearAll();
+        gameDao.clearAll();
+
+        userDao.endTransaction();
+        gameDao.endTransaction();
     }
 
     private static Commands loadData() {
@@ -127,11 +148,12 @@ public class ServerCommunicator {
     }
 
     private void checkParameters(String[] args) {
-        if (args.length != 2) {
+        if (args.length != 2 && args.length != 3) {
             throw new RuntimeException("Invalid parameters");
         }
 
         deltas = Integer.valueOf(args[1]);
+        clear = args.length == 3 && (args[2].equals("-clear"));
     }
 
     private void usage() {
