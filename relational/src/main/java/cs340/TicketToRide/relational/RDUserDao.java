@@ -29,8 +29,10 @@ public class RDUserDao implements IUserDao {
     }
 
     private void createTables() {
+        conn = connection.openConnection();
         createUsersTable();
         createTokensTable();
+        conn = connection.closeConnection(true);
     }
 
     private void insertUser(User user) {
@@ -204,8 +206,7 @@ public class RDUserDao implements IUserDao {
     private void createUsersTable() {
         String create = "CREATE TABLE IF NOT EXISTS Users(\n" +
                 "\tId VARCHAR(255) NOT NULL PRIMARY KEY,\n" +
-                "\tUser BLOB NOT NULL,\n" +
-                ");";
+                "\tUser BLOB NOT NULL);";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(create);

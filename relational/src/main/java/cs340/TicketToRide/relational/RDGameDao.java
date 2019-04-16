@@ -29,20 +29,18 @@ public class RDGameDao implements IGameDao {
         String schema =
               "CREATE TABLE IF NOT EXISTS `Games` (\n" +
               "\t`Id`\t\tTEXT NOT NULL,\n" +
-              "\t`Game`\tBLOB NOT NULL,\n" +
-              "\tPRIMARY KEY(`GameId`)\n" +
+              "\t`Game`\tTEXT NOT NULL,\n" +
+              "\tPRIMARY KEY(`Id`)\n" +
               ");\n" +
 
               "CREATE TABLE IF NOT EXISTS `Commands` (\n" +
-               "\t`Id`\t INT NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-               "\t`Command`\tBLOB NOT NULL,\n" +
-              "\tPRIMARY KEY(`Id`)\n" +
+               "\t`Id`\t INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+               "\t`Command`\tTEXT NOT NULL\n" +
                 ");\n" +
 
                 "CREATE TABLE IF NOT EXISTS `ClientProxy` (\n" +
-                "\t`Id`\tINT NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
-                 "\t`Proxy`\tBLOB NOT NULL,\n" +
-                "\tPRIMARY KEY(`Id`)\n" +
+                "\t`Id`\tINTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,\n" +
+                 "\t`Proxy`\tTEXT NOT NULL\n" +
                 ");\n";
 
         try (Statement stmt = conn.createStatement()) {
@@ -59,8 +57,7 @@ public class RDGameDao implements IGameDao {
     public void saveGames(Games games) {
         clearGames();
         Connection conn = connection.getConnection();
-        String sql = "\"INSERT INTO Games (Id, Game) \"\n" +
-                "\t\t\t\t+ \"VALUES(?, ?);\"";
+        String sql = "INSERT INTO Games (Id, Game) VALUES(?, ?);";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             for (Game game: games.getGameList()) {
@@ -85,10 +82,10 @@ public class RDGameDao implements IGameDao {
 
         try (Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sql);
-            connection.closeConnection(true);
+
         } catch (SQLException e) {
             e.printStackTrace();
-            connection.closeConnection(false);
+
         }
     }
 
@@ -119,6 +116,8 @@ public class RDGameDao implements IGameDao {
             System.out.println("Games could not be loaded");
         }
 
+        if (games.size() == 0) { return null; }
+
         return games;
     }
 
@@ -128,8 +127,7 @@ public class RDGameDao implements IGameDao {
     @Override
     public void saveCommand(Command command) {
         Connection conn = connection.getConnection();
-        String sql = "\"INSERT INTO Commands (Command) \"\n" +
-                "\t\t\t\t+ \"VALUES(?);\"";
+        String sql = "INSERT INTO Commands(Command) VALUES (?);";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1,gson.toJson(command));
@@ -164,6 +162,7 @@ public class RDGameDao implements IGameDao {
             e.printStackTrace();
         }
 
+
         return commands;
     }
 
@@ -184,8 +183,7 @@ public class RDGameDao implements IGameDao {
     @Override
     public void saveClientManager(ClientProxyManager manager) {
         Connection conn = connection.getConnection();
-        String sql = "\"INSERT INTO ClientProxy (Proxy) \"\n" +
-                "\t\t\t\t+ \"VALUES(?);\"";
+        String sql = "INSERT INTO ClientProxy(Proxy) VALUES (?);";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1,gson.toJson(manager));
@@ -250,3 +248,4 @@ public class RDGameDao implements IGameDao {
         }
     }
 }
+

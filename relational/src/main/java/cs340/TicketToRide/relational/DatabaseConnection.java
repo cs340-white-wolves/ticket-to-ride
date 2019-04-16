@@ -25,7 +25,7 @@ class DatabaseConnection {
 
     public Connection openConnection() {  // throws DatabaseConnection.DatabaseException
         try {
-            final String dbname = "jdbc:sqlite:ttr.sqlite"; // url of database to connect to
+            final String dbname = "jdbc:sqlite:ttr.db"; // url of database to connect to
             conn = DriverManager.getConnection(dbname); // opens database connection
             conn.setAutoCommit(false);
             return conn;
