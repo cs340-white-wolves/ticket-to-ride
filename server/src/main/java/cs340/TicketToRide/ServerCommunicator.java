@@ -91,13 +91,12 @@ public class ServerCommunicator {
         IGameDao gameDao = model.getGameDao();
         IUserDao userDao = model.getUserDao();
 
-        gameDao.beginTransaction();
         userDao.beginTransaction();
-
         userDao.clearAll();
-        gameDao.clearAll();
-
         userDao.endTransaction();
+
+        gameDao.beginTransaction();
+        gameDao.clearAll();
         gameDao.endTransaction();
     }
 
