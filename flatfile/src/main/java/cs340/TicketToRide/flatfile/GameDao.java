@@ -130,6 +130,9 @@ public class GameDao implements IGameDao {
     }
 
     private void clearProxyManager() {
+        if (!clientFile.exists()) {
+            return;
+        }
         ClientProxyManager manager = loadClientManager();
         manager.clear();
         saveClientManager(manager);
