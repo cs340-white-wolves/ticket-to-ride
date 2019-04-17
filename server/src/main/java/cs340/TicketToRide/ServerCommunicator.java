@@ -106,16 +106,16 @@ public class ServerCommunicator {
         IUserDao userDao = model.getUserDao();
 
         gameDao.beginTransaction();
-        userDao.beginTransaction();
-
         Games games = gameDao.loadGames();
         ClientProxyManager manager = gameDao.loadClientManager();
         Commands commands = gameDao.loadCommands();
+        gameDao.clearCommands();
+        gameDao.endTransaction();
+
+        userDao.beginTransaction();
         Set<User> users = userDao.loadUsers();
         AuthManager authManager = userDao.loadTokens();
-
         userDao.endTransaction();
-        gameDao.endTransaction();
 
         if (games != null) {
             model.setGames(games);
